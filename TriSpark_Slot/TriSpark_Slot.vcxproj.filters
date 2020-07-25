@@ -13,10 +13,270 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\アプリシステム">
+      <UniqueIdentifier>{bedf913d-51f7-4cda-8810-63b8f72af40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームシーン管理">
+      <UniqueIdentifier>{b64c7fa9-e5ff-49dd-8744-03aaed406d7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームシーン管理\ゲームモード本体">
+      <UniqueIdentifier>{2bc059f5-dbfc-42b4-9dae-35d642173ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームシーン管理\モード内ステート">
+      <UniqueIdentifier>{5d336eb6-9167-4ec6-a693-0e63c4ecccac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームデータ読み込み">
+      <UniqueIdentifier>{b6a261c5-5b62-4f31-b193-7623658b533c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\スロット本体内クラス">
+      <UniqueIdentifier>{13c56e87-9257-4d30-ac23-b7a2e7ab141a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\スロット本体内クラス\フロー制御">
+      <UniqueIdentifier>{452d3ad3-0337-4897-8e9b-607025f361dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\アプリシステム">
+      <UniqueIdentifier>{9c18f36d-a4f5-4ada-a3e0-f099b4bbca8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームシーン管理">
+      <UniqueIdentifier>{9cf4ec6f-7429-49dc-bd27-ae662b8026c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームシーン管理\モード内ステート">
+      <UniqueIdentifier>{b538e579-1891-4c76-abec-fb9153b3e90a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームシーン管理\ゲームモード本体">
+      <UniqueIdentifier>{4921ae3a-4f01-4511-86b0-eda03efbc69b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームデータ読み込み">
+      <UniqueIdentifier>{6e1cd1a9-d1ae-4926-b60f-e7bf48391e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\スロット本体内クラス">
+      <UniqueIdentifier>{3abf907c-90ed-4e63-8a2d-3cc2c08a27d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\スロット本体内クラス\フロー制御">
+      <UniqueIdentifier>{fdb1f63c-2651-45da-8067-4a870b6131c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\データ型">
+      <UniqueIdentifier>{37716da9-fc01-4f57-a4b9-b70669269825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="forSetting.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="_src\setup.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
     </ClCompile>
+    <ClCompile Include="_src\selectmode.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\keyinput.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\keyexport.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\IReadcsv.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\gameloop.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CControlTester.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGameMode_SlotGameMain.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\IGameModeBase.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGameState_ControlTestMain.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGameState_ReadingData.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGameState_SlotGameMain.cpp">
+      <Filter>ソース ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CCastReaderFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGetSysDataFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CRandomizerReaderFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReadDataListGeterFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReelControlReaderFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReelDataReaderFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CGameDataManage.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CRandManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReel.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReelController.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CReelManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotCastChecker.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotInternalDataManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotTimerManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotFlowList.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\フロー制御</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="_src\_header\gameloop.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ISingleton.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\keyexport.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\keyinput.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\selectmode.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\setup.h">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CControlTester.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGameMode_SlotGameMain.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\IGameModeBase.h">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\ゲームモード本体</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGameState_ControlTestMain.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGameState_ReadingData.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGameState_SlotGameMain.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\IGameStateBase.hpp">
+      <Filter>ヘッダー ファイル\ゲームシーン管理\モード内ステート</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CCastReaderFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGetSysDataFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CRandomizerReaderFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReadDataListGeterFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReelControlReaderFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReelDataReaderFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\IReadcsv.h">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CEffectImageDrawer.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CGameDataManage.h">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CRandManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReelController.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReel.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReelManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotCastChecker.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotEffectManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotInternalDataManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotTimerManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotFlowList.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\フロー制御</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ISlotFlowManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\フロー制御</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\EChangeModeFlag.h">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\EChangeStateFlag.h">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\EOrderID.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ESlotFlowFlag.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SCastData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SMainReadFileIndex.h">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SRandomizerData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReelChaData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReelControlData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReelDrawData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReelFrashConfig.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SSlotGameDataWrapper.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

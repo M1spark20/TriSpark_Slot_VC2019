@@ -1,0 +1,48 @@
+#pragma once
+#include <vector>
+#include <algorithm>
+#include "SReelChaData.hpp"
+#include "SReelDrawData.hpp"
+#include "SReelFrashConfig.hpp"
+class CGameDataManage;
+class CSlotTimerManager;
+
+enum EReelStatus{
+	eStoping,
+	eAccerating,
+	eRotating,
+	eSliping,
+	eReelStatusMax
+};
+
+class CReel {
+// [act]ÉäÅ[Éã1å¬Ç∏Ç¬ÇÃÉNÉâÉX
+	SReelChaData					m_reelData;
+	float							m_rotatePos;
+	float							m_speed;
+	unsigned int					m_comaPos;
+	unsigned int					m_destination;
+	std::vector<SReelFrashConfig>	m_flashData;
+	EReelStatus						m_nowStatus;
+	EReelStatus						m_lastStatus;
+
+	bool			DrawReelMain(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas, unsigned int pStartComa, bool pIsFixed) const;
+
+public:
+	bool			Init(const SReelChaData& pReelData);
+	bool			ReelStart();
+	bool			ReelStop(unsigned int pDest, bool pForceFlag);
+	bool			SetFrashData(SReelFrashConfig pInputData);
+	void			ClearFrashData();
+	EReelStatus		GetReelStatus() const { return m_nowStatus; }
+	float			GetReelRotatePos() const { return m_rotatePos; }
+	int				GetReelPos() const { return m_comaPos; }
+	unsigned int	GetReelID() const { return m_reelData.reelID; };
+	unsigned int	GetComaNum() const { return m_reelData.arrayData.size(); }
+	int				GetReelComaByReelPos(int pOffset) const;
+	int				GetReelComaByFixedPos(int pComaID) const;
+
+	bool			Process(CSlotTimerManager& pTimer);
+	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas) const;
+	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas, unsigned int pComaStart) const;
+};
