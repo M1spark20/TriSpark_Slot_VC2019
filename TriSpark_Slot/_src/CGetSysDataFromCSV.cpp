@@ -3,8 +3,8 @@
 
 bool CGetSysDataFromCSV::FileInit(int pFileID){
 	while (!DxLib::FileRead_eof(pFileID)){
-		TCHAR str[65536];
-		DxLib::FileRead_gets(str, 65536, pFileID);
+		TCHAR str[1024];
+		DxLib::FileRead_gets(str, 1024, pFileID);
 		m_ReadDataAll.append(str).append("\n");
 	}
 	return !m_ReadDataAll.empty();

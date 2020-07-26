@@ -13,8 +13,8 @@ bool CCastReaderFromCSV::FileInit(int pFileID){
 // [act]DxLib側で開いたファイルからデータを読み出す
 // [ret]ファイルオープンに成功したかどうか
 	while (!DxLib::FileRead_eof(pFileID)){
-		TCHAR str[65536];
-		DxLib::FileRead_gets(str, 65536, pFileID);
+		TCHAR str[1024];
+		DxLib::FileRead_gets(str, 1024, pFileID);
 		m_ReadDataAll.append(str).append("\n");
 	}
 	return !m_ReadDataAll.empty();
@@ -43,7 +43,7 @@ bool CCastReaderFromCSV::MakeData(SCastData& p_Data){
 		} else if(NowGetStr.at(0) == "O") {
 			int temp, conb = 0, payoutVal = 0;
 			SPayData nowData;
-			for(UINT i=0; i<3; ++i){
+			for(size_t i=0; i<3; ++i){
 				std::string conbChar = NowGetStr.at(i+2);
 				conb <<= 10;
 				for(unsigned j=0; j<conbChar.size(); ++j){
