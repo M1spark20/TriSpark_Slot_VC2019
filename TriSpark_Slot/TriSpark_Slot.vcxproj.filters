@@ -58,6 +58,12 @@
     <Filter Include="ヘッダー ファイル\データ型">
       <UniqueIdentifier>{37716da9-fc01-4f57-a4b9-b70669269825}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\スロット本体内クラス\エフェクト関係">
+      <UniqueIdentifier>{7aeaa771-59a5-4df4-8000-e397704abd31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\スロット本体内クラス\エフェクト関係">
+      <UniqueIdentifier>{fb0f95f5-1333-4797-b741-85365a6636b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_src\setup.cpp">
@@ -144,6 +150,9 @@
     <ClCompile Include="_src\CSlotFlowList.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\フロー制御</Filter>
     </ClCompile>
+    <ClCompile Include="_src\ImageSourceManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -205,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="_src\_header\IReadcsv.h">
       <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
-    </ClInclude>
-    <ClInclude Include="_src\_header\CEffectImageDrawer.hpp">
-      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
     </ClInclude>
     <ClInclude Include="_src\_header\CGameDataManage.h">
       <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
@@ -276,6 +282,12 @@
       <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
     <ClInclude Include="_src\_header\SSlotGameDataWrapper.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ImageSourceManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SDrawImageSourceData.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
   </ItemGroup>
