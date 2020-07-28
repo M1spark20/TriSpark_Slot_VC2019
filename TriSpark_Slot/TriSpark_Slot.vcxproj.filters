@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\スロット本体内クラス\エフェクト関係">
       <UniqueIdentifier>{fb0f95f5-1333-4797-b741-85365a6636b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\エラークラス">
+      <UniqueIdentifier>{c15992a4-b755-4e2f-9973-815696a12be0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_src\setup.cpp">
@@ -152,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="_src\ImageSourceManager.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\ErrClass.cpp">
+      <Filter>ソース ファイル\エラークラス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +294,9 @@
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
     <ClInclude Include="_src\_header\SDrawImageSourceData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ErrClass.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
   </ItemGroup>

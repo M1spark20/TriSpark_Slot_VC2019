@@ -40,6 +40,7 @@
     <ClCompile Include="_src\CSlotFlowList.cpp" />
     <ClCompile Include="_src\CSlotInternalDataManager.cpp" />
     <ClCompile Include="_src\CSlotTimerManager.cpp" />
+    <ClCompile Include="_src\ErrClass.cpp" />
     <ClCompile Include="_src\gameloop.cpp" />
     <ClCompile Include="_src\IGameModeBase.cpp" />
     <ClCompile Include="_src\ImageSourceManager.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="_src\_header\EChangeModeFlag.h" />
     <ClInclude Include="_src\_header\EChangeStateFlag.h" />
     <ClInclude Include="_src\_header\EOrderID.hpp" />
+    <ClInclude Include="_src\_header\ErrClass.hpp" />
     <ClInclude Include="_src\_header\ESlotFlowFlag.hpp" />
     <ClInclude Include="_src\_header\gameloop.h" />
     <ClInclude Include="_src\_header\IGameModeBase.h" />

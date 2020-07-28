@@ -1,4 +1,5 @@
 #include "_header/ImageSourceManager.hpp"
+#include "_header/ErrClass.hpp"
 
 IImageSourceManager::IImageSourceManager() {
 	mPosX = -1; mPosY = -1; mPosW = -1; mPosH = -1;
@@ -55,3 +56,34 @@ bool CImageSourceNumber::Init(StringArr pReadData) {
 	return true;
 }
 
+unsigned int CImageSourceNumber::GetSourceIndexMax() {
+	try {
+		int ans = mVariableGetter(mNumValName);
+		if (ans < 0) {
+			if (!mDrawMinusFlag) return 0;
+			return abs(ans) / 10 + 2;
+		} else {
+			return ans / 10 + 1;
+		}
+	}
+	catch (ErrUndeclaredVar err) {	// エラークラスを後で定義する
+		err.WriteErrLog();
+	}
+	return 0;
+}
+
+SDrawImageSourceData CImageSourceNumber::GetImageSource(int pIndex) {
+	SDrawImageSourceData dummy;
+	dummy.x = 0; dummy.y = 0; dummy.w = 0; dummy.h = 0;
+	dummy.r = 0; dummy.g = 0; dummy.b = 0; dummy.imageID = -1;
+	if (pIndex < 0 || pIndex >= GetSourceIndexMax()) return dummy;
+
+	try {
+		SDrawImageSourceData ans(dummy);
+
+	}
+	catch (ErrUndeclaredVar err) {
+		err.WriteErrLog();
+	}
+	return dummy;
+}
