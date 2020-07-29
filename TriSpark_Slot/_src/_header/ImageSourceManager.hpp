@@ -36,7 +36,7 @@ public:
 };
 
 class CImageSourceNumber : public IImageSourceManager {
-	int mDigit, mAlign;
+	int mDigit;
 	bool mDrawMinusFlag;
 	std::string mNumValName;
 	int (* const mVariableGetter)(std::string);		// 変数値取得用関数ポインタ(int限定,引数はstring:変数名)

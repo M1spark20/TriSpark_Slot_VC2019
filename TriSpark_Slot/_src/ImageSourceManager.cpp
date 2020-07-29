@@ -42,17 +42,16 @@ SDrawImageSourceData CImageSourceDefault::GetImageSource(int pIndex) {
 }
 
 CImageSourceNumber::CImageSourceNumber(int (* const pGetVarFunc)(std::string)) : mVariableGetter(pGetVarFunc) {
-	mDigit = 0; mAlign = 0;
+	mDigit = 0; mDrawMinusFlag = true;
 }
 
 bool CImageSourceNumber::Init(StringArr pReadData) {
 	if (pReadData.size() <= 11) return false;
 	if (!IImageSourceManager::Init(pReadData)) return false;
-
+	
 	mNumValName = pReadData[9];
 	StrToNum(mDigit,	pReadData[10]);
-	StrToNum(mAlign,	pReadData[11]);
-
+	mDrawMinusFlag = pReadData[11] == "T";
 	return true;
 }
 
@@ -80,7 +79,16 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pIndex) {
 
 	try {
 		SDrawImageSourceData ans(dummy);
-
+		int numIndex = mVariableGetter(mNumValName);
+		for (int i = 0; i < pIndex; ++i) numIndex /= 10;
+		numIndex %= 10;
+		const int diffX = mPosW / mCountX, diffY = mPosH / mCountY;
+		const int indexX = !mDirectionFlag ? numIndex % mCountX : numIndex / mCountY;
+		const int indexY =  mDirectionFlag ? numIndex / mCountX : numIndex % mCountY;
+		ans.x = mPosX + diffX * indexX; ans.y = mPosY + diffY * indexY;
+		ans.w = mPosW / mCountX; ans.h = mPosH / mCountY;
+		dummy.r = 255; dummy.g = 255; dummy.b = 255; dummy.imageID = mImageID;
+		return ans;
 	}
 	catch (ErrUndeclaredVar err) {
 		err.WriteErrLog();
