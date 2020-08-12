@@ -90,6 +90,7 @@
     <ClInclude Include="_src\_header\SDrawImageSourceData.hpp" />
     <ClInclude Include="_src\_header\selectmode.h" />
     <ClInclude Include="_src\_header\setup.h" />
+    <ClInclude Include="_src\_header\SImageDrawCSVData.hpp" />
     <ClInclude Include="_src\_header\SMainReadFileIndex.h" />
     <ClInclude Include="_src\_header\SRandomizerData.hpp" />
     <ClInclude Include="_src\_header\SReelChaData.hpp" />
