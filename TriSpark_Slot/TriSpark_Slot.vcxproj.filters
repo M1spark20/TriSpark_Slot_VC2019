@@ -159,6 +159,9 @@
     <ClCompile Include="_src\ErrClass.cpp">
       <Filter>ソース ファイル\エラークラス</Filter>
     </ClCompile>
+    <ClCompile Include="_src\ImageDestinationManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="_src\_header\SImageDrawCSVData.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\ImageDestinationManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
