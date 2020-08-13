@@ -204,11 +204,11 @@ void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(
 	for (int i = 0; i < *m_pDrawNum; ++i) {
 		const auto source = pSourceGetter(i, *m_pDrawNum);
 		if (source.imageID == -1) continue;
-		const int drawID  = GetDxDrawModeByEnum(destData.extend);
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
 		const int drawPos[]  = { *destData.x + i * (*m_pDiffX), *destData.y + i * (*m_pDiffY) };
 
 		if (GetCanDrawDirectly(destData.blend)) {
+			const int drawID  = GetDxDrawModeByEnum(destData.extend);
 			DxLib::SetDrawScreen(screenID);
 			DxLib::SetDrawMode(drawID);
 			DxLib::SetDrawBlendMode(blendID, *destData.a);
