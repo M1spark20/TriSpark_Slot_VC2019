@@ -123,6 +123,7 @@ long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 	if (mCommonData.empty()) throw ErrInternalVarUndeclared("mCommonData");
 	const int offset = *(mCommonData.begin()->startTime);
 	const int diffCount = *m_pLoopTime - offset;
+	if (diffCount == 0) return offset;
 	long long ans = pNowCount - offset;
 	return ans - (diffCount * (ans / diffCount)) + offset;
 }
