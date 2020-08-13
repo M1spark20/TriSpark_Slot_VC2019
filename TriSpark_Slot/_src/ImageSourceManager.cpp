@@ -190,7 +190,7 @@ bool CImageSourceNumber::Init(StringArr pReadData, int* (* const pVariableManage
 
 	if (mCommonData.empty()) {
 		try {
-			m_pLoopTime		= pVariableManager(pReadData[12]);
+			m_pNumSource	= pVariableManager(pReadData[12]);
 			mNumAlign		= pReadData[13] == "L" ? EAlign::eLeft : EAlign::eRight;
 			mPaddingFlag	= pReadData[14] == "T";
 			mDrawMinusFlag	= pReadData[15] == "T";
