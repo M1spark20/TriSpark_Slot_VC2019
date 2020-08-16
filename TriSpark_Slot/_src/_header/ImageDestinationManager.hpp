@@ -33,7 +33,7 @@ public:
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	virtual bool	Init(StringArr pReadData, int* (* const pVariableManager)(std::string));
 	// [act]
-	virtual void	Draw(SDrawImageSourceData(* const pSourceGetter)(int, int)) = 0;
+	virtual void	Draw(SDrawImageSourceData(* const pSourceGetter)(int, int), int (*const pImageHandler)(int)) = 0;
 };
 
 class CImageDestinationDefault : public IImageDestinationManager {
@@ -45,5 +45,5 @@ class CImageDestinationDefault : public IImageDestinationManager {
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool	Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) override;
 	// [act]描画を行う
-	void	Draw(SDrawImageSourceData (*const pSourceGetter)(int, int)) override;
+	void	Draw(SDrawImageSourceData (*const pSourceGetter)(int, int), int (*const pImageHandler)(int)) override;
 };

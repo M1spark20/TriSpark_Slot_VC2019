@@ -195,7 +195,7 @@ bool CImageDestinationDefault::Init(StringArr pReadData, int* (* const pVariable
 
 // [act]描画を行う
 //		アニメーション実装は後で
-void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(int, int)) {
+void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(int, int), int (* const pImageHandler)(int)) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 
@@ -207,6 +207,8 @@ void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
 		const int drawPos[]  = { *destData.x + i * (*m_pDiffX), *destData.y + i * (*m_pDiffY) };
+		const int imageHandle = pImageHandler(source.imageID);
+		if (imageHandle == -1) return;
 
 		if (GetCanDrawDirectly(destData.blend)) {
 			const int drawID  = GetDxDrawModeByEnum(destData.extend);
@@ -216,11 +218,11 @@ void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(
 			DxLib::SetDrawBright(source.r, source.g, source.b);
 			DxLib::DrawRectExtendGraph(
 				drawPos[0], drawPos[1], drawPos[0] + (*destData.w), drawPos[1] + (*destData.h),
-				source.x, source.y, source.w, source.h, source.imageID, TRUE);
+				source.x, source.y, source.w, source.h, imageHandle, TRUE);
 		}
 		else {
 			DxLib::GraphBlendRectBlt(
-				screenID, source.imageID, screenID,
+				screenID, imageHandle, screenID,
 				drawPos[0], drawPos[1], drawPos[0] + source.w, drawPos[1] + source.h,
 				source.x, source.y, drawPos[0], drawPos[1], *destData.a, blendID
 			);
