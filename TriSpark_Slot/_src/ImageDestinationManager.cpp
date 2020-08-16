@@ -5,7 +5,7 @@
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-IImageDestinationManager::IImageDestinationManager(long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
+IImageDestinationManager::IImageDestinationManager(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
 	: mTimerReader(pTimerReader), mScreenManager(pScreenManager) {
 	mCommonData.clear();
 	m_pLoopTime = nullptr;
@@ -158,7 +158,7 @@ int IImageDestinationManager::GetDefinitionIndex() {
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-CImageDestinationDefault::CImageDestinationDefault(long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
+CImageDestinationDefault::CImageDestinationDefault(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
 	: IImageDestinationManager(pTimerReader, pScreenManager) {
 	m_pDrawNum = nullptr;
 	m_pDiffX = nullptr;

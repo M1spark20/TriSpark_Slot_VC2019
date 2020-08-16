@@ -3,7 +3,7 @@
 
 // [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
-IImageSourceManager::IImageSourceManager(long long* (* const pTimerReader)(std::string)) : mTimerReader(pTimerReader){
+IImageSourceManager::IImageSourceManager(const long long* (* const pTimerReader)(std::string)) : mTimerReader(pTimerReader){
 	mCommonData.clear();
 	m_pLoopTime = nullptr;
 }
@@ -141,7 +141,7 @@ SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinition
 
 // [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
-CImageSourceDefault::CImageSourceDefault(long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
+CImageSourceDefault::CImageSourceDefault(const long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
@@ -172,7 +172,7 @@ SDrawImageSourceData CImageSourceDefault::GetImageSource(int pWriteIndex, int pW
 }
 
 
-CImageSourceNumber::CImageSourceNumber(long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
+CImageSourceNumber::CImageSourceNumber(const long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
 	mPaddingFlag = false; mDrawMinusFlag = false;
 	m_pNumSource = nullptr;
 	mNumAlign = EAlign::eRight;

@@ -9,10 +9,10 @@
 //		GetComaNum()およびGetImageSource()で画像の切り出し方を調整する
 class IImageSourceManager {
 protected:
-	std::vector<SImageSourceCSVCommonData> mCommonData;	// csvから読みだしたsrcデータ、複数定義可能
-	std::string mTimerID;								// 読み出しアニメーション・時分割を扱うタイマID
-	const int* m_pLoopTime;								// タイマIDのループ点 (-1でループ無効)
-	long long* (* const mTimerReader)(std::string);		// タイマ値呼び出し用関数ポインタ
+	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
+	std::string mTimerID;									// 読み出しアニメーション・時分割を扱うタイマID
+	const int* m_pLoopTime;									// タイマIDのループ点 (-1でループ無効)
+	const long long* (* const mTimerReader)(std::string);	// タイマ値呼び出し用関数ポインタ
 
 	typedef std::vector<std::string> StringArr;
 
@@ -29,7 +29,7 @@ protected:
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	IImageSourceManager(long long* (* const pTimerReader)(std::string));
+	IImageSourceManager(const long long* (* const pTimerReader)(std::string));
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	virtual bool					Init(StringArr pReadData, int* (*const pVariableManager)(std::string));
 	// [act]画像読み込み参照先を返す
@@ -39,7 +39,7 @@ public:
 class CImageSourceDefault : public IImageSourceManager {
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	CImageSourceDefault(long long* (* const pTimerReader)(std::string));
+	CImageSourceDefault(const long long* (* const pTimerReader)(std::string));
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool					Init(StringArr pReadData, int* (*const pVariableManager)(std::string)) override;
 	// [act]画像読み込み参照先を返す
@@ -59,7 +59,7 @@ class CImageSourceNumber : public IImageSourceManager {
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	CImageSourceNumber(long long* (* const pTimerReader)(std::string));
+	CImageSourceNumber(const long long* (* const pTimerReader)(std::string));
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool					Init(StringArr pReadData, int* (*const pVariableManager)(std::string)) override;
 	SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) override;
