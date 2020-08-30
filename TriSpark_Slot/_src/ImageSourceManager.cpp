@@ -1,33 +1,35 @@
 #include "_header/ImageSourceManager.hpp"
 #include "_header/ErrClass.hpp"
+#include "_header/CEffectVariableManager.hpp"
 
 // [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
-IImageSourceManager::IImageSourceManager(const long long* (* const pTimerReader)(std::string)) : mTimerReader(pTimerReader){
+IImageSourceManager::IImageSourceManager(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager)
+	: mTimerReader(pTimerReader), mVarManager(pVarManager){
 	mCommonData.clear();
-	m_pLoopTime = nullptr;
+	mLoopTime -1;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
 //		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
-bool IImageSourceManager::Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) {
+bool IImageSourceManager::Init(StringArr pReadData) {
 	try {
 		SImageSourceCSVCommonData data;
-		data.startTime	= pVariableManager(pReadData[1]);
-		data.imageID	= pVariableManager(pReadData[2]);
-		data.x			= pVariableManager(pReadData[3]);
-		data.y			= pVariableManager(pReadData[4]);
-		data.w			= pVariableManager(pReadData[5]);
-		data.h			= pVariableManager(pReadData[6]);
-		data.numX		= pVariableManager(pReadData[7]);
-		data.numY		= pVariableManager(pReadData[8]);
+		data.startTime	= mVarManager.MakeValID(pReadData[1]);
+		data.imageID	= mVarManager.MakeValID(pReadData[2]);
+		data.x			= mVarManager.MakeValID(pReadData[3]);
+		data.y			= mVarManager.MakeValID(pReadData[4]);
+		data.w			= mVarManager.MakeValID(pReadData[5]);
+		data.h			= mVarManager.MakeValID(pReadData[6]);
+		data.numX		= mVarManager.MakeValID(pReadData[7]);
+		data.numY		= mVarManager.MakeValID(pReadData[8]);
 		data.directionY = pReadData[9] == "Y";
 
 		if (mCommonData.empty()) {
 			mTimerID	= pReadData[10];
-			m_pLoopTime = pVariableManager(pReadData[11]);
+			mLoopTime = mVarManager.MakeValID(pReadData[11]);
 		}
 
 		mCommonData.push_back(data);
@@ -40,16 +42,15 @@ bool IImageSourceManager::Init(StringArr pReadData, int* (* const pVariableManag
 }
 
 // [act]ループ点を考慮した操作に使用する時間を割り出す
-//		[throwable]ErrInternalVarUndeclaredに対するcatchを呼び出し時に適用してください
 // [prm]pNowCount	: 現在のタイマカウント
 // [ret]描画に使用するタイマカウント
 long long IImageSourceManager::GetCheckTime(const long long pNowCount) {
-	if (m_pLoopTime == nullptr) throw ErrInternalVarUndeclared("m_pLoopTime");
-	if (pNowCount < (long long)(*m_pLoopTime) || *m_pLoopTime < 0) return pNowCount;
+	const long long loopTime = mVarManager.GetVal(mLoopTime);
+	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
 
 	if (mCommonData.empty()) throw ErrInternalVarUndeclared("mCommonData");
-	const int offset = *(mCommonData.begin()->startTime);
-	const int diffCount = *m_pLoopTime - offset;
+	const int offset = mVarManager.GetVal(mCommonData.begin()->startTime);
+	const int diffCount = loopTime - offset;
 	if (diffCount == 0) return offset;
 	long long ans = pNowCount - offset;
 	return ans - (diffCount * (ans / diffCount)) + offset;
@@ -61,6 +62,7 @@ long long IImageSourceManager::GetCheckTime(const long long pNowCount) {
 int IImageSourceManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
 	const auto definitionNum = mCommonData.size();
+	const int loopTime = mVarManager.GetVal(mLoopTime);
 
 	try {
 		const long long* const nowTime = mTimerReader(mTimerID);
@@ -73,7 +75,7 @@ int IImageSourceManager::GetDefinitionIndex() {
 			if (checkTime < (long long)it->startTime) return ans;
 
 		// ループ点があれば最後の要素を描画、なければ描画を行わない
-		return *m_pLoopTime >= 0 ? ans : -1;
+		return loopTime >= 0 ? ans : -1;
 	}
 	catch (ErrInternalVarUndeclared e) {
 		e.WriteErrLog();
@@ -87,15 +89,12 @@ int IImageSourceManager::GetDefinitionIndex() {
 //		else: 画像コマID
 int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
-	if (mCommonData[pDefinitionIndex].startTime == nullptr) return -1;
-	if ((size_t)pDefinitionIndex + 1 != mCommonData.size())
-		if (mCommonData[(size_t)pDefinitionIndex + 1].startTime == nullptr) return -1;
 
 	const int comaNum = GetComaNum(pDefinitionIndex);
 	if (comaNum == -1) return -1;
-	const long long offset = *mCommonData[pDefinitionIndex].startTime;
+	const long long offset = mVarManager.GetVal(mCommonData[pDefinitionIndex].startTime);
 	const long long interval = -offset + ((size_t)pDefinitionIndex + 1 == mCommonData.size() ?
-		*m_pLoopTime : *mCommonData[(size_t)pDefinitionIndex+1].startTime);
+		mVarManager.GetVal(mLoopTime) : mVarManager.GetVal(mCommonData[(size_t)pDefinitionIndex+1].startTime));
 	const double division = interval / (double)comaNum;
 
 	const long long *const nowTime =  mTimerReader(mTimerID);
@@ -117,8 +116,7 @@ int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 //		else: 利用可能コマ数
 int IImageSourceManager::GetComaNum(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
-	if (mCommonData[pDefinitionIndex].numX == nullptr || mCommonData[pDefinitionIndex].numY == nullptr) return -1;
-	return abs(*mCommonData[pDefinitionIndex].numX) * abs(*mCommonData[pDefinitionIndex].numY);
+	return abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numX)) * abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numY));
 }
 
 // [act]definitionIndexとimageIndexから画像範囲を取り出す
@@ -126,37 +124,41 @@ SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinition
 	// indexに応じて画像を切り出す
 	SDrawImageSourceData ans;
 	const auto& nowData = mCommonData[pDefinitionIndex];
-	unsigned int posX = nowData.directionY ? pImageIndex / abs(*nowData.numX) : pImageIndex % abs(*nowData.numY);
-	unsigned int posY = nowData.directionY ? pImageIndex % abs(*nowData.numX) : pImageIndex / abs(*nowData.numY);
-	if (*nowData.numX < 0) posX = abs(*nowData.numX) - posX - 1;
-	if (*nowData.numY < 0) posY = abs(*nowData.numY) - posY - 1;
+	unsigned int posX = nowData.directionY ? pImageIndex / abs(mVarManager.GetVal(nowData.numX)) : pImageIndex % abs(mVarManager.GetVal(nowData.numY));
+	unsigned int posY = nowData.directionY ? pImageIndex % abs(mVarManager.GetVal(nowData.numX)) : pImageIndex / abs(mVarManager.GetVal(nowData.numY));
+	if (mVarManager.GetVal(nowData.numX) < 0) posX = abs(mVarManager.GetVal(nowData.numX)) - posX - 1;
+	if (mVarManager.GetVal(nowData.numY) < 0) posY = abs(mVarManager.GetVal(nowData.numY)) - posY - 1;
 
 	ans.r = 255; ans.g = 255; ans.b = 255;
-	ans.w = *nowData.w / abs(*nowData.numX);	ans.h = *nowData.h / abs(*nowData.numY);
-	ans.x = *nowData.x + ans.w * posX;			ans.y = *nowData.y + ans.h * posY;
-	ans.imageID = *nowData.imageID;
+	ans.w = mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX));
+	ans.h = mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY));
+	ans.x = mVarManager.GetVal(nowData.x) + ans.w * posX;
+	ans.y = mVarManager.GetVal(nowData.y) + ans.h * posY;
+	ans.imageID = mVarManager.GetVal(nowData.imageID);
 	return ans;
 }
 
 
 // [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
-CImageSourceDefault::CImageSourceDefault(const long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
+CImageSourceDefault::CImageSourceDefault(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager)
+	: IImageSourceManager(pTimerReader, pVarManager) {
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
 //		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
-bool CImageSourceDefault::Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) {
+bool CImageSourceDefault::Init(StringArr pReadData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
 		if (pReadData.size() < 12 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 12);
-	} catch (ErrLessCSVDefinition e) {
+	}
+	catch (ErrLessCSVDefinition e) {
 		e.WriteErrLog();
 		return false;
 	}
-	return IImageSourceManager::Init(pReadData, pVariableManager);
+	return IImageSourceManager::Init(pReadData);
 }
 
 // [act]画像読み込み参照先を返す
@@ -172,14 +174,15 @@ SDrawImageSourceData CImageSourceDefault::GetImageSource(int pWriteIndex, int pW
 }
 
 
-CImageSourceNumber::CImageSourceNumber(const long long* (* const pTimerReader)(std::string)) : IImageSourceManager(pTimerReader) {
+CImageSourceNumber::CImageSourceNumber(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager)
+	: IImageSourceManager(pTimerReader, pVarManager) {
 	mPaddingFlag = false; mDrawMinusFlag = false;
-	m_pNumSource = nullptr;
+	mNumSource = -1;
 	mNumAlign = EAlign::eRight;
 	mDigitCount = 10;
 }
 
-bool CImageSourceNumber::Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) {
+bool CImageSourceNumber::Init(StringArr pReadData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
 		if (pReadData.size() < 16 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 16);
@@ -191,7 +194,7 @@ bool CImageSourceNumber::Init(StringArr pReadData, int* (* const pVariableManage
 
 	if (mCommonData.empty()) {
 		try {
-			m_pNumSource	= pVariableManager(pReadData[12]);
+			mNumSource		= mVarManager.MakeValID(pReadData[12]);
 			mNumAlign		= pReadData[13] == "L" ? EAlign::eLeft : EAlign::eRight;
 			mPaddingFlag	= pReadData[14] == "T";
 			mDrawMinusFlag	= pReadData[15] == "T";
@@ -204,7 +207,7 @@ bool CImageSourceNumber::Init(StringArr pReadData, int* (* const pVariableManage
 		if (mPaddingFlag) ++mDigitCount;
 		if (mDrawMinusFlag) mDigitCount = (mDigitCount + 1) * 2;
 	}
-	return IImageSourceManager::Init(pReadData, pVariableManager);
+	return IImageSourceManager::Init(pReadData);
 }
 
 int CImageSourceNumber::GetComaNum(int pDefinitionIndex) {
@@ -220,11 +223,11 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 	const auto imageIndex = GetImageIndex(dataIndex);
 	if (imageIndex < 0) return SDrawImageSourceData();
 	// 数値がマイナスかつ負の値を書かない場合は描画しない
-	if (!mDrawMinusFlag && *m_pNumSource < 0) return SDrawImageSourceData();
+	if (!mDrawMinusFlag && mVarManager.GetVal(mNumSource) < 0) return SDrawImageSourceData();
 	int numIndex;
 
 	/* 数値を取得して描画するコマを決定する */ {
-		int nowVal = abs(*m_pNumSource);
+		int nowVal = abs(mVarManager.GetVal(mNumSource));
 		int digitNum;
 		if (nowVal == 0) digitNum = 1;
 		else for (digitNum = 0; nowVal > 0; ++digitNum) nowVal /= 10;
@@ -251,11 +254,11 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 		else if (drawPaddingFlag) numIndex = 10;
 		// else:数値を描画する場合
 		else {
-			nowVal = abs(*m_pNumSource);
+			nowVal = abs(mVarManager.GetVal(mNumSource));
 			for (auto i = 0; i < pWriteIndex; ++i) nowVal /= 10;
 			numIndex = nowVal % 10;
 		}
-		numIndex += (*m_pNumSource < 0 ? mDigitCount / 2 : 0);
+		numIndex += (mVarManager.GetVal(mNumSource) < 0 ? mDigitCount / 2 : 0);
 	}
 
 	return GetSourceDataFromIndex(dataIndex, imageIndex * mDigitCount + numIndex);

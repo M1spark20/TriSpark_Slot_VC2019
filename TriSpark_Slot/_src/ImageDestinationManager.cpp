@@ -1,39 +1,36 @@
 #include "_header/ImageDestinationManager.hpp"
 #include "_header/ErrClass.hpp"
+#include "_header/CEffectVariableManager.hpp"
 #include "DxLib.h"
 
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-IImageDestinationManager::IImageDestinationManager(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
-	: mTimerReader(pTimerReader), mScreenManager(pScreenManager) {
+IImageDestinationManager::IImageDestinationManager(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager)
+	: mTimerReader(pTimerReader), mVarManager(pVarManager), mScreenManager(pScreenManager) {
 	mCommonData.clear();
-	m_pLoopTime = nullptr;
+	mLoopTime = -1;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
-//		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
-bool IImageDestinationManager::Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) {
+bool IImageDestinationManager::Init(StringArr pReadData) {
 	try {
 		SImageDestCSVCommonData data;
 		data.screenID = pReadData[1];
-		data.startTime = pVariableManager(pReadData[2]);
-		data.x = pVariableManager(pReadData[3]);
-		data.y = pVariableManager(pReadData[4]);
-		data.w = pVariableManager(pReadData[5]);
-		data.h = pVariableManager(pReadData[6]);
-		data.a = pVariableManager(pReadData[7]);
+		data.startTime = mVarManager.MakeValID(pReadData[2]);
+		data.x = mVarManager.MakeValID(pReadData[3]);
+		data.y = mVarManager.MakeValID(pReadData[4]);
+		data.w = mVarManager.MakeValID(pReadData[5]);
+		data.h = mVarManager.MakeValID(pReadData[6]);
+		data.a = mVarManager.MakeValID(pReadData[7]);
 		data.extend = GetDrawEnum(pReadData[8]);
 		data.blend = GetBlendEnum(pReadData[9]);
 
 		if (mCommonData.empty()) {
 			mTimerID = pReadData[10];
-			m_pLoopTime = pVariableManager(pReadData[11]);
-//			mHeaderData.drawNum = pVariableManager(pReadData[12]);
-//			mHeaderData.diffX = pVariableManager(pReadData[13]);
-//			mHeaderData.diffY = pVariableManager(pReadData[14]);
+			mLoopTime = mVarManager.MakeValID(pReadData[11]);
 		}
 
 		mCommonData.push_back(data);
@@ -117,12 +114,12 @@ bool IImageDestinationManager::GetCanDrawDirectly(EBlendModeForDST pData) {
 // [prm]pNowCount	: 現在のタイマカウント
 // [ret]描画に使用するタイマカウント
 long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
-	if (m_pLoopTime == nullptr) throw ErrInternalVarUndeclared("m_pLoopTime");
-	if (pNowCount < (long long)(*m_pLoopTime) || *m_pLoopTime < 0) return pNowCount;
+	const long long loopTime = mVarManager.GetVal(mLoopTime);
+	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
 
 	if (mCommonData.empty()) throw ErrInternalVarUndeclared("mCommonData");
-	const int offset = *(mCommonData.begin()->startTime);
-	const int diffCount = *m_pLoopTime - offset;
+	const int offset = mVarManager.GetVal(mCommonData.begin()->startTime);
+	const int diffCount = loopTime - offset;
 	if (diffCount == 0) return offset;
 	long long ans = pNowCount - offset;
 	return ans - (diffCount * (ans / diffCount)) + offset;
@@ -146,7 +143,7 @@ int IImageDestinationManager::GetDefinitionIndex() {
 			if (checkTime < (long long)it->startTime) return ans;
 
 		// ループ点があれば最後の要素を描画、なければ描画を行わない
-		return *m_pLoopTime >= 0 ? ans : -1;
+		return mVarManager.GetVal(mLoopTime) >= 0 ? ans : -1;
 	}
 	catch (ErrInternalVarUndeclared e) {
 		e.WriteErrLog();
@@ -158,18 +155,17 @@ int IImageDestinationManager::GetDefinitionIndex() {
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-CImageDestinationDefault::CImageDestinationDefault(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string))
-	: IImageDestinationManager(pTimerReader, pScreenManager) {
-	m_pDrawNum = nullptr;
-	m_pDiffX = nullptr;
-	m_pDiffY = nullptr;
+CImageDestinationDefault::CImageDestinationDefault(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager)
+	: IImageDestinationManager(pTimerReader, pScreenManager, pVarManager) {
+	mDrawNum = -1;
+	mDiffX = -1;
+	mDiffY = -1;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
-//		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
-bool CImageDestinationDefault::Init(StringArr pReadData, int* (* const pVariableManager)(std::string)) {
+bool CImageDestinationDefault::Init(StringArr pReadData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
 		if (pReadData.size() < 15 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 15);
@@ -181,16 +177,16 @@ bool CImageDestinationDefault::Init(StringArr pReadData, int* (* const pVariable
 
 	if (mCommonData.empty()) {
 		try {
-			m_pDrawNum	= pVariableManager(pReadData[12]);
-			m_pDiffX	= pVariableManager(pReadData[13]);
-			m_pDiffY	= pVariableManager(pReadData[14]);
+			mDrawNum	= mVarManager.MakeValID(pReadData[12]);
+			mDiffX		= mVarManager.MakeValID(pReadData[13]);
+			mDiffY		= mVarManager.MakeValID(pReadData[14]);
 		}
 		catch (ErrUndeclaredVar e) {
 			e.WriteErrLog();
 			return false;
 		}
 	}
-	return IImageDestinationManager::Init(pReadData, pVariableManager);
+	return IImageDestinationManager::Init(pReadData);
 }
 
 // [act]描画を行う
@@ -202,11 +198,14 @@ void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(
 	const auto& destData = mCommonData[dataIndex];
 	const int screenID = mScreenManager(destData.screenID);
 
-	for (int i = 0; i < *m_pDrawNum; ++i) {
-		const auto source = pSourceGetter(i, *m_pDrawNum);
+	for (int i = 0; i < mVarManager.GetVal(mDrawNum); ++i) {
+		const auto source = pSourceGetter(i, mVarManager.GetVal(mDrawNum));
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
-		const int drawPos[]  = { *destData.x + i * (*m_pDiffX), *destData.y + i * (*m_pDiffY) };
+		const int drawPos[]  = {
+			mVarManager.GetVal(destData.x) + i * mVarManager.GetVal(mDiffX),
+			mVarManager.GetVal(destData.y) + i * mVarManager.GetVal(mDiffY)
+		};
 		const int imageHandle = pImageHandler(source.imageID);
 		if (imageHandle == -1) return;
 
@@ -214,17 +213,19 @@ void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(
 			const int drawID  = GetDxDrawModeByEnum(destData.extend);
 			DxLib::SetDrawScreen(screenID);
 			DxLib::SetDrawMode(drawID);
-			DxLib::SetDrawBlendMode(blendID, *destData.a);
+			DxLib::SetDrawBlendMode(blendID, mVarManager.GetVal(destData.a));
 			DxLib::SetDrawBright(source.r, source.g, source.b);
 			DxLib::DrawRectExtendGraph(
-				drawPos[0], drawPos[1], drawPos[0] + (*destData.w), drawPos[1] + (*destData.h),
+				drawPos[0], drawPos[1],
+				drawPos[0] + mVarManager.GetVal(destData.w), drawPos[1] + mVarManager.GetVal(destData.h),
 				source.x, source.y, source.w, source.h, imageHandle, TRUE);
 		}
 		else {
 			DxLib::GraphBlendRectBlt(
 				screenID, imageHandle, screenID,
 				drawPos[0], drawPos[1], drawPos[0] + source.w, drawPos[1] + source.h,
-				source.x, source.y, drawPos[0], drawPos[1], *destData.a, blendID
+				source.x, source.y, drawPos[0], drawPos[1],
+				mVarManager.GetVal(destData.a), blendID
 			);
 		}
 	}

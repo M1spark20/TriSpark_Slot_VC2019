@@ -13,18 +13,18 @@ enum class EBlendModeForDST {
 
 // [act]src,flashの共通データかつ分割可能な部分を定義する
 struct SImageSourceCSVCommonData {
-	int* startTime;
-	int* imageID;
-	int  *x, *y, *w, *h;
-	int  *numX, *numY;
+	int startTime;
+	int imageID;
+	int x, y, w, h;
+	int numX, numY;
 	bool directionY;
 };
 
 // [act]dstの共通データかつ分割可能な部分を定義する
 struct SImageDestCSVCommonData {
 	std::string screenID;
-	int*  startTime;
-	int   *x, *y, *w, *h, *a;
+	int  startTime;
+	int  x, y, w, h, a;
 	EDrawModeForDST  extend;
 	EBlendModeForDST blend;
 };
