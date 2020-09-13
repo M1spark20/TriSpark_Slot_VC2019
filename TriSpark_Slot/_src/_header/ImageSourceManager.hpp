@@ -5,17 +5,21 @@
 #include <vector>
 
 class CEffectVariableManager;
+class CSlotTimerManager;
 
 // [act]imgSrcデータ管理を行う基底クラス。この型を動的確保し呼び出しを一元化する
 //		コンストラクタとInit()で必要なデータを各派生クラスに取り込む
 //		GetComaNum()およびGetImageSource()で画像の切り出し方を調整する
 class IImageSourceManager {
+	long long mNowTime;
+	bool mIsTimerSet;
+	bool mIsTimerEnable;
+
 protected:
 	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
-	std::string mTimerID;									// 読み出しアニメーション・時分割を扱うタイマID
+	int mTimerID;											// 読み出しアニメーション・時分割を扱うタイマID
 	int mLoopTime;											// タイマIDのループ点 (-1でループ無効)
 	CEffectVariableManager& mVarManager;					// 変数管理クラスの参照
-	const long long* (* const mTimerReader)(std::string);	// タイマ値呼び出し用関数ポインタ
 
 	typedef std::vector<std::string> StringArr;
 
@@ -32,9 +36,12 @@ protected:
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	IImageSourceManager(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager);
+	IImageSourceManager(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
-	virtual bool					Init(StringArr pReadData);
+	virtual bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager);
+	// [act]描画に使用するタイマをセットする
+	bool							SetTimer(CSlotTimerManager& pTimerManager);
+	void							ResetTimer();
 	// [act]画像読み込み参照先を返す
 	virtual SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) = 0;
 };
@@ -42,9 +49,9 @@ public:
 class CImageSourceDefault : public IImageSourceManager {
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	CImageSourceDefault(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager);
+	CImageSourceDefault(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
-	bool					Init(StringArr pReadData) override;
+	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
 	// [act]画像読み込み参照先を返す
 	SDrawImageSourceData	GetImageSource(int pWriteIndex = 0, int pWriteNum = 0) override;
 };
@@ -62,8 +69,8 @@ class CImageSourceNumber : public IImageSourceManager {
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	CImageSourceNumber(const long long* (* const pTimerReader)(std::string), CEffectVariableManager& pVarManager);
+	CImageSourceNumber(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
-	bool					Init(StringArr pReadData) override;
+	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
 	SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) override;
 };

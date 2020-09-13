@@ -1,6 +1,7 @@
 #pragma once
 #include "IReadCSV.h"
-struct SCastData;
+#include "SCastData.hpp"
+#include <vector>
 
 class CCastReaderFromCSV : IReadCSVBase {
 public:

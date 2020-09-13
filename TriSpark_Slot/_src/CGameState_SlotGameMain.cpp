@@ -15,6 +15,12 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	m_data.internalDataManager.Init();
 	m_data.internalDataManager.SetSlotSetting(5);
 
+	if (
+		!m_data.effectManager.Init(pDataManageIns, sysReader.GetSysDataID("effect"),
+			m_data.timeManager, m_data.reelManager)
+	) return false;
+	
+
 	m_pFlowManager = new CSlotFlowBet;
 	return m_pFlowManager->Init(m_data);
 }
@@ -45,17 +51,24 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 		}
 		if (!m_pFlowManager->Init(m_data)) return eStateErrEnd;
 	}
+
+	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager);
 	return eStateContinue;
 }
 
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 	SReelDrawData data;
+
+	m_data.effectManager.Draw(pDataManageIns);
+
+	// ƒŠ[ƒ‹b’è
 	for (int i = 0; i < 3; ++i){
 		data.reelID = i; data.x = 115.f + i * 130.f; data.y = 140.f;
 		data.comaW = 128; data.comaH = 64;
 		data.offsetLower = 6; data.offsetUpper = 2; data.comaNum = 3;
 		m_data.reelManager.DrawReel(pDataManageIns, data);
 	}
+
 	DxLib::DrawFormatString(0, 0, 0xFFFFFF, "cred: %d, %d, %d",
 		m_data.internalDataManager.GetData().betNum,
 		m_data.internalDataManager.GetData().credit,

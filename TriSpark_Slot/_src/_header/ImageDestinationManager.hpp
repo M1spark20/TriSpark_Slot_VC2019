@@ -5,19 +5,24 @@
 #include <vector>
 
 class CEffectVariableManager;
+class CSlotTimerManager;
+class IImageSourceManager;
+class CGameDataManage;
 
 class IImageDestinationManager {
 private:
+	long long mNowTime;
+	bool mIsTimerSet;
+	bool mIsTimerEnable;
+
 	EDrawModeForDST  GetDrawEnum(std::string pIndex);
 	EBlendModeForDST GetBlendEnum(std::string pIndex);
 
 protected:
 	std::vector<SImageDestCSVCommonData> mCommonData;		// csvから読みだしたdstデータ、複数定義可能
-	std::string mTimerID;									// 読み出しアニメーション・時分割を扱うタイマID
+	int mTimerID;											// 読み出しアニメーション・時分割を扱うタイマID
 	int mLoopTime;											// タイマIDのループ点 (-1でループ無効)
 	CEffectVariableManager& mVarManager;					// 変数管理クラスの参照
-	const long long* (* const mTimerReader)(std::string);	// タイマ値呼び出し用関数ポインタ
-	int (* const mScreenManager)(std::string);				// 描画先画面呼び出し用関数ポインタ
 
 	typedef std::vector<std::string> StringArr;
 
@@ -32,21 +37,25 @@ protected:
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	IImageDestinationManager(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager);
+	IImageDestinationManager(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
-	virtual bool	Init(StringArr pReadData);
+	virtual bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData);
+	// [act]描画に使用するタイマをセットする
+	bool			SetTimer(CSlotTimerManager& pTimerManager);
+	void							ResetTimer();
 	// [act]
-	virtual void	Draw(SDrawImageSourceData(* const pSourceGetter)(int, int), int (*const pImageHandler)(int)) = 0;
+	virtual void	Draw(IImageSourceManager *const pSourceData, CGameDataManage& pDataManager) = 0;
 };
 
 class CImageDestinationDefault : public IImageDestinationManager {
 	int mDrawNum;
 	int mDiffX, mDiffY;
 
+public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
-	CImageDestinationDefault(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager);
+	CImageDestinationDefault(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
-	bool	Init(StringArr pReadData) override;
+	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
 	// [act]描画を行う
-	void	Draw(SDrawImageSourceData (*const pSourceGetter)(int, int), int (*const pImageHandler)(int)) override;
+	void	Draw(IImageSourceManager *const pSourceData, CGameDataManage& pDataManager) override;
 };

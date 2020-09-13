@@ -1,24 +1,32 @@
 #include "_header/ImageDestinationManager.hpp"
 #include "_header/ErrClass.hpp"
 #include "_header/CEffectVariableManager.hpp"
+#include "_header/CSlotTimerManager.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/ImageSourceManager.hpp"
 #include "DxLib.h"
 
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-IImageDestinationManager::IImageDestinationManager(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager)
-	: mTimerReader(pTimerReader), mVarManager(pVarManager), mScreenManager(pScreenManager) {
+IImageDestinationManager::IImageDestinationManager(CEffectVariableManager& pVarManager)
+	: mVarManager(pVarManager) {
 	mCommonData.clear();
 	mLoopTime = -1;
+	mTimerID = -1;
+	mNowTime = -1;
+	mLoopTime = -1;
+	mIsTimerSet = false;
+	mIsTimerEnable = false;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
 // [ret]データ取得に成功したかどうか
-bool IImageDestinationManager::Init(StringArr pReadData) {
+bool IImageDestinationManager::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		SImageDestCSVCommonData data;
-		data.screenID = pReadData[1];
+		data.screenID = mVarManager.GetScreenID(pReadData[1]);
 		data.startTime = mVarManager.MakeValID(pReadData[2]);
 		data.x = mVarManager.MakeValID(pReadData[3]);
 		data.y = mVarManager.MakeValID(pReadData[4]);
@@ -29,7 +37,7 @@ bool IImageDestinationManager::Init(StringArr pReadData) {
 		data.blend = GetBlendEnum(pReadData[9]);
 
 		if (mCommonData.empty()) {
-			mTimerID = pReadData[10];
+			mTimerID = pTimerData.GetTimerHandle(pReadData[10]);
 			mLoopTime = mVarManager.MakeValID(pReadData[11]);
 		}
 
@@ -90,7 +98,7 @@ int IImageDestinationManager::GetDxBlendModeByEnum(EBlendModeForDST pData) {
 	if (pData == EBlendModeForDST::eDodge)		return DX_GRAPH_BLEND_DODGE;
 	if (pData == EBlendModeForDST::eBurn)		return DX_GRAPH_BLEND_BURN;
 	if (pData == EBlendModeForDST::eDarken)		return DX_GRAPH_BLEND_DARKEN;
-	if (pData == EBlendModeForDST::eLighten);	return DX_GRAPH_BLEND_LIGHTEN;
+	if (pData == EBlendModeForDST::eLighten)	return DX_GRAPH_BLEND_LIGHTEN;
 	if (pData == EBlendModeForDST::eSoftlight)	return DX_GRAPH_BLEND_SOFTLIGHT;
 	if (pData == EBlendModeForDST::eHardlight)	return DX_GRAPH_BLEND_HARDLIGHT;
 	if (pData == EBlendModeForDST::eExclusion)	return DX_GRAPH_BLEND_EXCLUSION;
@@ -130,17 +138,17 @@ long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 //		else:描画する定義ID @mCommonData
 int IImageDestinationManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
+	if (!mIsTimerSet || !mIsTimerEnable) return -1;
 	const auto definitionNum = mCommonData.size();
 
 	try {
-		const long long* const nowTime = mTimerReader(mTimerID);
-		if (nowTime == nullptr) return -1;
-		const long long checkTime = GetCheckTime(*nowTime);
+		const long long nowTime = mNowTime;
+		const long long checkTime = GetCheckTime(nowTime);
 
 		// 見ている要素のbeginTimeに未達ならその前のデータを使用する。第1要素に未達なら描画を行わない
 		int ans = -1;
 		for (auto it = mCommonData.begin(); it != mCommonData.end(); ++it, ++ans)
-			if (checkTime < (long long)it->startTime) return ans;
+			if (checkTime < (long long)mVarManager.GetVal(it->startTime)) return ans;
 
 		// ループ点があれば最後の要素を描画、なければ描画を行わない
 		return mVarManager.GetVal(mLoopTime) >= 0 ? ans : -1;
@@ -149,14 +157,39 @@ int IImageDestinationManager::GetDefinitionIndex() {
 		e.WriteErrLog();
 		return -1;
 	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return -1;
+	}
+}
+
+// [act]描画に使用するタイマをセットする
+// [prm]pTimerManager	: 使用するタイマのマネージャー
+// [ret]タイマ設定に設定したかどうか(タイマが存在するが無効の場合はtrueを返す)
+bool IImageDestinationManager::SetTimer(CSlotTimerManager& pTimerManager) {
+	try {
+		mIsTimerEnable = pTimerManager.GetTimeFromTimerHandle(mNowTime, mTimerID);
+		mIsTimerSet = true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+	return true;
+}
+
+// [act]描画に使用するタイマをリセット(無効化)する
+void IImageDestinationManager::ResetTimer() {
+	mIsTimerSet = false;
+	mIsTimerEnable = false;
 }
 
 
 // [act]変数の初期化と関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 //		pScreenManager	: 描画先画面呼び出し用関数ポインタ
-CImageDestinationDefault::CImageDestinationDefault(const long long* (* const pTimerReader)(std::string), int (* const pScreenManager)(std::string), CEffectVariableManager& pVarManager)
-	: IImageDestinationManager(pTimerReader, pScreenManager, pVarManager) {
+CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarManager)
+	: IImageDestinationManager(pVarManager) {
 	mDrawNum = -1;
 	mDiffX = -1;
 	mDiffY = -1;
@@ -165,7 +198,7 @@ CImageDestinationDefault::CImageDestinationDefault(const long long* (* const pTi
 // [act]文字列配列"pReadData"からsrcデータを取得する
 // [prm]pReadData			: 初期化用csv分割データ
 // [ret]データ取得に成功したかどうか
-bool CImageDestinationDefault::Init(StringArr pReadData) {
+bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
 		if (pReadData.size() < 15 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 15);
@@ -186,27 +219,27 @@ bool CImageDestinationDefault::Init(StringArr pReadData) {
 			return false;
 		}
 	}
-	return IImageDestinationManager::Init(pReadData);
+	return IImageDestinationManager::Init(pReadData, pTimerData);
 }
 
 // [act]描画を行う
 //		アニメーション実装は後で
-void CImageDestinationDefault::Draw(SDrawImageSourceData(* const pSourceGetter)(int, int), int (* const pImageHandler)(int)) {
+void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CGameDataManage& pDataManager) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 
 	const auto& destData = mCommonData[dataIndex];
-	const int screenID = mScreenManager(destData.screenID);
+	const int screenID = destData.screenID;
 
 	for (int i = 0; i < mVarManager.GetVal(mDrawNum); ++i) {
-		const auto source = pSourceGetter(i, mVarManager.GetVal(mDrawNum));
+		const auto source = pSourceData->GetImageSource(i, mVarManager.GetVal(mDrawNum));
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
 		const int drawPos[]  = {
 			mVarManager.GetVal(destData.x) + i * mVarManager.GetVal(mDiffX),
 			mVarManager.GetVal(destData.y) + i * mVarManager.GetVal(mDiffY)
 		};
-		const int imageHandle = pImageHandler(source.imageID);
+		const int imageHandle = pDataManager.GetDataHandle(source.imageID);
 		if (imageHandle == -1) return;
 
 		if (GetCanDrawDirectly(destData.blend)) {

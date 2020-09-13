@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include <string>
+#include <set>
 
 enum ESystemTimerID{
 	eTimerGameStart,
@@ -9,7 +11,12 @@ enum ESystemTimerID{
 	eTimerLeverAvailable,
 	eTimerWaitStart,
 	eTimerWaitEnd,
-	// 各リールの押下,停止タイマは別定義
+	// 各リールの押下,停止タイマは別定義 下記定義はいずれかのリールが動いたときに自動適用
+	eTimerAnyReelStart,
+	eTimerAnyReelStopAvailable,
+	eTimerAnyReelPush,
+	eTimerAnyReelStop,
+
 	eTimerAllReelStart,
 	eTimerAllReelStop,
 	eTimerPayout,
@@ -36,6 +43,9 @@ class CSlotTimerManager{
 	int						m_resetCount;
 	int						m_reelNumMax;
 
+	std::vector<std::pair<std::string, int>> mTimerNameList;
+	std::set<std::string> mDuplicateFinder;
+
 public:
 	bool	Init(int pReelNum);
 	bool	Process();
@@ -47,4 +57,8 @@ public:
 	bool	GetTime(long long& pInputFor, EReelTimerID pID, int pReelID) const;
 	bool	GetTimeDiff(long long& pInputFor, ESystemTimerID pID, bool pRefreshFlag = true);
 	bool	GetTimeDiff(long long& pInputFor, EReelTimerID pID, int pReelID, bool pRefreshFlag = true);
+
+	int		GetTimerHandle(std::string pID);
+	bool	CreateNewTimer(std::string pID);
+	bool	GetTimeFromTimerHandle(long long& pInputFor, int pHandle) const;
 };

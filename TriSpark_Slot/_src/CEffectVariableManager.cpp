@@ -1,6 +1,7 @@
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotInternalDataManager.hpp"
 #include "_header/ErrClass.hpp"
+#include "DxLib.h"
 
 // [act]システム変数の初期化を行う
 // [ret]初期化が正常に行われたかどうか
@@ -58,6 +59,7 @@ int CEffectVariableManager::MakeValID(std::string pValName) {
 		}
 	}
 	else {
+		// 定数を登録
 		return CreateNewConstant(std::stoi(pValName));
 	}
 	throw ErrUndeclaredVar(pValName);
@@ -86,4 +88,41 @@ void CEffectVariableManager::SetVarVal(std::string pValName, int pSetVal) {
 int CEffectVariableManager::GetVal(int pValID) {
 	if (pValID < 0 || pValID >= mVariablePool.size()) throw ErrUndeclaredVar("id: " + std::to_string(pValID));
 	return mVariablePool[pValID];
+}
+
+// [act]DxLib描画画面を新規生成する
+// [prm]pValName	: 変数ID
+//		<引数は仮>
+void CEffectVariableManager::MakeScreenID(std::string pValName) {
+	if (pValName.empty()) return;
+	const std::string registName = pValName[0] == '*' ? pValName.substr(1) : pValName;
+	if (registName.empty()) return;
+
+	std::pair<std::string, int> data;
+	data.first = pValName;
+	// secondはcsvで定義を作ってから
+}
+
+int CEffectVariableManager::GetScreenID(std::string pValName) {
+	if (pValName.empty()) throw ErrUndeclaredVar("Time: <Empty>");
+	if (pValName[0] == '*') {
+		const std::string registName = pValName.substr(1);
+		if (registName.empty()) throw ErrUndeclaredVar("Time: <Empty>");
+
+		/* constant */ {
+			if (registName == "mainScr") return DX_SCREEN_BACK;
+		}
+
+		for (auto it = mScreenData.begin(); it != mScreenData.end(); ++it) {
+			if (it->first != registName) continue;
+			return it->second;
+		}
+	}
+	throw ErrUndeclaredVar("Time: " + pValName);
+}
+
+CEffectVariableManager::~CEffectVariableManager() {
+	for (auto it = mScreenData.begin(); it != mScreenData.end(); ++it) {
+		DxLib::DeleteGraph(it->second);
+	}
 }

@@ -1,5 +1,6 @@
-//,flag,resID,,
-#sysData,reelCha,1,リール配列,
-#sysData,cast,2,キャスト,
-#sysData,flags,3,フラグ抽選,
-#sysData,control,4,リール制御,
+//,flag,resID,
+#sysData,reelCha,1,リール配列
+#sysData,cast,2,キャスト
+#sysData,flags,3,フラグ抽選
+#sysData,control,4,リール制御
+#sysData,effect,9,エフェクト関係

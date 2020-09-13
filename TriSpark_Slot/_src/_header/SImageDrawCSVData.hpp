@@ -22,7 +22,7 @@ struct SImageSourceCSVCommonData {
 
 // [act]dstの共通データかつ分割可能な部分を定義する
 struct SImageDestCSVCommonData {
-	std::string screenID;
+	int screenID;
 	int  startTime;
 	int  x, y, w, h, a;
 	EDrawModeForDST  extend;

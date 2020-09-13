@@ -32,12 +32,14 @@
     <ClCompile Include="_src\CRandManager.cpp" />
     <ClCompile Include="_src\CRandomizerReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReadDataListGeterFromCSV.cpp" />
+    <ClCompile Include="_src\CReadEffectDataFromCSV.cpp" />
     <ClCompile Include="_src\CReel.cpp" />
     <ClCompile Include="_src\CReelController.cpp" />
     <ClCompile Include="_src\CReelControlReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReelDataReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReelManager.cpp" />
     <ClCompile Include="_src\CSlotCastChecker.cpp" />
+    <ClCompile Include="_src\CSlotEffectManager.cpp" />
     <ClCompile Include="_src\CSlotFlowList.cpp" />
     <ClCompile Include="_src\CSlotInternalDataManager.cpp" />
     <ClCompile Include="_src\CSlotTimerManager.cpp" />
@@ -65,6 +67,7 @@
     <ClInclude Include="_src\_header\CRandManager.hpp" />
     <ClInclude Include="_src\_header\CRandomizerReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReadDataListGeterFromCSV.hpp" />
+    <ClInclude Include="_src\_header\CReadEffectDataFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReel.hpp" />
     <ClInclude Include="_src\_header\CReelController.hpp" />
     <ClInclude Include="_src\_header\CReelControlReaderFromCSV.hpp" />
@@ -95,6 +98,7 @@
     <ClInclude Include="_src\_header\selectmode.h" />
     <ClInclude Include="_src\_header\setup.h" />
     <ClInclude Include="_src\_header\SImageDrawCSVData.hpp" />
+    <ClInclude Include="_src\_header\SSlotEffectData.hpp" />
     <ClInclude Include="_src\_header\SMainReadFileIndex.h" />
     <ClInclude Include="_src\_header\SRandomizerData.hpp" />
     <ClInclude Include="_src\_header\SReelChaData.hpp" />
