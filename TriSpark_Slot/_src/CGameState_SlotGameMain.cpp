@@ -63,13 +63,13 @@ bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 
 	// ƒŠ[ƒ‹b’è
 	for (int i = 0; i < 3; ++i){
-		data.reelID = i; data.x = 115.f + i * 130.f; data.y = 140.f;
-		data.comaW = 128; data.comaH = 64;
-		data.offsetLower = 6; data.offsetUpper = 2; data.comaNum = 3;
+		data.reelID = i; data.x = 290.f + i * 346.f; data.y = 352.f;
+		data.comaW = 330.f; data.comaH = 150.f;
+		data.offsetLower = 8; data.offsetUpper = 20; data.comaNum = 3;
 		m_data.reelManager.DrawReel(pDataManageIns, data);
 	}
 
-	DxLib::DrawFormatString(0, 0, 0xFFFFFF, "cred: %d, %d, %d",
+	/*DxLib::DrawFormatString(0, 0, 0xFFFFFF, "cred: %d, %d, %d",
 		m_data.internalDataManager.GetData().betNum,
 		m_data.internalDataManager.GetData().credit,
 		m_data.internalDataManager.GetData().payout);
@@ -79,7 +79,7 @@ bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 	DxLib::DrawFormatString(0, 40, 0xFFFFFF, "mode: %d, %d, %d",
 		m_data.internalDataManager.GetData().gameMode,
 		m_data.internalDataManager.GetData().gameModeLimit.first,
-		m_data.internalDataManager.GetData().gameModeLimit.second);
+		m_data.internalDataManager.GetData().gameModeLimit.second);*/
 
 	return true;
 }
