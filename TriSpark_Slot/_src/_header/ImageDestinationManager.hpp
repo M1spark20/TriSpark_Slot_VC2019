@@ -1,4 +1,5 @@
 #pragma once
+#include "CEffectImageCommonComponent.hpp"
 #include "SDrawImageSourceData.hpp"
 #include "SImageDrawCSVData.hpp"
 #include <string>
@@ -9,20 +10,13 @@ class CSlotTimerManager;
 class IImageSourceManager;
 class CGameDataManage;
 
-class IImageDestinationManager {
+class IImageDestinationManager : public CEffectImageCommonComponent {
 private:
-	long long mNowTime;
-	bool mIsTimerSet;
-	bool mIsTimerEnable;
-
 	EDrawModeForDST  GetDrawEnum(std::string pIndex);
 	EBlendModeForDST GetBlendEnum(std::string pIndex);
 
 protected:
 	std::vector<SImageDestCSVCommonData> mCommonData;		// csvから読みだしたdstデータ、複数定義可能
-	int mTimerID;											// 読み出しアニメーション・時分割を扱うタイマID
-	int mLoopTime;											// タイマIDのループ点 (-1でループ無効)
-	CEffectVariableManager& mVarManager;					// 変数管理クラスの参照
 
 	typedef std::vector<std::string> StringArr;
 
@@ -40,9 +34,6 @@ public:
 	IImageDestinationManager(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	virtual bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData);
-	// [act]描画に使用するタイマをセットする
-	bool			SetTimer(CSlotTimerManager& pTimerManager);
-	void							ResetTimer();
 	// [act]
 	virtual void	Draw(IImageSourceManager *const pSourceData, CGameDataManage& pDataManager) = 0;
 };

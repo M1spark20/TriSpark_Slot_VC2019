@@ -6,14 +6,8 @@
 // [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 // [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
 IImageSourceManager::IImageSourceManager(CEffectVariableManager& pVarManager)
-	: mVarManager(pVarManager){
+	: CEffectImageCommonComponent(pVarManager){
 	mCommonData.clear();
-	mLoopTime = -1;
-	mTimerID = -1;
-	mNowTime = -1;
-	mLoopTime = -1;
-	mIsTimerSet = false;
-	mIsTimerEnable = false;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
@@ -67,12 +61,12 @@ long long IImageSourceManager::GetCheckTime(const long long pNowCount) {
 //		else:描画する定義ID @mCommonData
 int IImageSourceManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
-	if (!mIsTimerSet || !mIsTimerEnable) return -1;
+	if (!GetIsTimerSet() || !GetIsTimerEnable()) return -1;
 	const auto definitionNum = mCommonData.size();
 	const int loopTime = mVarManager.GetVal(mLoopTime);
 
 	try {
-		const long long nowTime = mNowTime;
+		const long long nowTime = GetTimer();
 		const long long checkTime = GetCheckTime(nowTime);
 
 		// 見ている要素のbeginTimeに未達ならその前のデータを使用する。第1要素に未達なら描画を行わない
@@ -144,27 +138,6 @@ SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinition
 	ans.y = mVarManager.GetVal(nowData.y) + ans.h * posY;
 	ans.imageID = mVarManager.GetVal(nowData.imageID);
 	return ans;
-}
-
-// [act]描画に使用するタイマをセットする
-// [prm]pTimerManager	: 使用するタイマのマネージャー
-// [ret]タイマ設定に設定したかどうか(タイマが存在するが無効の場合はtrueを返す)
-bool IImageSourceManager::SetTimer(CSlotTimerManager& pTimerManager) {
-	try {
-		mIsTimerEnable = pTimerManager.GetTimeFromTimerHandle(mNowTime, mTimerID);
-		mIsTimerSet = true;
-	}
-	catch (ErrUndeclaredVar e) {
-		e.WriteErrLog();
-		return false;
-	}
-	return true;
-}
-
-// [act]描画に使用するタイマをリセット(無効化)する
-void IImageSourceManager::ResetTimer() {
-	mIsTimerSet = false;
-	mIsTimerEnable = false;
 }
 
 

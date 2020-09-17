@@ -1,4 +1,5 @@
 #pragma once
+#include "CEffectImageCommonComponent.hpp"
 #include "SDrawImageSourceData.hpp"
 #include "SImageDrawCSVData.hpp"
 #include <string>
@@ -10,16 +11,9 @@ class CSlotTimerManager;
 // [act]imgSrcデータ管理を行う基底クラス。この型を動的確保し呼び出しを一元化する
 //		コンストラクタとInit()で必要なデータを各派生クラスに取り込む
 //		GetComaNum()およびGetImageSource()で画像の切り出し方を調整する
-class IImageSourceManager {
-	long long mNowTime;
-	bool mIsTimerSet;
-	bool mIsTimerEnable;
-
+class IImageSourceManager : public CEffectImageCommonComponent {
 protected:
 	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
-	int mTimerID;											// 読み出しアニメーション・時分割を扱うタイマID
-	int mLoopTime;											// タイマIDのループ点 (-1でループ無効)
-	CEffectVariableManager& mVarManager;					// 変数管理クラスの参照
 
 	typedef std::vector<std::string> StringArr;
 
@@ -39,9 +33,6 @@ public:
 	IImageSourceManager(CEffectVariableManager& pVarManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	virtual bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager);
-	// [act]描画に使用するタイマをセットする
-	bool							SetTimer(CSlotTimerManager& pTimerManager);
-	void							ResetTimer();
 	// [act]画像読み込み参照先を返す
 	virtual SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) = 0;
 };

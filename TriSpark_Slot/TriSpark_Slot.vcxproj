@@ -22,6 +22,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="_src\CCastReaderFromCSV.cpp" />
     <ClCompile Include="_src\CControlTester.cpp" />
+    <ClCompile Include="_src\CEffectImageCommonComponent.cpp" />
     <ClCompile Include="_src\CEffectVariableManager.cpp" />
     <ClCompile Include="_src\CGameDataManage.cpp" />
     <ClCompile Include="_src\CGameMode_SlotGameMain.cpp" />
@@ -57,6 +58,7 @@
   <ItemGroup>
     <ClInclude Include="_src\_header\CCastReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CControlTester.hpp" />
+    <ClInclude Include="_src\_header\CEffectImageCommonComponent.hpp" />
     <ClInclude Include="_src\_header\CEffectVariableManager.hpp" />
     <ClInclude Include="_src\_header\CGameDataManage.h" />
     <ClInclude Include="_src\_header\CGameMode_SlotGameMain.hpp" />

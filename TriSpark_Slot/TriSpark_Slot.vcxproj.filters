@@ -165,6 +165,15 @@
     <ClCompile Include="_src\CEffectVariableManager.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CReadEffectDataFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotEffectManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CEffectImageCommonComponent.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -312,6 +321,15 @@
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
     <ClInclude Include="_src\_header\CEffectVariableManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReadEffectDataFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SSlotEffectData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CEffectImageCommonComponent.hpp">
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
   </ItemGroup>
