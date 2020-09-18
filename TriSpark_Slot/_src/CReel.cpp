@@ -47,8 +47,8 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 			m_speed += accVal;
 			if (m_speed > speedMax){
 				long long temp;
-
-				pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
+				if(!pTimer.GetTime(temp, eTimerReelStopAvailable, m_reelData.reelID))
+					pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
 				m_speed = speedMax; m_nowStatus = eRotating;
 			}
 			m_rotatePos -= m_speed;
