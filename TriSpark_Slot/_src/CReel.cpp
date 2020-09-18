@@ -20,7 +20,7 @@ bool CReel::Init(const SReelChaData& pReelData){
 
 bool CReel::Process(CSlotTimerManager& pTimer){
 	const float speedMax = (float)m_reelData.reelData[0].h * GetComaNum() * 80.f / 60000.f;
-	const float accVal = speedMax / 400.f;	// 300msÇ≈ñOòa
+	const float accVal = speedMax / 300.f;	// 300msÇ≈ñOòa
 
 	// É^ÉCÉ}Å[èâä˙âª
 	if (m_nowStatus == eAccerating && m_lastStatus == eStoping){
@@ -46,10 +46,10 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		for (count = 0; count < diff; ++count){
 			m_speed += accVal;
 			if (m_speed > speedMax){
-				pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
+				long long temp;
 
+				pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
 				m_speed = speedMax; m_nowStatus = eRotating;
-				break; 
 			}
 			m_rotatePos -= m_speed;
 		}
