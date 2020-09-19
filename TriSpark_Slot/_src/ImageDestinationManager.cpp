@@ -4,6 +4,7 @@
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/ImageSourceManager.hpp"
+#include "_header/CImageColorManager.hpp"
 #include "DxLib.h"
 
 // [act]変数の初期化と関数ポインタの設定を行う
@@ -197,7 +198,7 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 
 // [act]描画を行う
 //		アニメーション実装は後で
-void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CGameDataManage& pDataManager) {
+void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 
@@ -205,7 +206,9 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CGam
 	const int screenID = destData.screenID;
 
 	for (int i = 0; i < mVarManager.GetVal(mDrawNum); ++i) {
-		const auto source = pSourceData->GetImageSource(i, mVarManager.GetVal(mDrawNum));
+		auto source = pSourceData->GetImageSource(i, mVarManager.GetVal(mDrawNum));
+		if (pColorData != nullptr)
+			if(!pColorData->GetColorData(pDataManager, source, i)) return;
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
 		const int drawPos[]  = {

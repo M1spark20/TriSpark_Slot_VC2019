@@ -20,6 +20,8 @@ bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataMan
 	for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 		if (!it->second.pSource->SetTimer(pTimer)) return false;
 		if (!it->second.pDest->SetTimer(pTimer)) return false;
+		if (it->second.pColor != nullptr)
+			if (!it->second.pColor->SetTimer(pTimer)) return false;
 	}
 	return true;
 }
@@ -29,9 +31,10 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 		bool isProceed = false;
 		for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 			if (it->first != orderC) continue;
-			it->second.pDest->Draw(&(*it->second.pSource), pGameData);
+			it->second.pDest->Draw(&(*it->second.pSource), &(*it->second.pColor), pGameData);
 			it->second.pSource->ResetTimer();
 			it->second.pDest->ResetTimer();
+			if (it->second.pColor != nullptr) it->second.pColor->ResetTimer();
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;

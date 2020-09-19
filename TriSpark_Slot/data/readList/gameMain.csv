@@ -1,4 +1,4 @@
-// FileTypeの番号(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy),,,,,,,,
+// FileTypeの番号(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy/6:ColorMap),,,,,,,,
 // SyncFlagの番号(0:同期読み込み/1:非同期読み込み),,,,,,,,
 //Copy選択時はFilePassにコピー元のDataIDを記述すること,,,,,,,,
 //MStream:FileTypeがSoundの時のみ指定(0:直接再生/1:欠番/2:メモリ上に圧縮/3:ストリーミング再生),,,,,,,,
@@ -15,3 +15,4 @@
 #MainFile,0,1,data/image/backGround.jpg,,,//,7,背景画像
 #MainFile,0,1,data/image/parts_FHD.png,,,//,8,FHD_Parts
 #MainFile,3,1,data/csv/effect.csv,,,//,9,
+#MainFile,6,1,data/image/colorMapTest.png,,,//,10,エフェクト関係

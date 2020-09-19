@@ -30,6 +30,7 @@
     <ClCompile Include="_src\CGameState_ReadingData.cpp" />
     <ClCompile Include="_src\CGameState_SlotGameMain.cpp" />
     <ClCompile Include="_src\CGetSysDataFromCSV.cpp" />
+    <ClCompile Include="_src\CImageColorManager.cpp" />
     <ClCompile Include="_src\CRandManager.cpp" />
     <ClCompile Include="_src\CRandomizerReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReadDataListGeterFromCSV.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="_src\_header\gameloop.h" />
     <ClInclude Include="_src\_header\IGameModeBase.h" />
     <ClInclude Include="_src\_header\IGameStateBase.hpp" />
+    <ClInclude Include="_src\_header\CImageColorManager.hpp" />
     <ClInclude Include="_src\_header\ImageDestinationManager.hpp" />
     <ClInclude Include="_src\_header\ImageSourceManager.hpp" />
     <ClInclude Include="_src\_header\IReadcsv.h" />

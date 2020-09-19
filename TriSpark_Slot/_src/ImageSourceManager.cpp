@@ -103,7 +103,7 @@ int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 	const double division = interval / (double)comaNum;
 
 	try {
-		const long long operateTime = GetCheckTime(pDefinitionIndex) - offset;
+		const long long operateTime = GetCheckTime(GetTimer()) - offset;
 		return static_cast<int>(operateTime / division);
 	}
 	catch (ErrInternalVarUndeclared e) {

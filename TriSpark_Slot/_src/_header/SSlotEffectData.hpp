@@ -2,11 +2,13 @@
 #include <memory>
 #include <algorithm>
 #include <vector>
-#include "_header/ImageSourceManager.hpp"
-#include "_header/ImageDestinationManager.hpp"
+#include "ImageSourceManager.hpp"
+#include "ImageDestinationManager.hpp"
+#include "CImageColorManager.hpp"
 
 struct SImageEffectData {
 	std::unique_ptr<IImageSourceManager> pSource;
+	std::unique_ptr<CImageColorManager> pColor;
 	std::unique_ptr<IImageDestinationManager> pDest;
 };
 

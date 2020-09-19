@@ -24,6 +24,10 @@ bool CGameDataManage::StartReadFile(ArrayIndex &InputData){
 			m_MainData[MainC].DataHandle = 
 				DxLib::LoadGraph(nowReadFileName.c_str());
 			break;
+		case ColorMap:
+			m_MainData[MainC].DataHandle =
+				DxLib::LoadSoftImage(nowReadFileName.c_str());
+			break;
 		case Sound:
 			SetCreateSoundDataType(m_MainData[MainC].SoundStreamingFlag);
 			m_MainData[MainC].DataHandle = 
@@ -79,7 +83,8 @@ bool CGameDataManage::CheckReadFile(){
 				break;
 			}
 			switch(m_MainData[ForkID].FileType){
-			case Graphic: //複製機能がないためハンドルをコピー
+			case Graphic: 
+			case ColorMap:	//複製機能がないためハンドルをコピー
 				m_MainData[MainC].DataHandle = m_MainData[ForkID].DataHandle;
 				DxLib::ErrorLogFmtAdd("IndexNo.%dのCopyが無効です。同じハンドルを渡します。",MainC);
 				break;
@@ -137,6 +142,9 @@ bool CGameDataManage::DeleteData(unsigned int DeletePos,EMainReadFileType DataTy
 	switch(DataType){
 	case Graphic:
 		DxLib::DeleteGraph(DataHandle);
+		break;
+	case ColorMap:
+		DxLib::DeleteSoftImage(DataHandle);
 		break;
 	case Sound:
 		DxLib::DeleteSoundMem(DataHandle);
