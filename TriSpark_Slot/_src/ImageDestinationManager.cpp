@@ -120,11 +120,11 @@ long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
 
 	if (mCommonData.empty()) throw ErrInternalVarUndeclared("mCommonData");
-	const int offset = mVarManager.GetVal(mCommonData.begin()->startTime);
-	const int diffCount = loopTime - offset;
-	if (diffCount == 0) return offset;
-	long long ans = pNowCount - offset;
-	return ans - (diffCount * (ans / diffCount)) + offset;
+	const int loopPoint = mVarManager.GetVal((mCommonData.end() - 1)->startTime);
+	const int diffCount = loopPoint - loopTime;
+	if (diffCount == 0) return loopTime;
+	long long ans = pNowCount - loopTime;
+	return ans - (diffCount * (ans / diffCount)) + loopTime;
 }
 
 // [act]タイマー状況から読み出しタイミングで使用する画像定義を決定する
