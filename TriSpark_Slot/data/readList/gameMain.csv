@@ -16,3 +16,4 @@
 #MainFile,0,1,data/image/parts_FHD.png,,,//,8,FHD_Parts
 #MainFile,3,1,data/csv/effect.csv,,,//,9,
 #MainFile,6,1,data/image/colorMapTest.png,,,//,10,エフェクト関係
+#MainFile,6,1,data/image/colorMapLEDArray.png,,,//,11,
