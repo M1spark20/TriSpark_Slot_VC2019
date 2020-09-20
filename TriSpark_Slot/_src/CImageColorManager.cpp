@@ -96,24 +96,24 @@ int CImageColorManager::GetDefinitionIndex() {
 // [prm]pDefinitionIndex	: 描画する定義ID @mCommonData
 // [ret]-1	: エラー
 //		else: 画像コマID
-int CImageColorManager::GetImageIndex(int pDefinitionIndex) {
-	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
+double CImageColorManager::GetImageIndex(int pDefinitionIndex) {
+	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1.;
 
 	const int comaNum = GetComaNum(pDefinitionIndex);
-	if (comaNum == -1) return -1;
+	if (comaNum == -1) return -1.;
 	const long long offset = mVarManager.GetVal(mCommonData[pDefinitionIndex].startTime);
 	const long long interval = -offset + ((size_t)pDefinitionIndex + 1 == mCommonData.size() ?
 		mVarManager.GetVal(mLoopTime) : mVarManager.GetVal(mCommonData[(size_t)pDefinitionIndex + 1].startTime));
-	if (interval == 0) return 0;	// srcが変化しない場合
+	if (interval == 0) return 0.;	// srcが変化しない場合
 	const double division = interval / (double)comaNum;
 
 	try {
 		const long long operateTime = GetCheckTime(GetTimer()) - offset;
-		return static_cast<int>(operateTime / division);
+		return operateTime / division;
 	}
 	catch (ErrInternalVarUndeclared e) {
 		e.WriteErrLog();
-		return -1;
+		return -1.;
 	}
 }
 
@@ -157,13 +157,53 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 	return ans == 0;
 }
 
+void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg) {
+	pNextDef = pNowDef; pNextImg = pNowImg + 1;
+	if (pNextImg < GetComaNum(pNowDef)) return;
+
+	pNextDef = pNowDef+1; pNextImg = 0;
+	if ((size_t)pNextDef < mCommonData.size()-1) return;
+
+	pNextDef = mCommonData.size() - 1;
+	for (size_t i = 0; i < mCommonData.size(); ++i) {
+		if (mVarManager.GetVal(mCommonData[i].startTime) <= mVarManager.GetVal(mLoopTime)) continue;
+		pNextDef = i - 1;
+		if (pNextDef < 0) pNextImg = -1;
+		return;
+	}
+}
+
+int CImageColorManager::CalcColorAnimation(int pBeginVal, int pEndVal, double pProgress) {
+	const double rate = pProgress - floor(pProgress);
+	const int diff = pEndVal - pBeginVal;
+	return pBeginVal + static_cast<int>(diff * rate);
+}
+
 // [act]画像読み込み参照先に色情報を付与する
-// [prm]pWriteIndex	: 何枚目の描画画像の取り出しを行うかを指定(ただしdefaultでは不使用)
+// [prm]pWriteIndex	: 何枚目の描画画像の取り出しを行うかを指定
 bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pWriteIndex) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return false;
 	const auto imageIndex = GetImageIndex(dataIndex);
 	if (imageIndex < 0) return false;
 
-	return GetColorDataFromIndex(pGameData, pData, dataIndex, imageIndex, pWriteIndex);
+	if(!GetColorDataFromIndex(pGameData, pData, dataIndex, static_cast<int>(imageIndex), pWriteIndex)) return false;
+
+	// アニメーション実装
+	int nextDef, nextImg;
+	GetAnimationNext(dataIndex, static_cast<int>(imageIndex), nextDef, nextImg);
+	if (nextDef < 0) {
+		pData.r = CalcColorAnimation(pData.r, 0, imageIndex);
+		pData.g = CalcColorAnimation(pData.g, 0, imageIndex);
+		pData.b = CalcColorAnimation(pData.b, 0, imageIndex);
+	}
+	else {
+		SDrawImageSourceData nextColor;
+		if(!GetColorDataFromIndex(pGameData, nextColor, nextDef, nextImg, pWriteIndex)) return false;
+		pData.r = CalcColorAnimation(pData.r, nextColor.r, imageIndex);
+		pData.g = CalcColorAnimation(pData.g, nextColor.g, imageIndex);
+		pData.b = CalcColorAnimation(pData.b, nextColor.b, imageIndex);
+	}
+
+	return true;
 }

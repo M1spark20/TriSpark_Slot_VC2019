@@ -18,11 +18,15 @@ class CImageColorManager : public CEffectImageCommonComponent {
 	// [act]タイマー状況から読み出しタイミングで使用する画像定義を決定する
 	int GetDefinitionIndex();
 	// [act]タイマー状況から読み出しタイミングで使用する画像コマを決定する
-	int GetImageIndex(int pDefinitionIndex);
+	double GetImageIndex(int pDefinitionIndex);
 	// [act]アニメーションに使用できるコマ数を取得する(必要に応じoverrideする)
 	virtual int GetComaNum(int pDefinitionIndex);
 	// [act]definitionIndexとimageIndexから画像範囲を取り出す
 	bool GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex);
+
+	void GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg);
+
+	int CalcColorAnimation(int pBeginVal, int pEndVal, double pProgress);
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
