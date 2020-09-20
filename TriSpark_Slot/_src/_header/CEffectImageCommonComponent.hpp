@@ -23,4 +23,6 @@ public:
 	// [act]描画に使用するタイマをセットする
 	bool SetTimer(CSlotTimerManager& pTimerManager);
 	void ResetTimer();
+
+	int CalcAnimationPos(long long pNowTime, int pBeginTime, int pEndTime, int pBeginVal, int pEndVal);
 };
