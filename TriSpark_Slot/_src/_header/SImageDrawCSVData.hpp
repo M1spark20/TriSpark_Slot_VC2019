@@ -28,3 +28,13 @@ struct SImageDestCSVCommonData {
 	EDrawModeForDST  extend;
 	EBlendModeForDST blend;
 };
+
+struct SImageColorCSVCommonData {
+	int startTime;
+	int imageID;
+	int x, y, w, h;
+	int numX, numY;
+	bool directionY;
+	bool isColorIndexDirY;
+	bool useAnimation;
+};

@@ -8,7 +8,6 @@
 CImageColorManager::CImageColorManager(CEffectVariableManager& pVarManager)
 	: CEffectImageCommonComponent(pVarManager) {
 	mCommonData.clear();
-	mIsColorIndexDirY = false;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
@@ -16,11 +15,11 @@ CImageColorManager::CImageColorManager(CEffectVariableManager& pVarManager)
 //		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
 bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
-	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 11);
-	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 13);
+	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 12);
+	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 14);
 
 	try {
-		SImageSourceCSVCommonData data;
+		SImageColorCSVCommonData data;
 		data.startTime = mVarManager.MakeValID(pReadData[1]);
 		data.imageID = mVarManager.MakeValID(pReadData[2]);
 		data.x = mVarManager.MakeValID(pReadData[3]);
@@ -30,11 +29,12 @@ bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 		data.numX = mVarManager.MakeValID(pReadData[7]);
 		data.numY = mVarManager.MakeValID(pReadData[8]);
 		data.directionY = pReadData[9] == "Y";
-		mIsColorIndexDirY = pReadData[10] == "Y";
+		data.isColorIndexDirY = pReadData[10] == "Y";
+		data.useAnimation = pReadData[11] == "T";
 
 		if (mCommonData.empty()) {
-			mTimerID = pTimerManager.GetTimerHandle(pReadData[11]);
-			mLoopTime = mVarManager.MakeValID(pReadData[12]);
+			mTimerID = pTimerManager.GetTimerHandle(pReadData[12]);
+			mLoopTime = mVarManager.MakeValID(pReadData[13]);
 		}
 
 		mCommonData.push_back(data);
@@ -147,8 +147,8 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 	posX += mVarManager.GetVal(nowData.x);
 	posY += mVarManager.GetVal(nowData.y);
 
-	unsigned int indexX = mIsColorIndexDirY ? pColorIndex / abs(height) : pColorIndex % abs(width);
-	unsigned int indexY = mIsColorIndexDirY ? pColorIndex % abs(height) : pColorIndex / abs(width);
+	unsigned int indexX = nowData.isColorIndexDirY ? pColorIndex / abs(height) : pColorIndex % abs(width);
+	unsigned int indexY = nowData.isColorIndexDirY ? pColorIndex % abs(height) : pColorIndex / abs(width);
 	if (width < 0) indexX = abs(width) - indexX - 1;
 	if (height < 0) indexY = abs(height) - indexY - 1;
 
@@ -186,22 +186,24 @@ bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawIma
 	const auto imageIndex = GetImageIndex(dataIndex);
 	if (imageIndex < 0) return false;
 
-	if(!GetColorDataFromIndex(pGameData, pData, dataIndex, static_cast<int>(imageIndex), pWriteIndex)) return false;
+	if (!GetColorDataFromIndex(pGameData, pData, dataIndex, static_cast<int>(imageIndex), pWriteIndex)) return false;
 
 	// アニメーション実装
-	int nextDef, nextImg;
-	GetAnimationNext(dataIndex, static_cast<int>(imageIndex), nextDef, nextImg);
-	if (nextDef < 0) {
-		pData.r = CalcAnimationPos(pData.r, 0, imageIndex);
-		pData.g = CalcAnimationPos(pData.g, 0, imageIndex);
-		pData.b = CalcAnimationPos(pData.b, 0, imageIndex);
-	}
-	else {
-		SDrawImageSourceData nextColor;
-		if(!GetColorDataFromIndex(pGameData, nextColor, nextDef, nextImg, pWriteIndex)) return false;
-		pData.r = CalcAnimationPos(pData.r, nextColor.r, imageIndex);
-		pData.g = CalcAnimationPos(pData.g, nextColor.g, imageIndex);
-		pData.b = CalcAnimationPos(pData.b, nextColor.b, imageIndex);
+	if (mCommonData[dataIndex].useAnimation) {
+		int nextDef, nextImg;
+		GetAnimationNext(dataIndex, static_cast<int>(imageIndex), nextDef, nextImg);
+		if (nextDef < 0) {
+			pData.r = CalcAnimationPos(pData.r, 0, imageIndex);
+			pData.g = CalcAnimationPos(pData.g, 0, imageIndex);
+			pData.b = CalcAnimationPos(pData.b, 0, imageIndex);
+		}
+		else {
+			SDrawImageSourceData nextColor;
+			if (!GetColorDataFromIndex(pGameData, nextColor, nextDef, nextImg, pWriteIndex)) return false;
+			pData.r = CalcAnimationPos(pData.r, nextColor.r, imageIndex);
+			pData.g = CalcAnimationPos(pData.g, nextColor.g, imageIndex);
+			pData.b = CalcAnimationPos(pData.b, nextColor.b, imageIndex);
+		}
 	}
 
 	return true;

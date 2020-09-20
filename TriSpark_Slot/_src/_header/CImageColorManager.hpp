@@ -8,8 +8,7 @@
 class CGameDataManage;
 
 class CImageColorManager : public CEffectImageCommonComponent {
-	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
-	bool mIsColorIndexDirY;
+	std::vector<SImageColorCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
 
 	typedef std::vector<std::string> StringArr;
 
