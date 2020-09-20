@@ -34,9 +34,8 @@ void CEffectImageCommonComponent::ResetTimer() {
 	mIsTimerEnable = false;
 }
 
-int CEffectImageCommonComponent::CalcAnimationPos(long long pNowTime, int pBeginTime, int pEndTime, int pBeginVal, int pEndVal) {
-	const int diffVal = pEndVal - pBeginVal;
-	const double diffTime = pEndTime - (long long)pBeginTime;
-	const double progress = (pNowTime - pBeginTime) / diffTime;
-	return pBeginVal + static_cast<int>(diffVal * progress);
+int CEffectImageCommonComponent::CalcAnimationPos(int pBeginVal, int pEndVal, double pProgress) {
+	const double rate = pProgress - floor(pProgress);
+	const int diff = pEndVal - pBeginVal;
+	return pBeginVal + static_cast<int>(diff * rate);
 }

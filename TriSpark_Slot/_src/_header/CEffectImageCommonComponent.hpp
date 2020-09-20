@@ -24,5 +24,5 @@ public:
 	bool SetTimer(CSlotTimerManager& pTimerManager);
 	void ResetTimer();
 
-	int CalcAnimationPos(long long pNowTime, int pBeginTime, int pEndTime, int pBeginVal, int pEndVal);
+	int CalcAnimationPos(int pBeginVal, int pEndVal, double pProgress);
 };

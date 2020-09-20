@@ -23,10 +23,8 @@ class CImageColorManager : public CEffectImageCommonComponent {
 	virtual int GetComaNum(int pDefinitionIndex);
 	// [act]definitionIndexとimageIndexから画像範囲を取り出す
 	bool GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex);
-
+	// [act]次のアニメーションコマを取得する
 	void GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg);
-
-	int CalcColorAnimation(int pBeginVal, int pEndVal, double pProgress);
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
