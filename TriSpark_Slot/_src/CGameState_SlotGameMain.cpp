@@ -29,7 +29,6 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.ExportKeyState(KEY_INPUT_ESCAPE)) return eStateEnd;
 	m_data.timeManager.Process();
-	m_data.reelManager.Process(m_data.timeManager);
 	ESlotFlowFlag flow = m_pFlowManager->Process(m_data);
 	if (flow != eFlowContinue){
 		delete m_pFlowManager;	m_pFlowManager = nullptr;
@@ -52,6 +51,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 		if (!m_pFlowManager->Init(m_data)) return eStateErrEnd;
 	}
 
+	m_data.reelManager.Process(m_data.timeManager);
 	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager);
 	return eStateContinue;
 }
