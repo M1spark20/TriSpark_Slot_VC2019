@@ -65,3 +65,14 @@ public:
 	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
 	SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) override;
 };
+
+class CImageSourceReel : public IImageSourceManager {
+public:
+	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
+	CImageSourceReel(CEffectVariableManager& pVarManager);
+	// [act]文字列配列"pReadData"からsrcデータを取得する
+	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
+	// [act]画像読み込み参照先を返す
+	SDrawImageSourceData	GetImageSource(int pWriteIndex = 0, int pWriteNum = 0) override;
+};
+

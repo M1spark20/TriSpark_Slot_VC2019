@@ -44,7 +44,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 
 			mReadStatus = EReadStatus::eSource;
 			mHeading = ENowReadingHead::eImgSrc;
-			sourcePtr->Init(NowGetStr, pTimer);
+			if(!sourcePtr->Init(NowGetStr, pTimer)) return false;
 		}
 		if (NowGetStr.at(0) == "#numSrc") {
 			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eNumSrc) return false;
@@ -53,15 +53,24 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 
 			mReadStatus = EReadStatus::eSource;
 			mHeading = ENowReadingHead::eNumSrc;
-			sourcePtr->Init(NowGetStr, pTimer);
+			if (!sourcePtr->Init(NowGetStr, pTimer)) return false;
+		}
+		if (NowGetStr.at(0) == "#reelSrc") {
+			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc) return false;
+			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, colorPtr, destPtr);
+			if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceReel(pVar));
+
+			mReadStatus = EReadStatus::eSource;
+			mHeading = ENowReadingHead::eReelSrc;
+			if(!sourcePtr->Init(NowGetStr, pTimer)) return false;
 		}
 		if (NowGetStr.at(0) == "#imgColorMap") {
 			if (mReadStatus == EReadStatus::eDestination) return false;
 			if (colorPtr == nullptr) colorPtr.reset(new CImageColorManager(pVar));
 
-			mReadStatus = EReadStatus::eColorMap;
-			mHeading = ENowReadingHead::eImgCM;
-			colorPtr->Init(NowGetStr, pTimer);
+			//mReadStatus = EReadStatus::eColorMap;
+			//mHeading = ENowReadingHead::eImgCM;
+			if(!colorPtr->Init(NowGetStr, pTimer)) return false;
 		}
 		if (NowGetStr.at(0) == "#imgDst") {
 			if (mReadStatus == EReadStatus::eDestination && mHeading != ENowReadingHead::eImgDst) return false;
@@ -72,7 +81,22 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 
 			mReadStatus = EReadStatus::eDestination;
 			mHeading = ENowReadingHead::eImgDst;
-			destPtr->Init(NowGetStr, pTimer);
+			if(!destPtr->Init(NowGetStr, pTimer)) return false;
+		}
+		if (NowGetStr.at(0) == "#reelDst") {
+			if (mReadStatus == EReadStatus::eDestination && mHeading != ENowReadingHead::eReelDst) return false;
+			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc) return false;
+			if (destPtr == nullptr) destPtr.reset(new CImageDestinationReel(pVar, pReel));
+
+			mReadStatus = EReadStatus::eDestination;
+			mHeading = ENowReadingHead::eReelDst;
+			if(!destPtr->Init(NowGetStr, pTimer)) return false;
+		}
+		if (NowGetStr.at(0) == "#makeScr") {
+			pVar.MakeScreenID(NowGetStr);
+		}
+		if (NowGetStr.at(0) == "#clearScr") {
+			pData.clearScreenData.push_back(std::pair<int, std::string>(mOrderCounter++, NowGetStr.at(1)));
 		}
 	}
 

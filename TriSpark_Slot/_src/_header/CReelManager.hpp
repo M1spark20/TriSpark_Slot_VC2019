@@ -5,6 +5,8 @@
 class CGameDataManage;
 class CGetSysDataFromCSV;
 class CSlotTimerManager;
+class IImageSourceManager;
+class CImageColorManager;
 
 class CReelManager {
 	std::vector<CReel>	m_reelChaData;	// 各リールデータ
@@ -20,6 +22,7 @@ public:
 	bool Process(CSlotTimerManager& pTimer);
 	bool DrawReel(const CGameDataManage& pDataManager, const SReelDrawData pDrawData);
 	bool DrawReel(const CGameDataManage& pDataManager, const SReelDrawData pDrawData, unsigned int comaBegin);
+	bool DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorManager* const pColorData, const SReelDrawDataFromCSV pData) const;
 
 	int GetReelNum() const { return m_reelChaData.size(); }
 	int GetCharaNum(int pReelID = 0) const;

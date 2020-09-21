@@ -5,6 +5,7 @@
 #include "_header/CGameDataManage.h"
 #include "_header/ImageSourceManager.hpp"
 #include "_header/CImageColorManager.hpp"
+#include "_header/CReelManager.hpp"
 #include "DxLib.h"
 
 // [act]変数の初期化と関数ポインタの設定を行う
@@ -238,4 +239,86 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 			);
 		}
 	}
+}
+
+CImageDestinationReel::CImageDestinationReel(CEffectVariableManager& pVarManager, const CReelManager& pReelManager)
+	: IImageDestinationManager(pVarManager), cReelManager(pReelManager) {
+	mExtraData.preDrawScreenID	= -1;
+	mExtraData.blewNum			= -1;
+	mExtraData.blewTime			= -1;
+	mExtraData.srcX				= -1;
+	mExtraData.srcY				= -1;
+	mExtraData.srcW				= -1;
+	mExtraData.srcH				= -1;
+	mExtraData.reelID			= -1;
+	mExtraData.comaNum			= -1;
+	mExtraData.originComa		= -1;
+	mExtraData.comaBegin		= -1;
+	mExtraData.comaIndexMax		= -1;
+}
+
+// [act]文字列配列"pReadData"からdstデータを取得する
+// [prm]pReadData			: 初期化用csv分割データ
+// [ret]データ取得に成功したかどうか
+bool CImageDestinationReel::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
+	try {
+		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
+		if (pReadData.size() < 24 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 24);
+	}
+	catch (ErrLessCSVDefinition e) {
+		e.WriteErrLog();
+		return false;
+	}
+
+	if (mCommonData.empty()) {
+		try {
+			mExtraData.preDrawScreenID	= mVarManager.GetScreenID(pReadData[12]);
+			mExtraData.blewNum			= mVarManager.MakeValID(pReadData[13]);
+			mExtraData.blewTime			= mVarManager.MakeValID(pReadData[14]);
+			mExtraData.srcX				= mVarManager.MakeValID(pReadData[15]);
+			mExtraData.srcY				= mVarManager.MakeValID(pReadData[16]);
+			mExtraData.srcW				= mVarManager.MakeValID(pReadData[17]);
+			mExtraData.srcH				= mVarManager.MakeValID(pReadData[18]);
+			mExtraData.reelID			= mVarManager.MakeValID(pReadData[19]);
+			mExtraData.comaNum			= mVarManager.MakeValID(pReadData[20]);
+			mExtraData.originComa		= mVarManager.MakeValID(pReadData[21]);
+			mExtraData.comaBegin		= mVarManager.MakeValID(pReadData[22]);
+			mExtraData.comaIndexMax		= mVarManager.MakeValID(pReadData[23]);
+		}
+		catch (ErrUndeclaredVar e) {
+			e.WriteErrLog();
+			return false;
+		}
+	}
+	return IImageDestinationManager::Init(pReadData, pTimerData);
+}
+
+void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) {
+	const auto dataIndex = GetDefinitionIndex();
+	if (dataIndex < 0) return;
+	const auto& destData = mCommonData[dataIndex];
+	
+	SReelDrawDataFromCSV drawData;
+	drawData.dstPos.x		 = mVarManager.GetVal(destData.x);
+	drawData.dstPos.y		 = mVarManager.GetVal(destData.y);
+	drawData.dstPos.w		 = mVarManager.GetVal(destData.w);
+	drawData.dstPos.h		 = mVarManager.GetVal(destData.h);
+	drawData.srcPos.x		 = mVarManager.GetVal(mExtraData.srcX);
+	drawData.srcPos.y		 = mVarManager.GetVal(mExtraData.srcY);
+	drawData.srcPos.w		 = mVarManager.GetVal(mExtraData.srcW);
+	drawData.srcPos.h		 = mVarManager.GetVal(mExtraData.srcH);
+	drawData.a				 = mVarManager.GetVal(destData.a);
+	drawData.extendModeID	 = GetDxDrawModeByEnum(destData.extend);
+	drawData.blendModeID	 = GetDxBlendModeByEnum(destData.blend);
+	drawData.destScr		 = destData.screenID;
+	drawData.preDrawScr		 = mExtraData.preDrawScreenID;
+	drawData.blew			 = mVarManager.GetVal(mExtraData.blewNum);
+	drawData.blewTime		 = mVarManager.GetVal(mExtraData.blewTime);
+	drawData.reelID			 = mVarManager.GetVal(mExtraData.reelID);
+	drawData.comaNum		 = mVarManager.GetVal(mExtraData.comaNum);
+	drawData.originComa		 = mVarManager.GetVal(mExtraData.originComa);
+	drawData.comaBegin		 = mVarManager.GetVal(mExtraData.comaBegin);
+	drawData.comaIndexMax	 = mVarManager.GetVal(mExtraData.comaIndexMax);
+
+	cReelManager.DrawReel(pDataManager, pSourceData, pColorData, drawData);
 }

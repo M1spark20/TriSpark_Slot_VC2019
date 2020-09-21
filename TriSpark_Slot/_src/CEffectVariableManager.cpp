@@ -93,21 +93,30 @@ int CEffectVariableManager::GetVal(int pValID) {
 // [act]DxLib•`‰æ‰æ–Ê‚ğV‹K¶¬‚·‚é
 // [prm]pValName	: •Ï”ID
 //		<ˆø”‚Í‰¼>
-void CEffectVariableManager::MakeScreenID(std::string pValName) {
-	if (pValName.empty()) return;
-	const std::string registName = pValName[0] == '*' ? pValName.substr(1) : pValName;
+void CEffectVariableManager::MakeScreenID(StringArr pData) {
+	if (pData.size() < 5) return;
+	if (pData[1].empty()) return;
+	const std::string registName = pData[1][0] == '*' ? pData[1].substr(1) : pData[1];
 	if (registName.empty()) return;
 
 	std::pair<std::string, int> data;
-	data.first = pValName;
-	// second‚Ícsv‚Å’è‹`‚ğì‚Á‚Ä‚©‚ç
+	data.first = registName;
+	try {
+		const int screenSize[] = { GetVal(MakeValID(pData[2])), GetVal(MakeValID(pData[3]))	};
+		const bool isUseTrans = pData[4] == "T";
+		data.second = DxLib::MakeScreen(screenSize[0], screenSize[1], isUseTrans ? TRUE : FALSE);
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+	}
+	mScreenData.push_back(data);
 }
 
 int CEffectVariableManager::GetScreenID(std::string pValName) {
-	if (pValName.empty()) throw ErrUndeclaredVar("Time: <Empty>");
+	if (pValName.empty()) throw ErrUndeclaredVar("Screen: <Empty>");
 	if (pValName[0] == '*') {
 		const std::string registName = pValName.substr(1);
-		if (registName.empty()) throw ErrUndeclaredVar("Time: <Empty>");
+		if (registName.empty()) throw ErrUndeclaredVar("Screen: <Empty>");
 
 		/* constant */ {
 			if (registName == "mainScr") return DX_SCREEN_BACK;
@@ -118,7 +127,19 @@ int CEffectVariableManager::GetScreenID(std::string pValName) {
 			return it->second;
 		}
 	}
-	throw ErrUndeclaredVar("Time: " + pValName);
+	throw ErrUndeclaredVar("Screen: " + pValName);
+}
+
+bool CEffectVariableManager::ClearScreen(std::string pValName) {
+	try {
+		DxLib::SetDrawScreen(GetScreenID(pValName));
+		DxLib::ClearDrawScreen();
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
 }
 
 CEffectVariableManager::~CEffectVariableManager() {

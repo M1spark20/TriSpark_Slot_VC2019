@@ -10,6 +10,7 @@ class CSlotTimerManager;
 class IImageSourceManager;
 class CImageColorManager;
 class CGameDataManage;
+class CReelManager;
 
 class IImageDestinationManager : public CEffectImageCommonComponent {
 private:
@@ -46,6 +47,25 @@ class CImageDestinationDefault : public IImageDestinationManager {
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
 	CImageDestinationDefault(CEffectVariableManager& pVarManager);
+	// [act]文字列配列"pReadData"からsrcデータを取得する
+	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
+	// [act]描画を行う
+	void	Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) override;
+};
+
+class CImageDestinationReel : public IImageDestinationManager {
+	const CReelManager& cReelManager;
+	struct {
+		int preDrawScreenID;
+		int blewNum, blewTime;
+		int srcX, srcY, srcW, srcH;
+		int reelID;
+		int comaNum, originComa, comaBegin, comaIndexMax;
+	} mExtraData;
+
+public:
+	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
+	CImageDestinationReel(CEffectVariableManager& pVarManager, const CReelManager& pReelManager);
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
 	// [act]描画を行う

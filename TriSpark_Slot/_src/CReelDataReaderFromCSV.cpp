@@ -32,6 +32,8 @@ bool CReelDataReaderFromCSV::MakeData(std::vector<SReelChaData>& p_Data, const C
 			StrToNum(newData.reelID,	NowGetStr.at(1));
 			StrToNum(arrayDataHandle,	NowGetStr.at(2));
 			StrToNum(charaNum,			NowGetStr.at(3));
+			StrToNum(newData.rpm,		NowGetStr.at(4));
+			StrToNum(newData.accTime,	NowGetStr.at(5));
 
 			newData.arrayData.resize(charaNum);
 			const int dataHandle = pRes.GetDataHandle(arrayDataHandle);

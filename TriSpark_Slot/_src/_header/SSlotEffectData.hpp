@@ -13,5 +13,6 @@ struct SImageEffectData {
 };
 
 struct SSlotEffectData {
-	std::vector<std::pair<int, SImageEffectData>> imgData;
+	std::vector<std::pair<int, SImageEffectData>>	imgData;
+	std::vector<std::pair<int, std::string>>		clearScreenData;	// [order, screenName]
 };

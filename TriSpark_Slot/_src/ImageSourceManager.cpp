@@ -266,3 +266,38 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 
 	return GetSourceDataFromIndex(dataIndex, imageIndex * mDigitCount + numIndex);
 }
+
+// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う
+// [prm]pTimerReader	: タイマー値呼び出し用関数ポインタ
+CImageSourceReel::CImageSourceReel(CEffectVariableManager& pVarManager)
+	: IImageSourceManager(pVarManager) {
+}
+
+// [act]文字列配列"pReadData"からsrcデータを取得する
+// [prm]pReadData			: 初期化用csv分割データ
+//		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
+// [ret]データ取得に成功したかどうか
+bool CImageSourceReel::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
+	try {
+		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
+		if (pReadData.size() < 12 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 12);
+	}
+	catch (ErrLessCSVDefinition e) {
+		e.WriteErrLog();
+		return false;
+	}
+	return IImageSourceManager::Init(pReadData, pTimerManager);
+}
+
+
+// [act]画像読み込み参照先を返す
+// [prm]pWriteIndex	: 取り出す画像のコマを指定する
+//		pWriteNum	: 実行中の描画で何回画像を繰り返し描画するか指定(ただしReelでは不使用)
+SDrawImageSourceData CImageSourceReel::GetImageSource(int pWriteIndex, int pWriteNum) {
+	const auto dataIndex = GetDefinitionIndex();
+	if (dataIndex < 0) return SDrawImageSourceData();
+	const auto imageIndex = pWriteIndex;
+	if (imageIndex < 0) return SDrawImageSourceData();
+
+	return GetSourceDataFromIndex(dataIndex, imageIndex);
+}

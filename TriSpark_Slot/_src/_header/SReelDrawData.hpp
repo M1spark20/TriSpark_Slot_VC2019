@@ -1,4 +1,5 @@
 #pragma once
+#include "SDrawImageSourceData.hpp"
 
 struct SReelDrawData{
 //[act] リール描画用構造体
@@ -10,4 +11,13 @@ struct SReelDrawData{
 	float offsetUpper;
 	float offsetLower;
 	unsigned int comaNum;
+};
+
+struct SReelDrawDataFromCSV {
+	struct { int x, y, w, h; } srcPos, dstPos;
+	int a;
+	int extendModeID, blendModeID;
+	int destScr, preDrawScr;		// csvデータからDxLib側のスクリーンハンドルに変換したものを入力
+	int blew, blewTime;
+	int reelID, comaNum, originComa, comaBegin, comaIndexMax;
 };

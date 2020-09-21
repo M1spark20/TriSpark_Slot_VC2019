@@ -3,6 +3,8 @@
 #include "_header\CGameDataManage.h"
 #include "_header\CGetSysDataFromCSV.hpp"
 #include "_header\CSlotTimerManager.hpp"
+#include "_header/ImageSourceManager.hpp"
+#include "_header/CImageColorManager.hpp"
 #include "DxLib.h"
 
 bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV& pSysData){
@@ -44,6 +46,14 @@ bool CReelManager::DrawReel(const CGameDataManage& pDataManager, const SReelDraw
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pDrawData.reelID) continue;
 		return it->DrawReel(pDataManager, pDrawData, m_drawingCanvas, comaBegin);
+	}
+	return false;
+}
+
+bool CReelManager::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorManager* const pColorData, const SReelDrawDataFromCSV pData) const{
+	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
+		if (it->GetReelID() != pData.reelID) continue;
+		return it->DrawReel(pDataManager, pSrcData, pColorData, pData);
 	}
 	return false;
 }

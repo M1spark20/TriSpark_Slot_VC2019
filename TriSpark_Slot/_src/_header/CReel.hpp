@@ -6,6 +6,9 @@
 #include "SReelFrashConfig.hpp"
 class CGameDataManage;
 class CSlotTimerManager;
+class IImageSourceManager;
+class CImageColorManager;
+
 
 enum EReelStatus{
 	eStoping,
@@ -20,8 +23,11 @@ class CReel {
 	SReelChaData					m_reelData;
 	float							m_rotatePos;
 	float							m_speed;
+	float							m_speedMax;
+	float							m_accVal;
 	unsigned int					m_comaPos;
 	unsigned int					m_destination;
+	long long						m_lastRotationTime;
 	std::vector<SReelFrashConfig>	m_flashData;
 	EReelStatus						m_nowStatus;
 	EReelStatus						m_lastStatus;
@@ -45,4 +51,5 @@ public:
 	bool			Process(CSlotTimerManager& pTimer);
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas) const;
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas, unsigned int pComaStart) const;
+	bool			DrawReel(const CGameDataManage& pDataManager, IImageSourceManager *const pSrcData, CImageColorManager *const pColorData, const SReelDrawDataFromCSV pData) const;
 };

@@ -3,6 +3,8 @@
 #include "_header\CGameDataManage.h"
 #include "_header\SReelDrawData.hpp"
 #include "_header\CSlotTimerManager.hpp"
+#include "_header/ImageSourceManager.hpp"
+#include "_header/CImageColorManager.hpp"
 #include <cmath>
 
 bool CReel::Init(const SReelChaData& pReelData){
@@ -13,14 +15,16 @@ bool CReel::Init(const SReelChaData& pReelData){
 	m_speed = 0.f;
 	m_comaPos = 0;
 	m_destination = 0;
+	m_lastRotationTime = -1;
 	m_lastStatus = eStoping;
 	m_nowStatus = eStoping;
+
+	m_speedMax = (float)m_reelData.reelData[0].h * GetComaNum() * m_reelData.rpm / 60000.f;
+	m_accVal = m_speedMax / m_reelData.accTime;
 	return true;
 }
 
 bool CReel::Process(CSlotTimerManager& pTimer){
-	const float speedMax = (float)m_reelData.reelData[0].h * GetComaNum() * 80.f / 60000.f;
-	const float accVal = speedMax / 300.f;	// 300msで飽和
 
 	// タイマー初期化
 	if (m_nowStatus == eAccerating && m_lastStatus == eStoping){
@@ -44,12 +48,12 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		// ただし最大速度に達した場合それ以上は掛け算で処理
 		long long count;
 		for (count = 0; count < diff; ++count){
-			m_speed += accVal;
-			if (m_speed > speedMax){
+			m_speed += m_accVal;
+			if (m_speed > m_speedMax){
 				long long temp;
 				if(!pTimer.GetTime(temp, eTimerReelStopAvailable, m_reelData.reelID))
 					pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
-				m_speed = speedMax; m_nowStatus = eRotating;
+				m_speed = m_speedMax; m_nowStatus = eRotating;
 			}
 			m_rotatePos -= m_speed;
 		}
@@ -83,6 +87,7 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 	}
 	m_comaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
 	m_lastStatus = m_nowStatus;
+	if (!pTimer.GetTime(m_lastRotationTime, eTimerReelStart, m_reelData.reelID)) m_lastRotationTime = -1;
 	return true;
 }
 
@@ -164,4 +169,63 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, i
 bool CReel::DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas, unsigned int pComaStart) const{
 	if (pComaStart >= m_reelData.arrayData.size()) return false;
 	return DrawReelMain(pDataManager, pData, pCanvas, pComaStart, true);
+}
+
+bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorManager* const pColorData, const SReelDrawDataFromCSV pData) const {
+	// src画像を仮描画スクリーンに描画する
+	const unsigned int comaDivNum = m_reelData.arrayData.size();
+	int destY = 0;
+	int comaSizeY = 0;
+	DxLib::SetDrawScreen(pData.preDrawScr);
+	DxLib::ClearDrawScreen();								// 仮描画画面は自動クリアされる
+	DxLib::SetDrawMode(DX_DRAWMODE_NEAREST);
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 255);	// src画像を生成するため、固定(colorManagerの値は反映)
+	
+	const int comaBegin = (pData.comaBegin < 0 ? m_comaPos : pData.comaBegin) - pData.originComa;
+	for (unsigned int i = 0; i < pData.comaNum; ++i) {
+		// コマ番号を取得
+		const unsigned int pos = (comaDivNum + comaBegin + i) % comaDivNum;
+		const int comaNumber = m_reelData.arrayData[pos];
+		const int comaColorID =
+			i < pData.originComa ? 0 :
+			i - pData.originComa >= pData.comaIndexMax ? pData.comaIndexMax - 1 : i - pData.originComa;
+
+		// src定義を使用して仮描画
+		auto srcData = pSrcData->GetImageSource(comaNumber, 0);
+		if (pColorData != nullptr) pColorData->GetColorData(pDataManager, srcData, comaColorID);
+		DxLib::SetDrawBright(srcData.r, srcData.g, srcData.b);
+		DxLib::DrawRectGraph(
+			0, destY, srcData.x, srcData.y, srcData.w, srcData.h,
+			pDataManager.GetDataHandle(srcData.imageID), TRUE
+		);
+		destY += srcData.h;
+		if(i==0) comaSizeY = srcData.h; 
+	}
+
+	// 仮描画した画像を用いて本画面に画像を描画
+	const int drawOffset = pData.comaBegin < 0 ?
+		floor(m_rotatePos - comaSizeY * floor(m_rotatePos / comaSizeY)) : 0;
+	int backTime = m_lastRotationTime;
+	float blewOffset = 0.f;
+
+	DxLib::SetDrawScreen(pData.destScr);
+	DxLib::SetDrawMode(pData.extendModeID);
+	DxLib::SetDrawBright(255, 255, 255);
+	for (int blewCount = 0; blewCount <= pData.blew; ++blewCount) {
+		for (int i = 0; i < pData.blewTime && blewCount>0; ++i) {
+			if (--backTime < 0) break;
+			if (backTime >= m_reelData.accTime) blewOffset += m_speedMax;
+			else blewOffset += (m_speedMax - m_accVal * (m_reelData.accTime - backTime));
+		}
+		const float opacityRate = 1.f / pow(2.5f,blewCount);
+
+		DxLib::SetDrawBlendMode(pData.blendModeID, static_cast<int>(pData.a * opacityRate));
+		DxLib::DrawRectExtendGraph(
+			pData.dstPos.x, pData.dstPos.y, pData.dstPos.x + pData.dstPos.w, pData.dstPos.y + pData.dstPos.h,
+			pData.srcPos.x, pData.srcPos.y + drawOffset + blewOffset, pData.srcPos.w, pData.srcPos.h,
+			pData.preDrawScr, TRUE
+		);
+		if (m_nowStatus == eStoping) break;
+	}
+	return true;
 }

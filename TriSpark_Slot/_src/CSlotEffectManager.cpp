@@ -38,7 +38,13 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
-		break;
+		for (auto it = mEffectData.clearScreenData.begin(); it != mEffectData.clearScreenData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mVariableManager.ClearScreen(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		return false;
 	}
 	return true;
 }
