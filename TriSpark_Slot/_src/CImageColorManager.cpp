@@ -144,13 +144,15 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 	unsigned int posY = nowData.directionY ? pImageIndex % abs(mVarManager.GetVal(nowData.numY)) : pImageIndex / abs(mVarManager.GetVal(nowData.numX));
 	if (mVarManager.GetVal(nowData.numX) < 0) posX = abs(mVarManager.GetVal(nowData.numX)) - posX - 1;
 	if (mVarManager.GetVal(nowData.numY) < 0) posY = abs(mVarManager.GetVal(nowData.numY)) - posY - 1;
-	posX += mVarManager.GetVal(nowData.x);
-	posY += mVarManager.GetVal(nowData.y);
+	posX *= (mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX)));
+	posY *= (mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY)));
 
 	unsigned int indexX = nowData.isColorIndexDirY ? pColorIndex / abs(height) : pColorIndex % abs(width);
 	unsigned int indexY = nowData.isColorIndexDirY ? pColorIndex % abs(height) : pColorIndex / abs(width);
 	if (width < 0) indexX = abs(width) - indexX - 1;
 	if (height < 0) indexY = abs(height) - indexY - 1;
+	indexX += mVarManager.GetVal(nowData.x);
+	indexY += mVarManager.GetVal(nowData.y);
 
 	int grHandle = pGameData.GetDataHandle(mVarManager.GetVal(nowData.imageID));
 	int ans = DxLib::GetPixelSoftImage(grHandle, posX + indexX, posY + indexY, &pData.r, &pData.g, &pData.b, NULL);

@@ -188,7 +188,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 		const int comaNumber = m_reelData.arrayData[pos];
 		const int comaColorID =
 			i < pData.originComa ? 0 :
-			i - pData.originComa >= pData.comaIndexMax ? pData.comaIndexMax - 1 : i - pData.originComa;
+			i - pData.originComa >= pData.comaIndexMax ? pData.comaIndexMax : i - pData.originComa;
 
 		// src’è‹`‚ðŽg—p‚µ‚Ä‰¼•`‰æ
 		auto srcData = pSrcData->GetImageSource(comaNumber, 0);
