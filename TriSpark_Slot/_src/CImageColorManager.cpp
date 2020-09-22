@@ -169,7 +169,7 @@ void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDe
 	if (pNextImg < GetComaNum(pNowDef)) return;
 
 	pNextDef = pNowDef+1; pNextImg = 0;
-	if ((size_t)pNextDef < mCommonData.size()-1) return;
+	if ((size_t)pNextDef < mCommonData.size()) return;
 
 	pNextDef = mCommonData.size() - 1;
 	for (size_t i = 0; i < mCommonData.size(); ++i) {
