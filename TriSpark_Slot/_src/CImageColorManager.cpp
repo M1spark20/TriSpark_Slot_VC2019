@@ -15,8 +15,8 @@ CImageColorManager::CImageColorManager(CEffectVariableManager& pVarManager)
 //		pVariableManager	: 変数管理用関数を指定→値はポインタで管理する
 // [ret]データ取得に成功したかどうか
 bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
-	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 12);
-	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 14);
+	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 13);
+	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 15);
 
 	try {
 		SImageColorCSVCommonData data;
@@ -31,10 +31,11 @@ bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 		data.directionY = pReadData[9] == "Y";
 		data.isColorIndexDirY = pReadData[10] == "Y";
 		data.useAnimation = pReadData[11] == "T";
+		data.loopCount = mVarManager.MakeValID(pReadData[12]);
 
 		if (mCommonData.empty()) {
-			mTimerID = pTimerManager.GetTimerHandle(pReadData[12]);
-			mLoopTime = mVarManager.MakeValID(pReadData[13]);
+			mTimerID = pTimerManager.GetTimerHandle(pReadData[13]);
+			mLoopTime = mVarManager.MakeValID(pReadData[14]);
 		}
 
 		mCommonData.push_back(data);
@@ -100,6 +101,7 @@ double CImageColorManager::GetImageIndex(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1.;
 
 	const int comaNum = GetComaNum(pDefinitionIndex);
+	if (comaNum == 0) return 0;
 	if (comaNum == -1) return -1.;
 	const long long offset = mVarManager.GetVal(mCommonData[pDefinitionIndex].startTime);
 	const long long interval = -offset + ((size_t)pDefinitionIndex + 1 == mCommonData.size() ?
@@ -123,7 +125,8 @@ double CImageColorManager::GetImageIndex(int pDefinitionIndex) {
 //		else: 利用可能コマ数
 int CImageColorManager::GetComaNum(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
-	return abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numX)) * abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numY));
+	const int hoge = mVarManager.GetVal(mCommonData[pDefinitionIndex].loopCount);
+	return abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numX)) * abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numY)) * mVarManager.GetVal(mCommonData[pDefinitionIndex].loopCount);
 }
 
 
@@ -140,8 +143,10 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 		return false;
 	}
 
-	unsigned int posX = nowData.directionY ? pImageIndex / abs(mVarManager.GetVal(nowData.numY)) : pImageIndex % abs(mVarManager.GetVal(nowData.numX));
-	unsigned int posY = nowData.directionY ? pImageIndex % abs(mVarManager.GetVal(nowData.numY)) : pImageIndex / abs(mVarManager.GetVal(nowData.numX));
+	const unsigned int baseImageIndexNum = abs(mVarManager.GetVal(nowData.numX)) * abs(mVarManager.GetVal(nowData.numY));
+	const unsigned int imageIndexForComa = pImageIndex % baseImageIndexNum;
+	unsigned int posX = nowData.directionY ? imageIndexForComa / abs(mVarManager.GetVal(nowData.numY)) : imageIndexForComa % abs(mVarManager.GetVal(nowData.numX));
+	unsigned int posY = nowData.directionY ? imageIndexForComa % abs(mVarManager.GetVal(nowData.numY)) : imageIndexForComa / abs(mVarManager.GetVal(nowData.numX));
 	if (mVarManager.GetVal(nowData.numX) < 0) posX = abs(mVarManager.GetVal(nowData.numX)) - posX - 1;
 	if (mVarManager.GetVal(nowData.numY) < 0) posY = abs(mVarManager.GetVal(nowData.numY)) - posY - 1;
 	posX *= (mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX)));

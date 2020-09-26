@@ -34,6 +34,7 @@ struct SImageColorCSVCommonData {
 	int imageID;
 	int x, y, w, h;
 	int numX, numY;
+	int loopCount;
 	bool directionY;
 	bool isColorIndexDirY;
 	bool useAnimation;
