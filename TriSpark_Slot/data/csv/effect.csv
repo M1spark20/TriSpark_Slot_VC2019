@@ -272,7 +272,7 @@
 ;[src],time,graph,x,y,w,h,numX,numY,direction,timerID,loopTime,,,,,,,,,,,,
 #imgSrc,0,8,741,858,12,12,1,1,X,@general,0,,,,,,,,,,,,
 ;[colormap],time,graph,x,y,w,h,numX,numY,direction,colorMapY,useAnimation,loopCount,timerID,loopTime,,,,,,,,,
-#imgColorMap,0,11,0,0,60,43,1,43,Y,X,T,0,@general,0,,,,,,,,,
+#imgColorMap,0,11,0,0,60,43,1,43,Y,X,T,1,@general,0,,,,,,,,,
 #imgColorMap,500,11,0,0,60,43,1,43,Y,X,T,0,,,,,,,,,,,
 ;[dst],screenID,time,x,y,w,h,a,extend,blend,timerID,loopTime,drawNum,dx,dy,,,,,,,,,
 #imgDst,*mainScr,0,434,262,12,12,255,Nearest,Add,@general,0,60,12,0,,,,,,,,,
