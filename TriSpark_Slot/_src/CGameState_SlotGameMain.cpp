@@ -57,12 +57,11 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 }
 
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
-	SReelDrawData data;
-
 	m_data.effectManager.Draw(pDataManageIns);
 
 	// ƒŠ[ƒ‹b’è
-	/*for (int i = 0; i < 3; ++i){
+	/*SReelDrawData data;
+	for (int i = 0; i < 3; ++i){
 		data.reelID = i; data.x = 290.f + i * 346.f; data.y = 352.f;
 		data.comaW = 330.f; data.comaH = 150.f;
 		data.offsetLower = 8; data.offsetUpper = 20; data.comaNum = 3;
