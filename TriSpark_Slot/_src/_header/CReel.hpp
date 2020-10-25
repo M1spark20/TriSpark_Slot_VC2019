@@ -8,7 +8,7 @@ class CGameDataManage;
 class CSlotTimerManager;
 class IImageSourceManager;
 class CImageColorManager;
-
+class CImageColorController;
 
 enum EReelStatus{
 	eStoping,
@@ -51,5 +51,5 @@ public:
 	bool			Process(CSlotTimerManager& pTimer);
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas) const;
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas, unsigned int pComaStart) const;
-	bool			DrawReel(const CGameDataManage& pDataManager, IImageSourceManager *const pSrcData, CImageColorManager *const pColorData, const SReelDrawDataFromCSV pData) const;
+	bool			DrawReel(const CGameDataManage& pDataManager, IImageSourceManager *const pSrcData, CImageColorController& pColorData, const SReelDrawDataFromCSV pData) const;
 };

@@ -6,6 +6,7 @@
 #include "_header/ImageSourceManager.hpp"
 #include "_header/CImageColorManager.hpp"
 #include "_header/CReelManager.hpp"
+#include "_header/CImageColorController.hpp"
 #include "DxLib.h"
 
 // [act]変数の初期化と関数ポインタの設定を行う
@@ -199,7 +200,7 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 
 // [act]描画を行う
 //		アニメーション実装は後で
-void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) {
+void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 
@@ -208,8 +209,12 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 
 	for (int i = 0; i < mVarManager.GetVal(mDrawNum); ++i) {
 		auto source = pSourceData->GetImageSource(i, mVarManager.GetVal(mDrawNum));
-		if (pColorData != nullptr)
-			if(!pColorData->GetColorData(pDataManager, source, i)) return;
+		for (int colorC = 0; ; ++colorC) {
+			const auto colorPtr = pColorData.GetColorData(pSourceData->GetEffectDataName(), colorC);
+			if (colorPtr == nullptr) break;
+			if (colorPtr->GetColorData(pDataManager, source, i)) break;	// trueで正常なセット完了
+		}
+
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
 		const int drawPos[]  = {
@@ -293,7 +298,7 @@ bool CImageDestinationReel::Init(StringArr pReadData, CSlotTimerManager& pTimerD
 	return IImageDestinationManager::Init(pReadData, pTimerData);
 }
 
-void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) {
+void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 	const auto& destData = mCommonData[dataIndex];

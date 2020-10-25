@@ -177,6 +177,9 @@
     <ClCompile Include="_src\CImageColorManager.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CImageColorController.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -336,6 +339,9 @@
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
     <ClInclude Include="_src\_header\CImageColorManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CImageColorController.hpp">
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClInclude>
   </ItemGroup>

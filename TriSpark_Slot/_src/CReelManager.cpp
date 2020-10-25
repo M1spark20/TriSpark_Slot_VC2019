@@ -50,7 +50,7 @@ bool CReelManager::DrawReel(const CGameDataManage& pDataManager, const SReelDraw
 	return false;
 }
 
-bool CReelManager::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorManager* const pColorData, const SReelDrawDataFromCSV pData) const{
+bool CReelManager::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorController& pColorData, const SReelDrawDataFromCSV pData) const{
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pData.reelID) continue;
 		return it->DrawReel(pDataManager, pSrcData, pColorData, pData);

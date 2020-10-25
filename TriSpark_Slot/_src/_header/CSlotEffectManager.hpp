@@ -12,6 +12,7 @@ class CSlotInternalDataManager;
 class CSlotEffectManager {
 	SSlotEffectData			mEffectData;
 	CEffectVariableManager	mVariableManager;
+
 public:
 	bool Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel);
 	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal);

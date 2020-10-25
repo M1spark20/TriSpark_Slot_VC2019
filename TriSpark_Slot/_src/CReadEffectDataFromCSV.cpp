@@ -15,16 +15,20 @@ bool CReadEffectDataFromCSV::FileInit(int pFileID) {
 	return !m_ReadDataAll.empty();
 }
 
-void CReadEffectDataFromCSV::PushImgData(SSlotEffectData& pData, std::unique_ptr<IImageSourceManager>& sourcePtr, std::unique_ptr<CImageColorManager>& colorPtr, std::unique_ptr<IImageDestinationManager>& destPtr) {
+void CReadEffectDataFromCSV::PushImgData(SSlotEffectData& pData, std::unique_ptr<IImageSourceManager>& sourcePtr, std::unique_ptr<IImageDestinationManager>& destPtr) {
+	pData.colorController.CreateActionData(sourcePtr->GetEffectDataName());	// ãÛÇÃéûÇÕâΩÇ‡çÏÇÁÇ∏ÉXÉãÅ[Ç∑ÇÈ
 	pData.imgData.push_back(std::pair<int, SImageEffectData>());
 	auto pushData = pData.imgData.end() - 1;
 	pushData->first = mOrderCounter++;
 	pushData->second.pSource.swap(sourcePtr);
-	pushData->second.pColor.swap(colorPtr);
 	pushData->second.pDest.swap(destPtr);
 	sourcePtr.reset(nullptr);
-	colorPtr.reset(nullptr);
 	destPtr.reset(nullptr);
+}
+
+void CReadEffectDataFromCSV::PushColorData(SSlotEffectData& pData, std::unique_ptr<CImageColorManager>& colorPtr) {
+	pData.colorController.AddColorData(*colorPtr);
+	colorPtr.reset(nullptr);
 }
 
 bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableManager& pVar, CSlotTimerManager& pTimer, CReelManager& pReel) {
@@ -39,7 +43,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 		if (NowGetStr.at(0)[0] == ';') continue;
 		if (NowGetStr.at(0) == "#imgSrc") {
 			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eImgSrc) return false;
-			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, colorPtr, destPtr);
+			if (mReadStatus == EReadStatus::eColorMap) return false;
+			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 			if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceDefault(pVar));
 
 			mReadStatus = EReadStatus::eSource;
@@ -48,7 +53,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 		}
 		if (NowGetStr.at(0) == "#numSrc") {
 			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eNumSrc) return false;
-			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, colorPtr, destPtr);
+			if (mReadStatus == EReadStatus::eColorMap) return false;
+			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 			if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceNumber(pVar));
 
 			mReadStatus = EReadStatus::eSource;
@@ -57,7 +63,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 		}
 		if (NowGetStr.at(0) == "#reelSrc") {
 			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc) return false;
-			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, colorPtr, destPtr);
+			if (mReadStatus == EReadStatus::eColorMap) return false;
+			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 			if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceReel(pVar));
 
 			mReadStatus = EReadStatus::eSource;
@@ -65,18 +72,25 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 			if(!sourcePtr->Init(NowGetStr, pTimer)) return false;
 		}
 		if (NowGetStr.at(0) == "#imgColorMap") {
-			if (mReadStatus == EReadStatus::eDestination) return false;
+			if (mReadStatus == EReadStatus::eSource) return false;
+			if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 			if (colorPtr == nullptr) colorPtr.reset(new CImageColorManager(pVar));
 
-			//mReadStatus = EReadStatus::eColorMap;
-			//mHeading = ENowReadingHead::eImgCM;
+			mReadStatus = EReadStatus::eColorMap;
+			mHeading = ENowReadingHead::eImgCM;
 			if(!colorPtr->Init(NowGetStr, pTimer)) return false;
+		}
+		if (NowGetStr.at(0) == "#setColorMap") {
+			if (colorPtr != nullptr) PushColorData(pData, colorPtr);
+			mReadStatus = EReadStatus::eInitial;
+			mHeading = ENowReadingHead::eNone;
 		}
 		if (NowGetStr.at(0) == "#imgDst") {
 			if (mReadStatus == EReadStatus::eDestination && mHeading != ENowReadingHead::eImgDst) return false;
 			if (mReadStatus == EReadStatus::eSource) {
 				if (mHeading != ENowReadingHead::eImgSrc && mHeading != ENowReadingHead::eNumSrc) return false;
 			}
+			if (mReadStatus == EReadStatus::eColorMap) return false;
 			if (destPtr == nullptr) destPtr.reset(new CImageDestinationDefault(pVar));
 
 			mReadStatus = EReadStatus::eDestination;
@@ -86,6 +100,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 		if (NowGetStr.at(0) == "#reelDst") {
 			if (mReadStatus == EReadStatus::eDestination && mHeading != ENowReadingHead::eReelDst) return false;
 			if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc) return false;
+			if (mReadStatus == EReadStatus::eColorMap) return false;
 			if (destPtr == nullptr) destPtr.reset(new CImageDestinationReel(pVar, pReel));
 
 			mReadStatus = EReadStatus::eDestination;
@@ -100,6 +115,6 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 		}
 	}
 
-	if(sourcePtr != nullptr && destPtr != nullptr) PushImgData(pData, sourcePtr, colorPtr, destPtr);
+	if(sourcePtr != nullptr && destPtr != nullptr) PushImgData(pData, sourcePtr, destPtr);
 	return true;
 }

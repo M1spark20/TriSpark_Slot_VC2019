@@ -16,7 +16,7 @@ CImageColorManager::CImageColorManager(CEffectVariableManager& pVarManager)
 // [ret]データ取得に成功したかどうか
 bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 13);
-	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 15);
+	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 16);
 
 	try {
 		SImageColorCSVCommonData data;
@@ -36,6 +36,7 @@ bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 		if (mCommonData.empty()) {
 			mTimerID = pTimerManager.GetTimerHandle(pReadData[13]);
 			mLoopTime = mVarManager.MakeValID(pReadData[14]);
+			mDataSetName = pReadData[15];
 		}
 
 		mCommonData.push_back(data);
@@ -50,7 +51,7 @@ bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 // [act]ループ点を考慮した操作に使用する時間を割り出す
 // [prm]pNowCount	: 現在のタイマカウント
 // [ret]描画に使用するタイマカウント
-long long CImageColorManager::GetCheckTime(const long long pNowCount) {
+long long CImageColorManager::GetCheckTime(const long long pNowCount) const{
 	const long long loopTime = mVarManager.GetVal(mLoopTime);
 	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
 
@@ -65,7 +66,7 @@ long long CImageColorManager::GetCheckTime(const long long pNowCount) {
 // [act]タイマー状況から読み出しタイミングで使用する画像定義を決定する
 // [ret]-1	:今回は描画を行うタイミングではない場合
 //		else:描画する定義ID @mCommonData
-int CImageColorManager::GetDefinitionIndex() {
+int CImageColorManager::GetDefinitionIndex() const{
 	if (mCommonData.empty()) return -1;
 	if (!GetIsTimerSet() || !GetIsTimerEnable()) return -1;
 	const auto definitionNum = mCommonData.size();
@@ -97,7 +98,7 @@ int CImageColorManager::GetDefinitionIndex() {
 // [prm]pDefinitionIndex	: 描画する定義ID @mCommonData
 // [ret]-1	: エラー
 //		else: 画像コマID
-double CImageColorManager::GetImageIndex(int pDefinitionIndex) {
+double CImageColorManager::GetImageIndex(int pDefinitionIndex) const{
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1.;
 
 	const int comaNum = GetComaNum(pDefinitionIndex);
@@ -123,7 +124,7 @@ double CImageColorManager::GetImageIndex(int pDefinitionIndex) {
 // [prm]pDefinitionIndex	: 描画する定義ID @mCommonData
 // [ret]-1	: エラー
 //		else: 利用可能コマ数
-int CImageColorManager::GetComaNum(int pDefinitionIndex) {
+int CImageColorManager::GetComaNum(int pDefinitionIndex) const{
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
 	const int hoge = mVarManager.GetVal(mCommonData[pDefinitionIndex].loopCount);
 	return abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numX)) * abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numY)) * mVarManager.GetVal(mCommonData[pDefinitionIndex].loopCount);
@@ -131,7 +132,7 @@ int CImageColorManager::GetComaNum(int pDefinitionIndex) {
 
 
 // [act]definitionIndexとimageIndexから色情報を取り出す
-bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex) {
+bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex) const{
 	// indexに応じて画像を切り出す
 	const auto& nowData = mCommonData[pDefinitionIndex];
 	const int width = mVarManager.GetVal(nowData.w);
@@ -169,7 +170,7 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 //		pNowImg		: 現在のimageID
 //		pNextDef	: 次回のdefinitionID格納先(定義がない場合-1)
 //		pNextImg	: 次回のimageID格納先(定義がない場合-1)
-void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg) {
+void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg) const{
 	pNextDef = pNowDef; pNextImg = pNowImg + 1;
 	if (pNextImg < GetComaNum(pNowDef)) return;
 
@@ -187,7 +188,7 @@ void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDe
 
 // [act]画像読み込み参照先に色情報を付与する
 // [prm]pWriteIndex	: 何枚目の描画画像の取り出しを行うかを指定
-bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pWriteIndex) {
+bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pWriteIndex) const{
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return false;
 	const auto imageIndex = GetImageIndex(dataIndex);

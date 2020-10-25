@@ -14,6 +14,7 @@ class CSlotTimerManager;
 class IImageSourceManager : public CEffectImageCommonComponent {
 protected:
 	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvから読みだしたsrcデータ、複数定義可能
+	std::string mEffectDataName;
 
 	typedef std::vector<std::string> StringArr;
 
@@ -35,6 +36,8 @@ public:
 	virtual bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager);
 	// [act]画像読み込み参照先を返す
 	virtual SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) = 0;
+	// [act]エフェクト変数を返す
+	std::string						GetEffectDataName() const { return mEffectDataName; }
 };
 
 class CImageSourceDefault : public IImageSourceManager {

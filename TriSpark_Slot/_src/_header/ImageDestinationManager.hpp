@@ -11,6 +11,7 @@ class IImageSourceManager;
 class CImageColorManager;
 class CGameDataManage;
 class CReelManager;
+class CImageColorController;
 
 class IImageDestinationManager : public CEffectImageCommonComponent {
 private:
@@ -37,7 +38,7 @@ public:
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	virtual bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData);
 	// [act]
-	virtual void	Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) = 0;
+	virtual void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) = 0;
 };
 
 class CImageDestinationDefault : public IImageDestinationManager {
@@ -50,7 +51,7 @@ public:
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
 	// [act]描画を行う
-	void	Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) override;
+	void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) override;
 };
 
 class CImageDestinationReel : public IImageDestinationManager {
@@ -69,5 +70,5 @@ public:
 	// [act]文字列配列"pReadData"からsrcデータを取得する
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
 	// [act]描画を行う
-	void	Draw(IImageSourceManager *const pSourceData, CImageColorManager* pColorData, CGameDataManage& pDataManager) override;
+	void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) override;
 };

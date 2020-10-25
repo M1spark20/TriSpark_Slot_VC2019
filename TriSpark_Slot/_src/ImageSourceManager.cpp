@@ -8,6 +8,7 @@
 IImageSourceManager::IImageSourceManager(CEffectVariableManager& pVarManager)
 	: CEffectImageCommonComponent(pVarManager){
 	mCommonData.clear();
+	mEffectDataName = "";
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
@@ -30,6 +31,7 @@ bool IImageSourceManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMan
 		if (mCommonData.empty()) {
 			mTimerID = pTimerManager.GetTimerHandle(pReadData[10]);
 			mLoopTime = mVarManager.MakeValID(pReadData[11]);
+			mEffectDataName = pReadData[12];
 		}
 
 		mCommonData.push_back(data);
@@ -154,7 +156,7 @@ CImageSourceDefault::CImageSourceDefault(CEffectVariableManager& pVarManager)
 bool CImageSourceDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
-		if (pReadData.size() < 12 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 12);
+		if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 13);
 	}
 	catch (ErrLessCSVDefinition e) {
 		e.WriteErrLog();
@@ -188,7 +190,7 @@ CImageSourceNumber::CImageSourceNumber(CEffectVariableManager& pVarManager)
 bool CImageSourceNumber::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
-		if (pReadData.size() < 16 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 16);
+		if (pReadData.size() < 16 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 17);
 	}
 	catch (ErrLessCSVDefinition e) {
 		e.WriteErrLog();
@@ -197,10 +199,10 @@ bool CImageSourceNumber::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 
 	if (mCommonData.empty()) {
 		try {
-			mNumSource		= mVarManager.MakeValID(pReadData[12]);
-			mNumAlign		= pReadData[13] == "L" ? EAlign::eLeft : EAlign::eRight;
-			mPaddingFlag	= pReadData[14] == "T";
-			mDrawMinusFlag	= pReadData[15] == "T";
+			mNumSource		= mVarManager.MakeValID(pReadData[13]);
+			mNumAlign		= pReadData[14] == "L" ? EAlign::eLeft : EAlign::eRight;
+			mPaddingFlag	= pReadData[15] == "T";
+			mDrawMinusFlag	= pReadData[16] == "T";
 		}
 		catch (ErrUndeclaredVar e) {
 			e.WriteErrLog();
@@ -280,7 +282,7 @@ CImageSourceReel::CImageSourceReel(CEffectVariableManager& pVarManager)
 bool CImageSourceReel::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
-		if (pReadData.size() < 12 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 12);
+		if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 13);
 	}
 	catch (ErrLessCSVDefinition e) {
 		e.WriteErrLog();

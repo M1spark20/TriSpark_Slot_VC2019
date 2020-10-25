@@ -5,6 +5,7 @@
 #include "_header\CSlotTimerManager.hpp"
 #include "_header/ImageSourceManager.hpp"
 #include "_header/CImageColorManager.hpp"
+#include "_header/CImageColorController.hpp"
 #include <cmath>
 
 bool CReel::Init(const SReelChaData& pReelData){
@@ -171,7 +172,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, i
 	return DrawReelMain(pDataManager, pData, pCanvas, pComaStart, true);
 }
 
-bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorManager* const pColorData, const SReelDrawDataFromCSV pData) const {
+bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorController& pColorData, const SReelDrawDataFromCSV pData) const {
 	// src画像を仮描画スクリーンに描画する
 	const unsigned int comaDivNum = m_reelData.arrayData.size();
 	int destY = 0;
@@ -192,7 +193,11 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 
 		// src定義を使用して仮描画
 		auto srcData = pSrcData->GetImageSource(comaNumber, 0);
-		if (pColorData != nullptr) pColorData->GetColorData(pDataManager, srcData, comaColorID);
+		for (int colorC = 0; ; ++colorC) {
+			const auto colorPtr = pColorData.GetColorData(pSrcData->GetEffectDataName(), colorC);
+			if (colorPtr == nullptr) break;
+			if (colorPtr->GetColorData(pDataManager, srcData, i)) break;	// trueで正常なセット完了
+		}
 		DxLib::SetDrawBright(srcData.r, srcData.g, srcData.b);
 		DxLib::DrawRectGraph(
 			0, destY, srcData.x, srcData.y, srcData.w, srcData.h,
