@@ -159,7 +159,6 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 }
 
 bool CSlotFlowPayout::Init(SSlotGameDataWrapper& pGameData){
-	pGameData.timeManager.DisableTimer(eTimerAllReelStart);
 	pGameData.timeManager.SetTimer(eTimerPayout);
 	if (!pGameData.castChecker.SetCastData(pGameData)) return false;
 	m_payoutFor = pGameData.castChecker.GetPayout();
