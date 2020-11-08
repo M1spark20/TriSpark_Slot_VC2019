@@ -119,7 +119,7 @@ bool CSlotTimerManager::GetTimeDiff(long long& pInputFor, EReelTimerID pID, int 
 }
 
 // effect用自由タイマー
-int CSlotTimerManager::GetTimerHandle(std::string pID) {
+int CSlotTimerManager::GetTimerHandle(std::string pID) const{
 	if(pID.empty()) throw ErrUndeclaredVar("Time: <Empty>");
 	const std::string id = pID[0] == '@' ? pID.substr(1) : pID;
 	for (auto it = mTimerNameList.cbegin(); it != mTimerNameList.cend(); ++it) {

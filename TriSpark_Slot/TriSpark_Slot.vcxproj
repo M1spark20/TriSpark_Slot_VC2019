@@ -43,6 +43,7 @@
     <ClCompile Include="_src\CReelManager.cpp" />
     <ClCompile Include="_src\CSlotCastChecker.cpp" />
     <ClCompile Include="_src\CSlotEffectManager.cpp" />
+    <ClCompile Include="_src\CSlotEffectVariableCompare.cpp" />
     <ClCompile Include="_src\CSlotFlowList.cpp" />
     <ClCompile Include="_src\CSlotInternalDataManager.cpp" />
     <ClCompile Include="_src\CSlotTimerManager.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="_src\_header\CReelManager.hpp" />
     <ClInclude Include="_src\_header\CSlotCastChecker.hpp" />
     <ClInclude Include="_src\_header\CSlotEffectManager.hpp" />
+    <ClInclude Include="_src\_header\CSlotEffectVariableCompare.hpp" />
     <ClInclude Include="_src\_header\CSlotFlowList.hpp" />
     <ClInclude Include="_src\_header\CSlotInternalDataManager.hpp" />
     <ClInclude Include="_src\_header\CSlotTimerManager.hpp" />
@@ -111,6 +113,7 @@
     <ClInclude Include="_src\_header\SReelControlData.hpp" />
     <ClInclude Include="_src\_header\SReelDrawData.hpp" />
     <ClInclude Include="_src\_header\SReelFrashConfig.hpp" />
+    <ClInclude Include="_src\_header\SSlotEffectVariableCondition.hpp" />
     <ClInclude Include="_src\_header\SSlotGameDataWrapper.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

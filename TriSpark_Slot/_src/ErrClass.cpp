@@ -32,3 +32,13 @@ void ErrInternalVarUndeclared::WriteErrLog() {
 		"Internal Variable: \"" + mInvalidVarName + "\" was empty or null.";
 	DxLib::ErrorLogFmtAdd(str.c_str());
 }
+
+ErrIllegalCSVDefinition::ErrIllegalCSVDefinition(int pRowCount, std::string pDefinition)
+	: mRowCount(pRowCount), mCSVDefinition(pDefinition) {}
+
+void ErrIllegalCSVDefinition::WriteErrLog() {
+	const std::string str =
+		"Illegal CSV definition(Line:" + std::to_string(mRowCount) + ") : " + mCSVDefinition;
+	DxLib::ErrorLogFmtAdd(str.c_str());
+
+}

@@ -67,6 +67,12 @@
     <Filter Include="ソース ファイル\エラークラス">
       <UniqueIdentifier>{c15992a4-b755-4e2f-9973-815696a12be0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\スロット本体内クラス\エフェクト関係\条件関係">
+      <UniqueIdentifier>{39889224-3d15-4f2c-8897-4faa80cbe789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\スロット本体内クラス\エフェクト関係\条件関係">
+      <UniqueIdentifier>{ac5533c6-42cf-4a94-81dc-181a2acec4fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_src\setup.cpp">
@@ -179,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="_src\CImageColorController.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotEffectVariableCompare.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係\条件関係</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="_src\_header\CImageColorController.hpp">
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotEffectVariableCompare.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係\条件関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SSlotEffectVariableCondition.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

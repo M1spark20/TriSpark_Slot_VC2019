@@ -58,7 +58,7 @@ public:
 	bool	GetTimeDiff(long long& pInputFor, ESystemTimerID pID, bool pRefreshFlag = true);
 	bool	GetTimeDiff(long long& pInputFor, EReelTimerID pID, int pReelID, bool pRefreshFlag = true);
 
-	int		GetTimerHandle(std::string pID);
+	int		GetTimerHandle(std::string pID) const;
 	bool	CreateNewTimer(std::string pID);
 	bool	GetTimeFromTimerHandle(long long& pInputFor, int pHandle) const;
 };

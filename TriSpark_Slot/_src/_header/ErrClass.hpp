@@ -28,3 +28,11 @@ public:
 	ErrInternalVarUndeclared(std::string varName);
 	void WriteErrLog() override;
 };
+
+class ErrIllegalCSVDefinition : public IErrClassBase {
+	const int mRowCount;
+	const std::string mCSVDefinition;
+public:
+	ErrIllegalCSVDefinition(int pRowCount, std::string pDefinition);
+	void WriteErrLog() override;
+};

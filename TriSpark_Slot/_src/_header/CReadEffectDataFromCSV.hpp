@@ -16,6 +16,8 @@ class CReadEffectDataFromCSV : IReadCSVBase {
 	} mHeading;
 	int mOrderCounter;
 
+	CSlotEffectVariableCompareMaker mConditionData;
+
 	void PushImgData(SSlotEffectData& pData, std::unique_ptr<IImageSourceManager>& sourcePtr, std::unique_ptr<IImageDestinationManager>& destPtr);
 	void PushColorData(SSlotEffectData& pData, std::unique_ptr<CImageColorManager>& colorPtr);
 

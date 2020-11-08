@@ -6,9 +6,10 @@
 // [act]システム変数の初期化を行う
 // [ret]初期化が正常に行われたかどうか
 bool CEffectVariableManager::Init() {
-	// 描画テストのためにcreditとpayoutのみとりあえず定義
+	// 描画テストのためとりあえず定義
 	CreateNewVar("credit", 0);
 	CreateNewVar("payout", 0);
+	CreateNewVar("betNum", 0);
 	return true;
 }
 
@@ -19,6 +20,7 @@ bool CEffectVariableManager::Process(const CSlotInternalDataManager& pIntData) {
 	const auto data = pIntData.GetData();
 	SetVarVal("credit", data.credit);
 	SetVarVal("payout", data.payout);
+	SetVarVal("betNum", data.betNum);
 	return true;
 }
 
@@ -65,6 +67,24 @@ int CEffectVariableManager::MakeValID(std::string pValName) {
 	throw ErrUndeclaredVar(pValName);
 }
 
+// [act]変数名からIDの取得を行う
+//		<Throwable>ErrUndeclaredVar
+// [prm]pValName	: 変数名(変数を示す$マークが必須) または 文字列で表した数値
+// [ret]変数ID
+int CEffectVariableManager::GetValIDFromName(std::string pValName) const{
+	if (pValName.empty()) throw ErrUndeclaredVar("Name: <Empty>");
+	if (pValName[0] == '$') {
+		const std::string registName = pValName.substr(1);
+		if (registName.empty()) throw ErrUndeclaredVar("Name: <Empty>");
+
+		for (auto it = mVariableName.begin(); it != mVariableName.end(); ++it) {
+			if (it->first != registName) continue;
+			return it->second;
+		}
+	}
+	throw ErrUndeclaredVar(pValName);
+}
+
 // [act]変数の値を更新する
 //		<Throwable>ErrUndeclaredVar
 // [prm]pValName	: 変数名、変数を示す$マークはあってもなくてもよい
@@ -85,7 +105,7 @@ void CEffectVariableManager::SetVarVal(std::string pValName, int pSetVal) {
 // [act]変数の値を取得する
 //		<Throwable>ErrUndeclaredVar
 // [prm]pValID		: 変数ID
-int CEffectVariableManager::GetVal(int pValID) {
+int CEffectVariableManager::GetVal(int pValID) const{
 	if (pValID < 0 || pValID >= mVariablePool.size()) throw ErrUndeclaredVar("id: " + std::to_string(pValID));
 	return mVariablePool[pValID];
 }
@@ -112,7 +132,7 @@ void CEffectVariableManager::MakeScreenID(StringArr pData) {
 	mScreenData.push_back(data);
 }
 
-int CEffectVariableManager::GetScreenID(std::string pValName) {
+int CEffectVariableManager::GetScreenID(std::string pValName) const{
 	if (pValName.empty()) throw ErrUndeclaredVar("Screen: <Empty>");
 	if (pValName[0] == '*') {
 		const std::string registName = pValName.substr(1);

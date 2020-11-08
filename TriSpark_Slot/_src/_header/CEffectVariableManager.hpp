@@ -20,10 +20,11 @@ public:
 	bool Process(const CSlotInternalDataManager& pIntData);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
-	int GetVal(int pValID);
+	int GetVal(int pValID) const;
+	int GetValIDFromName(std::string pValName) const;
 
 	void MakeScreenID(StringArr pData);
-	int GetScreenID(std::string pValName);
+	int GetScreenID(std::string pValName) const;
 	bool ClearScreen(std::string pValName);
 
 	~CEffectVariableManager();
