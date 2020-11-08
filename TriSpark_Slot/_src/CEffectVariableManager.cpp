@@ -10,6 +10,8 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("credit", 0);
 	CreateNewVar("payout", 0);
 	CreateNewVar("betNum", 0);
+	CreateNewVar("flagID", 0);
+	CreateNewVar("bonusID", 0);
 	return true;
 }
 
@@ -21,6 +23,8 @@ bool CEffectVariableManager::Process(const CSlotInternalDataManager& pIntData) {
 	SetVarVal("credit", data.credit);
 	SetVarVal("payout", data.payout);
 	SetVarVal("betNum", data.betNum);
+	SetVarVal("flagID", data.flag.first);
+	SetVarVal("bonusID", data.flag.second);
 	return true;
 }
 

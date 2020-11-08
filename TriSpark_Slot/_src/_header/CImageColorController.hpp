@@ -1,7 +1,22 @@
 #pragma once
 #include "CImageColorManager.hpp"
+#include <string>
 #include <vector>
 class CSlotTimerManager;
+
+struct SImageColorApplyData {
+	std::string applyTo;
+	std::vector<std::string> addCMName;
+	bool addFlag;
+};
+
+class CImageColorApplyDataBuilder {
+	SImageColorApplyData mApplyData;
+public:
+	CImageColorApplyDataBuilder() { mApplyData.addFlag = false; }
+	bool Init(std::vector<std::string> pStringArr);
+	SImageColorApplyData Extract() { return mApplyData; };
+};
 
 class CImageColorController {
 	std::vector<CImageColorManager>											mColorData;		// colorデータ一覧
@@ -17,7 +32,7 @@ public:
 	// [act]アクションデータID新規作成
 	void							CreateActionData(std::string pUseEffectName);
 	// [act]IDからアクションデータを追加
-	void							AddActionData(std::string pUseEffectName, std::string pColorDataName);
+	void							AddActionData(const SImageColorApplyData& pData);
 	// [act]指定IDのアクションデータをクリア
 	void							ResetActionData(std::string pUseEffectName);
 	// [act]描画に使用するcolorデータを呼び出す

@@ -196,7 +196,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 		for (int colorC = 0; ; ++colorC) {
 			const auto colorPtr = pColorData.GetColorData(pSrcData->GetEffectDataName(), colorC);
 			if (colorPtr == nullptr) break;
-			if (colorPtr->GetColorData(pDataManager, srcData, i)) break;	// trueで正常なセット完了
+			if (colorPtr->GetColorData(pDataManager, srcData, comaColorID)) break;	// trueで正常なセット完了
 		}
 		DxLib::SetDrawBright(srcData.r, srcData.g, srcData.b);
 		DxLib::DrawRectGraph(

@@ -1,6 +1,23 @@
 #include "_header/CImageColorController.hpp"
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/ErrClass.hpp"
+#include <stdexcept>
+
+bool CImageColorApplyDataBuilder::Init(std::vector<std::string> pStringArr) {
+	try {
+		mApplyData.applyTo = pStringArr.at(1);
+		mApplyData.addFlag = pStringArr.at(2) == "T";
+		const int addSize = std::stoi(pStringArr.at(3));
+		for (int i = 0; i < addSize; ++i) mApplyData.addCMName.push_back(pStringArr.at(4 + i));
+		return true;
+	}
+	catch (std::out_of_range e) {
+		return false;
+	}
+	catch (std::invalid_argument e) {
+		return false;
+	}
+}
 
 
 CImageColorManager& CImageColorController::GetColorDataByID(std::string pColorDataName) {
@@ -32,11 +49,13 @@ void CImageColorController::CreateActionData(std::string pUseEffectName) {
 	));
 }
 
-void CImageColorController::AddActionData(std::string pUseEffectName, std::string pColorDataName) {
+void CImageColorController::AddActionData(const SImageColorApplyData& pData) {
 	try {
-		auto colorData = GetColorDataByID(pColorDataName);
-		auto actionData = GetActionDataByID(pUseEffectName);
-		actionData.push_back(&colorData);
+		auto& actionData = GetActionDataByID(pData.applyTo);
+		if (!pData.addFlag) ResetActionData(pData.applyTo);
+		for (auto addData : pData.addCMName) {
+			actionData.push_back(&GetColorDataByID(addData));
+		}
 	}
 	catch (ErrUndeclaredVar e) {
 		e.WriteErrLog();
@@ -45,7 +64,7 @@ void CImageColorController::AddActionData(std::string pUseEffectName, std::strin
 
 void CImageColorController::ResetActionData(std::string pUseEffectName) {
 	try {
-		auto actionData = GetActionDataByID(pUseEffectName);
+		auto& actionData = GetActionDataByID(pUseEffectName);
 		actionData.clear();
 	}
 	catch (ErrUndeclaredVar e) {
@@ -74,10 +93,10 @@ const CImageColorManager* const CImageColorController::GetColorData(std::string 
 
 bool CImageColorController::SetTimerAll(CSlotTimerManager& pTimer) {
 	bool ans = true;
-	for (auto actionData : mColorData) ans &= actionData.SetTimer(pTimer);
+	for (auto& actionData : mColorData) ans &= actionData.SetTimer(pTimer);
 	return ans;
 }
 
 void CImageColorController::ResetTimerAll() {
-	for (auto actionData : mColorData) actionData.ResetTimer();
+	for (auto& actionData : mColorData) actionData.ResetTimer();
 }

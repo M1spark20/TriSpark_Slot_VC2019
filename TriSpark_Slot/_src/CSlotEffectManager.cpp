@@ -47,6 +47,12 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
+		for (auto it = mEffectData.colorApplyData.begin(); it != mEffectData.colorApplyData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mEffectData.colorController.AddActionData(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
 		return false;
 	}
 

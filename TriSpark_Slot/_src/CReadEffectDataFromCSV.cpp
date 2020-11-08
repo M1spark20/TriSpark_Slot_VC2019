@@ -165,6 +165,13 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				pData.conditionData.push_back(mConditionData);
 				pData.clearScreenData.push_back(std::pair<int, std::string>(mOrderCounter++, NowGetStr.at(1)));
 			}
+			if (NowGetStr.at(0) == "#applyCM") {
+				CImageColorApplyDataBuilder builder;
+				if(!builder.Init(NowGetStr))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.conditionData.push_back(mConditionData);
+				pData.colorApplyData.push_back(std::pair<int, SImageColorApplyData>(mOrderCounter++, builder.Extract()));
+			}
 		}
 
 		if (sourcePtr != nullptr && destPtr != nullptr) PushImgData(pData, sourcePtr, destPtr);
