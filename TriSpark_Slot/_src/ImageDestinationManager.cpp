@@ -24,7 +24,8 @@ bool IImageDestinationManager::Init(StringArr pReadData, CSlotTimerManager& pTim
 	try {
 		SImageDestCSVCommonData data;
 		data.screenID = mVarManager.GetScreenID(pReadData[1]);
-		data.startTime = mVarManager.MakeValID(pReadData[2]);
+		if (pReadData[2] == "-") data.startTime = -1;	// タイマ無効時にのみ動作する特殊設定
+		else data.startTime = mVarManager.MakeValID(pReadData[2]);
 		data.x = mVarManager.MakeValID(pReadData[3]);
 		data.y = mVarManager.MakeValID(pReadData[4]);
 		data.w = mVarManager.MakeValID(pReadData[5]);
@@ -135,10 +136,11 @@ long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 //		else:描画する定義ID @mCommonData
 int IImageDestinationManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
-	if (!GetIsTimerSet() || !GetIsTimerEnable()) return -1;
+	if (!GetIsTimerSet() || !GetIsTimerEnable() ^ (mCommonData[0].startTime == -1)) return -1;
 	const auto definitionNum = mCommonData.size();
 
 	try {
+		if (!GetIsTimerEnable()) return 0;	// タイマ未定義時描画の場合は最初の要素を固定で描画する
 		const long long nowTime = GetTimer();
 		const long long checkTime = GetCheckTime(nowTime);
 
