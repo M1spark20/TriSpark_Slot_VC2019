@@ -38,6 +38,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 	std::unique_ptr<IImageSourceManager> sourcePtr(nullptr);
 	std::unique_ptr<CImageColorManager> colorPtr(nullptr);
 	std::unique_ptr<IImageDestinationManager> destPtr(nullptr);
+	std::unique_ptr<CEffectVariableRoleMaker> rolePtr(nullptr);
 
 	try {
 		int rowCount = 0;
@@ -47,7 +48,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 			GetStrSplitByComma(NowGetStr);
 			if (NowGetStr.at(0)[0] == ';') continue;
 			if (NowGetStr.at(0) == "#IF") {
-				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 
@@ -56,7 +57,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				mHeading = ENowReadingHead::eNone;
 			}
 			if (NowGetStr.at(0) == "#ENDIF") {
-				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 
@@ -65,7 +66,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				mHeading = ENowReadingHead::eNone;
 			}
 			if (NowGetStr.at(0) == "#CLEARIF") {
-				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 
@@ -73,10 +74,71 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				mReadStatus = EReadStatus::eInitial;
 				mHeading = ENowReadingHead::eNone;
 			}
+			if (NowGetStr.at(0) == "#TIMING") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				if(!mConditionData.CreateTiming(NowGetStr, pVar)) throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#TIMINGCLR") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				mConditionData.ClearTimer();
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#setVal") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CEffectVariableInsertMaker maker;
+				if(!maker.MakeData(NowGetStr, pVar))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+
+				pData.conditionData.push_back(mConditionData);
+				pData.varInsertData.push_back(std::pair<int, SEffectVariableInsertData>(mOrderCounter++, maker.Extract()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#role") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				if (rolePtr == nullptr) rolePtr.reset(new CEffectVariableRoleMaker);
+				if (!rolePtr->MakeData(NowGetStr, pVar))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+
+				mReadStatus = EReadStatus::eVarSetting;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#endRole") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+				if (rolePtr == nullptr)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+
+				if (!rolePtr->FinalizeData())
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.conditionData.push_back(mConditionData);
+				pData.varRoleData.push_back(std::pair<int, SEffectVariableRoleData>(mOrderCounter++, rolePtr->Extract()));
+				rolePtr.reset(nullptr);
+
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+
 			if (NowGetStr.at(0) == "#imgSrc") {
 				if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eImgSrc)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
-				if (mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 				if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceDefault(pVar));
@@ -89,7 +151,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 			if (NowGetStr.at(0) == "#numSrc") {
 				if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eNumSrc)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
-				if (mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 				if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceNumber(pVar));
@@ -102,7 +164,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 			if (NowGetStr.at(0) == "#reelSrc") {
 				if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
-				if (mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 				if (sourcePtr == nullptr) sourcePtr.reset(new CImageSourceReel(pVar));
@@ -135,7 +197,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 					if (mHeading != ENowReadingHead::eImgSrc && mHeading != ENowReadingHead::eNumSrc)
 						throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				}
-				if (mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (destPtr == nullptr) destPtr.reset(new CImageDestinationDefault(pVar));
 
@@ -149,7 +211,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eSource && mHeading != ENowReadingHead::eReelSrc)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
-				if (mReadStatus == EReadStatus::eColorMap)
+				if (mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (destPtr == nullptr) destPtr.reset(new CImageDestinationReel(pVar, pReel));
 

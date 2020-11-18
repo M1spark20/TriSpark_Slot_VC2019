@@ -36,3 +36,8 @@ public:
 	ErrIllegalCSVDefinition(int pRowCount, std::string pDefinition);
 	void WriteErrLog() override;
 };
+
+class ErrDivideBy0 : public IErrClassBase {
+public:
+	void WriteErrLog() override;
+};

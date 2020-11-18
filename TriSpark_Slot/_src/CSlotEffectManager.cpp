@@ -53,6 +53,18 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
+		for (auto it = mEffectData.varInsertData.begin(); it != mEffectData.varInsertData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mVariableManager.InsertVar(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		for (auto it = mEffectData.varRoleData.begin(); it != mEffectData.varRoleData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mVariableManager.RoleVar(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
 		return false;
 	}
 

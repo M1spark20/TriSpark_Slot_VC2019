@@ -41,12 +41,11 @@ bool CSlotEffectVariableCompareMaker::CreateCondition(std::vector<std::string> p
 	}
 }
 
-bool CSlotEffectVariableCompareMaker::CreateTiming(std::vector<std::string> pData) {
+bool CSlotEffectVariableCompareMaker::CreateTiming(std::vector<std::string> pData, CEffectVariableManager& pVar) {
 	try {
 		if (pData.size() < 3) throw ErrLessCSVDefinition(pData, 3);
 		if (pData[1][0] != '@') throw ErrUndeclaredVar("Undefined Condition timeName: " + pData[1]);
-		long long temp; StrToNum(temp, pData[2]);
-		mTimingData = std::pair<std::string, long long>(pData[1], temp);
+		mTimingData = std::pair<std::string, int>(pData[1], GetVariableID(pData[2], true, pVar));
 		return true;
 	}
 	catch (ErrLessCSVDefinition e) {
@@ -64,7 +63,10 @@ void CSlotEffectVariableCompareMaker::DeleteLastCondition() {
 }
 void CSlotEffectVariableCompareMaker::DeleteAllCondition() {
 	mVariableCondData.clear();
-	mTimingData = std::pair <std::string, long long>("", -1);
+	ClearTimer();
+}
+void CSlotEffectVariableCompareMaker::ClearTimer() {
+	mTimingData = std::pair <std::string, int>("", -1);
 }
 
 
@@ -90,7 +92,7 @@ bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar
 				mConditionQualified = false;
 				return true;
 			}
-			if (timer >= mTimingData.second) {
+			if (timer >= pVar.GetVal(mTimingData.second)) {
 				mConditionQualified = !mIsAlreadyTimePassed;
 				mIsAlreadyTimePassed = true;
 			}

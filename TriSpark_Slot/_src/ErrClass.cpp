@@ -42,3 +42,9 @@ void ErrIllegalCSVDefinition::WriteErrLog() {
 	DxLib::ErrorLogFmtAdd(str.c_str());
 
 }
+
+void ErrDivideBy0::WriteErrLog() {
+	const std::string str =
+		"Divide by 0 has detected while calcurating user variable.";
+	DxLib::ErrorLogFmtAdd(str.c_str());
+}

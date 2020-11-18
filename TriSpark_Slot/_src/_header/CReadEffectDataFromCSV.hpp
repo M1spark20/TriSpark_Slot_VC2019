@@ -9,7 +9,7 @@ class CReelManager;
 
 class CReadEffectDataFromCSV : IReadCSVBase {
 	enum class EReadStatus {
-		eInitial, eSource, eColorMap, eDestination
+		eInitial, eSource, eColorMap, eDestination, eVarSetting
 	} mReadStatus;
 	enum class ENowReadingHead {
 		eNone, eImgSrc, eNumSrc, eReelSrc, eImgCM, eReelCM, eImgDst, eReelDst

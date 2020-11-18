@@ -1,5 +1,6 @@
 #pragma once
 #include "SSlotEffectVariableCondition.hpp"
+#include "IEffectExecuteMakerBase.hpp"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -13,7 +14,7 @@ class CSlotTimerManager;
 
 class CSlotEffectVariableCompare {
 	std::deque<std::deque<SSlotEffectVariableCondition>>	mVariableCondData;	// [and][or]
-	std::pair<std::string, long long>						mTimingData;		// [timerName, checkTime]
+	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(変数ID)]
 
 	bool													mConditionQualified;
 	bool													mIsAlreadyTimePassed;
@@ -26,9 +27,9 @@ public:
 };
 
 
-class CSlotEffectVariableCompareMaker {
+class CSlotEffectVariableCompareMaker : public IEffectExecuteMakerBase {
 	std::deque<std::deque<SSlotEffectVariableCondition>>	mVariableCondData;	// [and][or]
-	std::pair<std::string, long long>						mTimingData;		// [timerName, checkTime]
+	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(変数ID)]
 
 	template<class T> void StrToNum(T& InputFor, std::string& p_Data) {
 		// [act]テンプレート型、1つ目の引数に2つ目の文字列から抽出した数字を代入します
@@ -44,8 +45,9 @@ public:
 	CSlotEffectVariableCompareMaker() : mTimingData("", -1) {};
 
 	bool CreateCondition(std::vector<std::string> pData);
-	bool CreateTiming(std::vector<std::string> pData);
+	bool CreateTiming(std::vector<std::string> pData, CEffectVariableManager& pVar);
 
 	void DeleteLastCondition();
 	void DeleteAllCondition();
+	void ClearTimer();
 };

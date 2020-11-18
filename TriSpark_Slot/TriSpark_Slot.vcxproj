@@ -49,6 +49,7 @@
     <ClCompile Include="_src\CSlotTimerManager.cpp" />
     <ClCompile Include="_src\ErrClass.cpp" />
     <ClCompile Include="_src\gameloop.cpp" />
+    <ClCompile Include="_src\IEffectExecuteMakerBase.cpp" />
     <ClCompile Include="_src\IGameModeBase.cpp" />
     <ClCompile Include="_src\ImageDestinationManager.cpp" />
     <ClCompile Include="_src\ImageSourceManager.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="_src\_header\ErrClass.hpp" />
     <ClInclude Include="_src\_header\ESlotFlowFlag.hpp" />
     <ClInclude Include="_src\_header\gameloop.h" />
+    <ClInclude Include="_src\_header\IEffectExecuteMakerBase.hpp" />
     <ClInclude Include="_src\_header\IGameModeBase.h" />
     <ClInclude Include="_src\_header\IGameStateBase.hpp" />
     <ClInclude Include="_src\_header\CImageColorManager.hpp" />
