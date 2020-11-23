@@ -17,8 +17,8 @@ bool CReel::Init(const SReelChaData& pReelData){
 	m_comaPos = 0;
 	m_destination = 0;
 	m_lastRotationTime = -1;
-	m_lastStatus = eStoping;
-	m_nowStatus = eStoping;
+	m_lastStatus = EReelStatus::eInitial;
+	m_nowStatus = EReelStatus::eStoping;
 
 	m_speedMax = (float)m_reelData.reelData[0].h * GetComaNum() * m_reelData.rpm / 60000.f;
 	m_accVal = m_speedMax / m_reelData.accTime;
@@ -28,11 +28,11 @@ bool CReel::Init(const SReelChaData& pReelData){
 bool CReel::Process(CSlotTimerManager& pTimer){
 
 	// タイマー初期化
-	if (m_nowStatus == eAccerating && m_lastStatus == eStoping){
+	if (m_nowStatus == EReelStatus::eAccerating && m_lastStatus == EReelStatus::eStoping){
 		pTimer.DisableTimer(eTimerReelStop, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelStart, m_reelData.reelID);
 	}
-	if (m_nowStatus == eSliping && m_lastStatus == eRotating){
+	if (m_nowStatus == EReelStatus::eSliping && m_lastStatus == EReelStatus::eRotating){
 		pTimer.DisableTimer(eTimerReelStopAvailable, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelPush, m_reelData.reelID);
 	}
@@ -42,7 +42,7 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 			pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
 	}
 
-	if (m_nowStatus == eAccerating){
+	if (m_nowStatus == EReelStatus::eAccerating){
 		long long diff;
 		if (!pTimer.GetTimeDiff(diff, eTimerReelStart, m_reelData.reelID)) return false;
 		// 加速をより厳密に再現するために、1msずつ速度と位置を更新する
@@ -54,12 +54,12 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 				long long temp;
 				if(!pTimer.GetTime(temp, eTimerReelStopAvailable, m_reelData.reelID))
 					pTimer.SetTimer(eTimerReelStopAvailable, m_reelData.reelID);
-				m_speed = m_speedMax; m_nowStatus = eRotating;
+				m_speed = m_speedMax; m_nowStatus = EReelStatus::eRotating;
 			}
 			m_rotatePos -= m_speed;
 		}
 		m_rotatePos -= m_speed * (count-diff);
-	} else if (m_nowStatus == eRotating || m_nowStatus == eSliping) {
+	} else if (m_nowStatus == EReelStatus::eRotating || m_nowStatus == EReelStatus::eSliping) {
 		long long diff;
 		if (!pTimer.GetTimeDiff(diff, eTimerReelStart, m_reelData.reelID)) return false;
 		m_rotatePos -= m_speed * diff;
@@ -79,9 +79,9 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 
 	// リール位置判断 & 停止判断
 	const int newComaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
-	if (m_nowStatus == eSliping && m_comaPos == m_destination && (newComaPos != m_destination || reelAdj)){
+	if (m_nowStatus == EReelStatus::eSliping && m_comaPos == m_destination && (newComaPos != m_destination || reelAdj)){
 		m_rotatePos = (float)m_destination * m_reelData.reelData[0].h;
-		m_speed = 0.f;	m_nowStatus = eStoping;
+		m_speed = 0.f;	m_nowStatus = EReelStatus::eStoping;
 		pTimer.DisableTimer(eTimerReelStart, m_reelData.reelID);
 		pTimer.DisableTimer(eTimerReelPush, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
@@ -93,8 +93,8 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 }
 
 bool CReel::ReelStart(){
-	if (m_nowStatus != eStoping) return false;
-	m_nowStatus = eAccerating;
+	if (m_nowStatus != EReelStatus::eStoping) return false;
+	m_nowStatus = EReelStatus::eAccerating;
 	return true;
 }
 
@@ -105,12 +105,12 @@ bool CReel::ReelStop(unsigned int pDest, bool pForceFlag){
 		m_comaPos = m_destination;
 		m_speed = 0.f;
 		m_rotatePos = (float)m_reelData.reelData[0].h * pDest;
-		m_nowStatus = eStoping;
+		m_nowStatus = EReelStatus::eStoping;
 	} else {
 		// 滑って停止する
-		if (m_nowStatus != eRotating) return false;
+		if (m_nowStatus != EReelStatus::eRotating) return false;
 		m_destination = pDest % m_reelData.arrayData.size();
-		m_nowStatus = eSliping;
+		m_nowStatus = EReelStatus::eSliping;
 	}
 	return true;
 }
@@ -125,13 +125,13 @@ void CReel::ClearFrashData(){
 }
 
 int CReel::GetReelComaByReelPos(int pOffset) const{
-	if (m_nowStatus != eStoping) return -1;
+	if (m_nowStatus != EReelStatus::eStoping) return -1;
 	const int dst = (m_reelData.arrayData.size() + m_comaPos + pOffset) % m_reelData.arrayData.size();
 	return m_reelData.arrayData[dst];
 }
 
 int CReel::GetReelComaByFixedPos(int pComa) const{
-	if (m_nowStatus != eStoping) return -1;
+	if (m_nowStatus != EReelStatus::eStoping) return -1;
 	if (pComa < 0 || pComa >= m_reelData.arrayData.size()) return -1;
 	return m_reelData.arrayData[pComa];
 }
@@ -230,7 +230,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 			pData.srcPos.x, pData.srcPos.y + drawOffset + blewOffset, pData.srcPos.w, pData.srcPos.h,
 			pData.preDrawScr, TRUE
 		);
-		if (m_nowStatus == eStoping) break;
+		if (m_nowStatus == EReelStatus::eStoping) break;
 	}
 	return true;
 }

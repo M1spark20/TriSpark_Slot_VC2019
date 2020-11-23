@@ -10,7 +10,8 @@ class IImageSourceManager;
 class CImageColorManager;
 class CImageColorController;
 
-enum EReelStatus{
+enum class EReelStatus{
+	eInitial,
 	eStoping,
 	eAccerating,
 	eRotating,

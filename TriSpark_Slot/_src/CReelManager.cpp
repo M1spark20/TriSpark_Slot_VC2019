@@ -68,7 +68,7 @@ int CReelManager::GetCharaNum(int pReelID) const {
 int CReelManager::GetRotatingReelNum(){
 	int ans = 0;
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
-		if (it->GetReelStatus() == eRotating || it->GetReelStatus() == eSliping)
+		if (it->GetReelStatus() == EReelStatus::eRotating || it->GetReelStatus() == EReelStatus::eSliping)
 			++ans;
 	}
 	return ans;
@@ -95,7 +95,7 @@ bool CReelManager::StopReel(int pStopReelID){
 	// ƒŠ[ƒ‹‚ª‚·‚Å‚É’âŽ~§Œä‚ðs‚Á‚Ä‚¢‚éê‡‚Ítrue‚ð•Ô‚·
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pStopReelID) continue;
-		if (it->GetReelStatus() != eRotating) return true;
+		if (it->GetReelStatus() != EReelStatus::eRotating) return true;
 		const int dest = m_controller.GetStopPosition(m_flagID, m_bonusID, pStopReelID, it->GetReelPos());
 		return it->ReelStop(dest, false);
 	}
