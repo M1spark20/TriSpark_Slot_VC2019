@@ -24,6 +24,14 @@ bool CSlotTimerManager::Init(int pReelNum){
 		mTimerNameList.push_back(std::pair<std::string, int>("allReelStart",eTimerAllReelStart));
 		mTimerNameList.push_back(std::pair<std::string, int>("allReelStop",eTimerAllReelStop));
 		mTimerNameList.push_back(std::pair<std::string, int>("payout",eTimerPayout));
+
+		for (auto i = 0; i < m_reelNumMax; ++i) {
+			const int index = eTimerSystemTimerMax + eTimerReelTimerMax * i;
+			mTimerNameList.push_back(std::pair<std::string, int>("reelStart[" + std::to_string(i) + "]"			, index + 0));
+			mTimerNameList.push_back(std::pair<std::string, int>("reelStopAvailable[" + std::to_string(i) + "]"	, index + 1));
+			mTimerNameList.push_back(std::pair<std::string, int>("reelPush[" + std::to_string(i) + "]"			, index + 2));
+			mTimerNameList.push_back(std::pair<std::string, int>("reelStop[" + std::to_string(i) + "]"			, index + 3));
+		}
 	}
 
 	m_lastCount = DxLib::GetNowCount();
