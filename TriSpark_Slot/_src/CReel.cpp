@@ -36,7 +36,8 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		pTimer.DisableTimer(eTimerReelStopAvailable, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelPush, m_reelData.reelID);
 	}
-	/* 初回起動時にstopタイマを作動させる */{
+	/* 初回起動時にstopタイマを作動させる */
+	if (m_lastStatus == EReelStatus::eInitial) {
 		long long temp;
 		if (!pTimer.GetTime(temp, eTimerReelStop, m_reelData.reelID))
 			pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
