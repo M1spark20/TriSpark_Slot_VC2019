@@ -31,7 +31,6 @@ class CEffectVariableManager {
 	typedef std::vector<std::string> StringArr;
 
 	int CreateNewConstant(int pVal);
-	int CreateNewVar(std::string pValName, int pInitVal);
 
 public:
 	CEffectVariableManager();
@@ -41,6 +40,7 @@ public:
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;
 	int GetValIDFromName(std::string pValName) const;
+	int CreateNewVar(std::string pValName, int pInitVal);
 
 	void MakeScreenID(StringArr pData);
 	int GetScreenID(std::string pValName) const;

@@ -4,6 +4,7 @@
 #include "_header/CReelManager.hpp"
 #include "_header/ErrClass.hpp"
 #include "DxLib.h"
+#include <stdexcept>
 
 bool CReadEffectDataFromCSV::FileInit(int pFileID) {
 	// [act]DxLib側で開いたファイルからデータを読み出す
@@ -89,6 +90,16 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 
 				mConditionData.ClearTimer();
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#makeVar") {
+				// バグ防止のためIF文等の条件に関係なく変数を生成する
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				pVar.CreateNewVar(NowGetStr[1], std::stoi(NowGetStr[2]));
 				mReadStatus = EReadStatus::eInitial;
 				mHeading = ENowReadingHead::eNone;
 			}
@@ -241,6 +252,9 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 	}
 	catch (ErrIllegalCSVDefinition e) {
 		e.WriteErrLog();
+		return false;
+	}
+	catch (std::invalid_argument e) {
 		return false;
 	}
 }
