@@ -29,6 +29,7 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 
 	// タイマー初期化
 	if (m_nowStatus == EReelStatus::eAccerating && m_lastStatus == EReelStatus::eStoping){
+		pTimer.DisableTimer(eTimerReelPush, m_reelData.reelID);
 		pTimer.DisableTimer(eTimerReelStop, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelStart, m_reelData.reelID);
 	}
@@ -84,7 +85,6 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		m_rotatePos = (float)m_destination * m_reelData.reelData[0].h;
 		m_speed = 0.f;	m_nowStatus = EReelStatus::eStoping;
 		pTimer.DisableTimer(eTimerReelStart, m_reelData.reelID);
-		pTimer.DisableTimer(eTimerReelPush, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
 	}
 	m_comaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
