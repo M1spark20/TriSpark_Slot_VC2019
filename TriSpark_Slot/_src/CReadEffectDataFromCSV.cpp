@@ -245,6 +245,40 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				pData.conditionData.push_back(mConditionData);
 				pData.colorApplyData.push_back(std::pair<int, SImageColorApplyData>(mOrderCounter++, builder.Extract()));
 			}
+			if (NowGetStr.at(0) == "#sndRing") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CSlotSoundRingDataMaker maker;
+				if(!maker.MakeRingData(NowGetStr, pVar)) throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.soundRingData.push_back(std::pair<int, SSlotSoundRingData>(mOrderCounter++, maker.ExtractRing()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#sndStop") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CSlotSoundRingDataMaker maker;
+				if(!maker.MakeStopData(NowGetStr, pVar)) throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.soundStopData.push_back(std::pair<int, SSlotSoundStopData>(mOrderCounter++, maker.ExtractStop()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+			if (NowGetStr.at(0) == "#sndVol") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CSlotSoundVolumeDataMaker maker;
+				if(!maker.MakeData(NowGetStr, pVar)) throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.soundVolData.push_back(std::pair<int, SSlotSoundVolumeData>(mOrderCounter++, maker.Extract()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
+			}
+
 		}
 
 		if (sourcePtr != nullptr && destPtr != nullptr) PushImgData(pData, sourcePtr, destPtr);

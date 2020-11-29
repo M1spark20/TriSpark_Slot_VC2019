@@ -46,6 +46,7 @@
     <ClCompile Include="_src\CSlotEffectVariableCompare.cpp" />
     <ClCompile Include="_src\CSlotFlowList.cpp" />
     <ClCompile Include="_src\CSlotInternalDataManager.cpp" />
+    <ClCompile Include="_src\CSlotSoundManager.cpp" />
     <ClCompile Include="_src\CSlotTimerManager.cpp" />
     <ClCompile Include="_src\ErrClass.cpp" />
     <ClCompile Include="_src\gameloop.cpp" />
@@ -85,6 +86,7 @@
     <ClInclude Include="_src\_header\CSlotEffectVariableCompare.hpp" />
     <ClInclude Include="_src\_header\CSlotFlowList.hpp" />
     <ClInclude Include="_src\_header\CSlotInternalDataManager.hpp" />
+    <ClInclude Include="_src\_header\CSlotSoundManager.hpp" />
     <ClInclude Include="_src\_header\CSlotTimerManager.hpp" />
     <ClInclude Include="_src\_header\EChangeModeFlag.h" />
     <ClInclude Include="_src\_header\EChangeStateFlag.h" />

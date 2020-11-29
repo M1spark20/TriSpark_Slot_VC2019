@@ -45,7 +45,7 @@ bool CSlotEffectVariableCompareMaker::CreateTiming(std::vector<std::string> pDat
 	try {
 		if (pData.size() < 3) throw ErrLessCSVDefinition(pData, 3);
 		if (pData[1][0] != '@') throw ErrUndeclaredVar("Undefined Condition timeName: " + pData[1]);
-		mTimingData = std::pair<std::string, int>(pData[1], GetVariableID(pData[2], true, pVar));
+		mTimingData = std::pair<std::string, int>(pData[1], GetVariableID(pData[2], false, pVar));
 		return true;
 	}
 	catch (ErrLessCSVDefinition e) {

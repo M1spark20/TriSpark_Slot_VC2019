@@ -192,6 +192,9 @@
     <ClCompile Include="_src\IEffectExecuteMakerBase.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\エフェクト関係</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CSlotSoundManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="_src\_header\IEffectExecuteMakerBase.hpp">
       <Filter>ヘッダー ファイル\スロット本体内クラス\エフェクト関係</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotSoundManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

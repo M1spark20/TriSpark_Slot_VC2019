@@ -65,9 +65,32 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
+		for (auto it = mEffectData.soundRingData.begin(); it != mEffectData.soundRingData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mSoundManager.DeclarePlaySound(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		for (auto it = mEffectData.soundVolData.begin(); it != mEffectData.soundVolData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mSoundManager.DeclareVolumeAction(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		for (auto it = mEffectData.soundStopData.begin(); it != mEffectData.soundStopData.end(); ++it) {
+			if (it->first != orderC) continue;
+			mSoundManager.DeclareStopAction(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+
 		return false;
 	}
 
 	mEffectData.colorController.ResetTimerAll();
 	return true;
+}
+
+bool CSlotEffectManager::RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData) {
+	return mSoundManager.RingAction(pTimer, mVariableManager, pGameData);
 }

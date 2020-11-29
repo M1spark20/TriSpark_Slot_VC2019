@@ -7,6 +7,7 @@
 #include "CImageColorController.hpp"
 #include "CSlotEffectVariableCompare.hpp"
 #include "CEffectVariableManager.hpp"
+#include "CSlotSoundManager.hpp"
 
 struct SImageEffectData {
 	std::unique_ptr<IImageSourceManager> pSource;
@@ -22,4 +23,7 @@ struct SSlotEffectData {
 	std::vector<std::pair<int, SImageColorApplyData>>		colorApplyData;
 	std::vector<std::pair<int, SEffectVariableInsertData>>	varInsertData;
 	std::vector<std::pair<int, SEffectVariableRoleData>>	varRoleData;
+	std::vector<std::pair<int, SSlotSoundRingData>>			soundRingData;
+	std::vector<std::pair<int, SSlotSoundVolumeData>>		soundVolData;
+	std::vector<std::pair<int, SSlotSoundStopData>>			soundStopData;
 };
