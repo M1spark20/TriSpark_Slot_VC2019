@@ -52,7 +52,7 @@ int CEffectVariableManager::CreateNewVar(std::string pValName, int pInitVal) {
 	const std::string registName = pValName[0] == '$' ? pValName.substr(1) : pValName;
 	if (registName.empty()) return -1;
 	const auto ans = mVariableName.size();
-	mVariableName.push_back(std::pair<std::string, int>(pValName, CreateNewConstant(pInitVal)));
+	mVariableName.push_back(std::pair<std::string, int>(registName, CreateNewConstant(pInitVal)));
 	return ans;
 }
 
