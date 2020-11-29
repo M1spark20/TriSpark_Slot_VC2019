@@ -95,6 +95,9 @@ bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar
 			if (timer >= pVar.GetVal(mTimingData.second)) {
 				mConditionQualified = !mIsAlreadyTimePassed;
 				mIsAlreadyTimePassed = true;
+			} else {
+				mConditionQualified = false;
+				mIsAlreadyTimePassed = false;
 			}
 		}
 
