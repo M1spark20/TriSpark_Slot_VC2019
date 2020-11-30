@@ -77,6 +77,7 @@ CSlotEffectVariableCompare::CSlotEffectVariableCompare(CSlotEffectVariableCompar
 
 	mConditionQualified = false;
 	mIsAlreadyTimePassed = false;
+	mLastTime = LLONG_MAX;
 }
 
 // [ret]ğŒ’B¬‚ª³í‚Éİ’è‚Å‚«‚½‚©‚Ç‚¤‚©
@@ -90,15 +91,19 @@ bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar
 			if (!timerAvailable) {
 				mIsAlreadyTimePassed = false; 
 				mConditionQualified = false;
+				mLastTime = LLONG_MAX;
 				return true;
 			}
 			if (timer >= pVar.GetVal(mTimingData.second)) {
 				mConditionQualified = !mIsAlreadyTimePassed;
+				// ŠÔ‚ª‘O‰ñæ“¾‚æ‚èŠª‚«–ß‚Á‚Ä‚¢‚ê‚Î‘‚«Š·‚¦
+				if (timer < mLastTime) mConditionQualified = true;
 				mIsAlreadyTimePassed = true;
 			} else {
 				mConditionQualified = false;
 				mIsAlreadyTimePassed = false;
 			}
+			mLastTime = timer;
 		}
 
 		// ŠeğŒ‚ğ”äŠr

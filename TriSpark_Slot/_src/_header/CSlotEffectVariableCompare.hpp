@@ -18,6 +18,7 @@ class CSlotEffectVariableCompare {
 
 	bool													mConditionQualified;
 	bool													mIsAlreadyTimePassed;
+	long long												mLastTime;
 
 public:
 	CSlotEffectVariableCompare(CSlotEffectVariableCompareMaker& pMaker);

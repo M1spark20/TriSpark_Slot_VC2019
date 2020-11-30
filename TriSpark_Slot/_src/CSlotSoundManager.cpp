@@ -49,26 +49,29 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVaria
 				return false;
 			}
 
-			if (ringStatus == 0) {	// not playing
-				// すでに開始させた音声データの再生が止まっていればデータを削除する
-				if (it->second) {
+			if (it->second) {	// 当該定義ですでに音を鳴らした場合
+				if (ringStatus == 0) {	// not playing
+					// 定義をステージから除去する
+					it = mRingData.erase(it);	isDelete = true;
+				} else {
+					// 終了判定
+					if (timerEnable) {
+						// 開始時間と終了時間が同じ場合は鳴りっぱなし
+						if (pVar.GetVal(it->first.beginTime) == pVar.GetVal(it->first.stopTime)) { ++it; continue; }
+						if (timerValue < pVar.GetVal(it->first.stopTime)) { ++it; continue; }
+					}
+					DxLib::StopSoundMem(dataHandle);
+					// 定義をステージから除去する
 					it = mRingData.erase(it);	isDelete = true;
 				}
-				else {
-					// 開始判定
-					if (!timerEnable) { ++it; continue; }
-					if (timerValue < pVar.GetVal(it->first.beginTime)) { ++it; continue; }
-					if (it->first.isLoop) DxLib::SetLoopPosSoundMem(pVar.GetVal(it->first.loopStartTime), dataHandle);
-					DxLib::PlaySoundMem(dataHandle, it->first.isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK);
-					it->second = true;
-				}
-			}
-			else {	// playing
-				if (timerEnable)
-					if (timerValue < pVar.GetVal(it->first.stopTime)) { ++it; continue; }
+			} else {			// 当該定義でまだ音を鳴らしていない場合
+				// 開始判定
+				if (!timerEnable) { ++it; continue; }
+				if (timerValue < pVar.GetVal(it->first.beginTime)) { ++it; continue; }
 				DxLib::StopSoundMem(dataHandle);
-				// 時間経過で音声を止める場合はデータを即時消去
-				it = mRingData.erase(it);	isDelete = true;
+				if (it->first.isLoop) DxLib::SetLoopPosSoundMem(pVar.GetVal(it->first.loopStartTime), dataHandle);
+				DxLib::PlaySoundMem(dataHandle, it->first.isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK);
+				it->second = true;
 			}
 			if (!isDelete) ++it;	// List要素を消去しなかった場合のみイテレータを動かす
 		}
