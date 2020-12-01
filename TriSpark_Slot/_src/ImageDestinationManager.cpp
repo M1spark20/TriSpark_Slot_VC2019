@@ -223,7 +223,8 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 			mVarManager.GetVal(destData.x) + i * mVarManager.GetVal(mDiffX),
 			mVarManager.GetVal(destData.y) + i * mVarManager.GetVal(mDiffY)
 		};
-		const int imageHandle = pDataManager.GetDataHandle(source.imageID);
+		const int imageHandle =
+			source.isImageFromScreen ? source.imageID : pDataManager.GetDataHandle(source.imageID);
 		if (imageHandle == -1) return;
 
 		if (GetCanDrawDirectly(destData.blend)) {

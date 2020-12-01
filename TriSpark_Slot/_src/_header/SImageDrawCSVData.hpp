@@ -18,6 +18,7 @@ struct SImageSourceCSVCommonData {
 	int x, y, w, h;
 	int numX, numY;
 	bool directionY;
+	bool isImageFromScreen;
 };
 
 // [act]dstの共通データかつ分割可能な部分を定義する

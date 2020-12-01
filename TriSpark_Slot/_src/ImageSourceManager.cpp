@@ -19,7 +19,9 @@ bool IImageSourceManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMan
 	try {
 		SImageSourceCSVCommonData data;
 		data.startTime	= mVarManager.MakeValID(pReadData[1]);
-		data.imageID	= mVarManager.MakeValID(pReadData[2]);
+		data.isImageFromScreen = pReadData[2][0] == '*';
+		if (data.isImageFromScreen)		data.imageID = mVarManager.GetScreenID(pReadData[2]);
+		else							data.imageID = mVarManager.MakeValID(pReadData[2]);
 		data.x			= mVarManager.MakeValID(pReadData[3]);
 		data.y			= mVarManager.MakeValID(pReadData[4]);
 		data.w			= mVarManager.MakeValID(pReadData[5]);
@@ -138,7 +140,8 @@ SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinition
 	ans.h = mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY));
 	ans.x = mVarManager.GetVal(nowData.x) + ans.w * posX;
 	ans.y = mVarManager.GetVal(nowData.y) + ans.h * posY;
-	ans.imageID = mVarManager.GetVal(nowData.imageID);
+	ans.isImageFromScreen = nowData.isImageFromScreen;
+	ans.imageID = ans.isImageFromScreen ? nowData.imageID : mVarManager.GetVal(nowData.imageID);	// true:screenData
 	return ans;
 }
 
