@@ -81,7 +81,7 @@ const CImageColorManager* const CImageColorController::GetColorData(std::string 
 	if (pIndex < 0) return nullptr;
 	if (!CheckAvailableName(pUseEffectName)) return nullptr;
 	try {
-		auto actionData = GetActionDataByID(pUseEffectName);
+		auto& actionData = GetActionDataByID(pUseEffectName);
 		if ((size_t)pIndex >= actionData.size()) return nullptr;
 		return actionData[pIndex];
 	}
