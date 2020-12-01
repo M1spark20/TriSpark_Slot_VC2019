@@ -281,7 +281,36 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				mReadStatus = EReadStatus::eInitial;
 				mHeading = ENowReadingHead::eNone;
 			}
+			if (NowGetStr.at(0) == "#makeTimer") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
 
+				if(!pTimer.CreateNewTimer(NowGetStr.at(1)))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+			}
+			if (NowGetStr.at(0) == "#actionTimer") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CSlotTimerActionMaker maker;
+				if(!maker.MakeActionData(NowGetStr, pVar))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.conditionData.push_back(mConditionData);
+				pData.timerActionData.push_back(std::pair<int, SSlotTimerActionData>(mOrderCounter++, maker.ExtractActionData()));
+			}
+			if (NowGetStr.at(0) == "#resetTimer") {
+				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);
+
+				CSlotTimerActionMaker maker;
+				if(!maker.MakeResetData(NowGetStr, pVar))
+					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				pData.conditionData.push_back(mConditionData);
+				pData.timerStopData.push_back(std::pair<int, SSlotTimerStopData>(mOrderCounter++, maker.ExtractResetData()));
+			}
 		}
 
 		if (sourcePtr != nullptr && destPtr != nullptr) PushImgData(pData, sourcePtr, destPtr);

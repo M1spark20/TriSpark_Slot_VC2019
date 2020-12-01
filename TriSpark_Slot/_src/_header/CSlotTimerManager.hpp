@@ -1,8 +1,10 @@
 #pragma once
+#include "IEffectExecuteMakerBase.hpp"
 #include <vector>
 #include <algorithm>
 #include <string>
 #include <set>
+class CEffectVariableManager;
 
 enum ESystemTimerID{
 	eTimerGameStart,
@@ -30,6 +32,13 @@ enum EReelTimerID {
 	eTimerReelStop,
 	eTimerReelTimerMax
 };
+
+struct SSlotTimerActionData {
+	std::string timerName;
+	long long startVal;
+};
+
+typedef std::string SSlotTimerStopData;
 
 class CSlotTimerManager{
 	struct STimerData{
@@ -61,4 +70,18 @@ public:
 	int		GetTimerHandle(std::string pID) const;
 	bool	CreateNewTimer(std::string pID);
 	bool	GetTimeFromTimerHandle(long long& pInputFor, int pHandle) const;
+	bool	SetTimerFromTimerHandle(const SSlotTimerActionData& pActionData, const CEffectVariableManager& pVar);
+	bool	ResetTimerFromTimerHandle(const SSlotTimerStopData& pActionData, const CEffectVariableManager& pVar);
+};
+
+
+class CSlotTimerActionMaker : public IEffectExecuteMakerBase {
+	SSlotTimerActionData	mActionData;
+	SSlotTimerStopData		mResetData;
+public:
+	bool	MakeActionData(std::vector<std::string> pData, CEffectVariableManager& pVar);
+	bool	MakeResetData(std::vector<std::string> pData, CEffectVariableManager& pVar);
+
+	SSlotTimerActionData	ExtractActionData() const { return mActionData; }
+	SSlotTimerStopData		ExtractResetData()  const { return mResetData; }
 };

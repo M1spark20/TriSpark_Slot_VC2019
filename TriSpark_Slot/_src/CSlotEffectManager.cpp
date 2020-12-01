@@ -4,6 +4,7 @@
 #include "_header/CReelManager.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/CSlotInternalDataManager.hpp"
+#include "_header/ErrClass.hpp"
 
 bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel) {
 	if(!mVariableManager.Init()) return false;
@@ -28,7 +29,7 @@ bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataMan
 	return mEffectData.colorController.SetTimerAll(pTimer);
 }
 
-bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
+bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer) {
 	for (int orderC = 0; ; ++orderC) {
 		if (orderC < 0 || orderC >= mEffectData.conditionData.size()) return false;
 		if (!mEffectData.conditionData[orderC].GetCondition()) continue;
@@ -80,6 +81,18 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData) {
 		for (auto it = mEffectData.soundStopData.begin(); it != mEffectData.soundStopData.end(); ++it) {
 			if (it->first != orderC) continue;
 			mSoundManager.DeclareStopAction(it->second);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		for (auto it = mEffectData.timerActionData.begin(); it != mEffectData.timerActionData.end(); ++it) {
+			if (it->first != orderC) continue;
+			pTimer.SetTimerFromTimerHandle(it->second, mVariableManager);
+			isProceed = true;	 break;
+		}
+		if (isProceed) continue;
+		for (auto it = mEffectData.timerStopData.begin(); it != mEffectData.timerStopData.end(); ++it) {
+			if (it->first != orderC) continue;
+			pTimer.ResetTimerFromTimerHandle(it->second, mVariableManager);
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;

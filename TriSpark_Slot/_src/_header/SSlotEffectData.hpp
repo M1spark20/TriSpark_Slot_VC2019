@@ -8,6 +8,7 @@
 #include "CSlotEffectVariableCompare.hpp"
 #include "CEffectVariableManager.hpp"
 #include "CSlotSoundManager.hpp"
+#include "CSlotTimerManager.hpp"
 
 struct SImageEffectData {
 	std::unique_ptr<IImageSourceManager> pSource;
@@ -26,4 +27,6 @@ struct SSlotEffectData {
 	std::vector<std::pair<int, SSlotSoundRingData>>			soundRingData;
 	std::vector<std::pair<int, SSlotSoundVolumeData>>		soundVolData;
 	std::vector<std::pair<int, SSlotSoundStopData>>			soundStopData;
+	std::vector<std::pair<int, SSlotTimerActionData>>		timerActionData;
+	std::vector<std::pair<int, SSlotTimerStopData>>			timerStopData;
 };

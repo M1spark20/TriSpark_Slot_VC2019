@@ -57,7 +57,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 }
 
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
-	m_data.effectManager.Draw(pDataManageIns);
+	m_data.effectManager.Draw(pDataManageIns, m_data.timeManager);
 	m_data.effectManager.RingSound(m_data.timeManager, pDataManageIns);
 
 	// ƒŠ[ƒ‹b’è

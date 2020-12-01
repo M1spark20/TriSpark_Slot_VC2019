@@ -1,6 +1,8 @@
 #include "_header\CSlotTimerManager.hpp"
+#include "_header/CEffectVariableManager.hpp"
 #include "DxLib.h"
 #include "_header/ErrClass.hpp"
+#include <stdexcept>
 
 bool CSlotTimerManager::Init(int pReelNum){
 	m_reelNumMax = pReelNum;
@@ -49,7 +51,7 @@ bool CSlotTimerManager::Process(){
 }
 
 bool CSlotTimerManager::SetTimer(ESystemTimerID pID, int offset){
-	if (pID == eTimerSystemTimerMax) return false;
+	if (pID >= eTimerSystemTimerMax) return false;
 	m_timerData[pID].enable		= true;
 	m_timerData[pID].originVal	= m_lastCount - offset;
 	m_timerData[pID].lastGetVal = m_lastCount - offset;
@@ -162,4 +164,73 @@ bool CSlotTimerManager::GetTimeFromTimerHandle(long long& pInputFor, int pHandle
 	if (!m_timerData[pHandle].enable) return false;
 	pInputFor = m_lastCount - m_timerData[pHandle].originVal;
 	return true;
+}
+
+bool CSlotTimerManager::SetTimerFromTimerHandle(const SSlotTimerActionData& pActionData, const CEffectVariableManager& pVar) {
+	try {
+		const int timerID = GetTimerHandle(pActionData.timerName);
+		const int offset = pVar.GetVal(pActionData.startVal);
+		if (timerID < eTimerSystemTimerMax + eTimerReelTimerMax * m_reelNumMax) return false;
+		if (timerID >= m_timerData.size()) return false;
+		m_timerData[timerID].enable = true;
+		m_timerData[timerID].originVal = m_lastCount - offset;
+		m_timerData[timerID].lastGetVal = m_lastCount - offset;
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+}
+
+bool CSlotTimerManager::ResetTimerFromTimerHandle(const SSlotTimerStopData& pActionData, const CEffectVariableManager& pVar) {
+	try {
+		const int timerID = GetTimerHandle(pActionData);
+		if (timerID < eTimerSystemTimerMax + eTimerReelTimerMax * m_reelNumMax) return false;
+		if (timerID >= m_timerData.size()) return false;
+		m_timerData[timerID].enable = false;
+		m_timerData[timerID].originVal = 0;
+		m_timerData[timerID].lastGetVal = 0;
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+}
+
+
+bool CSlotTimerActionMaker::MakeActionData(std::vector<std::string> pData, CEffectVariableManager& pVar){
+	try {
+		mActionData.timerName = pData.at(1);
+		mActionData.startVal = GetVariableID(pData.at(2), false, pVar);
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+	catch (std::out_of_range e) {
+		return false;
+	}
+	catch (std::invalid_argument e) {
+		return false;
+	}
+}
+
+bool CSlotTimerActionMaker::MakeResetData(std::vector<std::string> pData, CEffectVariableManager& pVar) {
+	try {
+		mResetData = pData.at(1);
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+	catch (std::out_of_range e) {
+		return false;
+	}
+	catch (std::invalid_argument e) {
+		return false;
+	}
 }
