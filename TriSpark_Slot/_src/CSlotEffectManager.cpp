@@ -18,10 +18,6 @@ bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTime
 bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal) {
 	mVariableManager.Process(pInternal);
 
-	for (auto& condition : mEffectData.conditionData) {
-		if(!condition.SetCondition(mVariableManager, pTimer)) return false;
-	}
-
 	for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 		if (!it->second.pSource->SetTimer(pTimer)) return false;
 		if (!it->second.pDest->SetTimer(pTimer)) return false;
@@ -32,6 +28,8 @@ bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataMan
 bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer) {
 	for (int orderC = 0; ; ++orderC) {
 		if (orderC < 0 || orderC >= mEffectData.conditionData.size()) return false;
+		if(!mEffectData.conditionData[orderC].SetCondition(mVariableManager, pTimer)) return false;
+
 		if (!mEffectData.conditionData[orderC].GetCondition()) continue;
 		bool isProceed = false;
 		for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
