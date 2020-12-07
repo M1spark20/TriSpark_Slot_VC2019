@@ -223,7 +223,7 @@ bool CEffectVariableManager::RoleVar(const SEffectVariableRoleData& pData) {
 		// ‘ã“ü”ˆê’vŠm”F¨‘ã“ü
 		if (pData.roleData[lookingID].second.size() != pData.inputForList.size()) return false;
 		for (size_t i = 0; i < pData.inputForList.size(); ++i) {
-			const auto putVal = pData.roleData[lookingID].second[i];
+			const auto putVal = GetVal(pData.roleData[lookingID].second[i]);
 			// ’¼Ú‘ã“ü‚·‚é
 			mVariablePool[pData.inputForList[i]] = putVal;
 		}
@@ -290,7 +290,7 @@ bool CEffectVariableRoleMaker::MakeData(std::vector<std::string> pCSVData, CEffe
 			mData.randMax = std::stoi(pCSVData[1]);
 			for (size_t i = 2; i < pCSVData.size(); ++i) {
 				if (pCSVData[i] == "") break;
-				mData.inputForList.push_back(GetVariableID(pCSVData[i], false, pManager));
+				mData.inputForList.push_back(GetVariableID(pCSVData[i], true, pManager));
 			}
 		}
 		else {
@@ -298,8 +298,8 @@ bool CEffectVariableRoleMaker::MakeData(std::vector<std::string> pCSVData, CEffe
 			if (pCSVData.size() < 2 + mData.inputForList.size()) return false;
 			addData.first = std::stoi(pCSVData[1]);
 			for (size_t i = 0; i < mData.inputForList.size(); ++i) {
-				if (pCSVData[i] == "") return false;
-				mData.inputForList.push_back(GetVariableID(pCSVData[i], true, pManager));
+				if (pCSVData[i+2] == "") return false;
+				addData.second.push_back(GetVariableID(pCSVData[i+2], false, pManager));
 			}
 			mData.roleData.push_back(addData);
 			mRandNumTotal += addData.first;
