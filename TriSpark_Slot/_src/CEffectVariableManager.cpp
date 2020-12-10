@@ -19,19 +19,22 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("betNum", 0);
 	CreateNewVar("flagID", 0);
 	CreateNewVar("bonusID", 0);
+	CreateNewVar("payoutFreeze", 0);
 	return true;
 }
 
 // [act]システム変数の更新を行う
 // [prm]pIntData	: 更新に使用する内部情報管理クラス
 // [ret]更新が正常に行われたかどうか
-bool CEffectVariableManager::Process(const CSlotInternalDataManager& pIntData) {
+bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData) {
 	const auto data = pIntData.GetData();
 	SetVarVal("credit", data.credit);
 	SetVarVal("payout", data.payout);
 	SetVarVal("betNum", data.betNum);
 	SetVarVal("flagID", data.flag.first);
 	SetVarVal("bonusID", data.flag.second);
+	// pIntDataへの登録
+	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));
 	return true;
 }
 

@@ -35,7 +35,7 @@ class CEffectVariableManager {
 public:
 	CEffectVariableManager();
 	bool Init();
-	bool Process(const CSlotInternalDataManager& pIntData);
+	bool Process(CSlotInternalDataManager& pIntData);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;
