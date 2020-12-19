@@ -17,4 +17,6 @@ public:
 	bool	SetGameMode(CSlotInternalDataManager& pDataManager);
 	bool	IsReplay();
 	int		GetPayout();
+	int		GetPayoutEffect() const;
+	int		GetPayoutLineID() const;
 };

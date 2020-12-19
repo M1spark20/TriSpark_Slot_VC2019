@@ -9,6 +9,7 @@ class CSlotInternalDataManager;
 class CSlotTimerManager;
 class CReelManager;
 class CSlotInternalDataManager;
+class CSlotCastChecker;
 
 class CSlotEffectManager {
 	SSlotEffectData			mEffectData;
@@ -17,7 +18,7 @@ class CSlotEffectManager {
 
 public:
 	bool Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel);
-	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal);
+	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, const CSlotCastChecker& pCast);
 	bool Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer);
 	bool RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData);
 };

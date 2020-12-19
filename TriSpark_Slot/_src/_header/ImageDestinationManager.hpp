@@ -44,6 +44,7 @@ public:
 class CImageDestinationDefault : public IImageDestinationManager {
 	int mDrawNum;
 	int mDiffX, mDiffY;
+	int mSpecialBlendSource;
 
 public:
 	// [act]変数の初期化とタイマ値呼び出し用関数ポインタの設定を行う

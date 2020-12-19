@@ -6,6 +6,7 @@
 #include <algorithm>
 
 class CSlotInternalDataManager;
+class CSlotCastChecker;
 
 struct SEffectVariableInsertData {
 	enum class EOperand { eAdd, eSub, eMul, eDiv, eMod };
@@ -35,7 +36,7 @@ class CEffectVariableManager {
 public:
 	CEffectVariableManager();
 	bool Init();
-	bool Process(CSlotInternalDataManager& pIntData);
+	bool Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;

@@ -3,7 +3,7 @@
 #include "_header\keyexport.h"
 #include "DxLib.h"
 
-CSlotFlowBet::CSlotFlowBet() : BET_INTERVAL(std::pair<int, int>(65, 130)){
+CSlotFlowBet::CSlotFlowBet() : BET_INTERVAL(std::pair<int, int>(65, 170)){
 }
 
 bool CSlotFlowBet::Init(SSlotGameDataWrapper& pGameData){
@@ -172,7 +172,7 @@ bool CSlotFlowPayout::Init(SSlotGameDataWrapper& pGameData){
 }
 
 ESlotFlowFlag CSlotFlowPayout::Process(SSlotGameDataWrapper& pGameData){
-	const int payTime[] = { 120, 1000 };
+	const int payTime[] = { 115, 800 };
 	const auto data = pGameData.internalDataManager.GetData();
 	long long time;
 	if (data.isReplay){

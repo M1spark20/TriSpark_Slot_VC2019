@@ -288,6 +288,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 
 				if(!pTimer.CreateNewTimer(NowGetStr.at(1)))
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
 			}
 			if (NowGetStr.at(0) == "#actionTimer") {
 				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
@@ -299,6 +301,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				pData.conditionData.push_back(mConditionData);
 				pData.timerActionData.push_back(std::pair<int, SSlotTimerActionData>(mOrderCounter++, maker.ExtractActionData()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
 			}
 			if (NowGetStr.at(0) == "#resetTimer") {
 				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
@@ -310,6 +314,8 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				pData.conditionData.push_back(mConditionData);
 				pData.timerStopData.push_back(std::pair<int, SSlotTimerStopData>(mOrderCounter++, maker.ExtractResetData()));
+				mReadStatus = EReadStatus::eInitial;
+				mHeading = ENowReadingHead::eNone;
 			}
 		}
 

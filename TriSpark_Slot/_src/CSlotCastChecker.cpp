@@ -106,3 +106,25 @@ int CSlotCastChecker::GetPayout(){
 	}
 	return 0;
 }
+
+int CSlotCastChecker::GetPayoutEffect() const {
+	int ans = 0;
+	for (auto it = m_castList.cbegin(); it != m_castList.cend(); ++it){
+		if (*it == nullptr) continue;
+		const int data = (*it)->effectID;
+		ans = ans < data ? data : ans;
+	}
+	return ans;
+}
+
+int CSlotCastChecker::GetPayoutLineID() const {
+	int ans = 0, addition = 1;
+	for (auto it = m_castList.cbegin(); it != m_castList.cend(); ++it){
+		addition *= 2;
+		if (*it == nullptr) continue; 
+		const int data = ((*it)->payout >> 8 * (m_checkedBet - 1)) & 0xFF;
+		if (data == 0) continue;
+		ans += (addition / 2);
+	}
+	return ans;
+}

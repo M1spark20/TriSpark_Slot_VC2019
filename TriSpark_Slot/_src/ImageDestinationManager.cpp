@@ -171,6 +171,7 @@ CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarM
 	mDrawNum = -1;
 	mDiffX = -1;
 	mDiffY = -1;
+	mSpecialBlendSource = -1;
 }
 
 // [act]文字列配列"pReadData"からsrcデータを取得する
@@ -191,6 +192,9 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 			mDrawNum	= mVarManager.MakeValID(pReadData[12]);
 			mDiffX		= mVarManager.MakeValID(pReadData[13]);
 			mDiffY		= mVarManager.MakeValID(pReadData[14]);
+			if (pReadData[15] != "") {
+				mSpecialBlendSource = mVarManager.GetScreenID(pReadData[15]);
+			}
 		}
 		catch (ErrUndeclaredVar e) {
 			e.WriteErrLog();
@@ -240,8 +244,8 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 		}
 		else {
 			DxLib::GraphBlendRectBlt(
-				screenID, imageHandle, screenID,
-				drawPos[0], drawPos[1], drawPos[0] + source.w, drawPos[1] + source.h,
+				mSpecialBlendSource, imageHandle, screenID,
+				source.x, source.y, source.x + source.w, source.y + source.h, 
 				source.x, source.y, drawPos[0], drawPos[1],
 				mVarManager.GetVal(destData.a), blendID
 			);

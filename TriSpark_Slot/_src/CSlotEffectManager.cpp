@@ -4,6 +4,7 @@
 #include "_header/CReelManager.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/CSlotInternalDataManager.hpp"
+#include "_header/CSlotCastChecker.hpp"
 #include "_header/ErrClass.hpp"
 
 bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel) {
@@ -15,8 +16,8 @@ bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTime
 	return true;
 }
 
-bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal) {
-	mVariableManager.Process(pInternal);
+bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, const CSlotCastChecker& pCast) {
+	mVariableManager.Process(pInternal, pCast);
 
 	for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 		if (!it->second.pSource->SetTimer(pTimer)) return false;
