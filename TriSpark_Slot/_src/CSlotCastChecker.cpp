@@ -12,6 +12,34 @@ bool CSlotCastChecker::Init(CGameDataManage& pData, int pFileID){
 	return true;
 }
 
+bool CSlotCastChecker::SetReachData(const SSlotGameDataWrapper& pData) {
+	const auto intData = pData.internalDataManager.GetData();
+	for (auto it = m_castData.lineData.begin(); it != m_castData.lineData.end(); ++it){
+		if (it->betCount != intData.betNum) continue;
+		for (unsigned int offsetC = 0; offsetC < it->checkPos.size(); ++offsetC){
+			const auto offsetData = pData.reelManager.GetCharaIDList(it->checkPos[offsetC]);
+			int verifyData = 0;
+			int skipNum = 0;
+			for (unsigned int i = 0; i < offsetData.size(); ++i){
+				if (offsetData[i] == -1) { ++skipNum; continue; }
+				const int shift = (10 * (offsetData.size() - i - 1)) + offsetData[i];
+				verifyData |= (1 << shift);
+			}
+
+			if (skipNum != 1) continue;		// Žc‚è1ƒŠ[ƒ‹‚ª‰ñ“]’†ˆÈŠO‚Í‰¹‚ð–Â‚ç‚³‚È‚¢
+			for (auto castIt = m_castData.payData.cbegin(); castIt != m_castData.payData.cend(); ++castIt){
+				if (castIt->gamemode != intData.gameMode && castIt->gamemode != -1) continue;
+				if ((castIt->conbination & verifyData) != verifyData) continue;
+				m_reachSoundID = m_reachSoundID < castIt->reachSoundID ?
+					castIt->reachSoundID : m_reachSoundID;
+			}
+		}
+		return true;
+	}
+	return false;
+
+}
+
 bool CSlotCastChecker::SetCastData(const SSlotGameDataWrapper& pData){
 	const auto intData = pData.internalDataManager.GetData();
 	for (auto it = m_castData.lineData.begin(); it != m_castData.lineData.end(); ++it){
@@ -42,6 +70,7 @@ bool CSlotCastChecker::SetCastData(const SSlotGameDataWrapper& pData){
 void CSlotCastChecker::ResetCastData(){
 	m_castList.clear();
 	m_checkedBet = 0;
+	m_reachSoundID = -1;
 }
 
 bool CSlotCastChecker::SetGameMode(CSlotInternalDataManager& pDataManager){
@@ -105,6 +134,10 @@ int CSlotCastChecker::GetPayout(){
 		return ans >= it->maxPayNum ? it->maxPayNum : ans;
 	}
 	return 0;
+}
+
+int CSlotCastChecker::GetReachSoundID() const {
+	return m_reachSoundID;
 }
 
 int CSlotCastChecker::GetPayoutEffect() const {

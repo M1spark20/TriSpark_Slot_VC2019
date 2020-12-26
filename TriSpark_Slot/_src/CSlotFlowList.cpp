@@ -79,6 +79,7 @@ void CSlotFlowBet::SetBetFor(SSlotGameDataWrapper& pGameData, int pBetNum, bool 
 }
 
 bool CSlotFlowWaiting::Init(SSlotGameDataWrapper& pGameData){
+	pGameData.castChecker.ResetCastData();
 	// フラグ抽選
 	pGameData.randManager.Role(pGameData.internalDataManager);
 	// タイマーセット
@@ -147,6 +148,7 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_LEFT)	 == 0);
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_DOWN)	 == 0);
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_RIGHT) == 0);
+	if(!pGameData.castChecker.SetReachData(pGameData)) return eFlowErrEnd;
 
 	if (pGameData.reelManager.GetRotatingReelNum() == 0){
 		long long temp;
