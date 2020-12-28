@@ -156,7 +156,8 @@ int CSlotCastChecker::GetPayoutLineID() const {
 		addition *= 2;
 		if (*it == nullptr) continue; 
 		const int data = ((*it)->payout >> 8 * (m_checkedBet - 1)) & 0xFF;
-		if (data == 0) continue;
+		const int gamemodeChange = (*it)->gamemodeChange[eGameModeDest];
+		if (data == 0 && gamemodeChange == -1) continue; 
 		ans += (addition / 2);
 	}
 	return ans;
