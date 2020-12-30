@@ -145,6 +145,9 @@ int CSlotCastChecker::GetPayoutEffect() const {
 	for (auto it = m_castList.cbegin(); it != m_castList.cend(); ++it){
 		if (*it == nullptr) continue;
 		const int data = (*it)->effectID;
+		const int payoutStatus = ((*it)->payout >> 8 * (m_checkedBet - 1)) & 0xFF;
+		const int gamemodeChange = (*it)->gamemodeChange[eGameModeDest];
+		if (payoutStatus == 0 && gamemodeChange == -1) continue; 
 		ans = ans < data ? data : ans;
 	}
 	return ans;
