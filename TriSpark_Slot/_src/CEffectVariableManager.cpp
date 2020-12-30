@@ -14,16 +14,34 @@ CEffectVariableManager::CEffectVariableManager() {
 // [act]システム変数の初期化を行う
 // [ret]初期化が正常に行われたかどうか
 bool CEffectVariableManager::Init() {
-	// 描画テストのためとりあえず定義
-	CreateNewVar("credit", 0);
-	CreateNewVar("payout", 0);
-	CreateNewVar("betNum", 0);
+	CreateNewVar("set", 0);
 	CreateNewVar("flagID", 0);
 	CreateNewVar("bonusID", 0);
+	CreateNewVar("gameMode", 0);
+	CreateNewVar("countOnlyJac", 0);
+	CreateNewVar("nowRTMode", 0);
+	CreateNewVar("nowRTLimit", 0);
+	CreateNewVar("nextRTMode", 0);
+	CreateNewVar("nextRTLimit", 0);
+	CreateNewVar("canOverwriteRT", 0);
+	CreateNewVar("betNum", 0);
+	CreateNewVar("inCount", 0);
+	CreateNewVar("outCount", 0);
+	CreateNewVar("nowMedalCount", 0);
+	CreateNewVar("isReplay", 0);
+	CreateNewVar("credit", 0);
+	CreateNewVar("payout", 0);
+	CreateNewVar("gameStatus", 0);
 	CreateNewVar("payoutFreeze", 0);
 	CreateNewVar("payoutEffect", 0);
 	CreateNewVar("payoutLine", 0);
 	CreateNewVar("reachSound", -1);
+
+	for (int i = 0; i < 2; ++i) {
+		CreateNewVar("modeLim[" + std::to_string(i) + "]", 0);
+		CreateNewVar("isGameLim[" + std::to_string(i) + "]", 0);
+		CreateNewVar("nextGame[" + std::to_string(i) + "]", 0);
+	}
 	return true;
 }
 
@@ -32,11 +50,29 @@ bool CEffectVariableManager::Init() {
 // [ret]更新が正常に行われたかどうか
 bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker) {
 	const auto data = pIntData.GetData();
-	SetVarVal("credit", data.credit);
-	SetVarVal("payout", data.payout);
-	SetVarVal("betNum", data.betNum);
+	SetVarVal("set", data.set);
 	SetVarVal("flagID", data.flag.first);
 	SetVarVal("bonusID", data.flag.second);
+	SetVarVal("gameMode", data.gameMode);
+	SetVarVal("modeLim[0]", data.gameModeLimit.first);
+	SetVarVal("modeLim[1]", data.gameModeLimit.second);
+	SetVarVal("isGameLim[0]", data.isGameLimit.first ? 1 : 0);
+	SetVarVal("isGameLim[1]", data.isGameLimit.second ? 1 : 0);
+	SetVarVal("countOnlyJac", data.isGetCountOnlyJac ? 1 : 0);
+	SetVarVal("nextGame[0]", data.gameModeAtEnd.first);
+	SetVarVal("nextGame[1]", data.gameModeAtEnd.second);
+	SetVarVal("nowRTMode", data.rtMode.first);
+	SetVarVal("nowRTLimit", data.rtMode.second);
+	SetVarVal("nextRTMode", data.rtModeAtModeEnd.second);
+	SetVarVal("nextRTLimit", data.rtModeAtModeEnd.second);
+	SetVarVal("canOverwriteRT", data.isRtOverrideEnable ? 1 : 0);
+	SetVarVal("betNum", data.betNum);
+	SetVarVal("inCount", data.inCount);
+	SetVarVal("outCount", data.outCount);
+	SetVarVal("nowMedalCount", data.outCount - data.inCount);
+	SetVarVal("isReplay", data.isReplay ? 1 : 0);
+	SetVarVal("credit", data.credit);
+	SetVarVal("payout", data.payout);
 	SetVarVal("payoutEffect", pCastChecker.GetPayoutEffect());
 	SetVarVal("payoutLine", pCastChecker.GetPayoutLineID());
 	SetVarVal("reachSound", pCastChecker.GetReachSoundID());
