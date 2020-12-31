@@ -36,6 +36,7 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("payoutEffect", 0);
 	CreateNewVar("payoutLine", 0);
 	CreateNewVar("reachSound", -1);
+	CreateNewVar("betFreeze", 50);
 
 	for (int i = 0; i < 2; ++i) {
 		CreateNewVar("modeLim[" + std::to_string(i) + "]", 0);
@@ -78,6 +79,7 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const C
 	SetVarVal("reachSound", pCastChecker.GetReachSoundID());
 	// pIntData‚Ö‚Ì“o˜^
 	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));
+	pIntData.SetBetFreezeTime(GetVal(GetValIDFromName("$betFreeze")));
 	return true;
 }
 

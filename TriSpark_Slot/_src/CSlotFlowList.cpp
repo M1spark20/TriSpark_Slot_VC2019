@@ -21,26 +21,30 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 	long long timeGetter;
 	const auto intData = pGameData.internalDataManager.GetData();
 	const bool isReverAvailable = pGameData.timeManager.GetTime(timeGetter, eTimerLeverAvailable);
-	if (isReverAvailable){
-		// リール始動
-		if (key.ExportKeyState(KEY_INPUT_UP)){
-			pGameData.internalDataManager.LatchBet();
-			pGameData.timeManager.DisableTimer(eTimerBetWaitStart);
-			pGameData.timeManager.DisableTimer(eTimerLeverAvailable);
-			/* Payoutリセット */
-			pGameData.timeManager.DisableTimer(eTimerPayout);
-			return eFlowWaiting;
+	bool isBetInput = false;
+	pGameData.timeManager.GetTime(timeGetter, eTimerBetWaitStart);
+	if (timeGetter >= intData.betFreeze || intData.isReplay) {
+		if (isReverAvailable) {
+			// リール始動
+			if (key.ExportKeyState(KEY_INPUT_UP)) {
+				pGameData.internalDataManager.LatchBet();
+				pGameData.timeManager.DisableTimer(eTimerBetWaitStart);
+				pGameData.timeManager.DisableTimer(eTimerLeverAvailable);
+				/* Payoutリセット */
+				pGameData.timeManager.DisableTimer(eTimerPayout);
+				return eFlowWaiting;
+			}
 		}
-	}
-	bool isBetInput = pGameData.timeManager.GetTime(timeGetter, eTimerBetInput);
-	if ((m_betFor == 0 || !isBetInput) && !intData.isReplay){
-		if (key.ExportKeyState(KEY_INPUT_1)){
-			SetBetFor(pGameData, 1, false);
-			isBetInput = true;
-		}
-		if (key.ExportKeyState(KEY_INPUT_3) || key.ExportKeyState(KEY_INPUT_UP)){
-			SetBetFor(pGameData, pGameData.randManager.GetMaxBetNum(intData.gameMode), false);
-			isBetInput = true;
+		isBetInput = pGameData.timeManager.GetTime(timeGetter, eTimerBetInput);
+		if ((m_betFor == 0 || !isBetInput) && !intData.isReplay) {
+			if (key.ExportKeyState(KEY_INPUT_1)) {
+				SetBetFor(pGameData, 1, false);
+				isBetInput = true;
+			}
+			if (key.ExportKeyState(KEY_INPUT_3) || key.ExportKeyState(KEY_INPUT_UP)) {
+				SetBetFor(pGameData, pGameData.randManager.GetMaxBetNum(intData.gameMode), false);
+				isBetInput = true;
+			}
 		}
 	}
 

@@ -29,6 +29,7 @@ public:
 		unsigned int			credit;
 		unsigned int			payout;
 		unsigned int			payoutFreeze;
+		unsigned int			betFreeze;
 	};
 
 private:
@@ -55,6 +56,7 @@ public:
 	void	SetReplayStatus(bool pRepFlag);
 	void	CheckGameModeEnd(bool pGameCount, bool pGetCount);
 	void	SetPayoutFreezeTime(unsigned int delayTime) { m_data.payoutFreeze = delayTime; }
+	void	SetBetFreezeTime(unsigned int delayTime) { m_data.betFreeze = delayTime; }
 
 	SSlotInternalData	GetData() const { return m_data; }
 };
