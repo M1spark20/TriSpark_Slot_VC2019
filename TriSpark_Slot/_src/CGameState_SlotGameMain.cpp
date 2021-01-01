@@ -59,28 +59,6 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 	m_data.effectManager.Draw(pDataManageIns, m_data.timeManager);
 	m_data.effectManager.RingSound(m_data.timeManager, pDataManageIns);
-
-	// ƒŠ[ƒ‹b’è
-	/*SReelDrawData data;
-	for (int i = 0; i < 3; ++i){
-		data.reelID = i; data.x = 290.f + i * 346.f; data.y = 352.f;
-		data.comaW = 330.f; data.comaH = 150.f;
-		data.offsetLower = 8; data.offsetUpper = 20; data.comaNum = 3;
-		m_data.reelManager.DrawReel(pDataManageIns, data);
-	}*/
-
-	/*DxLib::DrawFormatString(0, 0, 0xFFFFFF, "cred: %d, %d, %d",
-		m_data.internalDataManager.GetData().betNum,
-		m_data.internalDataManager.GetData().credit,
-		m_data.internalDataManager.GetData().payout);
-	DxLib::DrawFormatString(0, 20, 0xFFFFFF, "flag: %d, %d",
-		m_data.internalDataManager.GetData().flag.first,
-		m_data.internalDataManager.GetData().flag.second);
-	DxLib::DrawFormatString(0, 40, 0xFFFFFF, "mode: %d, %d, %d",
-		m_data.internalDataManager.GetData().gameMode,
-		m_data.internalDataManager.GetData().gameModeLimit.first,
-		m_data.internalDataManager.GetData().gameModeLimit.second);*/
-
 	return true;
 }
 
