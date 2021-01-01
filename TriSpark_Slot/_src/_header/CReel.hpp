@@ -23,13 +23,13 @@ class CReel {
 // [act]ÉäÅ[Éã1å¬Ç∏Ç¬ÇÃÉNÉâÉX
 	SReelChaData					m_reelData;
 	float							m_rotatePos;
+	float							m_pushPos;
 	float							m_speed;
 	float							m_speedMax;
 	float							m_accVal;
 	unsigned int					m_comaPos;
 	unsigned int					m_destination;
 	long long						m_lastRotationTime;
-	std::vector<SReelFrashConfig>	m_flashData;
 	EReelStatus						m_nowStatus;
 	EReelStatus						m_lastStatus;
 
@@ -39,8 +39,6 @@ public:
 	bool			Init(const SReelChaData& pReelData);
 	bool			ReelStart();
 	bool			ReelStop(unsigned int pDest, bool pForceFlag);
-	bool			SetFrashData(SReelFrashConfig pInputData);
-	void			ClearFrashData();
 	EReelStatus		GetReelStatus() const { return m_nowStatus; }
 	float			GetReelRotatePos() const { return m_rotatePos; }
 	int				GetReelPos() const { return m_comaPos; }
@@ -48,6 +46,7 @@ public:
 	unsigned int	GetComaNum() const { return m_reelData.arrayData.size(); }
 	int				GetReelComaByReelPos(int pOffset) const;
 	int				GetReelComaByFixedPos(int pComaID) const;
+	int				GetReelDetailPos() const;
 
 	bool			Process(CSlotTimerManager& pTimer);
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas) const;

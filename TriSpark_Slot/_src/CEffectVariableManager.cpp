@@ -1,6 +1,7 @@
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotInternalDataManager.hpp"
 #include "_header/CSlotCastChecker.hpp"
+#include "_header/CReelManager.hpp"
 #include "_header/ErrClass.hpp"
 #include <stdexcept>
 #include "DxLib.h"
@@ -43,13 +44,15 @@ bool CEffectVariableManager::Init() {
 		CreateNewVar("isGameLim[" + std::to_string(i) + "]", 0);
 		CreateNewVar("nextGame[" + std::to_string(i) + "]", 0);
 	}
+	for (int i = 0; i < 3; ++i)
+		CreateNewVar("reelDetailPos[" + std::to_string(i) + "]", 0);
 	return true;
 }
 
 // [act]システム変数の更新を行う
 // [prm]pIntData	: 更新に使用する内部情報管理クラス
 // [ret]更新が正常に行われたかどうか
-bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker) {
+bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker, const CReelManager& pReelManager) {
 	const auto data = pIntData.GetData();
 	SetVarVal("set", data.set);
 	SetVarVal("flagID", data.flag.first);
@@ -77,6 +80,10 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const C
 	SetVarVal("payoutEffect", pCastChecker.GetPayoutEffect());
 	SetVarVal("payoutLine", pCastChecker.GetPayoutLineID());
 	SetVarVal("reachSound", pCastChecker.GetReachSoundID());
+
+	for (int i = 0; i < 3; ++i)
+		SetVarVal("reelDetailPos[" + std::to_string(i) + "]", pReelManager.GetComaDetailPos(i));
+
 	// pIntDataへの登録
 	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));
 	pIntData.SetBetFreezeTime(GetVal(GetValIDFromName("$betFreeze")));

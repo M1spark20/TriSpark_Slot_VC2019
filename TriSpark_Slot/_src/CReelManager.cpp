@@ -166,6 +166,16 @@ std::vector<int> CReelManager::GetCharaIDList(std::vector<int> pOffsetList) cons
 	return ans;
 }
 
+// [act]全リールの指定位置のcharaIDを返す
+// [ret]-1		: エラー発生
+//		(else)	: 各リールの位置(各コマを16分割した際の値)
+int CReelManager::GetComaDetailPos(int pReelID) const {
+	const auto dataPtr = FindReelData(pReelID);
+	if (dataPtr == m_reelChaData.end()) return -1;
+	return dataPtr->GetReelDetailPos();
+}
+
+
 CReelManager::~CReelManager(){
 	DxLib::DeleteGraph(m_drawingCanvas);
 }

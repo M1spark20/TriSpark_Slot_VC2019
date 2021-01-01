@@ -18,7 +18,7 @@ class CSlotEffectManager {
 
 public:
 	bool Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel);
-	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, const CSlotCastChecker& pCast);
+	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, const CSlotCastChecker& pCast, const CReelManager& pReelManager);
 	bool Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer);
 	bool RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData);
 };

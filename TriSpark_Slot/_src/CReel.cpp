@@ -13,6 +13,7 @@ bool CReel::Init(const SReelChaData& pReelData){
 	if (m_reelData.arrayData.empty()) return false;
 	if (m_reelData.reelData.empty()) return false;
 	m_rotatePos = 0.f;
+	m_pushPos = 0.f;
 	m_speed = 0.f;
 	m_comaPos = 0;
 	m_destination = 0;
@@ -105,24 +106,17 @@ bool CReel::ReelStop(unsigned int pDest, bool pForceFlag){
 		m_destination = pDest % m_reelData.arrayData.size();
 		m_comaPos = m_destination;
 		m_speed = 0.f;
+		m_pushPos = m_rotatePos;
 		m_rotatePos = (float)m_reelData.reelData[0].h * pDest;
 		m_nowStatus = EReelStatus::eStoping;
 	} else {
 		// 滑って停止する
 		if (m_nowStatus != EReelStatus::eRotating) return false;
+		m_pushPos = m_rotatePos;
 		m_destination = pDest % m_reelData.arrayData.size();
 		m_nowStatus = EReelStatus::eSliping;
 	}
 	return true;
-}
-
-bool CReel::SetFrashData(SReelFrashConfig pInputData){
-	m_flashData.push_back(pInputData);
-	return true;
-}
-
-void CReel::ClearFrashData(){
-	m_flashData.clear();
 }
 
 int CReel::GetReelComaByReelPos(int pOffset) const{
@@ -234,4 +228,11 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 		if (m_nowStatus == EReelStatus::eStoping) break;
 	}
 	return true;
+}
+
+// [act]各リールコマを16分割した位置を取得する
+int CReel::GetReelDetailPos() const {
+	if (m_nowStatus == EReelStatus::eAccerating || m_nowStatus == EReelStatus::eRotating) return -1;
+	const int pos = (int)(m_pushPos * 16.f / m_reelData.reelData[0].h);
+	return pos;
 }

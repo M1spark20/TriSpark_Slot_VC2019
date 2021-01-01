@@ -35,6 +35,7 @@ public:
 	std::vector<int>	GetReelPos() const;
 	int					GetCharaIDByReelPos(int pReelID, int pComaOffset) const;
 	int					GetCharaIDByFixedPos(int pReelID, int pComaID) const;
+	int					GetComaDetailPos(int pReelID) const;
 	std::vector<int>	GetCharaIDList(std::vector<int> pOffsetList) const;
 	~CReelManager();
 };
