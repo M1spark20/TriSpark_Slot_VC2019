@@ -27,15 +27,16 @@ struct SSlotSoundVolumeData {	// intデータはすべて変数ID
 typedef int	SSlotSoundStopData;	// データIDを指す変数ID
 
 class CSlotSoundManager {
+	// 鳴動データとして保存するとき、変数IDを値に直してから保存する(後から変換すると定義後の変数代入に対応できない)
 	std::list<std::pair<SSlotSoundRingData, bool>>	mRingData;
 	std::list<SSlotSoundVolumeData>					mVolumeData;
 	std::vector<SSlotSoundStopData>					mStopData;
 
 public:
-	void DeclarePlaySound(const SSlotSoundRingData& pData);
-	void DeclareVolumeAction(const SSlotSoundVolumeData& pData);
-	void DeclareStopAction(const SSlotSoundStopData& pData);
-	bool RingAction(CSlotTimerManager& pTimer, const CEffectVariableManager& pVar, const CGameDataManage& pDataManager);
+	bool DeclarePlaySound(const SSlotSoundRingData& pData, const CEffectVariableManager& pVar);
+	bool DeclareVolumeAction(const SSlotSoundVolumeData& pData, const CEffectVariableManager& pVar);
+	bool DeclareStopAction(const SSlotSoundStopData& pData, const CEffectVariableManager& pVar);
+	bool RingAction(CSlotTimerManager& pTimer, const CGameDataManage& pDataManager);
 };
 
 class CSlotSoundRingDataMaker : public IEffectExecuteMakerBase {

@@ -6,23 +6,61 @@
 #include "DxLib.h"
 #include <stdexcept>
 
-void CSlotSoundManager::DeclarePlaySound(const SSlotSoundRingData& pData) {
-	mRingData.push_back(std::pair<SSlotSoundRingData, bool>(pData, false));
+bool CSlotSoundManager::DeclarePlaySound(const SSlotSoundRingData& pData, const CEffectVariableManager& pVar) {
+	// 変数ID → 実数値変換を行ってから保存
+	try {
+		SSlotSoundRingData convData;
+		convData.dataID = pVar.GetVal(pData.dataID);
+		convData.timerName = pData.timerName;
+		convData.beginTime = pVar.GetVal(pData.beginTime);
+		convData.stopTime = pVar.GetVal(pData.stopTime);
+		convData.loopStartTime = pVar.GetVal(pData.loopStartTime);
+		convData.isLoop = pData.isLoop;
+		mRingData.push_back(std::pair<SSlotSoundRingData, bool>(convData, false));
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
+
 }
 
-void CSlotSoundManager::DeclareVolumeAction(const SSlotSoundVolumeData& pData) {
-	mVolumeData.push_back(pData);
+bool CSlotSoundManager::DeclareVolumeAction(const SSlotSoundVolumeData& pData, const CEffectVariableManager& pVar) {
+	// 変数ID → 実数値変換を行ってから保存
+	try {
+		SSlotSoundVolumeData convData;
+		convData.dataID = pVar.GetVal(pData.dataID);
+		convData.timerName = pData.timerName;
+		convData.applyTime = pVar.GetVal(pData.applyTime);
+		convData.volume = pVar.GetVal(pData.volume);
+		convData.pan = pVar.GetVal(pData.pan);
+		mVolumeData.push_back(convData);
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
 }
 
-void CSlotSoundManager::DeclareStopAction(const SSlotSoundStopData& pData) {
-	mStopData.push_back(pData);
+bool CSlotSoundManager::DeclareStopAction(const SSlotSoundStopData& pData, const CEffectVariableManager& pVar) {
+	// 変数ID → 実数値変換を行ってから保存
+	try {
+		mStopData.push_back(pVar.GetVal(pData));
+		return true;
+	}
+	catch (ErrUndeclaredVar e) {
+		e.WriteErrLog();
+		return false;
+	}
 }
 
-bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVariableManager& pVar, const CGameDataManage& pDataManager) {
+bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CGameDataManage& pDataManager) {
 	try {
 		// stopData
 		for (auto stopID : mStopData) {
-			const int soundDataID = pVar.GetVal(stopID);
+			const int soundDataID = stopID;
 			const int dataHandle = pDataManager.GetDataHandle(soundDataID);
 			const auto ringStatus = DxLib::CheckSoundMem(dataHandle);
 			if (ringStatus == -1) {	// error
@@ -41,7 +79,7 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVaria
 			long long timerValue;
 			const bool timerEnable = pTimer.GetTimeFromTimerHandle(timerValue, timerHandle);
 
-			const int soundDataID = pVar.GetVal(it->first.dataID);
+			const int soundDataID = it->first.dataID;
 			const int dataHandle = pDataManager.GetDataHandle(soundDataID);
 			const auto ringStatus = DxLib::CheckSoundMem(dataHandle);
 			if (ringStatus == -1) {	// error
@@ -57,8 +95,8 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVaria
 					// 終了判定
 					if (timerEnable) {
 						// 開始時間と終了時間が同じ場合は鳴りっぱなし
-						if (pVar.GetVal(it->first.beginTime) == pVar.GetVal(it->first.stopTime)) { ++it; continue; }
-						if (timerValue < pVar.GetVal(it->first.stopTime)) { ++it; continue; }
+						if (it->first.beginTime == it->first.stopTime) { ++it; continue; }
+						if (timerValue < it->first.stopTime) { ++it; continue; }
 					}
 					DxLib::StopSoundMem(dataHandle);
 					// 定義をステージから除去する
@@ -67,9 +105,9 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVaria
 			} else {			// 当該定義でまだ音を鳴らしていない場合
 				// 開始判定
 				if (!timerEnable) { ++it; continue; }
-				if (timerValue < pVar.GetVal(it->first.beginTime)) { ++it; continue; }
+				if (timerValue < it->first.beginTime) { ++it; continue; }
 				DxLib::StopSoundMem(dataHandle);
-				if (it->first.isLoop) DxLib::SetLoopPosSoundMem(pVar.GetVal(it->first.loopStartTime), dataHandle);
+				if (it->first.isLoop) DxLib::SetLoopPosSoundMem(it->first.loopStartTime, dataHandle);
 				DxLib::PlaySoundMem(dataHandle, it->first.isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK);
 				it->second = true;
 			}
@@ -81,17 +119,17 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CEffectVaria
 			const auto timerHandle = pTimer.GetTimerHandle(it->timerName);
 			long long timerValue;
 			if (!pTimer.GetTimeFromTimerHandle(timerValue, timerHandle)) { ++it; continue; }
-			if (timerValue < pVar.GetVal(it->applyTime)) { ++it; continue; }
+			if (timerValue < it->applyTime) { ++it; continue; }
 
-			const int soundDataID = pVar.GetVal(it->dataID);
+			const int soundDataID = it->dataID;
 			const int dataHandle = pDataManager.GetDataHandle(soundDataID);
 			const auto ringStatus = DxLib::CheckSoundMem(dataHandle);
 			if (ringStatus == -1) {	// error
 				DxLib::ErrorLogFmtAdd("Sound Error - DataID: %d / handle: %d", soundDataID, dataHandle);
 				return false;
 			}
-			DxLib::SetPanSoundMem(pVar.GetVal(it->pan), dataHandle);
-			DxLib::SetVolumeSoundMem(pVar.GetVal(it->volume), dataHandle);
+			DxLib::SetPanSoundMem(it->pan, dataHandle);
+			DxLib::SetVolumeSoundMem(it->volume, dataHandle);
 			it = mVolumeData.erase(it);
 		}
 

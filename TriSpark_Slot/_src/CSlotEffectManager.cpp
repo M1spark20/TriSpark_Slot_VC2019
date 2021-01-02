@@ -64,19 +64,19 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTi
 		if (isProceed) continue;
 		for (auto it = mEffectData.soundRingData.begin(); it != mEffectData.soundRingData.end(); ++it) {
 			if (it->first != orderC) continue;
-			mSoundManager.DeclarePlaySound(it->second);
+			mSoundManager.DeclarePlaySound(it->second, mVariableManager);
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
 		for (auto it = mEffectData.soundVolData.begin(); it != mEffectData.soundVolData.end(); ++it) {
 			if (it->first != orderC) continue;
-			mSoundManager.DeclareVolumeAction(it->second);
+			mSoundManager.DeclareVolumeAction(it->second, mVariableManager);
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
 		for (auto it = mEffectData.soundStopData.begin(); it != mEffectData.soundStopData.end(); ++it) {
 			if (it->first != orderC) continue;
-			mSoundManager.DeclareStopAction(it->second);
+			mSoundManager.DeclareStopAction(it->second, mVariableManager);
 			isProceed = true;	 break;
 		}
 		if (isProceed) continue;
@@ -101,5 +101,5 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTi
 }
 
 bool CSlotEffectManager::RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData) {
-	return mSoundManager.RingAction(pTimer, mVariableManager, pGameData);
+	return mSoundManager.RingAction(pTimer, pGameData);
 }
