@@ -257,7 +257,7 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 		// 描画しない場合
 		if (pWriteIndex >= digitNum && !drawSignFlag && !drawPaddingFlag) return SDrawImageSourceData();
 		// 符号を描画する場合
-		else if (drawSignFlag) numIndex = (mPaddingFlag ? 10 : 11);
+		else if (drawSignFlag) numIndex = (mPaddingFlag ? 11 : 10);
 		// パディングを描画する場合
 		else if (drawPaddingFlag) numIndex = 10;
 		// else:数値を描画する場合
