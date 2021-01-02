@@ -171,6 +171,7 @@ CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarM
 	mDrawNum = -1;
 	mDiffX = -1;
 	mDiffY = -1;
+	mDrawNumXCount = -1;
 	mSpecialBlendSource = -1;
 }
 
@@ -180,7 +181,7 @@ CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarM
 bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
-		if (pReadData.size() < 15 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 15);
+		if (pReadData.size() < 16 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 16);
 	}
 	catch (ErrLessCSVDefinition e) {
 		e.WriteErrLog();
@@ -192,9 +193,9 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 			mDrawNum	= mVarManager.MakeValID(pReadData[12]);
 			mDiffX		= mVarManager.MakeValID(pReadData[13]);
 			mDiffY		= mVarManager.MakeValID(pReadData[14]);
-			if (pReadData[15] != "") {
-				mSpecialBlendSource = mVarManager.GetScreenID(pReadData[15]);
-			}
+			if (pReadData[15] != "")	mDrawNumXCount = mVarManager.MakeValID(pReadData[15]);
+			else						mDrawNumXCount = mDrawNum;
+			if (pReadData[16] != "")	mSpecialBlendSource = mVarManager.GetScreenID(pReadData[16]);
 		}
 		catch (ErrUndeclaredVar e) {
 			e.WriteErrLog();
@@ -223,9 +224,11 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 
 		if (source.imageID == -1) continue;
 		const int blendID = GetDxBlendModeByEnum(destData.blend);
+		const int posX = i % mVarManager.GetVal(mDrawNumXCount);
+		const int posY = i / mVarManager.GetVal(mDrawNumXCount);
 		const int drawPos[]  = {
-			mVarManager.GetVal(destData.x) + i * mVarManager.GetVal(mDiffX),
-			mVarManager.GetVal(destData.y) + i * mVarManager.GetVal(mDiffY)
+			mVarManager.GetVal(destData.x) + posX * mVarManager.GetVal(mDiffX),
+			mVarManager.GetVal(destData.y) + posY * mVarManager.GetVal(mDiffY)
 		};
 		const int imageHandle =
 			source.isImageFromScreen ? source.imageID : pDataManager.GetDataHandle(source.imageID);

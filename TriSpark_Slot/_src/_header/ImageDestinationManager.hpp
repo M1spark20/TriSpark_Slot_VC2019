@@ -44,6 +44,7 @@ public:
 class CImageDestinationDefault : public IImageDestinationManager {
 	int mDrawNum;
 	int mDiffX, mDiffY;
+	int mDrawNumXCount;
 	int mSpecialBlendSource;
 
 public:
