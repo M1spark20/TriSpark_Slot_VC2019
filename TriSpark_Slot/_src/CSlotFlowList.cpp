@@ -28,6 +28,8 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 			// リール始動
 			if (key.ExportKeyState(KEY_INPUT_UP)) {
 				pGameData.internalDataManager.LatchBet();
+				pGameData.dataCounter.ReelStart(pGameData.internalDataManager);
+
 				pGameData.timeManager.DisableTimer(eTimerBetWaitStart);
 				pGameData.timeManager.DisableTimer(eTimerLeverAvailable);
 				/* Payoutリセット */
@@ -93,7 +95,7 @@ bool CSlotFlowWaiting::Init(SSlotGameDataWrapper& pGameData){
 
 ESlotFlowFlag CSlotFlowWaiting::Process(SSlotGameDataWrapper& pGameData){
 	long long intervalTime;
-	const int waitMax = 4100;
+	const int waitMax = 0;
 	if (!pGameData.timeManager.GetTime(intervalTime, eTimerAllReelStart)){
 		pGameData.timeManager.DisableTimer(eTimerWaitStart);
 		pGameData.timeManager.SetTimer(eTimerWaitEnd);
@@ -185,6 +187,7 @@ ESlotFlowFlag CSlotFlowPayout::Process(SSlotGameDataWrapper& pGameData){
 		if (!pGameData.timeManager.GetTime(time, eTimerPayout)) return eFlowErrEnd;
 		if (time - data.payoutFreeze >= payTime[1]){
 			pGameData.internalDataManager.CheckGameModeEnd(true, false);
+			pGameData.dataCounter.SetResult(pGameData.internalDataManager, pGameData.castChecker.GetPayoutEffect());
 			return eFlowBetting;
 		}
 	} else {
@@ -194,6 +197,7 @@ ESlotFlowFlag CSlotFlowPayout::Process(SSlotGameDataWrapper& pGameData){
 			if (time - data.payoutFreeze < payTime[0]*m_nowPayCount) break;
 			if (m_nowPayCount >= m_payoutFor){
 				pGameData.internalDataManager.CheckGameModeEnd(true, m_payoutFor>0 && !m_isDummyPay);
+				pGameData.dataCounter.SetResult(pGameData.internalDataManager, pGameData.castChecker.GetPayoutEffect());
 				return eFlowBetting;
 			}
 

@@ -5,6 +5,7 @@
 #include "CSlotTimerManager.hpp"
 #include "CSlotInternalDataManager.hpp"
 #include "CSlotCastChecker.hpp"
+#include "CSlotDataCounter.hpp"
 
 struct SSlotGameDataWrapper{
 	CReelManager				reelManager;
@@ -13,6 +14,7 @@ struct SSlotGameDataWrapper{
 	CSlotTimerManager			timeManager;
 	CSlotCastChecker			castChecker;
 	CSlotInternalDataManager	internalDataManager;
+	CSlotDataCounter			dataCounter;
 	//CSlotExternalDataManager	m_externalDataManager;
 	//CSlotStopHistoryManager		m_reelHistory;
 };

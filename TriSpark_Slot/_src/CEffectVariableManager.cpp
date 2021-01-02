@@ -1,7 +1,5 @@
 #include "_header/CEffectVariableManager.hpp"
-#include "_header/CSlotInternalDataManager.hpp"
-#include "_header/CSlotCastChecker.hpp"
-#include "_header/CReelManager.hpp"
+#include "_header/SSlotGameDataWrapper.hpp"
 #include "_header/ErrClass.hpp"
 #include <stdexcept>
 #include "DxLib.h"
@@ -38,22 +36,38 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("payoutLine", 0);
 	CreateNewVar("reachSound", -1);
 	CreateNewVar("betFreeze", 50);
+	CreateNewVar("dcTotalG", 0);
+	CreateNewVar("dcStartG", 0);
+	CreateNewVar("dcPayoutX10", 0);
 
 	for (int i = 0; i < 2; ++i) {
 		CreateNewVar("modeLim[" + std::to_string(i) + "]", 0);
 		CreateNewVar("isGameLim[" + std::to_string(i) + "]", 0);
 		CreateNewVar("nextGame[" + std::to_string(i) + "]", 0);
+		CreateNewVar("dcBonusCount[" + std::to_string(i) + "]", 0);
+		CreateNewVar("dcBonusRateX10[" + std::to_string(i) + "]", 1000);
 	}
 	for (int i = 0; i < 3; ++i)
 		CreateNewVar("reelDetailPos[" + std::to_string(i) + "]", 0);
+
+	for(int i=0; i<8; ++i){
+		CreateNewVar("dcHistGame[" + std::to_string(i) + "]", -1);
+		CreateNewVar("dcHistType[" + std::to_string(i) + "]", -1);
+		CreateNewVar("dcHistGet[" + std::to_string(i) + "]", -1);
+	}
+
 	return true;
 }
 
 // [act]システム変数の更新を行う
 // [prm]pIntData	: 更新に使用する内部情報管理クラス
 // [ret]更新が正常に行われたかどうか
-bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker, const CReelManager& pReelManager) {
+bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const SSlotGameDataWrapper& pDataWrapper) {
+	const auto& pCastChecker = pDataWrapper.castChecker;
+	const auto& pReelManager = pDataWrapper.reelManager;
+	const auto& pDataCounter = pDataWrapper.dataCounter;
 	const auto data = pIntData.GetData();
+
 	SetVarVal("set", data.set);
 	SetVarVal("flagID", data.flag.first);
 	SetVarVal("bonusID", data.flag.second);
@@ -83,6 +97,27 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const C
 
 	for (int i = 0; i < 3; ++i)
 		SetVarVal("reelDetailPos[" + std::to_string(i) + "]", pReelManager.GetComaDetailPos(i));
+
+	/* dataCounter */ {
+		const auto basicData = pDataCounter.GetBasicData();
+		SetVarVal("dcTotalG", basicData.totalGame);
+		SetVarVal("dcStartG", basicData.startGame);
+		SetVarVal("dcPayoutX10", basicData.payoutRateX10);
+
+		for (int i = 0; i < 2; ++i) {
+			SetVarVal("dcBonusCount[" + std::to_string(i) + "]", pDataCounter.GetBonusCount(i + 1));
+			SetVarVal("dcBonusRateX10[" + std::to_string(i) + "]", pDataCounter.GetBonusRateX10(i + 1));
+		}
+		
+		for (int i = 0; i < 8; ++i) {
+			const auto hist = pDataCounter.GetBonusHistory(i);
+			SetVarVal("dcHistGame[" + std::to_string(i) + "]", hist.startGame);
+			SetVarVal("dcHistType[" + std::to_string(i) + "]", hist.getPayoutEffect);
+			if(hist.isSetGet)	SetVarVal("dcHistGet[" + std::to_string(i) + "]", hist.medalAfter - hist.medalBefore);
+			else				SetVarVal("dcHistGet[" + std::to_string(i) + "]", -1);
+		}
+
+	}
 
 	// pIntDataへの登録
 	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));

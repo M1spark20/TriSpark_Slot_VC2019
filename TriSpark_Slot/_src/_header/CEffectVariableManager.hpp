@@ -8,6 +8,7 @@
 class CSlotInternalDataManager;
 class CSlotCastChecker;
 class CReelManager;
+struct SSlotGameDataWrapper;
 
 struct SEffectVariableInsertData {
 	enum class EOperand { eAdd, eSub, eMul, eDiv, eMod };
@@ -37,7 +38,7 @@ class CEffectVariableManager {
 public:
 	CEffectVariableManager();
 	bool Init();
-	bool Process(CSlotInternalDataManager& pIntData, const CSlotCastChecker& pCastChecker, const CReelManager& pReelManager);
+	bool Process(CSlotInternalDataManager& pIntData, const SSlotGameDataWrapper& pDataWrapper);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;

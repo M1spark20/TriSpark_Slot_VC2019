@@ -52,7 +52,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 	}
 
 	m_data.reelManager.Process(m_data.timeManager);
-	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data.castChecker, m_data.reelManager);
+	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data);
 	return eStateContinue;
 }
 
