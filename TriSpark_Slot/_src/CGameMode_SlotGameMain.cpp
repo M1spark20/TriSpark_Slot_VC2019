@@ -5,7 +5,7 @@
 #include "DxLib.h"
 
 bool CGameMode_SlotGameMain::Init(){
-	if (!StartReadFile("data/readList/gameMain.csv")) return false;
+	if (!StartReadFile("launchData/gameMain.csv")) return false;
 	m_pGameStateManage = new CGameState_ReadingData;
 	return m_pGameStateManage->Init(*m_pGameDataManage);
 }
