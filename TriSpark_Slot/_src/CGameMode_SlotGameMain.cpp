@@ -39,8 +39,8 @@ EChangeModeFlag CGameMode_SlotGameMain::Process(){
 	}
 
 	// テスト移行
-	CKeyExport_S& key = CKeyExport_S::GetInstance();
-	if (key.ExportKeyState(KEY_INPUT_F1)) return eModeControlTest;
+	/*CKeyExport_S& key = CKeyExport_S::GetInstance();
+	if (key.ExportKeyState(KEY_INPUT_F1)) return eModeControlTest;*/
 
 	return state == eStateEnd ? eModeEnd : eModeContinue;
 }
