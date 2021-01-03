@@ -5,7 +5,7 @@
 #include "DxLib.h"
 
 bool CControlTester::Init(){
-	if(!StartReadFile("launchData/controlTest.csv")) return false;
+	if(!StartReadFile("launchData/controlTest.act")) return false;
 	m_pGameStateManage	= new CGameState_ReadingData;
 	return m_pGameStateManage->Init(*m_pGameDataManage);
 }
