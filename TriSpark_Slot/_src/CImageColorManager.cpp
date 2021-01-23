@@ -135,8 +135,8 @@ int CImageColorManager::GetComaNum(int pDefinitionIndex) const{
 bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex) const{
 	// indexに応じて画像を切り出す
 	const auto& nowData = mCommonData[pDefinitionIndex];
-	const int width = mVarManager.GetVal(nowData.w);
-	const int height = mVarManager.GetVal(nowData.h);
+	const int width = mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX));	// アニメーション1コマの幅
+	const int height = mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY));	// 同高さ
 	if (pColorIndex < 0 || pColorIndex >= abs(width) * abs(height)) {
 		pData.r = 0;
 		pData.g = 0;
@@ -150,8 +150,8 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 	unsigned int posY = nowData.directionY ? imageIndexForComa % abs(mVarManager.GetVal(nowData.numY)) : imageIndexForComa / abs(mVarManager.GetVal(nowData.numX));
 	if (mVarManager.GetVal(nowData.numX) < 0) posX = abs(mVarManager.GetVal(nowData.numX)) - posX - 1;
 	if (mVarManager.GetVal(nowData.numY) < 0) posY = abs(mVarManager.GetVal(nowData.numY)) - posY - 1;
-	posX *= (mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX)));
-	posY *= (mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY)));
+	posX *= width;
+	posY *= height;
 
 	unsigned int indexX = nowData.isColorIndexDirY ? pColorIndex / abs(height) : pColorIndex % abs(width);
 	unsigned int indexY = nowData.isColorIndexDirY ? pColorIndex % abs(height) : pColorIndex / abs(width);
