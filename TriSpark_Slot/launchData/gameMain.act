@@ -45,3 +45,4 @@
 #MainFile,1,1,data/sound/NotifyType.wav,0,,//,37,ボーナス種別告知音,
 #MainFile,6,1,data/image/strLamp.png,,,//,38,文字ランプ(RB),
 #MainFile,6,1,data/image/strRB.png,,,//,39,文字ランプ制御,
+#MainFile,6,1,data/image/strR7.png,,,//,40,文字ランプ制御,
