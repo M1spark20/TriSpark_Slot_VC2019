@@ -1,4 +1,4 @@
-#include "_header\CSlotCastChecker.hpp"
+ï»¿#include "_header\CSlotCastChecker.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\SSlotGameDataWrapper.hpp"
 #include "_header\CSlotInternalDataManager.hpp"
@@ -26,7 +26,7 @@ bool CSlotCastChecker::SetReachData(const SSlotGameDataWrapper& pData) {
 				verifyData |= (1 << shift);
 			}
 
-			if (skipNum != 1) continue;		// Žc‚è1ƒŠ[ƒ‹‚ª‰ñ“]’†ˆÈŠO‚Í‰¹‚ð–Â‚ç‚³‚È‚¢
+			if (skipNum != 1) continue;		// æ®‹ã‚Š1ãƒªãƒ¼ãƒ«ãŒå›žè»¢ä¸­ä»¥å¤–ã¯éŸ³ã‚’é³´ã‚‰ã•ãªã„
 			for (auto castIt = m_castData.payData.cbegin(); castIt != m_castData.payData.cend(); ++castIt){
 				if (castIt->gamemode != intData.gameMode && castIt->gamemode != -1) continue;
 				if ((castIt->conbination & verifyData) != verifyData) continue;

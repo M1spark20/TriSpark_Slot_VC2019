@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "SDrawImageSourceData.hpp"
 
 struct SReelDrawData{
-//[act] ƒŠ[ƒ‹•`‰æ—p\‘¢‘Ì
+//[act] ãƒªãƒ¼ãƒ«æç”»ç”¨æ§‹é€ ä½“
 	unsigned int reelID;
 	float x;
 	float y;
@@ -17,7 +17,7 @@ struct SReelDrawDataFromCSV {
 	struct { int x, y, w, h; } srcPos, dstPos;
 	int a;
 	int extendModeID, blendModeID;
-	int destScr, preDrawScr;		// csvƒf[ƒ^‚©‚çDxLib‘¤‚ÌƒXƒNƒŠ[ƒ“ƒnƒ“ƒhƒ‹‚É•ÏŠ·‚µ‚½‚à‚Ì‚ğ“ü—Í
+	int destScr, preDrawScr;		// csvãƒ‡ãƒ¼ã‚¿ã‹ã‚‰DxLibå´ã®ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒãƒ³ãƒ‰ãƒ«ã«å¤‰æ›ã—ãŸã‚‚ã®ã‚’å…¥åŠ›
 	int blew, blewTime;
 	int reelID, comaNum, originComa, comaBegin, comaIndexMax;
 };

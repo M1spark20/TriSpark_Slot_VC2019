@@ -1,4 +1,4 @@
-#include "_header\CSlotInternalDataManager.hpp"
+ï»¿#include "_header\CSlotInternalDataManager.hpp"
 
 void CSlotInternalDataManager::Init(){
 	m_data.set					= 0;
@@ -126,7 +126,7 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 			if (pGetCount) m_data.gameModeLimit.second -= 100;
 		}
 		if (m_data.gameModeLimit.second < 100 || m_data.gameModeLimit.second % 100 == 0){
-			// second‚ÉŽw’è‚³‚ê‚½ƒ‚[ƒh‚ÌI—¹
+			// secondã«æŒ‡å®šã•ã‚ŒãŸãƒ¢ãƒ¼ãƒ‰ã®çµ‚äº†
 			is2ndModeEnd = true;
 			m_data.gameMode = m_data.gameModeAtEnd.second;
 			m_data.gameModeAtEnd.second = -1;
@@ -139,9 +139,9 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 		if (m_data.isGameLimit.first && m_data.gameModeLimit.second == -1){
 			if (!m_isGameNoCount.first){
 				if (pGameCount) m_data.gameModeLimit.first -= 1;
-				// ’Êí‚Ì“üÜŒ¸ŽZ
+				// é€šå¸¸ã®å…¥è³žæ¸›ç®—
 				if (pGetCount && !m_data.isGetCountOnlyJac) m_data.gameModeLimit.first -= 100;
-				// JACI—¹‚É‚æ‚éŒ¸ŽZ
+				// JACçµ‚äº†ã«ã‚ˆã‚‹æ¸›ç®—
 				if (is2ndModeEnd && m_data.isGetCountOnlyJac) m_data.gameModeLimit.first -= 100;
 			}
 			is1stModeEnd = (m_data.gameModeLimit.first < 100 || m_data.gameModeLimit.first % 100 == 0);
@@ -150,7 +150,7 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 		}
 	}
 	if (is1stModeEnd){
-		// 1st,2nd‚Æ‚àƒ‚[ƒh‚ð‹­§I—¹‚³‚¹‚é
+		// 1st,2ndã¨ã‚‚ãƒ¢ãƒ¼ãƒ‰ã‚’å¼·åˆ¶çµ‚äº†ã•ã›ã‚‹
 		m_data.gameMode = m_data.gameModeAtEnd.first;
 		m_data.gameModeAtEnd = std::pair<int, int>(-1, -1);
 		m_data.gameModeLimit = std::pair<int, int>(-1, -1);

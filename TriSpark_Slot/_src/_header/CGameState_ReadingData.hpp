@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include "IGameStateBase.hpp"
 class CGameDataManage;
 
 class CGameState_ReadingData : public IGameStateBase{
-// [act]ƒQ[ƒ€‰æ–Ê‚ÌƒOƒ‰ƒbƒtƒBƒbƒN“Ç‚İ‚İŠÖ”
+// [act]ã‚²ãƒ¼ãƒ ç”»é¢ã®ã‚°ãƒ©ãƒƒãƒ•ã‚£ãƒƒã‚¯èª­ã¿è¾¼ã¿é–¢æ•°
 public:
 	bool Init(CGameDataManage& pDataManageIns) override;
 	EChangeStateFlag Process(CGameDataManage& p_pDataManageIns)override;

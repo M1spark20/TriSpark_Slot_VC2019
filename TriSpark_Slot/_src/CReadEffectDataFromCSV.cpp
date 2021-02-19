@@ -1,4 +1,4 @@
-#include "_header/CReadEffectDataFromCSV.hpp"
+ï»¿#include "_header/CReadEffectDataFromCSV.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/CReelManager.hpp"
@@ -7,8 +7,8 @@
 #include <stdexcept>
 
 bool CReadEffectDataFromCSV::FileInit(int pFileID) {
-	// [act]DxLib‘¤‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İo‚·
-	// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+	// [act]DxLibå´ã§é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å‡ºã™
+	// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	while (!DxLib::FileRead_eof(pFileID)) {
 		TCHAR str[1024];
 		DxLib::FileRead_gets(str, 1024, pFileID);
@@ -19,7 +19,7 @@ bool CReadEffectDataFromCSV::FileInit(int pFileID) {
 
 void CReadEffectDataFromCSV::PushImgData(SSlotEffectData& pData, std::unique_ptr<IImageSourceManager>& sourcePtr, std::unique_ptr<IImageDestinationManager>& destPtr) {
 	pData.conditionData.push_back(mConditionData);
-	pData.colorController.CreateActionData(sourcePtr->GetEffectDataName());	// ‹ó‚Ì‚Í‰½‚àì‚ç‚¸ƒXƒ‹[‚·‚é
+	pData.colorController.CreateActionData(sourcePtr->GetEffectDataName());	// ç©ºã®æ™‚ã¯ä½•ã‚‚ä½œã‚‰ãšã‚¹ãƒ«ãƒ¼ã™ã‚‹
 	pData.imgData.push_back(std::pair<int, SImageEffectData>());
 	auto pushData = pData.imgData.end() - 1;
 	pushData->first = mOrderCounter++;
@@ -94,7 +94,7 @@ bool CReadEffectDataFromCSV::MakeData(SSlotEffectData& pData, CEffectVariableMan
 				mHeading = ENowReadingHead::eNone;
 			}
 			if (NowGetStr.at(0) == "#makeVar") {
-				// ƒoƒO–h~‚Ì‚½‚ßIF•¶“™‚ÌğŒ‚ÉŠÖŒW‚È‚­•Ï”‚ğ¶¬‚·‚é
+				// ãƒã‚°é˜²æ­¢ã®ãŸã‚IFæ–‡ç­‰ã®æ¡ä»¶ã«é–¢ä¿‚ãªãå¤‰æ•°ã‚’ç”Ÿæˆã™ã‚‹
 				if (mReadStatus == EReadStatus::eSource || mReadStatus == EReadStatus::eColorMap || mReadStatus == EReadStatus::eVarSetting)
 					throw ErrIllegalCSVDefinition(rowCount, NowGetStr.at(0));
 				if (mReadStatus == EReadStatus::eDestination) PushImgData(pData, sourcePtr, destPtr);

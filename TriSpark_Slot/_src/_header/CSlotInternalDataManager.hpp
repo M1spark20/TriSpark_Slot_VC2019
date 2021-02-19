@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <algorithm>
 class CSlotTimerManager;
 
@@ -17,8 +17,8 @@ public:
 		int						gameMode;
 		std::pair<int, int>		gameModeLimit;		// Play/GetLimit, PayLimit[or]Play/GetLimit
 		std::pair<bool, bool>	isGameLimit;
-		bool					isGetCountOnlyJac;	// 4†‹@‚ç‚µ‚¢ƒ{[ƒiƒX»ì—p
-		std::pair<int, int>		gameModeAtEnd;		// PayLimì“®’†‚ÌGameLim“®ì‚Ì‚İ—LŒø(JacGame—p)
+		bool					isGetCountOnlyJac;	// 4å·æ©Ÿã‚‰ã—ã„ãƒœãƒ¼ãƒŠã‚¹è£½ä½œç”¨
+		std::pair<int, int>		gameModeAtEnd;		// PayLimä½œå‹•ä¸­ã®GameLimå‹•ä½œæ™‚ã®ã¿æœ‰åŠ¹(JacGameç”¨)
 		std::pair<int, int>		rtMode;				// rtID, rtLimitGame
 		std::pair<int, int>		rtModeAtModeEnd;	// rtID, rtLimitGame
 		bool					isRtOverrideEnable;

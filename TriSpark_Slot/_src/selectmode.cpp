@@ -1,17 +1,17 @@
-#include "_header\selectmode.h"
+ï»¿#include "_header\selectmode.h"
 #include "_header\CControlTester.hpp"
 #include "_header\CGameMode_SlotGameMain.hpp"
 
 CSelectMode_S::CSelectMode_S(){
-// [act]‹N“®‚Ìƒ‚[ƒh‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µA‰Šú‰»ˆ—‚ğs‚¤
-	m_pNowMode = new CGameMode_SlotGameMain;	// Œ»İ‚Ì‰Šúƒ‚[ƒh‚ÍControlTester
+// [act]èµ·å‹•æ™‚ã®ãƒ¢ãƒ¼ãƒ‰ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã€åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
+	m_pNowMode = new CGameMode_SlotGameMain;	// ç¾åœ¨ã®åˆæœŸãƒ¢ãƒ¼ãƒ‰ã¯ControlTester
 	m_pNowMode->Init();
 }
 bool CSelectMode_S::MainLoopProcess(bool& Ans){
-// [prm]p1;ŒÄ‚Ño‚µŒ³‚ÅI—¹‚É•Ô‚·’l‚ÌQÆ
-// [act]ƒ‚[ƒh‚²‚Æ‚Ìˆ—‚ğs‚¢A•K—v‚È‚çƒ‚[ƒh•ÏXAÄ“x‰Šú‰»ˆ—‚ğs‚¤B
-//		I—¹‚Ìê‡‚ÍAns•Ï”‚É³í‚©ˆÙí‚©‚ğƒZƒbƒg
-// [ret]ƒQ[ƒ€ƒ‹[ƒv‚ªŒp‘±‚·‚é‚©
+// [prm]p1;å‘¼ã³å‡ºã—å…ƒã§çµ‚äº†æ™‚ã«è¿”ã™å€¤ã®å‚ç…§
+// [act]ãƒ¢ãƒ¼ãƒ‰ã”ã¨ã®å‡¦ç†ã‚’è¡Œã„ã€å¿…è¦ãªã‚‰ãƒ¢ãƒ¼ãƒ‰å¤‰æ›´ã€å†åº¦åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†ã€‚
+//		çµ‚äº†ã®å ´åˆã¯Anså¤‰æ•°ã«æ­£å¸¸ã‹ç•°å¸¸ã‹ã‚’ã‚»ãƒƒãƒˆ
+// [ret]ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ãŒç¶™ç¶šã™ã‚‹ã‹
 	EChangeModeFlag Next=m_pNowMode->Process();
 	if(Next!=eModeContinue){
 		delete m_pNowMode;	m_pNowMode=nullptr;
@@ -26,6 +26,6 @@ bool CSelectMode_S::MainLoopProcess(bool& Ans){
 	return true;
 }
 CSelectMode_S::~CSelectMode_S(){
-// [act]m_pNowMode‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğdelete‚·‚é
+// [act]m_pNowModeã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’deleteã™ã‚‹
 	delete m_pNowMode;
 }

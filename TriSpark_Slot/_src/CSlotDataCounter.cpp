@@ -1,4 +1,4 @@
-#include "_header/CSlotDataCounter.hpp"
+ï»¿#include "_header/CSlotDataCounter.hpp"
 #include "_header/CSlotInternalDataManager.hpp"
 
 CSlotDataCounter::CSlotDataCounter() {
@@ -18,12 +18,12 @@ void CSlotDataCounter::ReelStart(const CSlotInternalDataManager& pInternal) {
 		++mCountData.totalGame;
 		++mCountData.startGame;
 	}
-	// inCount‚Ì‚İ“¯Šú
+	// inCountã®ã¿åŒæœŸ
 	mCountData.inCount = internalData.inCount;
 	PayoutCalculate();
 }
 
-// ŒÄ‚Ño‚µƒ^ƒCƒ~ƒ“ƒO:•¥‚¢o‚µI—¹Œã
+// å‘¼ã³å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°:æ‰•ã„å‡ºã—çµ‚äº†å¾Œ
 void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, const int pPayoutEffect) {
 	const auto internalData = pInternal.GetData();
 
@@ -33,7 +33,7 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, cons
 
 	if (mLastGameMode != internalData.gameMode) {
 		if (mLastGameMode == 0) {
-			// ƒ{[ƒiƒXƒXƒ^[ƒg
+			// ãƒœãƒ¼ãƒŠã‚¹ã‚¹ã‚¿ãƒ¼ãƒˆ
 			SSlotDataCounterBonusHistoryData bonusHistory;
 			bonusHistory.startGame = mCountData.startGame;
 			bonusHistory.medalBefore = mCountData.outCount - mCountData.inCount;
@@ -50,7 +50,7 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, cons
 				mBonusCount.push_back(std::pair<int, int>(internalData.gameMode, 1));
 			}
 		} else {
-			// ƒ{[ƒiƒXI—¹
+			// ãƒœãƒ¼ãƒŠã‚¹çµ‚äº†
 			mCountData.startGame = 0;
 			auto it = mBonusHistory.rbegin();
 			if (it != mBonusHistory.rend()) {
@@ -61,7 +61,7 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, cons
 	}
 	mLastGameMode = internalData.gameMode;
 
-	// ƒOƒ‰ƒtÀ‘•‚ÍŒã‚Å
+	// ã‚°ãƒ©ãƒ•å®Ÿè£…ã¯å¾Œã§
 }
 
 SSlotDataCounterBonusHistoryData CSlotDataCounter::GetBonusHistory(int pHistCount) const {

@@ -1,4 +1,4 @@
-#include "_header/CSlotEffectManager.hpp"
+﻿#include "_header/CSlotEffectManager.hpp"
 #include "_header/CReadEffectDataFromCSV.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/SSlotGameDataWrapper.hpp"

@@ -1,12 +1,12 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "_header\keyinput.h"
 #include "_header\keyexport.h"
 
 bool CKeyInput_S::GetKeyState(){
-// [act]ƒL[ƒXƒe[ƒgæ“¾(DxLib::GetHitKeyStateAll)
-//		Œ‹‰Ê‚ğCKeyExport_SƒNƒ‰ƒX‚Ö“`”d(ExIns.KeyStateUpdate)
-// [ret]ŠÖ”‚ª¬Œ÷‚µ‚½‚©
-// DxLib‚ÌƒL[ƒ{[ƒhæ“¾‚Ì”z—ñƒ}ƒWƒbƒNƒiƒ“ƒo[
+// [act]ã‚­ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆå–å¾—(DxLib::GetHitKeyStateAll)
+//		çµæœã‚’CKeyExport_Sã‚¯ãƒ©ã‚¹ã¸ä¼æ’­(ExIns.KeyStateUpdate)
+// [ret]é–¢æ•°ãŒæˆåŠŸã—ãŸã‹
+// DxLibã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å–å¾—æ™‚ã®é…åˆ—ãƒã‚¸ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼
 	const int GetInputArrayMax_C = 256;
 	char KeyState[GetInputArrayMax_C];
 	if(DxLib::GetHitKeyStateAll(KeyState)) return false;

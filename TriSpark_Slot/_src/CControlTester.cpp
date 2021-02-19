@@ -1,4 +1,4 @@
-#include "_header\CControlTester.hpp"
+ï»¿#include "_header\CControlTester.hpp"
 #include "_header\CGameState_ControlTestMain.hpp"
 #include "_header\CGameState_ReadingData.hpp"
 #include "_header\keyexport.h"
@@ -20,29 +20,29 @@ EChangeModeFlag CControlTester::Process(){
 		m_pGameStateManage = nullptr;
 		m_pGameStateManage = new CGameState_ControlTestMain;
 		if (!m_pGameStateManage->Init(*m_pGameDataManage)){
-			DxLib::ErrorLogAdd("§ŒäƒeƒXƒg–{‘Ì‚Ì‰Šú‰»’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B");
+			DxLib::ErrorLogAdd(u8"åˆ¶å¾¡ãƒ†ã‚¹ãƒˆæœ¬ä½“ã®åˆæœŸåŒ–ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
 			return eModeErrEnd;
 		}
 		break;
 	case eStateErrEnd:
-		DxLib::ErrorLogAdd("§ŒäƒeƒXƒg‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B");
+		DxLib::ErrorLogAdd(u8"åˆ¶å¾¡ãƒ†ã‚¹ãƒˆã®å‡¦ç†ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
 		return eModeErrEnd;
 	default:
-		DxLib::ErrorLogAdd("•s–¾‚ÈStateƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ü‚µ‚½B");
+		DxLib::ErrorLogAdd(u8"ä¸æ˜ãªStateãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¾ã—ãŸã€‚");
 		return eModeErrEnd;
 		break;
 	}
 	if (!m_pGameStateManage->Draw(*m_pGameDataManage)){
-		DxLib::ErrorLogAdd("§ŒäƒeƒXƒg‰æ–Ê•`‰æ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B");
+		DxLib::ErrorLogAdd(u8"åˆ¶å¾¡ãƒ†ã‚¹ãƒˆç”»é¢æç”»ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
 		return eModeErrEnd;
 	}
 
-	// ƒeƒXƒgˆÚs
+	// ãƒ†ã‚¹ãƒˆç§»è¡Œ
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.ExportKeyState(KEY_INPUT_F5)) return eModeGameMain;
 
 	return state == eStateEnd ? eModeEnd : eModeContinue;
 }
 CControlTester::~CControlTester(){
-	// delete‚Íƒx[ƒXƒNƒ‰ƒX‚Å
+	// deleteã¯ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã§
 }

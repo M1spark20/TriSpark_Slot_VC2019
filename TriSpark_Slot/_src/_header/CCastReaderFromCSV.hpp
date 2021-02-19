@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IReadCSV.h"
 #include "SCastData.hpp"
 #include <vector>

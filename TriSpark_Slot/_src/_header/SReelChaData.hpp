@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 
 struct SReelChaUnit{
@@ -8,9 +8,9 @@ struct SReelChaUnit{
 };
 
 struct SReelChaData{
-	std::vector<SReelChaUnit>	reelData;	// ƒŠ[ƒ‹Ø‚èo‚µˆÊ’u(’¼Ú•`‰æ—p)
-	int							reelID;		// ƒŠ[ƒ‹ID
-	int							rpm;		// ƒŠ[ƒ‹‰ñ“]‘¬“x
-	int							accTime;	// ƒŠ[ƒ‹‰Á‘¬ŠÔ
-	std::vector<int>			arrayData;	// ƒŠ[ƒ‹”z—ñƒf[ƒ^
+	std::vector<SReelChaUnit>	reelData;	// ãƒªãƒ¼ãƒ«åˆ‡ã‚Šå‡ºã—ä½ç½®(ç›´æ¥æç”»ç”¨)
+	int							reelID;		// ãƒªãƒ¼ãƒ«ID
+	int							rpm;		// ãƒªãƒ¼ãƒ«å›è»¢é€Ÿåº¦
+	int							accTime;	// ãƒªãƒ¼ãƒ«åŠ é€Ÿæ™‚é–“
+	std::vector<int>			arrayData;	// ãƒªãƒ¼ãƒ«é…åˆ—ãƒ‡ãƒ¼ã‚¿
 };

@@ -1,4 +1,4 @@
-#include "_header/CEffectVariableManager.hpp"
+ï»¿#include "_header/CEffectVariableManager.hpp"
 #include "_header/SSlotGameDataWrapper.hpp"
 #include "_header/ErrClass.hpp"
 #include <stdexcept>
@@ -10,8 +10,8 @@ CEffectVariableManager::CEffectVariableManager() {
 	mRandomizer.seed(rd());
 }
 
-// [act]ƒVƒXƒeƒ€•Ï”‚Ì‰Šú‰»‚ğs‚¤
-// [ret]‰Šú‰»‚ª³í‚És‚í‚ê‚½‚©‚Ç‚¤‚©
+// [act]ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã®åˆæœŸåŒ–ã‚’è¡Œã†
+// [ret]åˆæœŸåŒ–ãŒæ­£å¸¸ã«è¡Œã‚ã‚ŒãŸã‹ã©ã†ã‹
 bool CEffectVariableManager::Init() {
 	CreateNewVar("set", 0);
 	CreateNewVar("flagID", 0);
@@ -59,9 +59,9 @@ bool CEffectVariableManager::Init() {
 	return true;
 }
 
-// [act]ƒVƒXƒeƒ€•Ï”‚ÌXV‚ğs‚¤
-// [prm]pIntData	: XV‚Ég—p‚·‚é“à•”î•ñŠÇ—ƒNƒ‰ƒX
-// [ret]XV‚ª³í‚És‚í‚ê‚½‚©‚Ç‚¤‚©
+// [act]ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã®æ›´æ–°ã‚’è¡Œã†
+// [prm]pIntData	: æ›´æ–°ã«ä½¿ç”¨ã™ã‚‹å†…éƒ¨æƒ…å ±ç®¡ç†ã‚¯ãƒ©ã‚¹
+// [ret]æ›´æ–°ãŒæ­£å¸¸ã«è¡Œã‚ã‚ŒãŸã‹ã©ã†ã‹
 bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const SSlotGameDataWrapper& pDataWrapper) {
 	const auto& pCastChecker = pDataWrapper.castChecker;
 	const auto& pReelManager = pDataWrapper.reelManager;
@@ -119,24 +119,24 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const S
 
 	}
 
-	// pIntData‚Ö‚Ì“o˜^
+	// pIntDataã¸ã®ç™»éŒ²
 	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));
 	pIntData.SetBetFreezeTime(GetVal(GetValIDFromName("$betFreeze")));
 	return true;
 }
 
-// [act]’è”(‚Ü‚½‚Í•Ï”)‚ÌV‹K“o˜^‚ğs‚¤
-// [prm]pVal	: •Ï”’l
-// [ret]•Ï”ID
+// [act]å®šæ•°(ã¾ãŸã¯å¤‰æ•°)ã®æ–°è¦ç™»éŒ²ã‚’è¡Œã†
+// [prm]pVal	: å¤‰æ•°å€¤
+// [ret]å¤‰æ•°ID
 int CEffectVariableManager::CreateNewConstant(int pVal) {
 	const auto ans = mVariablePool.size();
 	mVariablePool.push_back(pVal);
 	return ans;
 }
 
-// [act]•Ï”‚ÌV‹K“o˜^‚ğs‚¤
-// [prm]pValName	: •Ï”–¼(•Ï”‚ğ¦‚·$ƒ}[ƒN‚Í‚ ‚Á‚Ä‚à‚È‚­‚Ä‚àOK) ‚Ü‚½‚Í •¶š—ñ‚Å•\‚µ‚½”’l
-// [ret]•Ï”ID
+// [act]å¤‰æ•°ã®æ–°è¦ç™»éŒ²ã‚’è¡Œã†
+// [prm]pValName	: å¤‰æ•°å(å¤‰æ•°ã‚’ç¤ºã™$ãƒãƒ¼ã‚¯ã¯ã‚ã£ã¦ã‚‚ãªãã¦ã‚‚OK) ã¾ãŸã¯ æ–‡å­—åˆ—ã§è¡¨ã—ãŸæ•°å€¤
+// [ret]å¤‰æ•°ID
 int CEffectVariableManager::CreateNewVar(std::string pValName, int pInitVal) {
 	if (pValName.empty()) return -1;
 	const std::string registName = pValName[0] == '$' ? pValName.substr(1) : pValName;
@@ -146,10 +146,10 @@ int CEffectVariableManager::CreateNewVar(std::string pValName, int pInitVal) {
 	return ans;
 }
 
-// [act]•Ï”‚ÌV‹K“o˜^‚ğs‚¤
+// [act]å¤‰æ•°ã®æ–°è¦ç™»éŒ²ã‚’è¡Œã†
 //		<Throwable>ErrUndeclaredVar
-// [prm]pValName	: •Ï”–¼(•Ï”‚ğ¦‚·$ƒ}[ƒN‚ª•K{) ‚Ü‚½‚Í •¶š—ñ‚Å•\‚µ‚½”’l
-// [ret]•Ï”ID
+// [prm]pValName	: å¤‰æ•°å(å¤‰æ•°ã‚’ç¤ºã™$ãƒãƒ¼ã‚¯ãŒå¿…é ˆ) ã¾ãŸã¯ æ–‡å­—åˆ—ã§è¡¨ã—ãŸæ•°å€¤
+// [ret]å¤‰æ•°ID
 int CEffectVariableManager::MakeValID(std::string pValName) {
 	if (pValName.empty()) throw ErrUndeclaredVar("Name: <Empty>");
 	if (pValName[0] == '$') {
@@ -162,16 +162,16 @@ int CEffectVariableManager::MakeValID(std::string pValName) {
 		}
 	}
 	else {
-		// ’è”‚ğ“o˜^
+		// å®šæ•°ã‚’ç™»éŒ²
 		return CreateNewConstant(std::stoi(pValName));
 	}
 	throw ErrUndeclaredVar(pValName);
 }
 
-// [act]•Ï”–¼‚©‚çID‚Ìæ“¾‚ğs‚¤
+// [act]å¤‰æ•°åã‹ã‚‰IDã®å–å¾—ã‚’è¡Œã†
 //		<Throwable>ErrUndeclaredVar
-// [prm]pValName	: •Ï”–¼(•Ï”‚ğ¦‚·$ƒ}[ƒN‚ª•K{) ‚Ü‚½‚Í •¶š—ñ‚Å•\‚µ‚½”’l
-// [ret]•Ï”ID
+// [prm]pValName	: å¤‰æ•°å(å¤‰æ•°ã‚’ç¤ºã™$ãƒãƒ¼ã‚¯ãŒå¿…é ˆ) ã¾ãŸã¯ æ–‡å­—åˆ—ã§è¡¨ã—ãŸæ•°å€¤
+// [ret]å¤‰æ•°ID
 int CEffectVariableManager::GetValIDFromName(std::string pValName) const{
 	if (pValName.empty()) throw ErrUndeclaredVar("Name: <Empty>");
 	if (pValName[0] == '$') {
@@ -186,10 +186,10 @@ int CEffectVariableManager::GetValIDFromName(std::string pValName) const{
 	throw ErrUndeclaredVar(pValName);
 }
 
-// [act]•Ï”‚Ì’l‚ğXV‚·‚é
+// [act]å¤‰æ•°ã®å€¤ã‚’æ›´æ–°ã™ã‚‹
 //		<Throwable>ErrUndeclaredVar
-// [prm]pValName	: •Ï”–¼A•Ï”‚ğ¦‚·$ƒ}[ƒN‚Í‚ ‚Á‚Ä‚à‚È‚­‚Ä‚à‚æ‚¢
-//		pInitVal	: •Ï”‚Ì‰Šú’l
+// [prm]pValName	: å¤‰æ•°åã€å¤‰æ•°ã‚’ç¤ºã™$ãƒãƒ¼ã‚¯ã¯ã‚ã£ã¦ã‚‚ãªãã¦ã‚‚ã‚ˆã„
+//		pInitVal	: å¤‰æ•°ã®åˆæœŸå€¤
 void CEffectVariableManager::SetVarVal(std::string pValName, int pSetVal) {
 	if (pValName.empty()) return;
 	const std::string registName = pValName[0] == '$' ? pValName.substr(1) : pValName;
@@ -203,17 +203,17 @@ void CEffectVariableManager::SetVarVal(std::string pValName, int pSetVal) {
 	throw ErrUndeclaredVar(pValName);
 }
 
-// [act]•Ï”‚Ì’l‚ğæ“¾‚·‚é
+// [act]å¤‰æ•°ã®å€¤ã‚’å–å¾—ã™ã‚‹
 //		<Throwable>ErrUndeclaredVar
-// [prm]pValID		: •Ï”ID
+// [prm]pValID		: å¤‰æ•°ID
 int CEffectVariableManager::GetVal(int pValID) const{
 	if (pValID < 0 || pValID >= mVariablePool.size()) throw ErrUndeclaredVar("id: " + std::to_string(pValID));
 	return mVariablePool[pValID];
 }
 
-// [act]DxLib•`‰æ‰æ–Ê‚ğV‹K¶¬‚·‚é
-// [prm]pValName	: •Ï”ID
-//		<ˆø”‚Í‰¼>
+// [act]DxLibæç”»ç”»é¢ã‚’æ–°è¦ç”Ÿæˆã™ã‚‹
+// [prm]pValName	: å¤‰æ•°ID
+//		<å¼•æ•°ã¯ä»®>
 void CEffectVariableManager::MakeScreenID(StringArr pData) {
 	if (pData.size() < 5) return;
 	if (pData[1].empty()) return;
@@ -282,7 +282,7 @@ bool CEffectVariableManager::InsertVar(const SEffectVariableInsertData& pData) {
 				default:	return false;	break;
 			}
 		}
-		// ’¼Ú‘ã“ü‚·‚é
+		// ç›´æ¥ä»£å…¥ã™ã‚‹
 		mVariablePool[pData.inputFor] = putData;
 		return true;
 	}
@@ -310,11 +310,11 @@ bool CEffectVariableManager::RoleVar(const SEffectVariableRoleData& pData) {
 		}
 		if (seedTotal <= randVal) return false;
 
-		// ‘ã“ü”ˆê’vŠm”F¨‘ã“ü
+		// ä»£å…¥æ•°ä¸€è‡´ç¢ºèªâ†’ä»£å…¥
 		if (pData.roleData[lookingID].second.size() != pData.inputForList.size()) return false;
 		for (size_t i = 0; i < pData.inputForList.size(); ++i) {
 			const auto putVal = GetVal(pData.roleData[lookingID].second[i]);
-			// ’¼Ú‘ã“ü‚·‚é
+			// ç›´æ¥ä»£å…¥ã™ã‚‹
 			mVariablePool[pData.inputForList[i]] = putVal;
 		}
 		return true;
@@ -344,7 +344,7 @@ bool CEffectVariableInsertMaker::MakeData(std::vector<std::string> pCSVData, CEf
 		mData.inputFor	= GetVariableID(pCSVData[1], true, pManager);
 		mData.defNum	= GetVariableID(pCSVData[2], false, pManager);
 
-		// ŒvZ•”•ª
+		// è¨ˆç®—éƒ¨åˆ†
 		typedef SEffectVariableInsertData::EOperand					tdOperand;
 		typedef std::pair<SEffectVariableInsertData::EOperand, int> tdOperateData;
 		for (size_t i = 3; i+1 < pCSVData.size(); i+=2) {

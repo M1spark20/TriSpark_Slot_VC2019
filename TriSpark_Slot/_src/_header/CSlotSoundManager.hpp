@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IEffectExecuteMakerBase.hpp"
 #include <string>
 #include <list>
@@ -7,7 +7,7 @@ class CSlotTimerManager;
 class CEffectVariableManager;
 class CGameDataManage;
 
-struct SSlotSoundRingData {		// intƒf[ƒ^‚Í‚·‚×‚Ä•Ï”ID
+struct SSlotSoundRingData {		// intãƒ‡ãƒ¼ã‚¿ã¯ã™ã¹ã¦å¤‰æ•°ID
 	int dataID;
 	std::string timerName;
 	int beginTime;
@@ -16,7 +16,7 @@ struct SSlotSoundRingData {		// intƒf[ƒ^‚Í‚·‚×‚Ä•Ï”ID
 	bool isLoop;
 };
 
-struct SSlotSoundVolumeData {	// intƒf[ƒ^‚Í‚·‚×‚Ä•Ï”ID
+struct SSlotSoundVolumeData {	// intãƒ‡ãƒ¼ã‚¿ã¯ã™ã¹ã¦å¤‰æ•°ID
 	int dataID;
 	std::string timerName;
 	int applyTime;
@@ -24,10 +24,10 @@ struct SSlotSoundVolumeData {	// intƒf[ƒ^‚Í‚·‚×‚Ä•Ï”ID
 	int pan;
 };
 
-typedef int	SSlotSoundStopData;	// ƒf[ƒ^ID‚ğw‚·•Ï”ID
+typedef int	SSlotSoundStopData;	// ãƒ‡ãƒ¼ã‚¿IDã‚’æŒ‡ã™å¤‰æ•°ID
 
 class CSlotSoundManager {
-	// –Â“®ƒf[ƒ^‚Æ‚µ‚Ä•Û‘¶‚·‚é‚Æ‚«A•Ï”ID‚ğ’l‚É’¼‚µ‚Ä‚©‚ç•Û‘¶‚·‚é(Œã‚©‚ç•ÏŠ·‚·‚é‚Æ’è‹`Œã‚Ì•Ï”‘ã“ü‚É‘Î‰‚Å‚«‚È‚¢)
+	// é³´å‹•ãƒ‡ãƒ¼ã‚¿ã¨ã—ã¦ä¿å­˜ã™ã‚‹ã¨ãã€å¤‰æ•°IDã‚’å€¤ã«ç›´ã—ã¦ã‹ã‚‰ä¿å­˜ã™ã‚‹(å¾Œã‹ã‚‰å¤‰æ›ã™ã‚‹ã¨å®šç¾©å¾Œã®å¤‰æ•°ä»£å…¥ã«å¯¾å¿œã§ããªã„)
 	std::list<std::pair<SSlotSoundRingData, bool>>	mRingData;
 	std::list<SSlotSoundVolumeData>					mVolumeData;
 	std::vector<SSlotSoundStopData>					mStopData;

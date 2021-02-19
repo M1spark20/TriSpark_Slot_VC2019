@@ -1,4 +1,4 @@
-#include "_header\CSlotTimerManager.hpp"
+ï»¿#include "_header\CSlotTimerManager.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "DxLib.h"
 #include "_header/ErrClass.hpp"
@@ -61,13 +61,13 @@ bool CSlotTimerManager::SetTimer(ESystemTimerID pID, int offset){
 bool CSlotTimerManager::SetTimer(EReelTimerID pID, int pReelID, int offset){
 	if (pID == eTimerReelTimerMax) return false;
 	if (pReelID < 0 || pReelID >= m_reelNumMax) return false;
-	/* ŠeƒŠ[ƒ‹‚Ìİ’è */{
+	/* å„ãƒªãƒ¼ãƒ«ã®è¨­å®š */{
 		const int index = eTimerSystemTimerMax + eTimerReelTimerMax * pReelID + pID;
 		m_timerData[index].enable = true;
 		m_timerData[index].originVal = m_lastCount - offset;
 		m_timerData[index].lastGetVal = m_lastCount - offset;
 	}
-	/* ‹¤’ÊƒŠ[ƒ‹‚Ìİ’è */ {
+	/* å…±é€šãƒªãƒ¼ãƒ«ã®è¨­å®š */ {
 		const int index = eTimerAnyReelStart + pID;
 		m_timerData[index].enable = true;
 		m_timerData[index].originVal = m_lastCount - offset;
@@ -128,7 +128,7 @@ bool CSlotTimerManager::GetTimeDiff(long long& pInputFor, EReelTimerID pID, int 
 	return true;
 }
 
-// effect—p©—Rƒ^ƒCƒ}[
+// effectç”¨è‡ªç”±ã‚¿ã‚¤ãƒãƒ¼
 int CSlotTimerManager::GetTimerHandle(std::string pID) const{
 	if(pID.empty()) throw ErrUndeclaredVar("Time: <Empty>");
 	const std::string id = pID[0] == '@' ? pID.substr(1) : pID;
@@ -145,12 +145,12 @@ bool CSlotTimerManager::CreateNewTimer(std::string pID) {
 	const std::string id = pID[0] == '@' ? pID.substr(1) : pID;
 	if (id.empty()) return false;
 
-	// d•¡‚µ‚½ƒL[‚ğ“o˜^‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚½‚çfalse‚ğ•Ô‚·
+	// é‡è¤‡ã—ãŸã‚­ãƒ¼ã‚’ç™»éŒ²ã—ã‚ˆã†ã¨ã—ã¦ã„ãŸã‚‰falseã‚’è¿”ã™
 	const auto dupSize = mDuplicateFinder.size();
 	mDuplicateFinder.insert(id);
 	if (dupSize == mDuplicateFinder.size()) return false;
 
-	// “o˜^ì‹Æ
+	// ç™»éŒ²ä½œæ¥­
 	mTimerNameList.push_back(std::pair<std::string, int>(id, m_timerData.size()));
 	STimerData data;
 	data.enable = false; data.originVal = 0; data.lastGetVal = 0;

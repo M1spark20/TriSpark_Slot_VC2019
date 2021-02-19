@@ -1,32 +1,33 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "_header\setup.h"
 #include "_header\gameloop.h"
 #include <new>
 
 bool CSetup_S::StartSetup(){
-// [act]ƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»(ƒEƒBƒ“ƒhƒEƒ‚[ƒh)
-//		ƒ‰ƒ“ƒ^ƒCƒ€ƒGƒ‰[or—e—ÊŠm•ÛƒGƒ‰[Žž‚ÌƒƒO‘‚«ž‚Ý
-// [ret]ƒvƒƒOƒ‰ƒ€‚Ì³í/ˆÙíI—¹ƒtƒ‰ƒO
-	DxLib::ChangeWindowMode(1);					// ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚É
-	DxLib::SetFullSceneAntiAliasingMode(3,2);	// 3D•`‰æ‚ÌƒNƒIƒŠƒeƒB‚ðŽw’è
-	DxLib::SetAlwaysRunFlag(TRUE);				// ƒAƒNƒeƒBƒu‚¶‚á‚È‚¢‚Æ‚«‚àˆ—‚ðs‚¤
-	DxLib::SetGraphMode(1920, 1080, 32);		// ‰æ–ÊƒTƒCƒY‰ŠúÝ’è
-	if(DxLib::DxLib_Init()) return false;		// DxLib‰Šú‰»ˆ—
-	DxLib::SetDrawScreen(DX_SCREEN_BACK);		// — ‰æ–Ê‘‚«ž‚Ý
-	DxLib::SetUseZBuffer3D(TRUE);				// ‚yƒoƒbƒtƒ@‚ð—LŒø‚É‚·‚é
-	DxLib::SetWriteZBuffer3D(TRUE);				// ‚yƒoƒbƒtƒ@‚Ö‚Ì‘‚«ž‚Ý‚ð—LŒø‚É‚·‚é
-	DxLib::SetDrawMode(DX_DRAWMODE_BILINEAR);	// ƒoƒCƒŠƒjƒA–@‚É‚æ‚éŠg‘åk¬‚ðs‚¤
+// [act]ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–(ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰)
+//		ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚¨ãƒ©ãƒ¼orå®¹é‡ç¢ºä¿ã‚¨ãƒ©ãƒ¼æ™‚ã®ãƒ­ã‚°æ›¸ãè¾¼ã¿
+// [ret]ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®æ­£å¸¸/ç•°å¸¸çµ‚äº†ãƒ•ãƒ©ã‚°
+	SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);	// UTF-8ã«ã¦ã‚²ãƒ¼ãƒ ã‚’å‡¦ç†ã™ã‚‹
+	DxLib::ChangeWindowMode(1);						// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã«
+	DxLib::SetFullSceneAntiAliasingMode(3,2);		// 3Dæç”»ã®ã‚¯ã‚ªãƒªãƒ†ã‚£ã‚’æŒ‡å®š
+	DxLib::SetAlwaysRunFlag(TRUE);					// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã˜ã‚ƒãªã„ã¨ãã‚‚å‡¦ç†ã‚’è¡Œã†
+	DxLib::SetGraphMode(1920, 1080, 32);			// ç”»é¢ã‚µã‚¤ã‚ºåˆæœŸè¨­å®š
+	if(DxLib::DxLib_Init()) return false;			// DxLibåˆæœŸåŒ–å‡¦ç†
+	DxLib::SetDrawScreen(DX_SCREEN_BACK);			// è£ç”»é¢æ›¸ãè¾¼ã¿
+	DxLib::SetUseZBuffer3D(TRUE);					// ï¼ºãƒãƒƒãƒ•ã‚¡ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	DxLib::SetWriteZBuffer3D(TRUE);					// ï¼ºãƒãƒƒãƒ•ã‚¡ã¸ã®æ›¸ãè¾¼ã¿ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	DxLib::SetDrawMode(DX_DRAWMODE_BILINEAR);		// ãƒã‚¤ãƒªãƒ‹ã‚¢æ³•ã«ã‚ˆã‚‹æ‹¡å¤§ç¸®å°ã‚’è¡Œã†
 
 	bool Result = true;
 	try {
 		CGameLoop_S& LoopIns=CGameLoop_S::GetInstance();
 		Result = LoopIns.StartGameLoop();
 	} catch(std::bad_alloc){
-		DxLib::ErrorLogAdd("ƒƒ‚ƒŠŠm•ÛŽž‚É–â‘è‚ª”­¶‚µ‚Ü‚µ‚½B\n");
+		DxLib::ErrorLogAdd(u8"ãƒ¡ãƒ¢ãƒªç¢ºä¿æ™‚ã«å•é¡ŒãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚\n");
 		Result = false;
 	}
 	if(!Result)
-		DxLib::ErrorLogAdd("ƒ\ƒtƒg‚ª‹­§I—¹‚µ‚Ü‚µ‚½B\n");
+		DxLib::ErrorLogAdd(u8"ã‚½ãƒ•ãƒˆãŒå¼·åˆ¶çµ‚äº†ã—ã¾ã—ãŸã€‚\n");
 	DxLib_End();
 	return Result;
 }

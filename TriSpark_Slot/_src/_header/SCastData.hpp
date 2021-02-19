@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <algorithm>
 #include <string>
@@ -12,7 +12,7 @@ enum ERTModeTransfer{
 };
 
 struct SPayData {
-	// BGMƒZƒbƒg‚ğŒã‚Å•Ê‚É’è‹`
+	// BGMã‚»ãƒƒãƒˆã‚’å¾Œã§åˆ¥ã«å®šç¾©
 	int					gamemode;
 	int					conbination;	// **[L]9876543210[C]9876543210[R]9876543210
 	int					payout;			// each 2 digits(8bit): ********/3bet/2bet/1bet

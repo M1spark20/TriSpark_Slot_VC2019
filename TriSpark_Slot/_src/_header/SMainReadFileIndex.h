@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 enum EMainReadFileType{
-// [act]ƒQ[ƒ€–{‘Ì‚Å“Ç‚İ‚Şƒtƒ@ƒCƒ‹‚Ìí—Ş‚ğw’è
-//		‚Ç‚ê‚Å“Ç‚İ‚Ş‚©‚ÍCSV‚ÌType‚Åw’è
+// [act]ã‚²ãƒ¼ãƒ æœ¬ä½“ã§èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã®ç¨®é¡ã‚’æŒ‡å®š
+//		ã©ã‚Œã§èª­ã¿è¾¼ã‚€ã‹ã¯CSVã®Typeã§æŒ‡å®š
 	Graphic, Sound, Material, Text, Binary, Copy, ColorMap
 };
 struct SMainReadFileIndex{
-// [act]ƒQ[ƒ€–{‘Ì‚Å“Ç‚İ‚Şƒtƒ@ƒCƒ‹‚Ìî•ñŒQ‚ÌŠî’ê\‘¢‘Ì
+// [act]ã‚²ãƒ¼ãƒ æœ¬ä½“ã§èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±ç¾¤ã®åŸºåº•æ§‹é€ ä½“
 	EMainReadFileType FileType;
 	std::string FileName;
 	int DataReadSyncFlag;

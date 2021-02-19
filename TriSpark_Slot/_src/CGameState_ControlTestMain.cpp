@@ -1,4 +1,4 @@
-#include <numeric>
+ï»¿#include <numeric>
 #include "_header\CGameState_ControlTestMain.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\CGetSysDataFromCSV.hpp"
@@ -11,25 +11,25 @@
 bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 	CGetSysDataFromCSV sysReader;
 
-	// ƒf[ƒ^‰Šú‰»
+	// ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
 	sysReader.FileInit(pDataManageIns.GetDataHandle(0));
 	m_reelManager.Init(pDataManageIns, sysReader);
 	m_randManager.Init(pDataManageIns, sysReader.GetSysDataID("flags"), 0);
 
-	// ’â~Œ`‰ğÍ‚Ì‚½‚ß‚Ì‰Šúİ’è1
+	// åœæ­¢å½¢è§£æã®ãŸã‚ã®åˆæœŸè¨­å®š1
 	const unsigned int comaNum = m_reelManager.GetCharaNum();
 	const unsigned int reelNum = m_reelManager.GetReelNum();
 	m_pushOrder.resize(m_reelManager.GetReelNum());
 	std::iota(m_pushOrder.begin(), m_pushOrder.end(), 0);
 	m_orderIDMax = 1; for (auto x : m_pushOrder) m_orderIDMax *= (x+1);
-	// ‚»‚Ì2
+	// ãã®2
 	m_checkedFlagID.reserve(m_randManager.GetFlagNum());
 	for (int i = 0; i < m_randManager.GetFlagNum(); ++i)
 		if (m_randManager.GetFlagData(i, eIsReachCheck) >= 1) m_checkedFlagID.push_back(i);
 	const unsigned int checkMax = m_orderIDMax * PowInteger(comaNum, reelNum) * m_checkedFlagID.size();
 	m_ctrlResult.resize(checkMax, 0);
 
-	// ’â~Œ`‰ğÍ
+	// åœæ­¢å½¢è§£æ
 	for (unsigned int checkC = 0; checkC < checkMax; ++checkC){
 		unsigned int currentPos[3], flagID;
 		for (unsigned int i = 0; i < reelNum; ++i) currentPos[i] = (checkC / PowInteger(comaNum, reelNum-1-i)) % comaNum;
@@ -59,7 +59,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 		m_reachCount.resize(reelNum, PowInteger(comaNum, reelNum));
 	}
 
-	// ƒ}ƒgƒŠƒNƒXƒf[ƒ^ì¬
+	// ãƒãƒˆãƒªã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ä½œæˆ
 	for (unsigned int checkC = 0; checkC < checkMax; ++checkC){
 		unsigned int orderID, flagID, currentPos[] = {
 			m_ctrlResult[checkC] >> 10 & 0x1F,
@@ -69,7 +69,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 		orderID = checkC / PowInteger(comaNum, reelNum) / m_checkedFlagID.size();
 		flagID = (checkC / PowInteger(comaNum, reelNum)) % m_checkedFlagID.size();
 		unsigned int matrixDim[3];
-		/* matrixDimŒˆ’è */	{
+		/* matrixDimæ±ºå®š */	{
 			int cnt = 1;
 			for (unsigned int i = 0; i<reelNum; ++i){
 				if (i == m_pushOrder[0]) { matrixDim[0] = i; continue; }
@@ -85,7 +85,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 	}
 	while (std::next_permutation(m_pushOrder.begin(), m_pushOrder.end()));
 
-	// ƒŠ[ƒ`–Ú”ƒJƒEƒ“ƒg
+	// ãƒªãƒ¼ãƒç›®æ•°ã‚«ã‚¦ãƒ³ãƒˆ
 	for(unsigned int firstC=0; firstC<reelNum; ++firstC)
 	for(auto t1=m_stopMatrix[firstC].begin(); t1 != m_stopMatrix[firstC].end(); ++t1)
 	for(auto t2=t1->begin(); t2 != t1->end(); ++t2)
@@ -93,7 +93,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 		if (*t3 & 0x3 || *t3 == 0x0) --m_reachCount[firstC];
 	}
 	
-	// UI—p•Ï”‚Ì‰Šú‰»
+	// UIç”¨å¤‰æ•°ã®åˆæœŸåŒ–
 	m_pushPos.resize(m_reelManager.GetReelNum(), 0);
 	m_stopPos.resize(m_reelManager.GetReelNum(), 0);
 	m_selectingReel = -1;
@@ -156,7 +156,7 @@ EChangeStateFlag CGameState_ControlTestMain::Process(CGameDataManage& pDataManag
 		if (m_stopListPage == 0) m_stopListPage = (m_stopList.size()-1) / STOP_LIST_NUM_PER_PAGE + 1;
 		--m_stopListPage;
 	}
-	// ‰Ÿ‚µˆÊ’u‰ğÍ(‘I‘ğ’†‚Ì‰Ÿ‚µ‡‚Å‰Ÿ‚µˆÊ’uw’è‚ÌˆÊ’u‚Å~‚Ü‚é§Œä‚ğŒŸõ)
+	// æŠ¼ã—ä½ç½®è§£æ(é¸æŠä¸­ã®æŠ¼ã—é †ã§æŠ¼ã—ä½ç½®æŒ‡å®šã®ä½ç½®ã§æ­¢ã¾ã‚‹åˆ¶å¾¡ã‚’æ¤œç´¢)
 	if (key.ExportKeyState(KEY_INPUT_P) && m_stopList.empty()){
 		m_stopListPage = 0;
 		const unsigned int loopMax = m_ctrlResult.size() / m_orderIDMax;
@@ -203,7 +203,7 @@ bool CGameState_ControlTestMain::Draw(CGameDataManage& pDataManageIns){
 		DxLib::DrawString(5, 12 + x*22, str, 0xFFFFFF);
 	}
 
-	/* Matrix•`‰æ */{
+	/* Matrixæç”» */{
 		int firstPos = -1;
 		const int size = m_reelManager.GetCharaNum();
 		for (int x = 0; x < size; ++x)
@@ -234,9 +234,9 @@ bool CGameState_ControlTestMain::Draw(CGameDataManage& pDataManageIns){
 		}
 	}
 
-	DxLib::DrawString(324, 56, "¨", 0xFFFF00);
+	DxLib::DrawString(324, 56, u8"â†’", 0xFFFF00);
 	bool reverseFlag = true;
-	unsigned int selectingMatrixColor[2];	// ‚ ‚Æ‚Å‰ğÍ‚·‚é‚Æ‚«‚Ég—p
+	unsigned int selectingMatrixColor[2];	// ã‚ã¨ã§è§£æã™ã‚‹ã¨ãã«ä½¿ç”¨
 	for (int n = 0; n < m_reelManager.GetReelNum(); ++n){
 		char str[2];	str[1] = '\0';
 		str[0] = '0' + m_pushPos[n];	if (m_pushPos[n] >= 10) str[0] += 7;
@@ -288,7 +288,7 @@ bool CGameState_ControlTestMain::Draw(CGameDataManage& pDataManageIns){
 	const char matrixData = m_stopMatrix[m_pushOrder[0]][m_stopPos[m_pushOrder[0]]][selectingMatrixColor[1]][selectingMatrixColor[0]];
 	DxLib::DrawFormatString(566, 440, 0xFFFFFF, "Info: %02x", matrixData & 0xF);
 
-	// ’â~Œ`ŒŸõŒ‹‰Ê•\¦
+	// åœæ­¢å½¢æ¤œç´¢çµæœè¡¨ç¤º
 	if (m_stopList.size() > 0){
 		const unsigned int charaConbin = PowInteger(m_reelManager.GetCharaNum(), m_reelManager.GetReelNum());
 		unsigned int i;
@@ -302,7 +302,7 @@ bool CGameState_ControlTestMain::Draw(CGameDataManage& pDataManageIns){
 				m_randManager.GetFlagName(m_checkedFlagID[(m_stopList[ID] / charaConbin) % m_checkedFlagID.size()]).c_str());
 		}
 		const auto& drawPos = m_stopListPushStop ? m_stopPos : m_pushPos;
-		DxLib::DrawFormatString(512, 105, 0xFFFFFF, "Stop¨%2d-%2d-%2d", drawPos[0], drawPos[1], drawPos[2]);
+		DxLib::DrawFormatString(512, 105, 0xFFFFFF, u8"Stopâ†’%2d-%2d-%2d", drawPos[0], drawPos[1], drawPos[2]);
 		DxLib::DrawFormatString(512, 120, 0xFFFFFF, "%4d-%4d/%4d",
 			m_stopListPage*STOP_LIST_NUM_PER_PAGE+1, m_stopListPage*STOP_LIST_NUM_PER_PAGE + i, m_stopList.size());
 	}

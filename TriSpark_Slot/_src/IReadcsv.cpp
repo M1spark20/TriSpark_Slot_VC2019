@@ -1,16 +1,16 @@
-#include <fstream>
+ï»¿#include <fstream>
 #include <iostream>
 #include "_header\IReadcsv.h"
 IReadCSVBase::IReadCSVBase(){
 	m_ReadDataNowCurrent = 0;
 }
 bool IReadCSVBase::StartReadFile(const char* FileName){
-// [act]ƒƒ“ƒo•Ï”m_ReadDataAll‚Éƒtƒ@ƒCƒ‹‚Ì•¶š—ñ‚ğ‚·‚×‚Ä“Ç‚İ‚Ş
-// [ret]ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚½‚©‚Ç‚¤‚©
-	const int ReadLineStrMax = 16384;// 1s‚©‚ç“Ç‚İ‚ŞÅ‘å‚Ì•¶š”
+// [act]ãƒ¡ãƒ³ãƒå¤‰æ•°m_ReadDataAllã«ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—åˆ—ã‚’ã™ã¹ã¦èª­ã¿è¾¼ã‚€
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãŸã‹ã©ã†ã‹
+	const int ReadLineStrMax = 16384;// 1è¡Œã‹ã‚‰èª­ã¿è¾¼ã‚€æœ€å¤§ã®æ–‡å­—æ•°
 	std::ifstream File(FileName);
-	if(!File){// ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚©‚Á‚½‚Æ‚«
-		std::cout << "CSVƒtƒ@ƒCƒ‹\"" << FileName <<"\"‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½B" << std::endl;
+	if(!File){// ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã‹ã£ãŸã¨ã
+		std::cout << u8"CSVãƒ•ã‚¡ã‚¤ãƒ«\"" << FileName <<u8"\"ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“ã§ã—ãŸã€‚" << std::endl;
 		return false;
 	}
 	while(!File.eof()){
@@ -20,10 +20,10 @@ bool IReadCSVBase::StartReadFile(const char* FileName){
 	return true;
 }
 void IReadCSVBase::GetStrSplitByComma(StringArr& StrArray){
-// [prm]p1;–ß‚è’l‚Æ‚µ‚Äˆµ‚¤BŠe”z—ñ‚É¶‚©‚çƒRƒ“ƒ}‚Å‹æØ‚ç‚ê‚½•¶š—ñ‚ª“ü‚éB
-// [act]•¶š—ñ‚ğŸ‚Ìs‚Ü‚ÅƒRƒ“ƒ}‚Å‹æØ‚Á‚ÄA‚»‚ê‚ğŠe”z—ñ‚É‘ã“ü‚µ‚Ä•Ô‚·B
-//		ƒRƒƒ“ƒgƒAƒEƒg‚Í‹Lq‚³‚ê‚¸‚ÉŸ‚Ìs‚Ü‚Å“Ç‚İ”ò‚Î‚³‚ê‚éB
-//		ƒRƒƒ“ƒgs‚Í‹ó‚Ì•¶š—ñ‚Ì•¨‚ª1‚Âpush_back‚³‚ê‚éB
+// [prm]p1;æˆ»ã‚Šå€¤ã¨ã—ã¦æ‰±ã†ã€‚å„é…åˆ—ã«å·¦ã‹ã‚‰ã‚³ãƒ³ãƒã§åŒºåˆ‡ã‚‰ã‚ŒãŸæ–‡å­—åˆ—ãŒå…¥ã‚‹ã€‚
+// [act]æ–‡å­—åˆ—ã‚’æ¬¡ã®è¡Œã¾ã§ã‚³ãƒ³ãƒã§åŒºåˆ‡ã£ã¦ã€ãã‚Œã‚’å„é…åˆ—ã«ä»£å…¥ã—ã¦è¿”ã™ã€‚
+//		ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã¯è¨˜è¿°ã•ã‚Œãšã«æ¬¡ã®è¡Œã¾ã§èª­ã¿é£›ã°ã•ã‚Œã‚‹ã€‚
+//		ã‚³ãƒ¡ãƒ³ãƒˆè¡Œã¯ç©ºã®æ–‡å­—åˆ—ã®ç‰©ãŒ1ã¤push_backã•ã‚Œã‚‹ã€‚
 	bool PastSlash=false;
 	std::string NowStr;
 	while(true){
@@ -32,8 +32,8 @@ void IReadCSVBase::GetStrSplitByComma(StringArr& StrArray){
 			PastSlash=false;
 		}
 		switch(m_ReadDataAll[m_ReadDataNowCurrent]){
-		case '\n':	// ‰üs
-		case '\0':	// ƒf[ƒ^‚ÌI‚í‚è‚Ìê‡‚à‚±‚±‚Åˆ—
+		case '\n':	// æ”¹è¡Œ
+		case '\0':	// ãƒ‡ãƒ¼ã‚¿ã®çµ‚ã‚ã‚Šã®å ´åˆã‚‚ã“ã“ã§å‡¦ç†
 			StrArray.push_back(NowStr);
 			m_ReadDataNowCurrent++;
 			return;

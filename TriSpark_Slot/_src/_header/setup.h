@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "ISingleton.h"
 class CSetup_S : public ISingleton<CSetup_S>{
-// [act]DXƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—BˆÙíI—¹‚ÍƒƒbƒZ[ƒW‚ğƒƒO‚Éc‚·
-//		ƒVƒ“ƒOƒ‹ƒgƒ“‚ÅŠÇ—‚³‚ê‚Ä‚¢‚é
+// [act]DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–å‡¦ç†ã€‚ç•°å¸¸çµ‚äº†æ™‚ã¯ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ãƒ­ã‚°ã«æ®‹ã™
+//		ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹
 	friend ISingleton<CSetup_S>;
 	CSetup_S(){};
 	~CSetup_S(){};

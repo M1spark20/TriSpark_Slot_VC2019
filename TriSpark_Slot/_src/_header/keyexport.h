@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 #include "ISingleton.h"
 #include "keyinput.h"
 class CKeyExport_S : public ISingleton<CKeyExport_S>{
-// [act]ŠeƒNƒ‰ƒX‚Ö‚ÌƒL[“ü—Íó‘Ô‚ğo—Í
-//		ƒVƒ“ƒOƒ‹ƒgƒ“‚ÅŠÇ—‚³‚ê‚Ä‚¢‚é(_S‚ÌˆÓ–¡)
+// [act]å„ã‚¯ãƒ©ã‚¹ã¸ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹ã‚’å‡ºåŠ›
+//		ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹(_Sã®æ„å‘³)
 	friend ISingleton<CKeyExport_S>;
-// CKeyInput_S‚ÅKeyStateUpdateŠÖ”‚ğg—p‚³‚¹‚é‚½‚ß‚ÌfriendéŒ¾
+// CKeyInput_Sã§KeyStateUpdateé–¢æ•°ã‚’ä½¿ç”¨ã•ã›ã‚‹ãŸã‚ã®friendå®£è¨€
 	friend CKeyInput_S;
 	CKeyExport_S();
 	~CKeyExport_S(){};
 	void KeyStateUpdate(char* pInput);
-// DxLib‚ÌƒL[ƒ{[ƒhæ“¾‚Ì”z—ñƒ}ƒWƒbƒNƒiƒ“ƒo[(m1)
+// DxLibã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å–å¾—æ™‚ã®é…åˆ—ãƒã‚¸ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼(m1)
 	static const int GetInputArrayMax_C = 256;
-// ƒL[‚ª˜A‘±‚Å“ü—Í‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€(m2)
+// ã‚­ãƒ¼ãŒé€£ç¶šã§å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ (m2)
 	int m_NowKeyState[GetInputArrayMax_C];	
 public:
 	bool ExportKeyState(int KeyHandle,int LessFrame=1,int MaxFrame=1) const;

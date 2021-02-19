@@ -1,4 +1,4 @@
-#include "_header/CSlotEffectVariableCompare.hpp"
+ï»¿#include "_header/CSlotEffectVariableCompare.hpp"
 #include "_header/ErrClass.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
@@ -17,7 +17,7 @@ bool CSlotEffectVariableCompareMaker::CreateCondition(std::vector<std::string> p
 			if (pData[2+dataSize*i][0] != '$') throw ErrUndeclaredVar("Undefined Condition varName: " + pData[2+dataSize*i]);
 			data.variableName = pData[2 + dataSize * i];
 
-			// ”ÍˆÍ–¢’è‹`‚Í‚»‚ê‚¼‚êƒfƒtƒHƒ‹ƒg’l: INT_MIN‚¨‚æ‚ÑINT_MAX‚ªg—p‚³‚ê‚é
+			// ç¯„å›²æœªå®šç¾©æ™‚ã¯ãã‚Œãã‚Œãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤: INT_MINãŠã‚ˆã³INT_MAXãŒä½¿ç”¨ã•ã‚Œã‚‹
 			if (pData[3 + dataSize * i][0] == '$') data.lowerLimit.second = pData[3 + dataSize * i];
 			else if (pData[3 + dataSize * i] != "") data.lowerLimit.first = std::stoi(pData[3 + dataSize * i]);
 			
@@ -80,11 +80,11 @@ CSlotEffectVariableCompare::CSlotEffectVariableCompare(CSlotEffectVariableCompar
 	mLastTime = LLONG_MAX;
 }
 
-// [ret]ğŒ’B¬‚ª³í‚Éİ’è‚Å‚«‚½‚©‚Ç‚¤‚©
+// [ret]æ¡ä»¶é”æˆãŒæ­£å¸¸ã«è¨­å®šã§ããŸã‹ã©ã†ã‹
 bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar, const CSlotTimerManager& pTimer) {
 	try {
 		mConditionQualified = true;
-		// ƒ^ƒCƒ}[ğŒ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í•Ï”‚æ‚èæ‚É•]‰¿
+		// ã‚¿ã‚¤ãƒãƒ¼æ¡ä»¶ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å¤‰æ•°ã‚ˆã‚Šå…ˆã«è©•ä¾¡
 		if (mTimingData.first != "") {
 			long long timer;
 			const bool timerAvailable = pTimer.GetTimeFromTimerHandle(timer, pTimer.GetTimerHandle(mTimingData.first));
@@ -96,7 +96,7 @@ bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar
 			}
 			if (timer >= pVar.GetVal(mTimingData.second)) {
 				mConditionQualified = !mIsAlreadyTimePassed;
-				// ŠÔ‚ª‘O‰ñæ“¾‚æ‚èŠª‚«–ß‚Á‚Ä‚¢‚ê‚Î‘‚«Š·‚¦
+				// æ™‚é–“ãŒå‰å›å–å¾—ã‚ˆã‚Šå·»ãæˆ»ã£ã¦ã„ã‚Œã°æ›¸ãæ›ãˆ
 				if (timer < mLastTime) mConditionQualified = true;
 				mIsAlreadyTimePassed = true;
 			} else {
@@ -106,21 +106,21 @@ bool CSlotEffectVariableCompare::SetCondition(const CEffectVariableManager& pVar
 			mLastTime = timer;
 		}
 
-		// ŠeğŒ‚ğ”äŠr
+		// å„æ¡ä»¶ã‚’æ¯”è¼ƒ
 		auto conditionsAND = mVariableCondData;
 		while (!conditionsAND.empty() && mConditionQualified) {
 			auto conditionsOR = conditionsAND.front();
 			bool orCheck = false;
 			while (!conditionsOR.empty() && !orCheck) {
 				auto checkCond = conditionsOR.front();
-				// •Ï”‚ğ“WŠJ
+				// å¤‰æ•°ã‚’å±•é–‹
 				const int checkVal = pVar.GetVal(pVar.GetValIDFromName(checkCond.variableName));
 				if (checkCond.lowerLimit.second != "")
 					checkCond.lowerLimit.first = pVar.GetVal(pVar.GetValIDFromName(checkCond.lowerLimit.second));
 				if (checkCond.upperLimit.second != "")
 					checkCond.upperLimit.first = pVar.GetVal(pVar.GetValIDFromName(checkCond.upperLimit.second));
 
-				// ”äŠr‚ğÀ{
+				// æ¯”è¼ƒã‚’å®Ÿæ–½
 				orCheck = (checkVal >= checkCond.lowerLimit.first && checkVal <= checkCond.upperLimit.first) ^ checkCond.invertFlag;
 				conditionsOR.pop_front();
 			}

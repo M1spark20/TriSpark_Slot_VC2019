@@ -1,26 +1,26 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "_header\CGameDataManage.h"
 #include <cstdlib>
 #include <sstream>
 bool CGameDataManage::StartReadFile(ArrayIndex &InputData){
-// [prm]p1;ƒf[ƒ^ƒCƒ“ƒfƒbƒNƒX‚ÌQÆ
-// [act]ƒf[ƒ^ƒCƒ“ƒfƒbƒNƒX‚ğƒRƒs[‚µA‚»‚ê‚¼‚ê‚Ìƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğŠJn‚·‚é
-//		‚È‚¨•¡»‚Íƒtƒ@ƒCƒ‹“Ç‚İ‚İ’†‚És‚¤‚ÆƒGƒ‰[‚ª•Ô‚é‚æ‚¤‚È‚Ì‚ÅA
-//		ƒf[ƒ^ƒ`ƒFƒbƒN‚É‚Ü‚Æ‚ß‚Ä•¡»‚ğs‚¢‚Ü‚·B
+// [prm]p1;ãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å‚ç…§
+// [act]ãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚³ãƒ”ãƒ¼ã—ã€ãã‚Œãã‚Œã®ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã‚’é–‹å§‹ã™ã‚‹
+//		ãªãŠè¤‡è£½ã¯ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ä¸­ã«è¡Œã†ã¨ã‚¨ãƒ©ãƒ¼ãŒè¿”ã‚‹ã‚ˆã†ãªã®ã§ã€
+//		ãƒ‡ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯æ™‚ã«ã¾ã¨ã‚ã¦è¤‡è£½ã‚’è¡Œã„ã¾ã™ã€‚
 	bool Ans=true;
 	for(unsigned int MainC=0;MainC<InputData.size();MainC++){
 		m_MainData.push_back(InputData[MainC]);
 		const int GetSyncFlag=(m_MainData[MainC].DataReadSyncFlag == 0) ? FALSE:TRUE;
-		// 0‚ÅfalseA‚»‚êˆÈŠO‚È‚çtrueB”ñ“¯Šú“Ç‚İ‚İİ’è
+		// 0ã§falseã€ãã‚Œä»¥å¤–ãªã‚‰trueã€‚éåŒæœŸèª­ã¿è¾¼ã¿è¨­å®š
 		DxLib::SetUseASyncLoadFlag(GetSyncFlag);
 		const std::string nowReadFileName = m_MainData[MainC].FileName;
 		m_MainData[MainC].FileSize = DxLib::FileRead_size(nowReadFileName.c_str());
 		if (m_MainData[MainC].FileSize == 0){
-			ErrorLogFmtAdd("IndexNo: %d, Name: \"%s\"‚ª‹ó‚©Œ©‚Â‚©‚è‚Ü‚¹‚ñB", MainC, nowReadFileName.c_str());
+			ErrorLogFmtAdd(u8"IndexNo: %d, Name: \"%s\"ãŒç©ºã‹è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚", MainC, nowReadFileName.c_str());
 		}
 		switch(m_MainData[MainC].FileType){
 		case Graphic:
-			// ƒvƒƒOƒ‰ƒ€“à‚Å©—R‚É‘‚«Š·‚¦‰Â”\
+			// ãƒ—ãƒ­ã‚°ãƒ©ãƒ å†…ã§è‡ªç”±ã«æ›¸ãæ›ãˆå¯èƒ½
 			m_MainData[MainC].DataHandle = 
 				DxLib::LoadGraph(nowReadFileName.c_str());
 			break;
@@ -39,16 +39,16 @@ bool CGameDataManage::StartReadFile(ArrayIndex &InputData){
 			break;
 		case Text:
 		case Binary:
-			// Async‚Ìƒtƒ‰ƒO‚ğTRUE‚Æ‚·‚é‚Æƒƒ‚ƒŠƒŠ[ƒN‚ª”­¶‚µ‚½‚Ì‚ÅÈ—ª
-			// SetUseASyncLoadFlag()‚ÅŠù‚É”ñ“¯Šú“Ç‚İ‚İ‚Ìİ’è‚ÍŠ®—¹‚µ‚Ä‚¢‚é‚©‚à?
+			// Asyncã®ãƒ•ãƒ©ã‚°ã‚’TRUEã¨ã™ã‚‹ã¨ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ãŒç™ºç”Ÿã—ãŸã®ã§çœç•¥
+			// SetUseASyncLoadFlag()ã§æ—¢ã«éåŒæœŸèª­ã¿è¾¼ã¿ã®è¨­å®šã¯å®Œäº†ã—ã¦ã„ã‚‹ã‹ã‚‚?
 			m_MainData[MainC].DataHandle = 
 				DxLib::FileRead_open(nowReadFileName.c_str());
 			break;
 		case Copy:
-			// ˆ—‚Í“Ç‚İ‚İŒã‚ÉÀs‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·
+			// å‡¦ç†ã¯èª­ã¿è¾¼ã¿å¾Œã«å®Ÿè¡Œã™ã‚‹ã“ã¨ã«ãªã‚Šã¾ã™
 			break;
 		default:
-			ErrorLogFmtAdd("IndexNo.%d‚ÌType’l‚ªˆÙí‚Å‚·B",MainC);
+			ErrorLogFmtAdd(u8"IndexNo.%dã®Typeå€¤ãŒç•°å¸¸ã§ã™ã€‚",MainC);
 			Ans = false;
 		}
 	}
@@ -56,45 +56,45 @@ bool CGameDataManage::StartReadFile(ArrayIndex &InputData){
 	return Ans;
 }
 bool CGameDataManage::CheckReadFile(){
-// [act]‘S‚Ä‚Ì”ñ“¯Šúƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚ªI‚í‚Á‚½Œã‚ÉŠÖ”‚ğŒÄ‚Ño‚·B
-//		ƒtƒ@ƒCƒ‹‚ª³í‚É“Ç‚İ‚ß‚½‚©ƒ`ƒFƒbƒN‚·‚éB
-//		•¡»w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ•¡»‚·‚éB
-// [ret]‘S‚Ä‚Ì”ñ“¯Šú“Ç‚İ‚İƒtƒ@ƒCƒ‹‚ª³í‚É“Ç‚İ‚ß‚½‚©‚Ç‚¤‚©
+// [act]å…¨ã¦ã®éåŒæœŸãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ãŒçµ‚ã‚ã£ãŸå¾Œã«é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚
+//		ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ­£å¸¸ã«èª­ã¿è¾¼ã‚ãŸã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
+//		è¤‡è£½æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¤‡è£½ã™ã‚‹ã€‚
+// [ret]å…¨ã¦ã®éåŒæœŸèª­ã¿è¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ­£å¸¸ã«èª­ã¿è¾¼ã‚ãŸã‹ã©ã†ã‹
 	bool Ans=true;
 	for(unsigned int MainC=0;MainC<m_MainData.size();MainC++){
 		if(m_MainData[MainC].FileType!=Copy){
 			if(m_MainData[MainC].DataReadSyncFlag == 0) continue;
 			const int Handle = m_MainData[MainC].DataHandle;
 			if(CheckHandleASyncLoad(Handle) == -1){
-				DxLib::ErrorLogFmtAdd("IndexNo.%d,ƒtƒ@ƒCƒ‹–¼\"%s\"‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B",
+				DxLib::ErrorLogFmtAdd(u8"IndexNo.%d,ãƒ•ã‚¡ã‚¤ãƒ«å\"%s\"ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸã€‚",
 					MainC, m_MainData[MainC].FileName.c_str());
 				m_MainData[MainC].DataHandle = -1;
 				Ans = false;
 			}
 		} else {
 			int ForkID;
-			/* ForkID’è‹` */{
+			/* ForkIDå®šç¾© */{
 				std::stringstream Temp(m_MainData[MainC].FileName);
 				Temp>>ForkID;
 			}
 			if(ForkID<0||ForkID>=(signed)MainC){
-				DxLib::ErrorLogFmtAdd("IndexNo.%d‚ÌCopyŒ³ID‚ªˆÙí‚Å‚·B",MainC);
+				DxLib::ErrorLogFmtAdd(u8"IndexNo.%dã®Copyå…ƒIDãŒç•°å¸¸ã§ã™ã€‚",MainC);
 				Ans = false;
 				break;
 			}
 			switch(m_MainData[ForkID].FileType){
 			case Graphic: 
-			case ColorMap:	//•¡»‹@”\‚ª‚È‚¢‚½‚ßƒnƒ“ƒhƒ‹‚ğƒRƒs[
+			case ColorMap:	//è¤‡è£½æ©Ÿèƒ½ãŒãªã„ãŸã‚ãƒãƒ³ãƒ‰ãƒ«ã‚’ã‚³ãƒ”ãƒ¼
 				m_MainData[MainC].DataHandle = m_MainData[ForkID].DataHandle;
-				DxLib::ErrorLogFmtAdd("IndexNo.%d‚ÌCopy‚ª–³Œø‚Å‚·B“¯‚¶ƒnƒ“ƒhƒ‹‚ğ“n‚µ‚Ü‚·B",MainC);
+				DxLib::ErrorLogFmtAdd(u8"IndexNo.%dã®CopyãŒç„¡åŠ¹ã§ã™ã€‚åŒã˜ãƒãƒ³ãƒ‰ãƒ«ã‚’æ¸¡ã—ã¾ã™ã€‚",MainC);
 				break;
 			case Sound:
-				// §–ñˆá”½‚Å•¡»‚É¸”s‚µ‚½‚ç-1‚ª•Ô‚Á‚Ä‚­‚é‚Á‚Ä„M‚¶‚Ä‚é(((
+				// åˆ¶ç´„é•åã§è¤‡è£½ã«å¤±æ•—ã—ãŸã‚‰-1ãŒè¿”ã£ã¦ãã‚‹ã£ã¦ç§ä¿¡ã˜ã¦ã‚‹(((
 				m_MainData[MainC].DataHandle = 
 					DxLib::DuplicateSoundMem(m_MainData[ForkID].DataHandle);
 				if(m_MainData[MainC].DataHandle == -1){
 					m_MainData[MainC].DataHandle = m_MainData[ForkID].DataHandle;
-					DxLib::ErrorLogFmtAdd("IndexNo.%d‚ÌCopy‚É¸”s‚µ‚Ü‚µ‚½B“¯‚¶ƒnƒ“ƒhƒ‹‚ğ“n‚µ‚Ü‚·B",MainC);
+					DxLib::ErrorLogFmtAdd(u8"IndexNo.%dã®Copyã«å¤±æ•—ã—ã¾ã—ãŸã€‚åŒã˜ãƒãƒ³ãƒ‰ãƒ«ã‚’æ¸¡ã—ã¾ã™ã€‚",MainC);
 				}
 				break;
 			case Material:
@@ -102,12 +102,12 @@ bool CGameDataManage::CheckReadFile(){
 					DxLib::MV1DuplicateModel(m_MainData[ForkID].DataHandle);
 				break;
 			case Text:
-			case Binary: //•¡»‹@”\‚ª‚È‚¢‚½‚ßƒnƒ“ƒhƒ‹‚ğƒRƒs[
+			case Binary: //è¤‡è£½æ©Ÿèƒ½ãŒãªã„ãŸã‚ãƒãƒ³ãƒ‰ãƒ«ã‚’ã‚³ãƒ”ãƒ¼
 				m_MainData[MainC].DataHandle = m_MainData[ForkID].DataHandle;
-				DxLib::ErrorLogFmtAdd("IndexNo.%d‚ÌCopy‚ª–³Œø‚Å‚·B“¯‚¶ƒnƒ“ƒhƒ‹‚ğ“n‚µ‚Ü‚·B",MainC);
+				DxLib::ErrorLogFmtAdd(u8"IndexNo.%dã®CopyãŒç„¡åŠ¹ã§ã™ã€‚åŒã˜ãƒãƒ³ãƒ‰ãƒ«ã‚’æ¸¡ã—ã¾ã™ã€‚",MainC);
 				break;
 			default:
-				DxLib::ErrorLogFmtAdd("IndexNo.%d‚ÌCopyŒ³ID‚ªˆÙí‚Å‚·B",MainC);
+				DxLib::ErrorLogFmtAdd(u8"IndexNo.%dã®Copyå…ƒIDãŒç•°å¸¸ã§ã™ã€‚",MainC);
 				Ans = false;
 				break;
 			}
@@ -116,25 +116,25 @@ bool CGameDataManage::CheckReadFile(){
 	return Ans;
 }
 int CGameDataManage::GetDataHandle(unsigned int DataID) const{
-// [act]w’è‚³‚ê‚½ƒf[ƒ^ID‚Ìƒf[ƒ^ƒnƒ“ƒhƒ‹‚ğ•Ô‚·
-// [ret]w’è‚³‚ê‚½ID‚Ìƒf[ƒ^ƒnƒ“ƒhƒ‹
-//		ˆø”‚ª”ÍˆÍŠOA‚Ü‚½‚Í“Ç‚İ‚İ‚É¸”s‚µ‚½ƒtƒ@ƒCƒ‹‚È‚ç-1‚ğ•Ô‚·
+// [act]æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿IDã®ãƒ‡ãƒ¼ã‚¿ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™
+// [ret]æŒ‡å®šã•ã‚ŒãŸIDã®ãƒ‡ãƒ¼ã‚¿ãƒãƒ³ãƒ‰ãƒ«
+//		å¼•æ•°ãŒç¯„å›²å¤–ã€ã¾ãŸã¯èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰-1ã‚’è¿”ã™
 	if(DataID>=m_MainData.size()) return -1;
 	return m_MainData[DataID].DataHandle;
 }
 const SMainReadFileIndex* CGameDataManage::GetDataIndex(unsigned int DataID) const{
-// [act]w’è‚³‚ê‚½ƒf[ƒ^ID‚Ìƒf[ƒ^ƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·
-// [ret]w’è‚³‚ê‚½ID‚Ìƒf[ƒ^ƒCƒ“ƒfƒbƒNƒX‚Ìƒ|ƒCƒ“ƒ^
-//		ˆø”‚ª”ÍˆÍŠO‚È‚çNULL‚ğ•Ô‚·
+// [act]æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿IDã®ãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã™
+// [ret]æŒ‡å®šã•ã‚ŒãŸIDã®ãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿
+//		å¼•æ•°ãŒç¯„å›²å¤–ãªã‚‰NULLã‚’è¿”ã™
 	if(DataID>=m_MainData.size()) return nullptr;
 	return &(m_MainData[DataID]);
 }
 bool CGameDataManage::DeleteData(unsigned int DeletePos,EMainReadFileType DataType){
-// [act]w’è‚Ìƒ^ƒCƒv‚É‘Î‚µA1”Ô–Ú‚Ìˆø”‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ğ‰ğ•ú‚·‚é
-//		‚½‚¾‚µƒRƒs[‚Ìê‡‚ÍŒÄ‚Ño‚·‘O‚É‘ÎÛ‚Ìƒf[ƒ^ƒ^ƒCƒv‚ğŠi”[‚·‚é‚±‚Æ
-//		ƒRƒs[ƒ^ƒCƒv‚ªˆø”‚Éw’è‚³‚ê‚½ê‡‚ÍÁ‹‚É¸”s‚µ‚½‚Æ‚İ‚È‚·B
+// [act]æŒ‡å®šã®ã‚¿ã‚¤ãƒ—ã«å¯¾ã—ã€1ç•ªç›®ã®å¼•æ•°ã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’è§£æ”¾ã™ã‚‹
+//		ãŸã ã—ã‚³ãƒ”ãƒ¼ã®å ´åˆã¯å‘¼ã³å‡ºã™å‰ã«å¯¾è±¡ã®ãƒ‡ãƒ¼ã‚¿ã‚¿ã‚¤ãƒ—ã‚’æ ¼ç´ã™ã‚‹ã“ã¨
+//		ã‚³ãƒ”ãƒ¼ã‚¿ã‚¤ãƒ—ãŒå¼•æ•°ã«æŒ‡å®šã•ã‚ŒãŸå ´åˆã¯æ¶ˆå»ã«å¤±æ•—ã—ãŸã¨ã¿ãªã™ã€‚
 	if(DeletePos >= m_MainData.size()){
-		const char* Err = "ƒtƒ@ƒCƒ‹‰ğ•ú‚É•s³‚Èƒnƒ“ƒhƒ‹‚ğó‚¯æ‚è‚Ü‚µ‚½B\n";
+		const char* Err = u8"ãƒ•ã‚¡ã‚¤ãƒ«è§£æ”¾æ™‚ã«ä¸æ­£ãªãƒãƒ³ãƒ‰ãƒ«ã‚’å—ã‘å–ã‚Šã¾ã—ãŸã€‚\n";
 		DxLib::ErrorLogAdd(Err);
 		return false;
 	}
@@ -157,7 +157,7 @@ bool CGameDataManage::DeleteData(unsigned int DeletePos,EMainReadFileType DataTy
 		DxLib::FileRead_close(DataHandle);
 		break;
 	case Copy:
-		const char* Err = "Copyƒtƒ‰ƒO‚ÍDeleteData‚Å‚Í‰ğ•ú‚Å‚«‚Ü‚¹‚ñB\n";
+		const char* Err = u8"Copyãƒ•ãƒ©ã‚°ã¯DeleteDataã§ã¯è§£æ”¾ã§ãã¾ã›ã‚“ã€‚\n";
 		DxLib::ErrorLogAdd(Err);
 		return false;
 		break;
@@ -165,7 +165,7 @@ bool CGameDataManage::DeleteData(unsigned int DeletePos,EMainReadFileType DataTy
 	return true;
 }
 CGameDataManage::~CGameDataManage(){
-// [act]ƒƒCƒ“‚Å“Ç‚İ‚Ü‚ê‚½ƒf[ƒ^‚Ì‰ğ•ú‚ğs‚¤
+// [act]ãƒ¡ã‚¤ãƒ³ã§èª­ã¿è¾¼ã¾ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã®è§£æ”¾ã‚’è¡Œã†
 	DxLib::SetUseASyncLoadFlag(FALSE);
 	for(unsigned int MainC=0;MainC<m_MainData.size();MainC++){
 		if(m_MainData.at(MainC).FileType == Copy){

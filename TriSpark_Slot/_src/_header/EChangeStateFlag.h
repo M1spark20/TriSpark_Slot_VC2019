@@ -1,5 +1,5 @@
-#pragma once
+ï»¿#pragma once
 enum EChangeStateFlag {
-// [act]ƒQ[ƒ€–{‘Ì‚ÌŒ»İ‚Ìƒ‚[ƒh(ƒQ[ƒ€’†Aƒƒjƒ…[)‚È‚Ç‚Ì•ÏXƒtƒ‰ƒO
+// [act]ã‚²ãƒ¼ãƒ æœ¬ä½“ã®ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰(ã‚²ãƒ¼ãƒ ä¸­ã€ãƒ¡ãƒ‹ãƒ¥ãƒ¼)ãªã©ã®å¤‰æ›´ãƒ•ãƒ©ã‚°
 	eStateContinue, eStateMainStart, eStateReadStart, eStateEnd, eStateErrEnd,
 };

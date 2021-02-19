@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class CSlotTimerManager;
 class CEffectVariableManager;
@@ -9,9 +9,9 @@ class CEffectImageCommonComponent {
 	bool mIsTimerEnable;
 
 protected:
-	int mTimerID;											// “Ç‚İo‚µƒAƒjƒ[ƒVƒ‡ƒ“E•ªŠ„‚ğˆµ‚¤ƒ^ƒCƒ}ID
-	int mLoopTime;											// ƒ^ƒCƒ}ID‚Ìƒ‹[ƒv“_ (-1‚Åƒ‹[ƒv–³Œø)
-	CEffectVariableManager& mVarManager;					// •Ï”ŠÇ—ƒNƒ‰ƒX‚ÌQÆ
+	int mTimerID;											// èª­ã¿å‡ºã—ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ»æ™‚åˆ†å‰²ã‚’æ‰±ã†ã‚¿ã‚¤ãƒID
+	int mLoopTime;											// ã‚¿ã‚¤ãƒIDã®ãƒ«ãƒ¼ãƒ—ç‚¹ (-1ã§ãƒ«ãƒ¼ãƒ—ç„¡åŠ¹)
+	CEffectVariableManager& mVarManager;					// å¤‰æ•°ç®¡ç†ã‚¯ãƒ©ã‚¹ã®å‚ç…§
 
 	long long GetTimer() const { return mNowTime; }
 	bool GetIsTimerSet() const { return mIsTimerSet; }
@@ -20,7 +20,7 @@ protected:
 public:
 	CEffectImageCommonComponent(CEffectVariableManager& pVar);
 
-	// [act]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}‚ğƒZƒbƒg‚·‚é
+	// [act]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	bool SetTimer(CSlotTimerManager& pTimerManager);
 	void ResetTimer();
 

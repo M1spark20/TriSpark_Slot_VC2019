@@ -1,4 +1,4 @@
-#include "_header\CSlotFlowList.hpp"
+ï»¿#include "_header\CSlotFlowList.hpp"
 #include "_header\SSlotGameDataWrapper.hpp"
 #include "_header\keyexport.h"
 #include "DxLib.h"
@@ -25,14 +25,14 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 	pGameData.timeManager.GetTime(timeGetter, eTimerBetWaitStart);
 	if (timeGetter >= intData.betFreeze || intData.isReplay) {
 		if (isReverAvailable) {
-			// ƒŠ[ƒ‹n“®
+			// ãƒªãƒ¼ãƒ«å§‹å‹•
 			if (key.ExportKeyState(KEY_INPUT_UP)) {
 				pGameData.internalDataManager.LatchBet();
 				pGameData.dataCounter.ReelStart(pGameData.internalDataManager);
 
 				pGameData.timeManager.DisableTimer(eTimerBetWaitStart);
 				pGameData.timeManager.DisableTimer(eTimerLeverAvailable);
-				/* PayoutƒŠƒZƒbƒg */
+				/* Payoutãƒªã‚»ãƒƒãƒˆ */
 				pGameData.timeManager.DisableTimer(eTimerPayout);
 				return eFlowWaiting;
 			}
@@ -50,17 +50,17 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 		}
 	}
 
-	// ƒxƒbƒg‰ÁZˆ—
+	// ãƒ™ãƒƒãƒˆåŠ ç®—å‡¦ç†
 	if (m_betFor > 0 && isBetInput){
 		const int waitTime = intData.isReplay ? BET_INTERVAL.second : BET_INTERVAL.first;
 		while (true){
 			if (!pGameData.timeManager.GetTime(timeGetter, eTimerBetInput)) return eFlowErrEnd;
-			// bet‚Í•Ï“®‚·‚é‚½‚ßÅV‚Ì’l‚ğí‚Éæ“¾‚·‚é
+			// betã¯å¤‰å‹•ã™ã‚‹ãŸã‚æœ€æ–°ã®å€¤ã‚’å¸¸ã«å–å¾—ã™ã‚‹
 			const unsigned int nowBetCount = pGameData.internalDataManager.GetData().betNum;
 			if (timeGetter < waitTime*nowBetCount) break;
 			if (nowBetCount >= (unsigned int)m_betFor){
 				pGameData.timeManager.DisableTimer(eTimerBetInput);
-				// ƒŒƒo[‚ğ—LŒø‚É‚Å‚«‚é‚©
+				// ãƒ¬ãƒãƒ¼ã‚’æœ‰åŠ¹ã«ã§ãã‚‹ã‹
 				if (pGameData.randManager.GetBetAvailable(intData.gameMode, nowBetCount))
 					pGameData.timeManager.SetTimer(eTimerLeverAvailable);
 				break;
@@ -81,14 +81,14 @@ void CSlotFlowBet::SetBetFor(SSlotGameDataWrapper& pGameData, int pBetNum, bool 
 	const int waitTime = pIsReplay ? BET_INTERVAL.second : BET_INTERVAL.first;
 	pGameData.timeManager.SetTimer(eTimerBetInput, waitTime*m_betFor);
 	m_betFor = pBetNum;
-	/* ƒGƒtƒFƒNƒgƒŠƒZƒbƒg */
+	/* ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒªã‚»ãƒƒãƒˆ */
 }
 
 bool CSlotFlowWaiting::Init(SSlotGameDataWrapper& pGameData){
 	pGameData.castChecker.ResetCastData();
-	// ƒtƒ‰ƒO’Š‘I
+	// ãƒ•ãƒ©ã‚°æŠ½é¸
 	pGameData.randManager.Role(pGameData.internalDataManager);
-	// ƒ^ƒCƒ}[ƒZƒbƒg
+	// ã‚¿ã‚¤ãƒãƒ¼ã‚»ãƒƒãƒˆ
 	pGameData.timeManager.SetTimer(eTimerWaitStart);
 	return true;
 }
@@ -110,7 +110,7 @@ ESlotFlowFlag CSlotFlowWaiting::Process(SSlotGameDataWrapper& pGameData){
 }
 
 bool CSlotFlowReelAcc::Init(SSlotGameDataWrapper& pGameData){
-	// ƒŠ[ƒ‹n“®(ŠeƒŠ[ƒ‹‚Ìƒ^ƒCƒ}[§Œä‚ÍCReel‘¤‚Ås‚¤)
+	// ãƒªãƒ¼ãƒ«å§‹å‹•(å„ãƒªãƒ¼ãƒ«ã®ã‚¿ã‚¤ãƒãƒ¼åˆ¶å¾¡ã¯CReelå´ã§è¡Œã†)
 	const auto data = pGameData.internalDataManager.GetData();
 	for (int i = 0; i < pGameData.reelManager.GetReelNum(); ++i){
 		pGameData.reelManager.StartReel(data.flag.first, data.flag.second);
@@ -193,7 +193,7 @@ ESlotFlowFlag CSlotFlowPayout::Process(SSlotGameDataWrapper& pGameData){
 	} else {
 		while (true){
 			if (!pGameData.timeManager.GetTime(time, eTimerPayout)) return eFlowErrEnd;
-			// bet‚Í•Ï“®‚·‚é‚½‚ßÅV‚Ì’l‚ğí‚Éæ“¾‚·‚é
+			// betã¯å¤‰å‹•ã™ã‚‹ãŸã‚æœ€æ–°ã®å€¤ã‚’å¸¸ã«å–å¾—ã™ã‚‹
 			if (time - data.payoutFreeze < payTime[0]*m_nowPayCount) break;
 			if (m_nowPayCount >= m_payoutFor){
 				pGameData.internalDataManager.CheckGameModeEnd(true, m_payoutFor>0 && !m_isDummyPay);

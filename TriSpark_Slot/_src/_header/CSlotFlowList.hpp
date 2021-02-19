@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "ISlotFlowManager.hpp"
 #include <algorithm>
 
 class CSlotFlowBet : public ISlotFlowManager {
 	int							m_betFor;
-	const std::pair<int, int>	BET_INTERVAL;	// ’l‚ÍƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å’è‹`
+	const std::pair<int, int>	BET_INTERVAL;	// å€¤ã¯ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§å®šç¾©
 
 	void	SetBetFor(SSlotGameDataWrapper& pGameData, int pBetNum, bool pIsReplay);
 public:

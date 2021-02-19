@@ -1,4 +1,4 @@
-#include "_header\CReel.hpp"
+ï»¿#include "_header\CReel.hpp"
 #include "DxLib.h"
 #include "_header\CGameDataManage.h"
 #include "_header\SReelDrawData.hpp"
@@ -28,7 +28,7 @@ bool CReel::Init(const SReelChaData& pReelData){
 
 bool CReel::Process(CSlotTimerManager& pTimer){
 
-	// ƒ^ƒCƒ}[‰Šú‰»
+	// ã‚¿ã‚¤ãƒãƒ¼åˆæœŸåŒ–
 	if (m_nowStatus == EReelStatus::eAccerating && m_lastStatus == EReelStatus::eStoping){
 		pTimer.DisableTimer(eTimerReelPush, m_reelData.reelID);
 		pTimer.DisableTimer(eTimerReelStop, m_reelData.reelID);
@@ -38,7 +38,7 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		pTimer.DisableTimer(eTimerReelStopAvailable, m_reelData.reelID);
 		pTimer.SetTimer(eTimerReelPush, m_reelData.reelID);
 	}
-	/* ‰‰ñ‹N“®‚Éstopƒ^ƒCƒ}‚ğì“®‚³‚¹‚é */
+	/* åˆå›èµ·å‹•æ™‚ã«stopã‚¿ã‚¤ãƒã‚’ä½œå‹•ã•ã›ã‚‹ */
 	if (m_lastStatus == EReelStatus::eInitial) {
 		long long temp;
 		if (!pTimer.GetTime(temp, eTimerReelStop, m_reelData.reelID))
@@ -48,8 +48,8 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 	if (m_nowStatus == EReelStatus::eAccerating){
 		long long diff;
 		if (!pTimer.GetTimeDiff(diff, eTimerReelStart, m_reelData.reelID)) return false;
-		// ‰Á‘¬‚ğ‚æ‚èŒµ–§‚ÉÄŒ»‚·‚é‚½‚ß‚ÉA1ms‚¸‚Â‘¬“x‚ÆˆÊ’u‚ğXV‚·‚é
-		// ‚½‚¾‚µÅ‘å‘¬“x‚É’B‚µ‚½ê‡‚»‚êˆÈã‚ÍŠ|‚¯Z‚Åˆ—
+		// åŠ é€Ÿã‚’ã‚ˆã‚Šå³å¯†ã«å†ç¾ã™ã‚‹ãŸã‚ã«ã€1msãšã¤é€Ÿåº¦ã¨ä½ç½®ã‚’æ›´æ–°ã™ã‚‹
+		// ãŸã ã—æœ€å¤§é€Ÿåº¦ã«é”ã—ãŸå ´åˆãã‚Œä»¥ä¸Šã¯æ›ã‘ç®—ã§å‡¦ç†
 		long long count;
 		for (count = 0; count < diff; ++count){
 			m_speed += m_accVal;
@@ -68,19 +68,19 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		m_rotatePos -= m_speed * diff;
 	}
 
-	bool reelAdj = false;	// ƒŠ[ƒ‹•â³—L–³
-	// ‡‰ñ“]ˆÊ’u•â³(•â³‚ÍƒŠ[ƒ‹‚ğ’â~‚³‚¹‚é)
+	bool reelAdj = false;	// ãƒªãƒ¼ãƒ«è£œæ­£æœ‰ç„¡
+	// é †å›è»¢ä½ç½®è£œæ­£(è£œæ­£æ™‚ã¯ãƒªãƒ¼ãƒ«ã‚’åœæ­¢ã•ã›ã‚‹)
 	while (m_rotatePos < 0.f){
 		reelAdj = true;
 		m_rotatePos += GetComaNum() * m_reelData.reelData[0].h;
 	}
-	// ‹t‰ñ“]ˆÊ’u•â³(•â³‚ÍƒŠ[ƒ‹‚ğ’â~‚³‚¹‚é)
+	// é€†å›è»¢ä½ç½®è£œæ­£(è£œæ­£æ™‚ã¯ãƒªãƒ¼ãƒ«ã‚’åœæ­¢ã•ã›ã‚‹)
 	while (m_rotatePos > GetComaNum() * m_reelData.reelData[0].h){
 		reelAdj = true;
 		m_rotatePos -= GetComaNum() * m_reelData.reelData[0].h;
 	}
 
-	// ƒŠ[ƒ‹ˆÊ’u”»’f & ’â~”»’f
+	// ãƒªãƒ¼ãƒ«ä½ç½®åˆ¤æ–­ & åœæ­¢åˆ¤æ–­
 	const int newComaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
 	if (m_nowStatus == EReelStatus::eSliping && m_comaPos == m_destination && (newComaPos != m_destination || reelAdj)){
 		m_rotatePos = (float)m_destination * m_reelData.reelData[0].h;
@@ -102,7 +102,7 @@ bool CReel::ReelStart(){
 
 bool CReel::ReelStop(unsigned int pDest, bool pForceFlag){
 	if (pForceFlag){
-		// ‘¦’â~
+		// å³æ™‚åœæ­¢
 		m_destination = pDest % m_reelData.arrayData.size();
 		m_comaPos = m_destination;
 		m_speed = 0.f;
@@ -110,7 +110,7 @@ bool CReel::ReelStop(unsigned int pDest, bool pForceFlag){
 		m_rotatePos = (float)m_reelData.reelData[0].h * pDest;
 		m_nowStatus = EReelStatus::eStoping;
 	} else {
-		// ŠŠ‚Á‚Ä’â~‚·‚é
+		// æ»‘ã£ã¦åœæ­¢ã™ã‚‹
 		if (m_nowStatus != EReelStatus::eRotating) return false;
 		m_pushPos = m_rotatePos;
 		m_destination = pDest % m_reelData.arrayData.size();
@@ -168,30 +168,30 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, i
 }
 
 bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* const pSrcData, CImageColorController& pColorData, const SReelDrawDataFromCSV pData) const {
-	// src‰æ‘œ‚ğ‰¼•`‰æƒXƒNƒŠ[ƒ“‚É•`‰æ‚·‚é
+	// srcç”»åƒã‚’ä»®æç”»ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«æç”»ã™ã‚‹
 	const unsigned int comaDivNum = m_reelData.arrayData.size();
 	int destY = 0;
 	int comaSizeY = 0;
 	DxLib::SetDrawScreen(pData.preDrawScr);
-	DxLib::ClearDrawScreen();								// ‰¼•`‰æ‰æ–Ê‚Í©“®ƒNƒŠƒA‚³‚ê‚é
+	DxLib::ClearDrawScreen();								// ä»®æç”»ç”»é¢ã¯è‡ªå‹•ã‚¯ãƒªã‚¢ã•ã‚Œã‚‹
 	DxLib::SetDrawMode(DX_DRAWMODE_NEAREST);
-	DxLib::SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 255);	// src‰æ‘œ‚ğ¶¬‚·‚é‚½‚ßAŒÅ’è(colorManager‚Ì’l‚Í”½‰f)
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 255);	// srcç”»åƒã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã€å›ºå®š(colorManagerã®å€¤ã¯åæ˜ )
 	
 	const int comaBegin = (pData.comaBegin < 0 ? m_comaPos : pData.comaBegin) - pData.originComa;
 	for (unsigned int i = 0; i < pData.comaNum; ++i) {
-		// ƒRƒ}”Ô†‚ğæ“¾
+		// ã‚³ãƒç•ªå·ã‚’å–å¾—
 		const unsigned int pos = (comaDivNum + comaBegin + i) % comaDivNum;
 		const int comaNumber = m_reelData.arrayData[pos];
 		const int comaColorID =
 			i < pData.originComa ? 0 :
 			i - pData.originComa >= pData.comaIndexMax ? pData.comaIndexMax : i - pData.originComa;
 
-		// src’è‹`‚ğg—p‚µ‚Ä‰¼•`‰æ
+		// srcå®šç¾©ã‚’ä½¿ç”¨ã—ã¦ä»®æç”»
 		auto srcData = pSrcData->GetImageSource(comaNumber, 0);
 		for (int colorC = 0; ; ++colorC) {
 			const auto colorPtr = pColorData.GetColorData(pSrcData->GetEffectDataName(), colorC);
 			if (colorPtr == nullptr) break;
-			if (colorPtr->GetColorData(pDataManager, srcData, comaColorID)) break;	// true‚Å³í‚ÈƒZƒbƒgŠ®—¹
+			if (colorPtr->GetColorData(pDataManager, srcData, comaColorID)) break;	// trueã§æ­£å¸¸ãªã‚»ãƒƒãƒˆå®Œäº†
 		}
 		DxLib::SetDrawBright(srcData.r, srcData.g, srcData.b);
 		DxLib::DrawRectGraph(
@@ -202,7 +202,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 		if(i==0) comaSizeY = srcData.h; 
 	}
 
-	// ‰¼•`‰æ‚µ‚½‰æ‘œ‚ğ—p‚¢‚Ä–{‰æ–Ê‚É‰æ‘œ‚ğ•`‰æ
+	// ä»®æç”»ã—ãŸç”»åƒã‚’ç”¨ã„ã¦æœ¬ç”»é¢ã«ç”»åƒã‚’æç”»
 	const int drawOffset = pData.comaBegin < 0 ?
 		floor(m_rotatePos - comaSizeY * floor(m_rotatePos / comaSizeY)) : 0;
 	int backTime = m_lastRotationTime;
@@ -230,7 +230,7 @@ bool CReel::DrawReel(const CGameDataManage& pDataManager, IImageSourceManager* c
 	return true;
 }
 
-// [act]ŠeƒŠ[ƒ‹ƒRƒ}‚ğ16•ªŠ„‚µ‚½ˆÊ’u‚ğæ“¾‚·‚é
+// [act]å„ãƒªãƒ¼ãƒ«ã‚³ãƒã‚’16åˆ†å‰²ã—ãŸä½ç½®ã‚’å–å¾—ã™ã‚‹
 int CReel::GetReelDetailPos() const {
 	if (m_nowStatus == EReelStatus::eAccerating || m_nowStatus == EReelStatus::eRotating) return -1;
 	const int pos = (int)(m_pushPos * 16.f / m_reelData.reelData[0].h);

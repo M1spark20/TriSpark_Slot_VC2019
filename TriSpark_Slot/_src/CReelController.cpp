@@ -1,4 +1,4 @@
-#include "_header\CReelController.hpp"
+ï»¿#include "_header\CReelController.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\CReelControlReaderFromCSV.hpp"
 
@@ -14,14 +14,14 @@ bool CReelController::Init(const CGameDataManage& pDataManager, int pFileID, int
 }
 
 int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, int pPushComaID){
-//	[prm]pPushReel	: ‰Ÿ‚µ‚½ƒŠ[ƒ‹‚ÌID
+//	[prm]pPushReel	: æŠ¼ã—ãŸãƒªãƒ¼ãƒ«ã®ID
 	const int comaNum = 21;
 	if (m_stopReelNum.size() >= (unsigned int)m_reelNum) return -1;
 	unsigned long long dataBuf;
 	unsigned int ctrlID, ctrlType;
 	bool confirm = false;
 
-	// “–ŠYƒtƒ‰ƒOƒf[ƒ^’Tõ
+	// å½“è©²ãƒ•ãƒ©ã‚°ãƒ‡ãƒ¼ã‚¿æ¢ç´¢
 	for (ctrlID = 0; ctrlID < m_ctrlData.header.size(); ++ctrlID){
 		if (m_ctrlData.header[ctrlID].flagID != pFlagID) continue;
 		if (m_ctrlData.header[ctrlID].bonusID != pBonusID && m_ctrlData.header[ctrlID].bonusID != -1)
@@ -36,7 +36,7 @@ int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, i
 		dataBuf = m_ctrlData.command[ctrlID].slipData[pPushReel];
 		if(m_stopReelNum.size()==0) m_orderID = (EOrderID)(e1__ + pPushReel);
 	} else {
-		// 2nd‚È‚ç‚Ü‚¸‰Ÿ‚µ‡‚ğŠm’è‚³‚¹‚é
+		// 2ndãªã‚‰ã¾ãšæŠ¼ã—é †ã‚’ç¢ºå®šã•ã›ã‚‹
 		if (m_stopReelNum.size() == 1){
 			for (int i = 0; i < m_reelNum; ++i){
 				if (i + e1__ == m_orderID) continue;
@@ -45,20 +45,20 @@ int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, i
 				break;
 			}
 		}
-		// type=3 -> 1st‚ÌƒŠ[ƒ‹‚Æ’â~ˆÊ’u‚Å”»•Ê
+		// type=3 -> 1stã®ãƒªãƒ¼ãƒ«ã¨åœæ­¢ä½ç½®ã§åˆ¤åˆ¥
 		if (ctrlType == 3){
 			confirm = false;
 			for (unsigned int slipNo = 0; slipNo < m_ctrlData.command[ctrlID].spotData.size(); ++slipNo){
-				// ‰Ÿ‚µ‡‚ğŒŸØ(1st‚ª‡’v‚·‚ê‚Î‚æ‚¢ -> m_orderID‚ğ2‚ÅŠ„‚Á‚ÄŒŸØ)
+				// æŠ¼ã—é †ã‚’æ¤œè¨¼(1stãŒåˆè‡´ã™ã‚Œã°ã‚ˆã„ -> m_orderIDã‚’2ã§å‰²ã£ã¦æ¤œè¨¼)
 				const SReelControlSpot& spotData = m_ctrlData.command[ctrlID].spotData[slipNo];
 				if ((spotData.spot >> 5 & 0x07) != m_orderID / 2) continue;
-				// 1st‚Ì’â~ˆÊ’u‚ğŒŸØ
+				// 1stã®åœæ­¢ä½ç½®ã‚’æ¤œè¨¼
 				if ((spotData.spot & 0x1F) != m_stopReelNum[0][1] && (spotData.spot & 0x1F) != 0x1F) continue;
-				// ƒIƒtƒZƒbƒgŒŸØ
+				// ã‚ªãƒ•ã‚»ãƒƒãƒˆæ¤œè¨¼
 				unsigned int offset = spotData.slipStart;
 				for (int i = 0; i < m_reelNum; ++i){
-					if (i + e123 == m_orderID/2) continue;	// 1st‚ÆˆÙ‚È‚é
-					if (i != pPushReel) ++offset;			// ‰Ÿ‚µ‚½ƒŠ[ƒ‹‚ÆˆÙ‚È‚éê‡offset‚ğ1‘‚â‚·
+					if (i + e123 == m_orderID/2) continue;	// 1stã¨ç•°ãªã‚‹
+					if (i != pPushReel) ++offset;			// æŠ¼ã—ãŸãƒªãƒ¼ãƒ«ã¨ç•°ãªã‚‹å ´åˆoffsetã‚’1å¢—ã‚„ã™
 					break;
 				}
 				dataBuf = m_ctrlData.command[ctrlID].slipData[offset];
@@ -66,28 +66,28 @@ int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, i
 			}
 			if (!confirm) return -1;
 		}
-		// type=0 or type=1‚Ì2nd -> ‰Ÿ‚µ‚½ƒŠ[ƒ‹‚Æ1st‚Ì‰Ÿ‚µˆÊ’u‚Å”»’è
+		// type=0 or type=1ã®2nd -> æŠ¼ã—ãŸãƒªãƒ¼ãƒ«ã¨1stã®æŠ¼ã—ä½ç½®ã§åˆ¤å®š
 		else if (ctrlType == 0 || ctrlType == 1 && m_stopReelNum.size() == 1){
 			const unsigned int slipNo = (m_stopReelNum.size() == 1) ? 
 				3 + m_orderID * comaNum + m_stopReelNum[0][0] : 
 				3 + comaNum*6 + comaNum*comaNum*m_orderID + comaNum*m_stopReelNum[0][0] + m_stopReelNum[1][0] ;
 			dataBuf = m_ctrlData.command[ctrlID].slipData[slipNo];
 		}
-		// type=2 or type=1‚Ì3rd -> order‚ğ‘‚«Š·‚¦‚½Œã‚Ìƒf[ƒ^‚É‚Äˆ—,2nd”»’è‚ğs‚¤
+		// type=2 or type=1ã®3rd -> orderã‚’æ›¸ãæ›ãˆãŸå¾Œã®ãƒ‡ãƒ¼ã‚¿ã«ã¦å‡¦ç†,2ndåˆ¤å®šã‚’è¡Œã†
 		else {
 			confirm = false;
 			bool check2nd;
 			for (unsigned int slipNo = 0; slipNo < m_ctrlData.command[ctrlID].spotData.size(); ++slipNo){
 				const SReelControlSpot& spotData = m_ctrlData.command[ctrlID].spotData[slipNo];
-				// ‘æ2’â~ or ‘æ3’â~‚Ì¯•Ê‚ğs‚¤
-				check2nd = (spotData.spot & 0x8000) == 0x8000;	// MSBƒtƒ‰ƒO: 2nd—p§Œä
-				check2nd ^= !(m_stopReelNum.size() == 1);		// ’â~‚Í2nd‚Å‚Í‚È‚¢
-				if (!check2nd) continue;						// ã‹L2ğŒ‚ª‘Šˆá‚µ‚½ê‡continue (=XOR)
-				// ‰Ÿ‚µ‡‚ğŒŸØ
+				// ç¬¬2åœæ­¢ or ç¬¬3åœæ­¢ã®è­˜åˆ¥ã‚’è¡Œã†
+				check2nd = (spotData.spot & 0x8000) == 0x8000;	// MSBãƒ•ãƒ©ã‚°: 2ndç”¨åˆ¶å¾¡
+				check2nd ^= !(m_stopReelNum.size() == 1);		// åœæ­¢ã¯2ndã§ã¯ãªã„
+				if (!check2nd) continue;						// ä¸Šè¨˜2æ¡ä»¶ãŒç›¸é•ã—ãŸå ´åˆcontinue (=XOR)
+				// æŠ¼ã—é †ã‚’æ¤œè¨¼
 				if ((spotData.spot >> 10 & 0x07) != m_orderID) continue;
-				// 1st‚Ì’â~ˆÊ’u‚ğŒŸØ
+				// 1stã®åœæ­¢ä½ç½®ã‚’æ¤œè¨¼
 				if ((spotData.spot >> 5 & 0x1F) != m_stopReelNum[0][1] && (spotData.spot >> 5 & 0x1F) != 0x1F) continue;
-				// 2nd‚Ì’â~ˆÊ’u‚ğŒŸØ(3rd‚Ì§Œä‚ğŒˆ’è‚·‚éê‡‚Ì‚İ)
+				// 2ndã®åœæ­¢ä½ç½®ã‚’æ¤œè¨¼(3rdã®åˆ¶å¾¡ã‚’æ±ºå®šã™ã‚‹å ´åˆã®ã¿)
 				if (m_stopReelNum.size() == 2){ if ((spotData.spot & 0x1F) != m_stopReelNum[1][1] && (spotData.spot & 0x1F) != 0x1F) continue; }
 				dataBuf = m_ctrlData.command[ctrlID].slipData[spotData.slipStart];
 				confirm = true;	break;
@@ -96,7 +96,7 @@ int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, i
 		}
 	}
 
-	// dataBuf‚©‚ç‚·‚×‚èƒRƒ}”‚ğ“Ç‚İo‚·
+	// dataBufã‹ã‚‰ã™ã¹ã‚Šã‚³ãƒæ•°ã‚’èª­ã¿å‡ºã™
 	const int slipVal = dataBuf >> (3 * (comaNum - pPushComaID - 1)) & 0x07;
 	const int ans = (comaNum + pPushComaID - slipVal) % comaNum;
 	std::array<char, 2> addData;

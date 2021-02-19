@@ -1,4 +1,4 @@
-#include "_header/CImageColorController.hpp"
+ï»¿#include "_header/CImageColorController.hpp"
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/ErrClass.hpp"
 #include <stdexcept>
@@ -72,11 +72,11 @@ void CImageColorController::ResetActionData(std::string pUseEffectName) {
 	}
 }
 
-// [act]•`‰æ‚Ég—p‚·‚écolorƒf[ƒ^‚ğŒˆ’è‚·‚é
-// [prm]pSrcColorID	:src‘¤‚ÌcolorDataŒÄ‚Ño‚µ—pID‚ğw’è
-//		pIndex		:ŒÄ‚Ño‚µ—pindex(”ÍˆÍŠO‚Ìê‡nullptr‚ª•Ô‚é) ¨ ‘Sƒf[ƒ^‚ğ‘I‘ğ‰Â”\
-// [ret]nullptr		:ƒf[ƒ^‚ª‘¶İ‚µ‚È‚¢ê‡
-//		else		:ƒf[ƒ^‚ª‘¶İ‚·‚éê‡A‚»‚Ìƒ|ƒCƒ“ƒ^
+// [act]æç”»ã«ä½¿ç”¨ã™ã‚‹colorãƒ‡ãƒ¼ã‚¿ã‚’æ±ºå®šã™ã‚‹
+// [prm]pSrcColorID	:srcå´ã®colorDataå‘¼ã³å‡ºã—ç”¨IDã‚’æŒ‡å®š
+//		pIndex		:å‘¼ã³å‡ºã—ç”¨index(ç¯„å›²å¤–ã®å ´åˆnullptrãŒè¿”ã‚‹) â†’ å…¨ãƒ‡ãƒ¼ã‚¿ã‚’é¸æŠå¯èƒ½
+// [ret]nullptr		:ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+//		else		:ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€ãã®ãƒã‚¤ãƒ³ã‚¿
 const CImageColorManager* const CImageColorController::GetColorData(std::string pUseEffectName, int pIndex) {
 	if (pIndex < 0) return nullptr;
 	if (!CheckAvailableName(pUseEffectName)) return nullptr;

@@ -1,16 +1,16 @@
-#include "_header\CGameState_ReadingData.hpp"
+ï»¿#include "_header\CGameState_ReadingData.hpp"
 #include "_header\CGameDataManage.h"
 #include "DxLib.h"
 
 bool CGameState_ReadingData::Init(CGameDataManage& p_pDataManageIns){
-// [act]‰½‚à‚µ‚È‚¢B“Ç‚İ‚İƒf[ƒ^ˆê——‚ÍCGameDataManage‚Ì‰Šú‰»‚É‹K’èB
-//		‚±‚ÌƒNƒ‰ƒX‚Å‚Í‚»‚Ì“Ç‚İ‚İŠ®—¹‚ğDxLibŠÖ”‚É‚æ‚Á‚ÄŠÄ‹‚·‚é‚¾‚¯B
+// [act]ä½•ã‚‚ã—ãªã„ã€‚èª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ä¸€è¦§ã¯CGameDataManageã®åˆæœŸåŒ–æ™‚ã«è¦å®šã€‚
+//		ã“ã®ã‚¯ãƒ©ã‚¹ã§ã¯ãã®èª­ã¿è¾¼ã¿å®Œäº†ã‚’DxLibé–¢æ•°ã«ã‚ˆã£ã¦ç›£è¦–ã™ã‚‹ã ã‘ã€‚
 	return true;
 }
 EChangeStateFlag CGameState_ReadingData::Process(CGameDataManage& p_pDataManageIns){
-// [act]ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ªI‚í‚Á‚½‚©Šm”F‚µA
-//		I‚í‚Á‚Ä‚¢‚ê‚ÎƒV[ƒ“‚ğƒvƒŒƒC‰æ–Ê‚ÉˆÚ‚·B
-// [ret]Ÿ‰ñ‚ÌƒQ[ƒ€ƒ‚[ƒh(I—¹‚ÉƒvƒŒƒC‰æ–Ê‚ÖB)
+// [act]ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ãŒçµ‚ã‚ã£ãŸã‹ç¢ºèªã—ã€
+//		çµ‚ã‚ã£ã¦ã„ã‚Œã°ã‚·ãƒ¼ãƒ³ã‚’ãƒ—ãƒ¬ã‚¤ç”»é¢ã«ç§»ã™ã€‚
+// [ret]æ¬¡å›ã®ã‚²ãƒ¼ãƒ ãƒ¢ãƒ¼ãƒ‰(çµ‚äº†æ™‚ã«ãƒ—ãƒ¬ã‚¤ç”»é¢ã¸ã€‚)
 	if (DxLib::GetASyncLoadNum() == 0){
 		if (!p_pDataManageIns.CheckReadFile()) return eStateErrEnd;
 		return eStateMainStart;
@@ -18,8 +18,8 @@ EChangeStateFlag CGameState_ReadingData::Process(CGameDataManage& p_pDataManageI
 	return eStateContinue;
 }
 bool CGameState_ReadingData::Draw(CGameDataManage& p_DataManageIns){
-// [act]ƒ[ƒh’†‚Å‚ ‚é‚±‚Æ‚ğ’m‚ç‚¹‚é‰æ–Ê‚Ì•`‰æ‚ğs‚¢‚Ü‚·B
-// [ret]ŠÖ”‚ª¬Œ÷‚µ‚½‚©‚Ç‚¤‚©B
+// [act]ãƒ­ãƒ¼ãƒ‰ä¸­ã§ã‚ã‚‹ã“ã¨ã‚’çŸ¥ã‚‰ã›ã‚‹ç”»é¢ã®æç”»ã‚’è¡Œã„ã¾ã™ã€‚
+// [ret]é–¢æ•°ãŒæˆåŠŸã—ãŸã‹ã©ã†ã‹ã€‚
 	DxLib::printfDx("NowLoading...");
 	return true;
 }

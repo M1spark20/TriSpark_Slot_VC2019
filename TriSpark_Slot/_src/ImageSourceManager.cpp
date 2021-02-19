@@ -1,20 +1,20 @@
-#include "_header/ImageSourceManager.hpp"
+ï»¿#include "_header/ImageSourceManager.hpp"
 #include "_header/ErrClass.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
 
-// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
-// [prm]pTimerReader	: ƒ^ƒCƒ}[’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
+// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
+// [prm]pTimerReader	: ã‚¿ã‚¤ãƒãƒ¼å€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 IImageSourceManager::IImageSourceManager(CEffectVariableManager& pVarManager)
 	: CEffectImageCommonComponent(pVarManager){
 	mCommonData.clear();
 	mEffectDataName = "";
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-//		pVariableManager	: •Ï”ŠÇ——pŠÖ”‚ğw’è¨’l‚Íƒ|ƒCƒ“ƒ^‚ÅŠÇ—‚·‚é
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+//		pVariableManager	: å¤‰æ•°ç®¡ç†ç”¨é–¢æ•°ã‚’æŒ‡å®šâ†’å€¤ã¯ãƒã‚¤ãƒ³ã‚¿ã§ç®¡ç†ã™ã‚‹
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool IImageSourceManager::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		SImageSourceCSVCommonData data;
@@ -45,9 +45,9 @@ bool IImageSourceManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMan
 	}
 }
 
-// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
-// [prm]pNowCount	: Œ»İ‚Ìƒ^ƒCƒ}ƒJƒEƒ“ƒg
-// [ret]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}ƒJƒEƒ“ƒg
+// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
+// [prm]pNowCount	: ç¾åœ¨ã®ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
+// [ret]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
 long long IImageSourceManager::GetCheckTime(const long long pNowCount) {
 	const long long loopTime = mVarManager.GetVal(mLoopTime);
 	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
@@ -60,9 +60,9 @@ long long IImageSourceManager::GetCheckTime(const long long pNowCount) {
 	return ans - (diffCount * (ans / diffCount)) + loopTime;
 }
 
-// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œ’è‹`‚ğŒˆ’è‚·‚é
-// [ret]-1	:¡‰ñ‚Í•`‰æ‚ğs‚¤ƒ^ƒCƒ~ƒ“ƒO‚Å‚Í‚È‚¢ê‡
-//		else:•`‰æ‚·‚é’è‹`ID @mCommonData
+// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒå®šç¾©ã‚’æ±ºå®šã™ã‚‹
+// [ret]-1	:ä»Šå›ã¯æç”»ã‚’è¡Œã†ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã¯ãªã„å ´åˆ
+//		else:æç”»ã™ã‚‹å®šç¾©ID @mCommonData
 int IImageSourceManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
 	if (!GetIsTimerSet() || !GetIsTimerEnable()) return -1;
@@ -73,12 +73,12 @@ int IImageSourceManager::GetDefinitionIndex() {
 		const long long nowTime = GetTimer();
 		const long long checkTime = GetCheckTime(nowTime);
 
-		// Œ©‚Ä‚¢‚é—v‘f‚ÌbeginTime‚É–¢’B‚È‚ç‚»‚Ì‘O‚Ìƒf[ƒ^‚ğg—p‚·‚éB‘æ1—v‘f‚É–¢’B‚È‚ç•`‰æ‚ğs‚í‚È‚¢
+		// è¦‹ã¦ã„ã‚‹è¦ç´ ã®beginTimeã«æœªé”ãªã‚‰ãã®å‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ç”¨ã™ã‚‹ã€‚ç¬¬1è¦ç´ ã«æœªé”ãªã‚‰æç”»ã‚’è¡Œã‚ãªã„
 		int ans = -1;
 		for (auto it = mCommonData.begin(); it != mCommonData.end(); ++it, ++ans)
 			if (checkTime < (long long)mVarManager.GetVal(it->startTime)) return ans;
 
-		// ƒ‹[ƒv“_‚ª‚ ‚ê‚ÎÅŒã‚Ì—v‘f‚ğ•`‰æA‚È‚¯‚ê‚Î•`‰æ‚ğs‚í‚È‚¢
+		// ãƒ«ãƒ¼ãƒ—ç‚¹ãŒã‚ã‚Œã°æœ€å¾Œã®è¦ç´ ã‚’æç”»ã€ãªã‘ã‚Œã°æç”»ã‚’è¡Œã‚ãªã„
 		return loopTime >= 0 ? ans : -1;
 	}
 	catch (ErrInternalVarUndeclared e) {
@@ -91,10 +91,10 @@ int IImageSourceManager::GetDefinitionIndex() {
 	}
 }
 
-// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œƒRƒ}‚ğŒˆ’è‚·‚é
-// [prm]pDefinitionIndex	: •`‰æ‚·‚é’è‹`ID @mCommonData
-// [ret]-1	: ƒGƒ‰[
-//		else: ‰æ‘œƒRƒ}ID
+// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒã‚³ãƒã‚’æ±ºå®šã™ã‚‹
+// [prm]pDefinitionIndex	: æç”»ã™ã‚‹å®šç¾©ID @mCommonData
+// [ret]-1	: ã‚¨ãƒ©ãƒ¼
+//		else: ç”»åƒã‚³ãƒID
 int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
 
@@ -103,7 +103,7 @@ int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 	const long long offset = mVarManager.GetVal(mCommonData[pDefinitionIndex].startTime);
 	const long long interval = -offset + ((size_t)pDefinitionIndex + 1 == mCommonData.size() ?
 		mVarManager.GetVal(mLoopTime) : mVarManager.GetVal(mCommonData[(size_t)pDefinitionIndex+1].startTime));
-	if (interval == 0) return 0;	// src‚ª•Ï‰»‚µ‚È‚¢ê‡
+	if (interval == 0) return 0;	// srcãŒå¤‰åŒ–ã—ãªã„å ´åˆ
 	const double division = interval / (double)comaNum;
 
 	try {
@@ -116,18 +116,18 @@ int IImageSourceManager::GetImageIndex(int pDefinitionIndex) {
 	}
 }
 
-// [act]ƒAƒjƒ[ƒVƒ‡ƒ“‚Ég—p‚Å‚«‚éƒRƒ}”‚ğæ“¾‚·‚é(•K—v‚É‰‚¶override‚·‚é)
-// [prm]pDefinitionIndex	: •`‰æ‚·‚é’è‹`ID @mCommonData
-// [ret]-1	: ƒGƒ‰[
-//		else: —˜—p‰Â”\ƒRƒ}”
+// [act]ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ä½¿ç”¨ã§ãã‚‹ã‚³ãƒæ•°ã‚’å–å¾—ã™ã‚‹(å¿…è¦ã«å¿œã˜overrideã™ã‚‹)
+// [prm]pDefinitionIndex	: æç”»ã™ã‚‹å®šç¾©ID @mCommonData
+// [ret]-1	: ã‚¨ãƒ©ãƒ¼
+//		else: åˆ©ç”¨å¯èƒ½ã‚³ãƒæ•°
 int IImageSourceManager::GetComaNum(int pDefinitionIndex) {
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
 	return abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numX)) * abs(mVarManager.GetVal(mCommonData[pDefinitionIndex].numY));
 }
 
-// [act]definitionIndex‚ÆimageIndex‚©‚ç‰æ‘œ”ÍˆÍ‚ğæ‚èo‚·
+// [act]definitionIndexã¨imageIndexã‹ã‚‰ç”»åƒç¯„å›²ã‚’å–ã‚Šå‡ºã™
 SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinitionIndex, int pImageIndex) {
-	// index‚É‰‚¶‚Ä‰æ‘œ‚ğØ‚èo‚·
+	// indexã«å¿œã˜ã¦ç”»åƒã‚’åˆ‡ã‚Šå‡ºã™
 	SDrawImageSourceData ans;
 	const auto& nowData = mCommonData[pDefinitionIndex];
 	unsigned int posX = nowData.directionY ? pImageIndex / abs(mVarManager.GetVal(nowData.numY)) : pImageIndex % abs(mVarManager.GetVal(nowData.numX));
@@ -146,16 +146,16 @@ SDrawImageSourceData IImageSourceManager::GetSourceDataFromIndex(int pDefinition
 }
 
 
-// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
-// [prm]pTimerReader	: ƒ^ƒCƒ}[’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
+// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
+// [prm]pTimerReader	: ã‚¿ã‚¤ãƒãƒ¼å€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 CImageSourceDefault::CImageSourceDefault(CEffectVariableManager& pVarManager)
 	: IImageSourceManager(pVarManager) {
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-//		pVariableManager	: •Ï”ŠÇ——pŠÖ”‚ğw’è¨’l‚Íƒ|ƒCƒ“ƒ^‚ÅŠÇ—‚·‚é
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+//		pVariableManager	: å¤‰æ•°ç®¡ç†ç”¨é–¢æ•°ã‚’æŒ‡å®šâ†’å€¤ã¯ãƒã‚¤ãƒ³ã‚¿ã§ç®¡ç†ã™ã‚‹
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool CImageSourceDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
@@ -169,9 +169,9 @@ bool CImageSourceDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerMan
 }
 
 
-// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
-// [prm]pWriteIndex	: ‰½–‡–Ú‚Ì•`‰æ‰æ‘œ‚Ìæ‚èo‚µ‚ğs‚¤‚©‚ğw’è(‚½‚¾‚µdefault‚Å‚Í•sg—p)
-//		pWriteNum	: Às’†‚Ì•`‰æ‚Å‰½‰ñ‰æ‘œ‚ğŒJ‚è•Ô‚µ•`‰æ‚·‚é‚©w’è(‚½‚¾‚µdefault‚Å‚Í•sg—p)
+// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
+// [prm]pWriteIndex	: ä½•æšç›®ã®æç”»ç”»åƒã®å–ã‚Šå‡ºã—ã‚’è¡Œã†ã‹ã‚’æŒ‡å®š(ãŸã ã—defaultã§ã¯ä¸ä½¿ç”¨)
+//		pWriteNum	: å®Ÿè¡Œä¸­ã®æç”»ã§ä½•å›ç”»åƒã‚’ç¹°ã‚Šè¿”ã—æç”»ã™ã‚‹ã‹æŒ‡å®š(ãŸã ã—defaultã§ã¯ä¸ä½¿ç”¨)
 SDrawImageSourceData CImageSourceDefault::GetImageSource(int pWriteIndex, int pWriteNum) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return SDrawImageSourceData();
@@ -230,20 +230,20 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 	if (dataIndex < 0) return SDrawImageSourceData();
 	const auto imageIndex = GetImageIndex(dataIndex);
 	if (imageIndex < 0) return SDrawImageSourceData();
-	// ”’l‚ªƒ}ƒCƒiƒX‚©‚Â•‰‚Ì’l‚ğ‘‚©‚È‚¢ê‡‚Í•`‰æ‚µ‚È‚¢
+	// æ•°å€¤ãŒãƒã‚¤ãƒŠã‚¹ã‹ã¤è² ã®å€¤ã‚’æ›¸ã‹ãªã„å ´åˆã¯æç”»ã—ãªã„
 	if (!mDrawMinusFlag && mVarManager.GetVal(mNumSource) < 0) return SDrawImageSourceData();
 	int numIndex;
 
-	/* ”’l‚ğæ“¾‚µ‚Ä•`‰æ‚·‚éƒRƒ}‚ğŒˆ’è‚·‚é */ {
+	/* æ•°å€¤ã‚’å–å¾—ã—ã¦æç”»ã™ã‚‹ã‚³ãƒã‚’æ±ºå®šã™ã‚‹ */ {
 		int nowVal = abs(mVarManager.GetVal(mNumSource));
 		int digitNum;
 		if (nowVal == 0) digitNum = 1;
 		else for (digitNum = 0; nowVal > 0; ++digitNum) nowVal /= 10;
 
-		// pWriteIndex‚ğ‰E’[Šî€‚É•ÏŠ·‚·‚é
+		// pWriteIndexã‚’å³ç«¯åŸºæº–ã«å¤‰æ›ã™ã‚‹
 		pWriteIndex = pWriteNum - pWriteIndex - 1;
 
-		/* Align‚ª¶‚Ìê‡‚ÍpWriteIndex‚ğ’²®‚·‚é */
+		/* AlignãŒå·¦ã®å ´åˆã¯pWriteIndexã‚’èª¿æ•´ã™ã‚‹ */
 		if(mNumAlign == EAlign::eLeft && !mPaddingFlag) {
 			pWriteIndex = digitNum - pWriteIndex + mDrawMinusFlag ? 1 : 0;
 			if (pWriteIndex < 0 || pWriteIndex >= pWriteNum) return SDrawImageSourceData();
@@ -254,13 +254,13 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 		drawSignFlag |= mDrawMinusFlag &&digitNum >= pWriteNum && pWriteIndex + 1 == pWriteNum;
 		bool drawPaddingFlag = mPaddingFlag && pWriteIndex >= digitNum && !drawSignFlag;
 
-		// •`‰æ‚µ‚È‚¢ê‡
+		// æç”»ã—ãªã„å ´åˆ
 		if (pWriteIndex >= digitNum && !drawSignFlag && !drawPaddingFlag) return SDrawImageSourceData();
-		// •„†‚ğ•`‰æ‚·‚éê‡
+		// ç¬¦å·ã‚’æç”»ã™ã‚‹å ´åˆ
 		else if (drawSignFlag) numIndex = (mPaddingFlag ? 11 : 10);
-		// ƒpƒfƒBƒ“ƒO‚ğ•`‰æ‚·‚éê‡
+		// ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã‚’æç”»ã™ã‚‹å ´åˆ
 		else if (drawPaddingFlag) numIndex = 10;
-		// else:”’l‚ğ•`‰æ‚·‚éê‡
+		// else:æ•°å€¤ã‚’æç”»ã™ã‚‹å ´åˆ
 		else {
 			nowVal = abs(mVarManager.GetVal(mNumSource));
 			for (auto i = 0; i < pWriteIndex; ++i) nowVal /= 10;
@@ -272,16 +272,16 @@ SDrawImageSourceData CImageSourceNumber::GetImageSource(int pWriteIndex, int pWr
 	return GetSourceDataFromIndex(dataIndex, imageIndex * mDigitCount + numIndex);
 }
 
-// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
-// [prm]pTimerReader	: ƒ^ƒCƒ}[’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
+// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
+// [prm]pTimerReader	: ã‚¿ã‚¤ãƒãƒ¼å€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 CImageSourceReel::CImageSourceReel(CEffectVariableManager& pVarManager)
 	: IImageSourceManager(pVarManager) {
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-//		pVariableManager	: •Ï”ŠÇ——pŠÖ”‚ğw’è¨’l‚Íƒ|ƒCƒ“ƒ^‚ÅŠÇ—‚·‚é
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+//		pVariableManager	: å¤‰æ•°ç®¡ç†ç”¨é–¢æ•°ã‚’æŒ‡å®šâ†’å€¤ã¯ãƒã‚¤ãƒ³ã‚¿ã§ç®¡ç†ã™ã‚‹
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool CImageSourceReel::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
@@ -295,9 +295,9 @@ bool CImageSourceReel::Init(StringArr pReadData, CSlotTimerManager& pTimerManage
 }
 
 
-// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
-// [prm]pWriteIndex	: æ‚èo‚·‰æ‘œ‚ÌƒRƒ}‚ğw’è‚·‚é
-//		pWriteNum	: Às’†‚Ì•`‰æ‚Å‰½‰ñ‰æ‘œ‚ğŒJ‚è•Ô‚µ•`‰æ‚·‚é‚©w’è(‚½‚¾‚µReel‚Å‚Í•sg—p)
+// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
+// [prm]pWriteIndex	: å–ã‚Šå‡ºã™ç”»åƒã®ã‚³ãƒã‚’æŒ‡å®šã™ã‚‹
+//		pWriteNum	: å®Ÿè¡Œä¸­ã®æç”»ã§ä½•å›ç”»åƒã‚’ç¹°ã‚Šè¿”ã—æç”»ã™ã‚‹ã‹æŒ‡å®š(ãŸã ã—Reelã§ã¯ä¸ä½¿ç”¨)
 SDrawImageSourceData CImageSourceReel::GetImageSource(int pWriteIndex, int pWriteNum) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return SDrawImageSourceData();

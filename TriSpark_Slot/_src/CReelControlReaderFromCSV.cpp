@@ -1,4 +1,4 @@
-#include "_header\CReelControlReaderFromCSV.hpp"
+ï»¿#include "_header\CReelControlReaderFromCSV.hpp"
 #include "_header\SReelControlData.hpp"
 #include "_header\SMainReadFileIndex.h"
 #include "DxLib.h"
@@ -10,15 +10,15 @@ CReelControlReaderFromCSV::CReelControlReaderFromCSV(){
 }
 
 bool CReelControlReaderFromCSV::FileInit(){
-// [act]ƒŠ[ƒ‹‰‰o’Š‘Iƒf[ƒ^‚ªŠi”[‚³‚ê‚½CSV‚ðŠJ‚­
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]ãƒªãƒ¼ãƒ«æ¼”å‡ºæŠ½é¸ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸCSVã‚’é–‹ã
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	const char* FileName = "data/reel_table.csv";
 	return false;
 }
 
 bool CReelControlReaderFromCSV::FileInit(const SMainReadFileIndex* p_pFileData){
-	// [act]DxLib‘¤‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ð“Ç‚Ýo‚·
-	// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+	// [act]DxLibå´ã§é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å‡ºã™
+	// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	int fileID = p_pFileData->DataHandle;
 	int fileSize = p_pFileData->FileSize & 0xFFFFFFFF;
 	m_binaryData = new char[fileSize];
@@ -49,7 +49,7 @@ bool CReelControlReaderFromCSV::MakeData(SReelControlData& p_Data, int pReelNum)
 		SReelControlCommand newCommand;
 		while (readPos < readMax){
 			loopCount = newCommand.slipData.size();
-			// ctrlType:1 ‚ÌspotData“Ç‚Ýž‚Ý
+			// ctrlType:1 ã®spotDataèª­ã¿è¾¼ã¿
 			if (loopCount >= 3 + 21*6 && newHeader.ctrlType == 1){
 				SReelControlSpot newSpot;
 				ConvertBinaryNum(newSpot.spot, readPos, 2);
@@ -57,7 +57,7 @@ bool CReelControlReaderFromCSV::MakeData(SReelControlData& p_Data, int pReelNum)
 				newCommand.spotData.push_back(newSpot);
 				readPos += 2;
 			}
-			// ctrlType:2 ‚ÌspotData“Ç‚Ýž‚Ý
+			// ctrlType:2 ã®spotDataèª­ã¿è¾¼ã¿
 			if (loopCount >= 3 && newHeader.ctrlType == 2){
 				SReelControlSpot newSpot;
 				ConvertBinaryNum(newSpot.spot,readPos, 2);
@@ -65,7 +65,7 @@ bool CReelControlReaderFromCSV::MakeData(SReelControlData& p_Data, int pReelNum)
 				newCommand.spotData.push_back(newSpot);
 				readPos += 2;
 			}
-			// ctrlType:3 ‚ÌspotData“Ç‚Ýž‚Ý
+			// ctrlType:3 ã®spotDataèª­ã¿è¾¼ã¿
 			if (loopCount >= 3 && newHeader.ctrlType == 3 && loopCount%2 == 1){
 				SReelControlSpot newSpot;
 				ConvertBinaryNum(newSpot.spot, readPos, 1);

@@ -1,11 +1,11 @@
-// FileType‚Ì”Ô†(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy),,,,,,,,
-// SyncFlag‚Ì”Ô†(0:“¯Šú“Ç‚İ‚İ/1:”ñ“¯Šú“Ç‚İ‚İ),,,,,,,,
-//Copy‘I‘ğ‚ÍFilePass‚ÉƒRƒs[Œ³‚ÌDataID‚ğ‹Lq‚·‚é‚±‚Æ,,,,,,,,
-//MStream:FileType‚ªSound‚Ì‚Ì‚İw’è(0:’¼ÚÄ¶/1:Œ‡”Ô/2:ƒƒ‚ƒŠã‚Éˆ³k/3:ƒXƒgƒŠ[ƒ~ƒ“ƒOÄ¶),,,,,,,,
-//Copy‚ÍSound/Material‚É—L—pASound‚ÍMstream‚ª’¼ÚÄ¶‚©‚Âƒf[ƒ^‚ª3•ªˆÈ“à‚Ìê‡‚Ì‚İg—p‚Å‚«‚é,,,,,,,,
+ï»¿// FileTypeã®ç•ªå·(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy),,,,,,,,
+// SyncFlagã®ç•ªå·(0:åŒæœŸèª­ã¿è¾¼ã¿/1:éåŒæœŸèª­ã¿è¾¼ã¿),,,,,,,,
+//Copyé¸æŠæ™‚ã¯FilePassã«ã‚³ãƒ”ãƒ¼å…ƒã®DataIDã‚’è¨˜è¿°ã™ã‚‹ã“ã¨,,,,,,,,
+//MStream:FileTypeãŒSoundã®æ™‚ã®ã¿æŒ‡å®š(0:ç›´æ¥å†ç”Ÿ/1:æ¬ ç•ª/2:ãƒ¡ãƒ¢ãƒªä¸Šã«åœ§ç¸®/3:ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°å†ç”Ÿ),,,,,,,,
+//Copyã¯Sound/Materialã«æœ‰ç”¨ã€Soundã¯MstreamãŒç›´æ¥å†ç”Ÿã‹ã¤ãƒ‡ãƒ¼ã‚¿ãŒ3åˆ†ä»¥å†…ã®å ´åˆã®ã¿ä½¿ç”¨ã§ãã‚‹,,,,,,,,
 ,,,,,,,,
 //,FileType,SyncFlag,FilePass,Mstream,,//,DataID,
-#MainFile,3,1,data/readList/controlSys.csv,,,//,0,ƒVƒXƒeƒ€ƒf[ƒ^”z’u“Ç‚İ‚İ
+#MainFile,3,1,data/readList/controlSys.csv,,,//,0,ã‚·ã‚¹ãƒ†ãƒ ãƒ‡ãƒ¼ã‚¿é…ç½®èª­ã¿è¾¼ã¿
 #MainFile,3,1,data/csv/reelCha.csv,,,//,1,
 #MainFile,3,1,data/csv/odds.csv,,,//,2,
 #MainFile,3,1,data/csv/flag_table.csv,,,//,3,

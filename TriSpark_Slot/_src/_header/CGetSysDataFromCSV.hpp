@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IReadcsv.h"
 
 class CGetSysDataFromCSV : IReadCSVBase{

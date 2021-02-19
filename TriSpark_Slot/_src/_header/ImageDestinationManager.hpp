@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CEffectImageCommonComponent.hpp"
 #include "SDrawImageSourceData.hpp"
 #include "SImageDrawCSVData.hpp"
@@ -19,13 +19,13 @@ private:
 	EBlendModeForDST GetBlendEnum(std::string pIndex);
 
 protected:
-	std::vector<SImageDestCSVCommonData> mCommonData;		// csv‚©‚ç“Ç‚İ‚¾‚µ‚½dstƒf[ƒ^A•¡”’è‹`‰Â”\
+	std::vector<SImageDestCSVCommonData> mCommonData;		// csvã‹ã‚‰èª­ã¿ã ã—ãŸdstãƒ‡ãƒ¼ã‚¿ã€è¤‡æ•°å®šç¾©å¯èƒ½
 
 	typedef std::vector<std::string> StringArr;
 
-	// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
+	// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
 	long long GetCheckTime(const long long pNowCount);
-	// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é•`‰æ’è‹`‚ğŒˆ’è‚·‚é
+	// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹æç”»å®šç¾©ã‚’æ±ºå®šã™ã‚‹
 	int GetDefinitionIndex();
 
 	int GetDxDrawModeByEnum(EDrawModeForDST pData);
@@ -33,9 +33,9 @@ protected:
 	bool GetCanDrawDirectly(EBlendModeForDST pData);
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	IImageDestinationManager(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	virtual bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData);
 	// [act]
 	virtual void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) = 0;
@@ -48,11 +48,11 @@ class CImageDestinationDefault : public IImageDestinationManager {
 	int mSpecialBlendSource;
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageDestinationDefault(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
-	// [act]•`‰æ‚ğs‚¤
+	// [act]æç”»ã‚’è¡Œã†
 	void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) override;
 };
 
@@ -67,10 +67,10 @@ class CImageDestinationReel : public IImageDestinationManager {
 	} mExtraData;
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageDestinationReel(CEffectVariableManager& pVarManager, const CReelManager& pReelManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerData) override;
-	// [act]•`‰æ‚ğs‚¤
+	// [act]æç”»ã‚’è¡Œã†
 	void	Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) override;
 };

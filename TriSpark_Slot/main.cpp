@@ -1,11 +1,11 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "crtdbg.h"
 #include "_src\_header\setup.h"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
-	// [prm]DxLibw’è‚Ì•¨
-	// [act]CRTDEBUG‚Åƒƒ‚ƒŠƒŠ[ƒNƒ`ƒFƒbƒN‚ÌéŒ¾‚ğs‚¤
-	//		CSetup_SƒNƒ‰ƒX(setup.h)‚ğŒÄ‚Ño‚·
-	// [ret]0:³íI—¹ / -1:ˆÙíI—¹
+	// [prm]DxLibæŒ‡å®šã®ç‰©
+	// [act]CRTDEBUGã§ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ãƒã‚§ãƒƒã‚¯ã®å®£è¨€ã‚’è¡Œã†
+	//		CSetup_Sã‚¯ãƒ©ã‚¹(setup.h)ã‚’å‘¼ã³å‡ºã™
+	// [ret]0:æ­£å¸¸çµ‚äº† / -1:ç•°å¸¸çµ‚äº†
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	CSetup_S& SetupIns = CSetup_S::GetInstance();
 	if (SetupIns.StartSetup()) return 0;

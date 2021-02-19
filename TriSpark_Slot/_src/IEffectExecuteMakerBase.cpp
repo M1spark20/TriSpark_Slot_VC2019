@@ -1,4 +1,4 @@
-#include "_header/IEffectExecuteMakerBase.hpp"
+﻿#include "_header/IEffectExecuteMakerBase.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/ErrClass.hpp"
 

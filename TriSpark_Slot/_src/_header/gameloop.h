@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "ISingleton.h"
 class CGameLoop_S : public ISingleton<CGameLoop_S>{
-// [act]ƒQ[ƒ€‚ÌƒƒCƒ“ƒ‹[ƒv‚ðì‚éBƒL[“ü—ÍŠÄŽ‹‚ð‚·‚éB
-//		ƒVƒ“ƒOƒ‹ƒgƒ“‚ÅŠÇ—‚³‚ê‚Ä‚¢‚éB
+// [act]ã‚²ãƒ¼ãƒ ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã‚’ä½œã‚‹ã€‚ã‚­ãƒ¼å…¥åŠ›ç›£è¦–ã‚’ã™ã‚‹ã€‚
+//		ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹ã€‚
 	friend ISingleton<CGameLoop_S>;
 	CGameLoop_S(){};
 	~CGameLoop_S(){};

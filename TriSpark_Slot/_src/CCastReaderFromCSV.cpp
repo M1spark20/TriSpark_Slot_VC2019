@@ -1,17 +1,17 @@
-#include "_header\CCastReaderFromCSV.hpp"
+ï»¿#include "_header\CCastReaderFromCSV.hpp"
 #include "_header\SCastData.hpp"
 #include "DxLib.h"
 
 bool CCastReaderFromCSV::FileInit(){
-// [act]”z“–ƒf[ƒ^‚ªŠi”[‚³‚ê‚½CSV‚ğŠJ‚­
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]é…å½“ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸCSVã‚’é–‹ã
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	const char* FileName = "data/odds.csv";
 	return StartReadFile(FileName);
 }
 
 bool CCastReaderFromCSV::FileInit(int pFileID){
-// [act]DxLib‘¤‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İo‚·
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]DxLibå´ã§é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å‡ºã™
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	while (!DxLib::FileRead_eof(pFileID)){
 		TCHAR str[1024];
 		DxLib::FileRead_gets(str, 1024, pFileID);
@@ -61,7 +61,7 @@ bool CCastReaderFromCSV::MakeData(SCastData& p_Data){
 			StrToNum(nowData.reachSoundID,						NowGetStr.at( 8));
 			StrToNum(nowData.gamemodeChange[eGameModeDest],		NowGetStr.at( 9));
 
-			// •K‚¸‘‚«‚İ‚ª“ü‚é‚Æ‚ÍŒÀ‚ç‚È‚¢•ªæ‚É‰Šú‰»‚µ‚Ä‚¨‚­
+			// å¿…ãšæ›¸ãè¾¼ã¿ãŒå…¥ã‚‹ã¨ã¯é™ã‚‰ãªã„åˆ†å…ˆã«åˆæœŸåŒ–ã—ã¦ãŠã
 			nowData.gamemodeChange[eGameModeMaxGame ] = -1;
 			nowData.gamemodeChange[eGameModeMaxGet  ] = -1;
 			nowData.gamemodeChange[eGameModeMaxPay  ] = -1;

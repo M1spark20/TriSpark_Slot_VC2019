@@ -1,4 +1,4 @@
-#include "_header\IGameModeBase.h"
+﻿#include "_header\IGameModeBase.h"
 #include "_header\CReadDataListGeterFromCSV.hpp"
 
 bool IGameModeBase::StartReadFile(const std::string pReadListFileName){

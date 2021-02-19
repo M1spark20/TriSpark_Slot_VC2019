@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CReelManager.hpp"
 #include "CRandManager.hpp"
 #include "CSlotEffectManager.hpp"

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SReelChaData.hpp"
 #include "CReel.hpp"
 #include "CReelController.hpp"
@@ -9,7 +9,7 @@ class IImageSourceManager;
 class CImageColorManager;
 
 class CReelManager {
-	std::vector<CReel>	m_reelChaData;	// ŠeƒŠ[ƒ‹ƒf[ƒ^
+	std::vector<CReel>	m_reelChaData;	// å„ãƒªãƒ¼ãƒ«ãƒ‡ãƒ¼ã‚¿
 	int					m_drawingCanvas;
 	CReelController		m_controller;
 	int					m_flagID;

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SReelControlData.hpp"
 #include "EOrderID.hpp"
 #include <array>
@@ -6,10 +6,10 @@
 class CGameDataManage;
 
 class CReelController{
-	SReelControlData				m_ctrlData;		// §Œäƒf[ƒ^
-	EOrderID						m_orderID;		// ’â~‡¯•Êƒf[ƒ^
-	int								m_reelNum;		// ƒŠ[ƒ‹”î•ñ
-	std::vector<std::array<char,2>>	m_stopReelNum;	// ‰ß‹’â~î•ñ[push,stop]
+	SReelControlData				m_ctrlData;		// åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿
+	EOrderID						m_orderID;		// åœæ­¢é †è­˜åˆ¥ãƒ‡ãƒ¼ã‚¿
+	int								m_reelNum;		// ãƒªãƒ¼ãƒ«æ•°æƒ…å ±
+	std::vector<std::array<char,2>>	m_stopReelNum;	// éå»åœæ­¢æƒ…å ±[push,stop]
 
 public:
 	bool Init(const CGameDataManage& pDataManager, int pFileID, int reelNum);

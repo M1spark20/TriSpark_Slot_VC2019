@@ -1,4 +1,4 @@
-#include "_header/CSlotSoundManager.hpp"
+ï»¿#include "_header/CSlotSoundManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CGameDataManage.h"
@@ -7,7 +7,7 @@
 #include <stdexcept>
 
 bool CSlotSoundManager::DeclarePlaySound(const SSlotSoundRingData& pData, const CEffectVariableManager& pVar) {
-	// •Ï”ID ¨ À”’l•ÏŠ·‚ğs‚Á‚Ä‚©‚ç•Û‘¶
+	// å¤‰æ•°ID â†’ å®Ÿæ•°å€¤å¤‰æ›ã‚’è¡Œã£ã¦ã‹ã‚‰ä¿å­˜
 	try {
 		SSlotSoundRingData convData;
 		convData.dataID = pVar.GetVal(pData.dataID);
@@ -27,7 +27,7 @@ bool CSlotSoundManager::DeclarePlaySound(const SSlotSoundRingData& pData, const 
 }
 
 bool CSlotSoundManager::DeclareVolumeAction(const SSlotSoundVolumeData& pData, const CEffectVariableManager& pVar) {
-	// •Ï”ID ¨ À”’l•ÏŠ·‚ğs‚Á‚Ä‚©‚ç•Û‘¶
+	// å¤‰æ•°ID â†’ å®Ÿæ•°å€¤å¤‰æ›ã‚’è¡Œã£ã¦ã‹ã‚‰ä¿å­˜
 	try {
 		SSlotSoundVolumeData convData;
 		convData.dataID = pVar.GetVal(pData.dataID);
@@ -45,7 +45,7 @@ bool CSlotSoundManager::DeclareVolumeAction(const SSlotSoundVolumeData& pData, c
 }
 
 bool CSlotSoundManager::DeclareStopAction(const SSlotSoundStopData& pData, const CEffectVariableManager& pVar) {
-	// •Ï”ID ¨ À”’l•ÏŠ·‚ğs‚Á‚Ä‚©‚ç•Û‘¶
+	// å¤‰æ•°ID â†’ å®Ÿæ•°å€¤å¤‰æ›ã‚’è¡Œã£ã¦ã‹ã‚‰ä¿å­˜
 	try {
 		mStopData.push_back(pVar.GetVal(pData));
 		return true;
@@ -87,23 +87,23 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CGameDataMan
 				return false;
 			}
 
-			if (it->second) {	// “–ŠY’è‹`‚Å‚·‚Å‚É‰¹‚ğ–Â‚ç‚µ‚½ê‡
+			if (it->second) {	// å½“è©²å®šç¾©ã§ã™ã§ã«éŸ³ã‚’é³´ã‚‰ã—ãŸå ´åˆ
 				if (ringStatus == 0) {	// not playing
-					// ’è‹`‚ğƒXƒe[ƒW‚©‚çœ‹‚·‚é
+					// å®šç¾©ã‚’ã‚¹ãƒ†ãƒ¼ã‚¸ã‹ã‚‰é™¤å»ã™ã‚‹
 					it = mRingData.erase(it);	isDelete = true;
 				} else {
-					// I—¹”»’è
+					// çµ‚äº†åˆ¤å®š
 					if (timerEnable) {
-						// ŠJnŠÔ‚ÆI—¹ŠÔ‚ª“¯‚¶ê‡‚Í–Â‚è‚Á‚Ï‚È‚µ
+						// é–‹å§‹æ™‚é–“ã¨çµ‚äº†æ™‚é–“ãŒåŒã˜å ´åˆã¯é³´ã‚Šã£ã±ãªã—
 						if (it->first.beginTime == it->first.stopTime) { ++it; continue; }
 						if (timerValue < it->first.stopTime) { ++it; continue; }
 					}
 					DxLib::StopSoundMem(dataHandle);
-					// ’è‹`‚ğƒXƒe[ƒW‚©‚çœ‹‚·‚é
+					// å®šç¾©ã‚’ã‚¹ãƒ†ãƒ¼ã‚¸ã‹ã‚‰é™¤å»ã™ã‚‹
 					it = mRingData.erase(it);	isDelete = true;
 				}
-			} else {			// “–ŠY’è‹`‚Å‚Ü‚¾‰¹‚ğ–Â‚ç‚µ‚Ä‚¢‚È‚¢ê‡
-				// ŠJn”»’è
+			} else {			// å½“è©²å®šç¾©ã§ã¾ã éŸ³ã‚’é³´ã‚‰ã—ã¦ã„ãªã„å ´åˆ
+				// é–‹å§‹åˆ¤å®š
 				if (!timerEnable) { ++it; continue; }
 				if (timerValue < it->first.beginTime) { ++it; continue; }
 				DxLib::StopSoundMem(dataHandle);
@@ -111,7 +111,7 @@ bool CSlotSoundManager::RingAction(CSlotTimerManager& pTimer, const CGameDataMan
 				DxLib::PlaySoundMem(dataHandle, it->first.isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK);
 				it->second = true;
 			}
-			if (!isDelete) ++it;	// List—v‘f‚ğÁ‹‚µ‚È‚©‚Á‚½ê‡‚Ì‚İƒCƒeƒŒ[ƒ^‚ğ“®‚©‚·
+			if (!isDelete) ++it;	// Listè¦ç´ ã‚’æ¶ˆå»ã—ãªã‹ã£ãŸå ´åˆã®ã¿ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ã‚’å‹•ã‹ã™
 		}
 
 		// volumeData

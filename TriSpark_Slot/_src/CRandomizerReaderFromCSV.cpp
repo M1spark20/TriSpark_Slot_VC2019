@@ -1,17 +1,17 @@
-#include "_header\CRandomizerReaderFromCSV.hpp"
+ï»¿#include "_header\CRandomizerReaderFromCSV.hpp"
 #include "_header\SRandomizerData.hpp"
 #include "DxLib.h"
 
 bool CRandomizerReaderFromCSV::FileInit(){
-// [act]ƒŠ[ƒ‹‰‰o’Š‘Iƒf[ƒ^‚ªŠi”[‚³‚ê‚½CSV‚ğŠJ‚­
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]ãƒªãƒ¼ãƒ«æ¼”å‡ºæŠ½é¸ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸCSVã‚’é–‹ã
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	const char* FileName = "data/flug_table.csv";
 	return StartReadFile(FileName);
 }
 
 bool CRandomizerReaderFromCSV::FileInit(int pFileID){
-	// [act]DxLib‘¤‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İo‚·
-	// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+	// [act]DxLibå´ã§é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å‡ºã™
+	// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	while (!DxLib::FileRead_eof(pFileID)){
 		TCHAR str[1024];
 		DxLib::FileRead_gets(str, 1024, pFileID);
@@ -49,7 +49,7 @@ bool CRandomizerReaderFromCSV::MakeData(SRandomizerData& p_Data){
 				StrToNum(newData.randSeed[i], NowGetStr.at(7 + i));
 				randSum += newData.randSeed[i];
 			}
-			// —”‡Œvƒ`ƒFƒbƒN
+			// ä¹±æ•°åˆè¨ˆãƒã‚§ãƒƒã‚¯
 			if (newData.randMax != randSum) return false;
 			p_Data.randomizerData.push_back(newData);
 		} else if (NowGetStr.at(0) == "R"){

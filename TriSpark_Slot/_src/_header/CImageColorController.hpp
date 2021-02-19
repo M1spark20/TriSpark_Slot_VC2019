@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CImageColorManager.hpp"
 #include <string>
 #include <vector>
@@ -19,26 +19,26 @@ public:
 };
 
 class CImageColorController {
-	std::vector<CImageColorManager>											mColorData;		// colorƒf[ƒ^ˆê——
-	std::vector<std::pair<std::string,std::vector<CImageColorManager*>>>	mActionData;	// “®ìƒf[ƒ^‚ğcolorImage‚æ‚èƒRƒs[
+	std::vector<CImageColorManager>											mColorData;		// colorãƒ‡ãƒ¼ã‚¿ä¸€è¦§
+	std::vector<std::pair<std::string,std::vector<CImageColorManager*>>>	mActionData;	// å‹•ä½œãƒ‡ãƒ¼ã‚¿ã‚’colorImageã‚ˆã‚Šã‚³ãƒ”ãƒ¼
 
 	CImageColorManager&					GetColorDataByID(std::string pColorDataName);
 	std::vector<CImageColorManager*>&	GetActionDataByID(std::string pUseEffectName);
 	bool								CheckAvailableName(std::string pData);
 
 public:
-	// [act]csv“Ç‚İ‚İ‚É‚¨‚¯‚écolorData’è‹`’Ç‰Á
+	// [act]csvèª­ã¿è¾¼ã¿æ™‚ã«ãŠã‘ã‚‹colorDataå®šç¾©è¿½åŠ 
 	void							AddColorData(CImageColorManager& pData) { mColorData.push_back(pData); }
-	// [act]ƒAƒNƒVƒ‡ƒ“ƒf[ƒ^IDV‹Kì¬
+	// [act]ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿IDæ–°è¦ä½œæˆ
 	void							CreateActionData(std::string pUseEffectName);
-	// [act]ID‚©‚çƒAƒNƒVƒ‡ƒ“ƒf[ƒ^‚ğ’Ç‰Á
+	// [act]IDã‹ã‚‰ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 	void							AddActionData(const SImageColorApplyData& pData);
-	// [act]w’èID‚ÌƒAƒNƒVƒ‡ƒ“ƒf[ƒ^‚ğƒNƒŠƒA
+	// [act]æŒ‡å®šIDã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¯ãƒªã‚¢
 	void							ResetActionData(std::string pUseEffectName);
-	// [act]•`‰æ‚Ég—p‚·‚écolorƒf[ƒ^‚ğŒÄ‚Ño‚·
+	// [act]æç”»ã«ä½¿ç”¨ã™ã‚‹colorãƒ‡ãƒ¼ã‚¿ã‚’å‘¼ã³å‡ºã™
 	const CImageColorManager *const	GetColorData(std::string pUseEffectName, int pIndex);
-	// [act]w’è‚µ‚½ID‚Ì‘Sƒf[ƒ^‚É‘Î‚µ‚Äƒ^ƒCƒ}[‚ğƒZƒbƒg‚·‚é
+	// [act]æŒ‡å®šã—ãŸIDã®å…¨ãƒ‡ãƒ¼ã‚¿ã«å¯¾ã—ã¦ã‚¿ã‚¤ãƒãƒ¼ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	bool							SetTimerAll(CSlotTimerManager& pTimer);
-	// [act]w’è‚µ‚½ID‚Ì‘Sƒf[ƒ^‚É‘Î‚µ‚Äƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg‚·‚é
+	// [act]æŒ‡å®šã—ãŸIDã®å…¨ãƒ‡ãƒ¼ã‚¿ã«å¯¾ã—ã¦ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 	void							ResetTimerAll();
 };

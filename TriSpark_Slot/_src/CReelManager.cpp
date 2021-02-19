@@ -1,4 +1,4 @@
-#include "_header\CReelManager.hpp"
+ï»¿#include "_header\CReelManager.hpp"
 #include "_header\CReelDataReaderFromCSV.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\CGetSysDataFromCSV.hpp"
@@ -8,7 +8,7 @@
 #include "DxLib.h"
 
 bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV& pSysData){
-	// m_reelChaData“Ç
+	// m_reelChaDataèª­è¾¼
 	CReelDataReaderFromCSV chaReader;
 	chaReader.FileInit(pDataManager.GetDataHandle(pSysData.GetSysDataID("reelCha")));
 	std::vector<SReelChaData> reelData;
@@ -16,7 +16,7 @@ bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV&
 
 	m_drawingCanvas = DxLib::MakeScreen(reelData[0].reelData[0].w, reelData[0].reelData[0].h * 7, TRUE);
 
-	// CReelì¬
+	// CReelä½œæˆ
 	for (auto it = reelData.begin(); it != reelData.end(); ++it){
 		m_reelChaData.push_back(CReel());
 		if (!(m_reelChaData.end()-1)->Init(*it)) return false;
@@ -33,7 +33,7 @@ bool CReelManager::Process(CSlotTimerManager& pTimer){
 }
 
 bool CReelManager::DrawReel(const CGameDataManage& pDataManager, const SReelDrawData pDrawData){
-	if (pDrawData.comaNum >= 4) return false; // ‰¼‚Ì§–ñ
+	if (pDrawData.comaNum >= 4) return false; // ä»®ã®åˆ¶ç´„
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pDrawData.reelID) continue;
 		return it->DrawReel(pDataManager, pDrawData, m_drawingCanvas);
@@ -42,7 +42,7 @@ bool CReelManager::DrawReel(const CGameDataManage& pDataManager, const SReelDraw
 }
 
 bool CReelManager::DrawReel(const CGameDataManage& pDataManager, const SReelDrawData pDrawData, unsigned int comaBegin){
-	if (pDrawData.comaNum >= 4) return false; // ‰¼‚Ì§–ñ
+	if (pDrawData.comaNum >= 4) return false; // ä»®ã®åˆ¶ç´„
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pDrawData.reelID) continue;
 		return it->DrawReel(pDataManager, pDrawData, m_drawingCanvas, comaBegin);
@@ -63,8 +63,8 @@ int CReelManager::GetCharaNum(int pReelID) const {
 	return m_reelChaData[pReelID].GetComaNum();
 }
 
-// [act]ŠeƒŠ[ƒ‹‚Ì‚¤‚¿AeRotating, eSliping‚Æ‚È‚Á‚Ä‚¢‚éƒŠ[ƒ‹”‚ğæ“¾‚·‚é
-//		”‚ª0->3‚Æ‚È‚é‚±‚Æ‚Å‰Á‘¬‚ÌŠ®—¹A3->0‚Æ‚È‚é‚±‚Æ‚ÅƒŠ[ƒ‹‚Ì’â~‚ª‚í‚©‚é
+// [act]å„ãƒªãƒ¼ãƒ«ã®ã†ã¡ã€eRotating, eSlipingã¨ãªã£ã¦ã„ã‚‹ãƒªãƒ¼ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹
+//		æ•°ãŒ0->3ã¨ãªã‚‹ã“ã¨ã§åŠ é€Ÿã®å®Œäº†ã€3->0ã¨ãªã‚‹ã“ã¨ã§ãƒªãƒ¼ãƒ«ã®åœæ­¢ãŒã‚ã‹ã‚‹
 int CReelManager::GetRotatingReelNum(){
 	int ans = 0;
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
@@ -92,7 +92,7 @@ bool CReelManager::StartReel(int pFlagID, int pBonusID){
 
 bool CReelManager::StopReel(int pStopReelID){
 	if (pStopReelID < 0 || (unsigned int)pStopReelID >= m_reelChaData.size())return false;
-	// ƒŠ[ƒ‹‚ª‚·‚Å‚É’â~§Œä‚ğs‚Á‚Ä‚¢‚éê‡‚Ítrue‚ğ•Ô‚·
+	// ãƒªãƒ¼ãƒ«ãŒã™ã§ã«åœæ­¢åˆ¶å¾¡ã‚’è¡Œã£ã¦ã„ã‚‹å ´åˆã¯trueã‚’è¿”ã™
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pStopReelID) continue;
 		if (it->GetReelStatus() != EReelStatus::eRotating) return true;
@@ -104,7 +104,7 @@ bool CReelManager::StopReel(int pStopReelID){
 
 bool CReelManager::StopReel(int pStopReelID, int pForceStopComa){
 	if (pStopReelID < 0 || (unsigned int)pStopReelID >= m_reelChaData.size()) return false;
-	// ƒŠ[ƒ‹‚ª‚·‚Å‚É’â~§Œä‚ğs‚Á‚Ä‚¢‚éê‡‚Ítrue‚ğ•Ô‚·
+	// ãƒªãƒ¼ãƒ«ãŒã™ã§ã«åœæ­¢åˆ¶å¾¡ã‚’è¡Œã£ã¦ã„ã‚‹å ´åˆã¯trueã‚’è¿”ã™
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (it->GetReelID() != pStopReelID) continue;
 		//if (it->GetReelStatus() != eRotating) return true;
@@ -114,7 +114,7 @@ bool CReelManager::StopReel(int pStopReelID, int pForceStopComa){
 	return false;
 }
 
-// [act]w’èID‚ÌƒŠ[ƒ‹‚ÌˆÊ’u‚ğ•Ô‚·B‘Só‘Ô‚ÅŒ»ó‚ÌƒŠ[ƒ‹‚ÌˆÊ’u‚ª•Ô‚Á‚Ä‚­‚é
+// [act]æŒ‡å®šIDã®ãƒªãƒ¼ãƒ«ã®ä½ç½®ã‚’è¿”ã™ã€‚å…¨çŠ¶æ…‹ã§ç¾çŠ¶ã®ãƒªãƒ¼ãƒ«ã®ä½ç½®ãŒè¿”ã£ã¦ãã‚‹
 int CReelManager::GetReelPos(int pCheckReelID) const {
 	if (pCheckReelID < 0 || (unsigned int)pCheckReelID >= m_reelChaData.size()) return false;
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
@@ -124,7 +124,7 @@ int CReelManager::GetReelPos(int pCheckReelID) const {
 	return -1;
 }
 
-// [act]‘SƒŠ[ƒ‹‚Ìî•ñ‚ğ‚Ü‚Æ‚ß‚Ä•Ô‚·
+// [act]å…¨ãƒªãƒ¼ãƒ«ã®æƒ…å ±ã‚’ã¾ã¨ã‚ã¦è¿”ã™
 std::vector<int> CReelManager::GetReelPos() const {
 	std::vector<int> ans(m_reelChaData.size());
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
@@ -133,30 +133,30 @@ std::vector<int> CReelManager::GetReelPos() const {
 	return ans;
 }
 
-// [act]ƒŠ[ƒ‹‚ÌcharaID‚ğ•Ô‚·
-// [ret]-1			: ƒGƒ‰[”­¶(notFound or ”ñ’â~)
-//		(else)		: ƒŠ[ƒ‹‚ÌcharaID
-// [prm]pComaOffset	: ‰{——ˆÊ’uƒIƒtƒZƒbƒg
+// [act]ãƒªãƒ¼ãƒ«ã®charaIDã‚’è¿”ã™
+// [ret]-1			: ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ(notFound or éåœæ­¢)
+//		(else)		: ãƒªãƒ¼ãƒ«ã®charaID
+// [prm]pComaOffset	: é–²è¦§ä½ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 int CReelManager::GetCharaIDByReelPos(int pReelID, int pComaOffset) const {
 	const auto dataPtr = FindReelData(pReelID);
 	if (dataPtr == m_reelChaData.end()) return -1;
 	return dataPtr->GetReelComaByReelPos(pComaOffset);
 }
 
-// [act]ƒŠ[ƒ‹‚Ìw’èˆÊ’u‚ÌcharaID‚ğ•Ô‚·
-// [ret]-1			: ƒGƒ‰[”­¶(notFound or ”ñ’â~)
-//		(else)		: ƒŠ[ƒ‹‚ÌcharaID
-// [prm]pComaOffset	: ‰{——ˆÊ’uƒRƒ}ID(’¼Úİ’è)
+// [act]ãƒªãƒ¼ãƒ«ã®æŒ‡å®šä½ç½®ã®charaIDã‚’è¿”ã™
+// [ret]-1			: ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ(notFound or éåœæ­¢)
+//		(else)		: ãƒªãƒ¼ãƒ«ã®charaID
+// [prm]pComaOffset	: é–²è¦§ä½ç½®ã‚³ãƒID(ç›´æ¥è¨­å®š)
 int CReelManager::GetCharaIDByFixedPos(int pReelID, int pComaID) const {
 	const auto dataPtr = FindReelData(pReelID);
 	if (dataPtr == m_reelChaData.end()) return -1;
 	return dataPtr->GetReelComaByFixedPos(pComaID);
 }
 
-// [act]‘SƒŠ[ƒ‹‚Ìw’èˆÊ’u‚ÌcharaID‚ğ•Ô‚·
-// [ret](empty)		: ƒGƒ‰[”­¶
-//		(else)		: ŠeƒŠ[ƒ‹‚ÌcharaID(-1‚ÍŠeƒŠ[ƒ‹‚Å‚ÌƒGƒ‰[or‰ñ“]’†)
-// [prm]pOffsetList	: ‰{——ˆÊ’uƒIƒtƒZƒbƒgˆê——BƒŠ[ƒ‹”‚Æ“¯ˆê‚Ì—v‘f”‚ª‚È‚¢‚ÆƒGƒ‰[‚Æ‚·‚é
+// [act]å…¨ãƒªãƒ¼ãƒ«ã®æŒ‡å®šä½ç½®ã®charaIDã‚’è¿”ã™
+// [ret](empty)		: ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ
+//		(else)		: å„ãƒªãƒ¼ãƒ«ã®charaID(-1ã¯å„ãƒªãƒ¼ãƒ«ã§ã®ã‚¨ãƒ©ãƒ¼orå›è»¢ä¸­)
+// [prm]pOffsetList	: é–²è¦§ä½ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆä¸€è¦§ã€‚ãƒªãƒ¼ãƒ«æ•°ã¨åŒä¸€ã®è¦ç´ æ•°ãŒãªã„ã¨ã‚¨ãƒ©ãƒ¼ã¨ã™ã‚‹
 std::vector<int> CReelManager::GetCharaIDList(std::vector<int> pOffsetList) const{
 	if (pOffsetList.size() != GetReelNum()) return std::vector<int>(0);
 	std::vector<int> ans(GetReelNum());
@@ -166,9 +166,9 @@ std::vector<int> CReelManager::GetCharaIDList(std::vector<int> pOffsetList) cons
 	return ans;
 }
 
-// [act]‘SƒŠ[ƒ‹‚Ìw’èˆÊ’u‚ÌcharaID‚ğ•Ô‚·
-// [ret]-1		: ƒGƒ‰[”­¶
-//		(else)	: ŠeƒŠ[ƒ‹‚ÌˆÊ’u(ŠeƒRƒ}‚ğ16•ªŠ„‚µ‚½Û‚Ì’l)
+// [act]å…¨ãƒªãƒ¼ãƒ«ã®æŒ‡å®šä½ç½®ã®charaIDã‚’è¿”ã™
+// [ret]-1		: ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ
+//		(else)	: å„ãƒªãƒ¼ãƒ«ã®ä½ç½®(å„ã‚³ãƒã‚’16åˆ†å‰²ã—ãŸéš›ã®å€¤)
 int CReelManager::GetComaDetailPos(int pReelID) const {
 	const auto dataPtr = FindReelData(pReelID);
 	if (dataPtr == m_reelChaData.end()) return -1;

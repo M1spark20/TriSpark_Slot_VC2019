@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SSlotEffectVariableCondition.hpp"
 #include "IEffectExecuteMakerBase.hpp"
 #include <vector>
@@ -14,7 +14,7 @@ class CSlotTimerManager;
 
 class CSlotEffectVariableCompare {
 	std::deque<std::deque<SSlotEffectVariableCondition>>	mVariableCondData;	// [and][or]
-	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(•Ï”ID)]
+	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(å¤‰æ•°ID)]
 
 	bool													mConditionQualified;
 	bool													mIsAlreadyTimePassed;
@@ -30,16 +30,16 @@ public:
 
 class CSlotEffectVariableCompareMaker : public IEffectExecuteMakerBase {
 	std::deque<std::deque<SSlotEffectVariableCondition>>	mVariableCondData;	// [and][or]
-	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(•Ï”ID)]
+	std::pair<std::string, int>								mTimingData;		// [timerName, checkTime(å¤‰æ•°ID)]
 
 	template<class T> void StrToNum(T& InputFor, std::string& p_Data) {
-		// [act]ƒeƒ“ƒvƒŒ[ƒgŒ^A1‚Â–Ú‚Ìˆø”‚É2‚Â–Ú‚Ì•¶š—ñ‚©‚ç’Šo‚µ‚½”š‚ğ‘ã“ü‚µ‚Ü‚·
-		//		boolŒ^‚Ìê‡‚Í®”‚Å”»•Ê‚µA0‚ªfalseA‚»‚êˆÈŠO‚ªtrue‚Æ‚È‚é–Í—l‚Å‚·
+		// [act]ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå‹ã€1ã¤ç›®ã®å¼•æ•°ã«2ã¤ç›®ã®æ–‡å­—åˆ—ã‹ã‚‰æŠ½å‡ºã—ãŸæ•°å­—ã‚’ä»£å…¥ã—ã¾ã™
+		//		boolå‹ã®å ´åˆã¯æ•´æ•°ã§åˆ¤åˆ¥ã—ã€0ãŒfalseã€ãã‚Œä»¥å¤–ãŒtrueã¨ãªã‚‹æ¨¡æ§˜ã§ã™
 		std::istringstream Data(p_Data);
 		Data >> InputFor;
 	};
 
-	// ƒf[ƒ^‚ğì‚Á‚Äó‚¯“n‚µ‚·‚é—p‚ÌƒNƒ‰ƒX ¨ g—pƒNƒ‰ƒX‚ğfriend“o˜^‚µ‚Ä‚æ‚èƒZ[ƒtƒeƒB‚É‰^—p‚ğs‚¤
+	// ãƒ‡ãƒ¼ã‚¿ã‚’ä½œã£ã¦å—ã‘æ¸¡ã—ã™ã‚‹ç”¨ã®ã‚¯ãƒ©ã‚¹ â†’ ä½¿ç”¨ã‚¯ãƒ©ã‚¹ã‚’friendç™»éŒ²ã—ã¦ã‚ˆã‚Šã‚»ãƒ¼ãƒ•ãƒ†ã‚£ã«é‹ç”¨ã‚’è¡Œã†
 	friend CSlotEffectVariableCompare;
 
 public:

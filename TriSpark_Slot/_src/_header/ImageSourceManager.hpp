@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CEffectImageCommonComponent.hpp"
 #include "SDrawImageSourceData.hpp"
 #include "SImageDrawCSVData.hpp"
@@ -8,74 +8,74 @@
 class CEffectVariableManager;
 class CSlotTimerManager;
 
-// [act]imgSrcƒf[ƒ^ŠÇ—‚ğs‚¤Šî’êƒNƒ‰ƒXB‚±‚ÌŒ^‚ğ“®“IŠm•Û‚µŒÄ‚Ño‚µ‚ğˆêŒ³‰»‚·‚é
-//		ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÆInit()‚Å•K—v‚Èƒf[ƒ^‚ğŠe”h¶ƒNƒ‰ƒX‚Éæ‚è‚Ş
-//		GetComaNum()‚¨‚æ‚ÑGetImageSource()‚Å‰æ‘œ‚ÌØ‚èo‚µ•û‚ğ’²®‚·‚é
+// [act]imgSrcãƒ‡ãƒ¼ã‚¿ç®¡ç†ã‚’è¡Œã†åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚ã“ã®å‹ã‚’å‹•çš„ç¢ºä¿ã—å‘¼ã³å‡ºã—ã‚’ä¸€å…ƒåŒ–ã™ã‚‹
+//		ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¨Init()ã§å¿…è¦ãªãƒ‡ãƒ¼ã‚¿ã‚’å„æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã«å–ã‚Šè¾¼ã‚€
+//		GetComaNum()ãŠã‚ˆã³GetImageSource()ã§ç”»åƒã®åˆ‡ã‚Šå‡ºã—æ–¹ã‚’èª¿æ•´ã™ã‚‹
 class IImageSourceManager : public CEffectImageCommonComponent {
 protected:
-	std::vector<SImageSourceCSVCommonData> mCommonData;		// csv‚©‚ç“Ç‚İ‚¾‚µ‚½srcƒf[ƒ^A•¡”’è‹`‰Â”\
+	std::vector<SImageSourceCSVCommonData> mCommonData;		// csvã‹ã‚‰èª­ã¿ã ã—ãŸsrcãƒ‡ãƒ¼ã‚¿ã€è¤‡æ•°å®šç¾©å¯èƒ½
 	std::string mEffectDataName;
 
 	typedef std::vector<std::string> StringArr;
 
-	// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
+	// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
 	long long GetCheckTime(const long long pNowCount);
-	// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œ’è‹`‚ğŒˆ’è‚·‚é
+	// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒå®šç¾©ã‚’æ±ºå®šã™ã‚‹
 	int GetDefinitionIndex();
-	// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œƒRƒ}‚ğŒˆ’è‚·‚é
+	// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒã‚³ãƒã‚’æ±ºå®šã™ã‚‹
 	int GetImageIndex(int pDefinitionIndex);
-	// [act]ƒAƒjƒ[ƒVƒ‡ƒ“‚Ég—p‚Å‚«‚éƒRƒ}”‚ğæ“¾‚·‚é(•K—v‚É‰‚¶override‚·‚é)
+	// [act]ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ä½¿ç”¨ã§ãã‚‹ã‚³ãƒæ•°ã‚’å–å¾—ã™ã‚‹(å¿…è¦ã«å¿œã˜overrideã™ã‚‹)
 	virtual int GetComaNum(int pDefinitionIndex);
-	// [act]definitionIndex‚ÆimageIndex‚©‚ç‰æ‘œ”ÍˆÍ‚ğæ‚èo‚·
+	// [act]definitionIndexã¨imageIndexã‹ã‚‰ç”»åƒç¯„å›²ã‚’å–ã‚Šå‡ºã™
 	SDrawImageSourceData GetSourceDataFromIndex(int pDefinitionIndex, int pImageIndex);
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	IImageSourceManager(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	virtual bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager);
-	// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
+	// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
 	virtual SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) = 0;
-	// [act]ƒGƒtƒFƒNƒg•Ï”‚ğ•Ô‚·
+	// [act]ã‚¨ãƒ•ã‚§ã‚¯ãƒˆå¤‰æ•°ã‚’è¿”ã™
 	std::string						GetEffectDataName() const { return mEffectDataName; }
 };
 
 class CImageSourceDefault : public IImageSourceManager {
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageSourceDefault(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
-	// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
+	// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
 	SDrawImageSourceData	GetImageSource(int pWriteIndex = 0, int pWriteNum = 0) override;
 };
 
 class CImageSourceNumber : public IImageSourceManager {
-	enum class EAlign{ eLeft, eCenter, eRight };	// Š„•t•û–@w’è—penum; eCenter‚Ì“®ì‚ÍŒ»İ–¢’è‹`
-	bool mPaddingFlag;								// 0ƒpƒfƒBƒ“ƒO‚ğs‚¤‚©‚ğw’è; İ’è‚Í•K—vƒRƒ}+1
-	bool mDrawMinusFlag;							// ”’l‚ªƒ}ƒCƒiƒX‚Ì‚É•`‰æ‚ğs‚¤‚©‚ğw’è; İ’è‚Í•K—vƒRƒ}+1‚ª2ƒZƒbƒg(+-)•K—v
-	int mNumSource;									// •`‰æ‘ÎÛ•Ï”Ši”[—pƒ|ƒCƒ“ƒ^
-	int mDigitCount;								// •`‰æ‚É•K—v‚ÈƒRƒ}”‚ğŠi”[‚·‚é(10, 11, 12, 22 or 24)
-	EAlign mNumAlign;								// ”šŠ„•t•û–@‚ğw’è
+	enum class EAlign{ eLeft, eCenter, eRight };	// å‰²ä»˜æ–¹æ³•æŒ‡å®šç”¨enum; eCenterã®å‹•ä½œã¯ç¾åœ¨æœªå®šç¾©
+	bool mPaddingFlag;								// 0ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã‚’è¡Œã†ã‹ã‚’æŒ‡å®š; è¨­å®šæ™‚ã¯å¿…è¦ã‚³ãƒ+1
+	bool mDrawMinusFlag;							// æ•°å€¤ãŒãƒã‚¤ãƒŠã‚¹ã®æ™‚ã«æç”»ã‚’è¡Œã†ã‹ã‚’æŒ‡å®š; è¨­å®šæ™‚ã¯å¿…è¦ã‚³ãƒ+1ãŒ2ã‚»ãƒƒãƒˆ(+-)å¿…è¦
+	int mNumSource;									// æç”»å¯¾è±¡å¤‰æ•°æ ¼ç´ç”¨ãƒã‚¤ãƒ³ã‚¿
+	int mDigitCount;								// æç”»ã«å¿…è¦ãªã‚³ãƒæ•°ã‚’æ ¼ç´ã™ã‚‹(10, 11, 12, 22 or 24)
+	EAlign mNumAlign;								// æ•°å­—å‰²ä»˜æ–¹æ³•ã‚’æŒ‡å®š
 
-	// [act]ƒAƒjƒ[ƒVƒ‡ƒ“‚Ég—p‚Å‚«‚éƒRƒ}”‚ğæ“¾‚·‚éB’l‚ÍƒRƒ}”‚©‚çmDigitCount‚ğœ‚µ‚Ä‹‚ß‚ç‚ê‚é
+	// [act]ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ä½¿ç”¨ã§ãã‚‹ã‚³ãƒæ•°ã‚’å–å¾—ã™ã‚‹ã€‚å€¤ã¯ã‚³ãƒæ•°ã‹ã‚‰mDigitCountã‚’é™¤ã—ã¦æ±‚ã‚ã‚‰ã‚Œã‚‹
 	int GetComaNum(int pDefinitionIndex) override;
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageSourceNumber(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
 	SDrawImageSourceData	GetImageSource(int pWriteIndex, int pWriteNum) override;
 };
 
 class CImageSourceReel : public IImageSourceManager {
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageSourceReel(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool					Init(StringArr pReadData, CSlotTimerManager& pTimerManager) override;
-	// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
+	// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
 	SDrawImageSourceData	GetImageSource(int pWriteIndex = 0, int pWriteNum = 0) override;
 };
 

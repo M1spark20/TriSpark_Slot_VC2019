@@ -1,27 +1,27 @@
-#include "_header\keyexport.h"
+ï»¿#include "_header\keyexport.h"
 CKeyExport_S::CKeyExport_S(){
 	for(int i=0;i<256;i++)
 		m_NowKeyState[i]=0;
 }
 void CKeyExport_S::KeyStateUpdate(char* pInput){
-// [prm]p1;ƒL[“ü—Íî•ñ‚ª“ü‚Á‚½•Ï”‚Ìƒ|ƒCƒ“ƒ^(m1‚ÅŽw’è‚µ‚½ƒTƒCƒY‚Ì”z—ñ‚Å‚ ‚é‚±‚Æ)
-// [act]CKeyInput_S‚©‚ç‚ÌƒAƒNƒZƒXê—pBm2‚ðXV‚·‚éB
+// [prm]p1;ã‚­ãƒ¼å…¥åŠ›æƒ…å ±ãŒå…¥ã£ãŸå¤‰æ•°ã®ãƒã‚¤ãƒ³ã‚¿(m1ã§æŒ‡å®šã—ãŸã‚µã‚¤ã‚ºã®é…åˆ—ã§ã‚ã‚‹ã“ã¨)
+// [act]CKeyInput_Sã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹å°‚ç”¨ã€‚m2ã‚’æ›´æ–°ã™ã‚‹ã€‚
 	for(int i=0;i<GetInputArrayMax_C;i++)
 		if(pInput[i]) m_NowKeyState[i]++;
 		else m_NowKeyState[i]=0;
 }
 bool CKeyExport_S::ExportKeyState(int KeyHandle,int LessFrame, int MaxFrame) const{
-// [prm]p2;‰ºŒÀƒL[ƒtƒŒ[ƒ€”(‚±‚êˆÈã‚È‚çtrue)
-// [act]Žw’èƒL[‚ªp2ƒtƒŒ[ƒ€ˆÈã‰Ÿ‚³‚ê‚Ä‚¢‚é‚©•Ô‚·
-//		p1‚ªˆÙí’l( 0`m1-1 ˆÈŠO)‚È‚çfalse‚ð•Ô‚·B
+// [prm]p2;ä¸‹é™ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ æ•°(ã“ã‚Œä»¥ä¸Šãªã‚‰true)
+// [act]æŒ‡å®šã‚­ãƒ¼ãŒp2ãƒ•ãƒ¬ãƒ¼ãƒ ä»¥ä¸ŠæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹è¿”ã™
+//		p1ãŒç•°å¸¸å€¤( 0ï½žm1-1 ä»¥å¤–)ãªã‚‰falseã‚’è¿”ã™ã€‚
 	if(KeyHandle<0||KeyHandle>=GetInputArrayMax_C) return false;
 	bool Ans = (m_NowKeyState[KeyHandle]>=LessFrame);
 	Ans &= (m_NowKeyState[KeyHandle]<=MaxFrame);
 	return Ans;
 }
 int CKeyExport_S::ExportKeyStateFrame(int KeyHandle) const{
-// [act]Žw’è‚ÌƒL[‚ª˜A‘±‚Å‰Ÿ‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€”‚ð•Ô‚·B
-//		p1‚ªˆÙí’l‚È‚ç-1‚ð•Ô‚·B
+// [act]æŒ‡å®šã®ã‚­ãƒ¼ãŒé€£ç¶šã§æŠ¼ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¿”ã™ã€‚
+//		p1ãŒç•°å¸¸å€¤ãªã‚‰-1ã‚’è¿”ã™ã€‚
 	if(KeyHandle<0||KeyHandle>=GetInputArrayMax_C) return -1;
 	return m_NowKeyState[KeyHandle];
 }

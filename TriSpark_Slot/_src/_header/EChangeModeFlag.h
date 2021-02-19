@@ -1,5 +1,5 @@
-#pragma once
+ï»¿#pragma once
 enum EChangeModeFlag{
-// [act]ƒQ[ƒ€‘S‘Ì‚Å‚Ìƒ‚[ƒhˆÚsƒtƒ‰ƒO
+// [act]ã‚²ãƒ¼ãƒ å…¨ä½“ã§ã®ãƒ¢ãƒ¼ãƒ‰ç§»è¡Œãƒ•ãƒ©ã‚°
 	eModeContinue, eModeControlTest, eModeGameMain, eModeEnd, eModeErrEnd
 };

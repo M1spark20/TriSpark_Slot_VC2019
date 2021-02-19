@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <algorithm>
 #include "SReelChaData.hpp"
@@ -20,7 +20,7 @@ enum class EReelStatus{
 };
 
 class CReel {
-// [act]ƒŠ[ƒ‹1ŒÂ‚¸‚Â‚ÌƒNƒ‰ƒX
+// [act]ãƒªãƒ¼ãƒ«1å€‹ãšã¤ã®ã‚¯ãƒ©ã‚¹
 	SReelChaData					m_reelData;
 	float							m_rotatePos;
 	float							m_pushPos;

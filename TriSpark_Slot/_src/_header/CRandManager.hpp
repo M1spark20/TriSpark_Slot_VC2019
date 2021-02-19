@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SRandomizerData.hpp"
 #include <random>
 class CGameDataManage;

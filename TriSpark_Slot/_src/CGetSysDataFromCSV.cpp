@@ -1,4 +1,4 @@
-#include "_header\CGetSysDataFromCSV.hpp"
+﻿#include "_header\CGetSysDataFromCSV.hpp"
 #include "DxLib.h"
 
 bool CGetSysDataFromCSV::FileInit(int pFileID){

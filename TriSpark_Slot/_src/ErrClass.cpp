@@ -1,4 +1,4 @@
-#include "_header/ErrClass.hpp"
+﻿#include "_header/ErrClass.hpp"
 #include "DxLib.h"
 
 ErrUndeclaredVar::ErrUndeclaredVar(std::string varName) : mInvalidVarName(varName) {

@@ -1,17 +1,17 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 
-// [act]dst‚Å‚Ì‰æ‘œ•`‰æ•û–@w’è
+// [act]dstã§ã®ç”»åƒæç”»æ–¹æ³•æŒ‡å®š
 enum class EDrawModeForDST { eNearest, eBilinear };
 
-// [act]dst‚Å‚Ì‰æ‘œƒuƒŒƒ“ƒh•û–@w’è
+// [act]dstã§ã®ç”»åƒãƒ–ãƒ¬ãƒ³ãƒ‰æ–¹æ³•æŒ‡å®š
 enum class EBlendModeForDST {
-	eNone, eAlpha, eAdd, eSub, eMula,	// ‘S‰æ–Ê‚É•`‰æ‰Â
-	ePMAAlpha, ePMAAdd, ePMASub,		// MakeScreen‚Ì‚İ“K—p‰Â
-	eScreen, eOverlay, eDodge, eBurn, eDarken, eLighten, eSoftlight, eHardlight, eExclusion	// MakeScreen‚Ì‚İ“K—p‰Â
+	eNone, eAlpha, eAdd, eSub, eMula,	// å…¨ç”»é¢ã«æç”»å¯
+	ePMAAlpha, ePMAAdd, ePMASub,		// MakeScreenã®ã¿é©ç”¨å¯
+	eScreen, eOverlay, eDodge, eBurn, eDarken, eLighten, eSoftlight, eHardlight, eExclusion	// MakeScreenã®ã¿é©ç”¨å¯
 };
 
-// [act]src,flash‚Ì‹¤’Êƒf[ƒ^‚©‚Â•ªŠ„‰Â”\‚È•”•ª‚ğ’è‹`‚·‚é
+// [act]src,flashã®å…±é€šãƒ‡ãƒ¼ã‚¿ã‹ã¤åˆ†å‰²å¯èƒ½ãªéƒ¨åˆ†ã‚’å®šç¾©ã™ã‚‹
 struct SImageSourceCSVCommonData {
 	int startTime;
 	int imageID;
@@ -21,7 +21,7 @@ struct SImageSourceCSVCommonData {
 	bool isImageFromScreen;
 };
 
-// [act]dst‚Ì‹¤’Êƒf[ƒ^‚©‚Â•ªŠ„‰Â”\‚È•”•ª‚ğ’è‹`‚·‚é
+// [act]dstã®å…±é€šãƒ‡ãƒ¼ã‚¿ã‹ã¤åˆ†å‰²å¯èƒ½ãªéƒ¨åˆ†ã‚’å®šç¾©ã™ã‚‹
 struct SImageDestCSVCommonData {
 	int screenID;
 	int  startTime;

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IGameStateBase.hpp"
 #include "CReelManager.hpp"
 #include "CReelController.hpp"
@@ -8,7 +8,7 @@
 class CGameDataManage;
 
 class CGameState_ControlTestMain : public IGameStateBase{
-// [act]§ŒäƒeƒXƒgEƒŠ[ƒ`–ÚŠm”Fƒ‚[ƒhƒƒCƒ“ˆ—
+// [act]åˆ¶å¾¡ãƒ†ã‚¹ãƒˆãƒ»ãƒªãƒ¼ãƒç›®ç¢ºèªãƒ¢ãƒ¼ãƒ‰ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	typedef std::vector<std::vector<std::vector<std::vector<char>>>> tStopMatrix;
 
 	CReelManager		m_reelManager;
@@ -16,21 +16,21 @@ class CGameState_ControlTestMain : public IGameStateBase{
 
 	static const int	STOP_LIST_NUM_PER_PAGE = 20;
 
-	// “à•”ƒƒ“ƒo
-	std::vector<int>	m_pushPos;			// ƒf[ƒ^•\¦‚Ìƒ{ƒ^ƒ“‰Ÿ‰ºˆÊ’u
-	std::vector<int>	m_pushOrder;		// ƒf[ƒ^‰ğÍE‰Ÿ‰º‚Ì‰Ÿ‚µ‡’è‹`
-	std::vector<int>	m_checkedFlagID;	// ‰ğÍ‚ğs‚¤ƒtƒ‰ƒOIDˆê——
-	std::vector<short>	m_ctrlResult;		// ‘O‰Ÿ‚µ‡E‘S’â~Œ`‚Ì’â~ˆÊ’uƒƒ‚
-	std::vector<int>	m_stopPos;			// ƒf[ƒ^•\¦‚ÌƒŠ[ƒ‹’â~ˆÊ’u‘‚«o‚µæ
-	std::vector<int>	m_reachCount;		// ŠeƒŠ[ƒ‹1st‚ÌƒŠ[ƒ`–Ú”
-	int					m_selectingReel;	// ƒf[ƒ^•\¦‚Ì‘I‘ğ’†ƒŠ[ƒ‹’è‹`
-	int					m_selectingFlag;	// ƒf[ƒ^•\¦‚Ì‘I‘ğ’†ƒtƒ‰ƒO
-	int					m_orderID;			// ƒf[ƒ^‰ğÍ‚Ì‰Ÿ‚µ‡ƒtƒ‰ƒO
-	int					m_orderIDMax;		// ‰Ÿ‚µ‡‚Ì”(ƒŠ[ƒ‹”‚ÌŠKæ)
-	tStopMatrix			m_stopMatrix;		// ‘S’â~Œ`‚Ì’â~ó‹µ•Û‘¶(ƒŠ[ƒ`–Ú“™) [order][1st][col][row]
-	std::vector<int>	m_stopList;			// “Á’è’â~Œ`‚ğˆø‚«‚Ş‰Ÿ‚µˆÊ’u‚ğ‹L˜^‚·‚é•Ï”(—v‹‚Ì‚İì¬)
-	unsigned int		m_stopListPage;		// ’â~Œ`•\¦‚Ìƒy[ƒW”Ô†
-	bool				m_stopListPushStop;	// ’â~Œ`•\¦‚ÌˆÊ’uí•Ê(true:stop,false:push)
+	// å†…éƒ¨ãƒ¡ãƒ³ãƒ
+	std::vector<int>	m_pushPos;			// ãƒ‡ãƒ¼ã‚¿è¡¨ç¤ºæ™‚ã®ãƒœã‚¿ãƒ³æŠ¼ä¸‹ä½ç½®
+	std::vector<int>	m_pushOrder;		// ãƒ‡ãƒ¼ã‚¿è§£æãƒ»æŠ¼ä¸‹æ™‚ã®æŠ¼ã—é †å®šç¾©
+	std::vector<int>	m_checkedFlagID;	// è§£æã‚’è¡Œã†ãƒ•ãƒ©ã‚°IDä¸€è¦§
+	std::vector<short>	m_ctrlResult;		// å‰æŠ¼ã—é †ãƒ»å…¨åœæ­¢å½¢ã®åœæ­¢ä½ç½®ãƒ¡ãƒ¢
+	std::vector<int>	m_stopPos;			// ãƒ‡ãƒ¼ã‚¿è¡¨ç¤ºæ™‚ã®ãƒªãƒ¼ãƒ«åœæ­¢ä½ç½®æ›¸ãå‡ºã—å…ˆ
+	std::vector<int>	m_reachCount;		// å„ãƒªãƒ¼ãƒ«1stæ™‚ã®ãƒªãƒ¼ãƒç›®æ•°
+	int					m_selectingReel;	// ãƒ‡ãƒ¼ã‚¿è¡¨ç¤ºæ™‚ã®é¸æŠä¸­ãƒªãƒ¼ãƒ«å®šç¾©
+	int					m_selectingFlag;	// ãƒ‡ãƒ¼ã‚¿è¡¨ç¤ºæ™‚ã®é¸æŠä¸­ãƒ•ãƒ©ã‚°
+	int					m_orderID;			// ãƒ‡ãƒ¼ã‚¿è§£ææ™‚ã®æŠ¼ã—é †ãƒ•ãƒ©ã‚°
+	int					m_orderIDMax;		// æŠ¼ã—é †ã®æ•°(ãƒªãƒ¼ãƒ«æ•°ã®éšä¹—)
+	tStopMatrix			m_stopMatrix;		// å…¨åœæ­¢å½¢ã®åœæ­¢çŠ¶æ³ä¿å­˜(ãƒªãƒ¼ãƒç›®ç­‰) [order][1st][col][row]
+	std::vector<int>	m_stopList;			// ç‰¹å®šåœæ­¢å½¢ã‚’å¼•ãè¾¼ã‚€æŠ¼ã—ä½ç½®ã‚’è¨˜éŒ²ã™ã‚‹å¤‰æ•°(è¦æ±‚æ™‚ã®ã¿ä½œæˆ)
+	unsigned int		m_stopListPage;		// åœæ­¢å½¢è¡¨ç¤ºæ™‚ã®ãƒšãƒ¼ã‚¸ç•ªå·
+	bool				m_stopListPushStop;	// åœæ­¢å½¢è¡¨ç¤ºæ™‚ã®ä½ç½®ç¨®åˆ¥(true:stop,false:push)
 
 	// internal method
 	void ReelMove(bool isUpper);

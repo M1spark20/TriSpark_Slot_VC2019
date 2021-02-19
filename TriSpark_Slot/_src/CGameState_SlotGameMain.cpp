@@ -1,4 +1,4 @@
-#include "_header\CGameState_SlotGameMain.hpp"
+﻿#include "_header\CGameState_SlotGameMain.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\CGetSysDataFromCSV.hpp"
 #include "_header\CSlotFlowList.hpp"

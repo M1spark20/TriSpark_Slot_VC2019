@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ESlotFlowFlag.hpp"
 struct SSlotGameDataWrapper;
 

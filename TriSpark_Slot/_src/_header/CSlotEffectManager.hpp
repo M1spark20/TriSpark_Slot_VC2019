@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CEffectVariableManager.hpp"
 #include "CSlotSoundManager.hpp"
 #include "SSlotEffectData.hpp"

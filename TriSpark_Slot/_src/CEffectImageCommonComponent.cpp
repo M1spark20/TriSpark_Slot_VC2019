@@ -1,4 +1,4 @@
-#include "_header/CEffectImageCommonComponent.hpp"
+ï»¿#include "_header/CEffectImageCommonComponent.hpp"
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/ErrClass.hpp"
@@ -13,9 +13,9 @@ CEffectImageCommonComponent::CEffectImageCommonComponent(CEffectVariableManager&
 	mIsTimerEnable = false;
 }
 
-// [act]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}‚ğƒZƒbƒg‚·‚é
-// [prm]pTimerManager	: g—p‚·‚éƒ^ƒCƒ}‚Ìƒ}ƒl[ƒWƒƒ[
-// [ret]ƒ^ƒCƒ}İ’è‚Éİ’è‚µ‚½‚©‚Ç‚¤‚©(ƒ^ƒCƒ}‚ª‘¶İ‚·‚é‚ª–³Œø‚Ìê‡‚Ítrue‚ğ•Ô‚·)
+// [act]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+// [prm]pTimerManager	: ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã®ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
+// [ret]ã‚¿ã‚¤ãƒè¨­å®šã«è¨­å®šã—ãŸã‹ã©ã†ã‹(ã‚¿ã‚¤ãƒãŒå­˜åœ¨ã™ã‚‹ãŒç„¡åŠ¹ã®å ´åˆã¯trueã‚’è¿”ã™)
 bool CEffectImageCommonComponent::SetTimer(CSlotTimerManager& pTimerManager) {
 	try {
 		mIsTimerEnable = pTimerManager.GetTimeFromTimerHandle(mNowTime, mTimerID);
@@ -28,7 +28,7 @@ bool CEffectImageCommonComponent::SetTimer(CSlotTimerManager& pTimerManager) {
 	return true;
 }
 
-// [act]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}‚ğƒŠƒZƒbƒg(–³Œø‰»)‚·‚é
+// [act]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚’ãƒªã‚»ãƒƒãƒˆ(ç„¡åŠ¹åŒ–)ã™ã‚‹
 void CEffectImageCommonComponent::ResetTimer() {
 	mIsTimerSet = false;
 	mIsTimerEnable = false;

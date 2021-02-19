@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CEffectImageCommonComponent.hpp"
 #include "SDrawImageSourceData.hpp"
 #include "SImageDrawCSVData.hpp"
@@ -8,33 +8,33 @@
 class CGameDataManage;
 
 class CImageColorManager : public CEffectImageCommonComponent {
-	std::vector<SImageColorCSVCommonData> mCommonData;		// csv‚©‚ç“Ç‚İ‚¾‚µ‚½srcƒf[ƒ^A•¡”’è‹`‰Â”\
+	std::vector<SImageColorCSVCommonData> mCommonData;		// csvã‹ã‚‰èª­ã¿ã ã—ãŸsrcãƒ‡ãƒ¼ã‚¿ã€è¤‡æ•°å®šç¾©å¯èƒ½
 	std::string mDataSetName;
 
 	typedef std::vector<std::string> StringArr;
 
-	// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
+	// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
 	long long GetCheckTime(const long long pNowCount) const;
-	// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œ’è‹`‚ğŒˆ’è‚·‚é
+	// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒå®šç¾©ã‚’æ±ºå®šã™ã‚‹
 	int GetDefinitionIndex() const;
-	// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œƒRƒ}‚ğŒˆ’è‚·‚é
+	// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒã‚³ãƒã‚’æ±ºå®šã™ã‚‹
 	double GetImageIndex(int pDefinitionIndex) const;
-	// [act]ƒAƒjƒ[ƒVƒ‡ƒ“‚Ég—p‚Å‚«‚éƒRƒ}”‚ğæ“¾‚·‚é(•K—v‚É‰‚¶override‚·‚é)
+	// [act]ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ä½¿ç”¨ã§ãã‚‹ã‚³ãƒæ•°ã‚’å–å¾—ã™ã‚‹(å¿…è¦ã«å¿œã˜overrideã™ã‚‹)
 	virtual int GetComaNum(int pDefinitionIndex) const;
-	// [act]definitionIndex‚ÆimageIndex‚©‚ç‰æ‘œ”ÍˆÍ‚ğæ‚èo‚·
+	// [act]definitionIndexã¨imageIndexã‹ã‚‰ç”»åƒç¯„å›²ã‚’å–ã‚Šå‡ºã™
 	bool GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex) const;
-	// [act]Ÿ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ƒRƒ}‚ğæ“¾‚·‚é
+	// [act]æ¬¡ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚³ãƒã‚’å–å¾—ã™ã‚‹
 	void GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg) const;
 
 public:
-	// [act]•Ï”‚Ì‰Šú‰»‚Æƒ^ƒCƒ}’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
+	// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨ã‚¿ã‚¤ãƒå€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
 	CImageColorManager(CEffectVariableManager& pVarManager);
-	// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
+	// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool	Init(StringArr pReadData, CSlotTimerManager& pTimerManager);
-	// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ğ•Ô‚·
+	// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã‚’è¿”ã™
 	bool	GetColorData(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pWriteIndex) const;
 
-	// [act]ƒGƒtƒFƒNƒgÆ‡ŠÖ˜AŠÖ”
+	// [act]ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç…§åˆé–¢é€£é–¢æ•°
 	void	SetDataName(std::string pName) { mDataSetName = pName; }
 	bool	MatchDataName(std::string pKey) { return pKey == mDataSetName; }
 };

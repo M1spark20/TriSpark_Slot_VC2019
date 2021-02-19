@@ -1,4 +1,4 @@
-#include "_header\CRandManager.hpp"
+ï»¿#include "_header\CRandManager.hpp"
 #include "_header\CRandomizerReaderFromCSV.hpp"
 #include "_header\CGameDataManage.h"
 #include "_header\CSlotInternalDataManager.hpp"
@@ -31,10 +31,10 @@ void CRandManager::SetRandSeed(long pRandSeed){
 	}
 }
 
-// [act]ƒtƒ‰ƒO‚ð’Š‘I‚É‚æ‚èŒˆ’è‚·‚éBŒ‹‰Ê‚ÍpData‚Ì’l•ÏX‚É‚æ‚éB
-//		‚È‚¨‹­§ƒtƒ‰ƒO‚Í–{ƒNƒ‰ƒX‚ð’Ê‚³‚¸‚É’¼ÚŽw’è‚ª‰Â”\B
-// [ret]’Š‘I‚É¬Œ÷‚µ‚½‚©
-// [prm]pData	: “à•”ƒf[ƒ^ŠÇ—ƒNƒ‰ƒX(ƒf[ƒ^Žæ“¾&Œ‹‰ÊŠi”[)
+// [act]ãƒ•ãƒ©ã‚°ã‚’æŠ½é¸ã«ã‚ˆã‚Šæ±ºå®šã™ã‚‹ã€‚çµæžœã¯pDataã®å€¤å¤‰æ›´ã«ã‚ˆã‚‹ã€‚
+//		ãªãŠå¼·åˆ¶ãƒ•ãƒ©ã‚°ã¯æœ¬ã‚¯ãƒ©ã‚¹ã‚’é€šã•ãšã«ç›´æŽ¥æŒ‡å®šãŒå¯èƒ½ã€‚
+// [ret]æŠ½é¸ã«æˆåŠŸã—ãŸã‹
+// [prm]pData	: å†…éƒ¨ãƒ‡ãƒ¼ã‚¿ç®¡ç†ã‚¯ãƒ©ã‚¹(ãƒ‡ãƒ¼ã‚¿å–å¾—&çµæžœæ ¼ç´)
 bool CRandManager::Role(CSlotInternalDataManager& pData) {
 	const auto data = pData.GetData();
 	for (auto it = m_flagData.randomizerData.cbegin(); it != m_flagData.randomizerData.cend(); ++it){
@@ -43,7 +43,7 @@ bool CRandManager::Role(CSlotInternalDataManager& pData) {
 		if (it->gameMode != data.gameMode && it->gameMode != -1) continue;
 		if (it->rtMode != data.rtMode.first && it->rtMode != -1) continue;
 
-		// —”¶¬
+		// ä¹±æ•°ç”Ÿæˆ
 		int randVal = 0;
 		if (it->randMax >= 0){
 			std::uniform_int_distribution<int> generator(0, it->randMax - 1);
@@ -51,11 +51,11 @@ bool CRandManager::Role(CSlotInternalDataManager& pData) {
 		}
 
 		const int temp = randVal;
-		// ƒtƒ‰ƒOŒˆ’è
+		// ãƒ•ãƒ©ã‚°æ±ºå®š
 		for (unsigned int i = 0; i < it->randSeed.size(); ++i){
 			randVal -= it->randSeed[i];
 			if (randVal >= 0) continue;
-			// ƒtƒ‰ƒO‚ÆRTƒ‚[ƒh(ƒ{[ƒiƒX¬—§G‚Ì‚Ý/’è‹`‚ª‘¶Ý‚·‚éê‡‚Ì‚Ý)‚ðpData‚ÉƒZƒbƒg
+			// ãƒ•ãƒ©ã‚°ã¨RTãƒ¢ãƒ¼ãƒ‰(ãƒœãƒ¼ãƒŠã‚¹æˆç«‹Gã®ã¿/å®šç¾©ãŒå­˜åœ¨ã™ã‚‹å ´åˆã®ã¿)ã‚’pDataã«ã‚»ãƒƒãƒˆ
 			pData.SetFlag(m_flagData.flagType[i][eFlagID], m_flagData.flagType[i][eBonusID]);
 			if (data.flag.second == 0 && m_flagData.flagType[i][eBonusID] > 0){
 				for (auto rtIt = m_flagData.rtModeAtBonusHit.cbegin(); rtIt != m_flagData.rtModeAtBonusHit.cend(); ++rtIt){
@@ -83,7 +83,7 @@ int CRandManager::GetMaxBetNum(int pGameMode) const {
 	if (pGameMode < 0) return -1;
 	for (auto it = m_flagData.betAvailable.cbegin(); it != m_flagData.betAvailable.cend(); ++it){
 		if (it->first == pGameMode){
-			int buf = it->second & INT_MAX;	// ŽZpƒVƒtƒg‚Å1‚ðƒVƒtƒg‚³‚¹‚È‚¢‘Îô
+			int buf = it->second & INT_MAX;	// ç®—è¡“ã‚·ãƒ•ãƒˆã§1ã‚’ã‚·ãƒ•ãƒˆã•ã›ãªã„å¯¾ç­–
 			for (int ans = 0; ; ++ans){
 				if (buf == 0) return ans;
 				buf >>= 1;

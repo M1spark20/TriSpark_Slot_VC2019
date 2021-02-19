@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include <sstream>
 #include <vector>
 typedef std::vector<std::string> StringArr;
 class IReadCSVBase {
-// [act]csv“Ç‚Ýž‚Ý§ŒäƒNƒ‰ƒXì¬Žž‚ÌŠî’êƒNƒ‰ƒX
+// [act]csvèª­ã¿è¾¼ã¿åˆ¶å¾¡ã‚¯ãƒ©ã‚¹ä½œæˆæ™‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 protected:
-// “Ç‚Ýž‚ñ‚¾ƒtƒ@ƒCƒ‹‚Ì•¶Žš—ñ‚ðŠi”[‚·‚é
+// èª­ã¿è¾¼ã‚“ã ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹
 	std::string m_ReadDataAll;
-// Œ»Ý‚Ì“Ç‚Ýž‚ÝƒJƒŒƒ“ƒg‚ÌêŠ
+// ç¾åœ¨ã®èª­ã¿è¾¼ã¿ã‚«ãƒ¬ãƒ³ãƒˆã®å ´æ‰€
 	unsigned int m_ReadDataNowCurrent;
 	IReadCSVBase();
 	bool StartReadFile(const char* FileName);
@@ -18,8 +18,8 @@ protected:
 		return (m_ReadDataNowCurrent>=m_ReadDataAll.size()-1);
 	}
 	template<class T> void StrToNum(T& InputFor,std::string &p_Data){
-// [act]ƒeƒ“ƒvƒŒ[ƒgŒ^A1‚Â–Ú‚Ìˆø”‚É2‚Â–Ú‚Ì•¶Žš—ñ‚©‚ç’Šo‚µ‚½”Žš‚ð‘ã“ü‚µ‚Ü‚·
-//		boolŒ^‚Ìê‡‚Í®”‚Å”»•Ê‚µA0‚ªfalseA‚»‚êˆÈŠO‚ªtrue‚Æ‚È‚é–Í—l‚Å‚·
+// [act]ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆåž‹ã€1ã¤ç›®ã®å¼•æ•°ã«2ã¤ç›®ã®æ–‡å­—åˆ—ã‹ã‚‰æŠ½å‡ºã—ãŸæ•°å­—ã‚’ä»£å…¥ã—ã¾ã™
+//		boolåž‹ã®å ´åˆã¯æ•´æ•°ã§åˆ¤åˆ¥ã—ã€0ãŒfalseã€ãã‚Œä»¥å¤–ãŒtrueã¨ãªã‚‹æ¨¡æ§˜ã§ã™
 		std::istringstream Data(p_Data);
 		Data>>InputFor;
 	};

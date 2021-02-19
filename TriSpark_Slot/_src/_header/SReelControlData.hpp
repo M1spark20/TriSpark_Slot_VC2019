@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 
 struct SReelControlHeader{
@@ -19,6 +19,6 @@ struct SReelControlCommand{
 };
 
 struct SReelControlData{
-	std::vector<SReelControlHeader>		header;		// §Œäƒf[ƒ^ƒwƒbƒ_
-	std::vector<SReelControlCommand>	command;	// §Œäƒf[ƒ^–{‘Ì
+	std::vector<SReelControlHeader>		header;		// åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿ãƒ˜ãƒƒãƒ€
+	std::vector<SReelControlCommand>	command;	// åˆ¶å¾¡ãƒ‡ãƒ¼ã‚¿æœ¬ä½“
 };

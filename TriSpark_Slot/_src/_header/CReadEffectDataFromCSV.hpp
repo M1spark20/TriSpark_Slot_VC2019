@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IReadcsv.h"
 #include "SSlotEffectData.hpp"
 #include <vector>

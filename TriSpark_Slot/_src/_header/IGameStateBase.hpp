@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "EChangeStateFlag.h"
-// ƒNƒ‰ƒX‚ÌæséŒ¾
+// ã‚¯ãƒ©ã‚¹ã®å…ˆè¡Œå®£è¨€
 class CGameDataManage;
 
 class IGameStateBase {
-	// [act]ƒQ[ƒ€–{‘Ì‚Ìƒ‚[ƒh‘I‘ğ—p‚ÌŠî’êƒNƒ‰ƒX
+	// [act]ã‚²ãƒ¼ãƒ æœ¬ä½“ã®ãƒ¢ãƒ¼ãƒ‰é¸æŠç”¨ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 public:
 	virtual bool Init(CGameDataManage& pDataManageIns) = 0;
 	virtual EChangeStateFlag Process(CGameDataManage& pDataManageIns) = 0;

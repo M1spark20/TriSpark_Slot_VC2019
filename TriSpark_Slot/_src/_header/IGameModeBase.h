@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "EChangeModeFlag.h"
 #include "CGameDataManage.h"
 #include "IGameStateBase.hpp"
 
 class IGameModeBase{
-// [act]ƒQ[ƒ€‘S‘Ì‚Å‚Ìƒ‚[ƒh(ƒƒjƒ…[‚È‚Ç)‚ÌƒXƒe[ƒgƒpƒ^[ƒ“—pŠî’êƒNƒ‰ƒX
+// [act]ã‚²ãƒ¼ãƒ å…¨ä½“ã§ã®ãƒ¢ãƒ¼ãƒ‰(ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãªã©)ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ‘ã‚¿ãƒ¼ãƒ³ç”¨åŸºåº•ã‚¯ãƒ©ã‚¹
 protected:
 	CGameDataManage*	m_pGameDataManage;
 	IGameStateBase*		m_pGameStateManage;

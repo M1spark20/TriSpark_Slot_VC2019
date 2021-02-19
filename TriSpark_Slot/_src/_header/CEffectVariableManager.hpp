@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IEffectExecuteMakerBase.hpp"
 #include <string>
 #include <vector>
@@ -12,17 +12,17 @@ struct SSlotGameDataWrapper;
 
 struct SEffectVariableInsertData {
 	enum class EOperand { eAdd, eSub, eMul, eDiv, eMod };
-	// •Ï”‚Í•Ï”ID‚ÅŠÇ—‚·‚é
-	int										inputFor;	// •Ï”ID
-	int										defNum;		// •Ï”ID
-	std::vector<std::pair<EOperand, int>>	calcData;	// [‰‰Z•û®, •Ï”ID]
+	// å¤‰æ•°ã¯å¤‰æ•°IDã§ç®¡ç†ã™ã‚‹
+	int										inputFor;	// å¤‰æ•°ID
+	int										defNum;		// å¤‰æ•°ID
+	std::vector<std::pair<EOperand, int>>	calcData;	// [æ¼”ç®—æ–¹å¼, å¤‰æ•°ID]
 };
 
 struct SEffectVariableRoleData {
-	// •Ï”‚Í•Ï”ID‚ÅŠÇ—‚·‚é
-	int												randMax;		// ¶”š
-	std::vector<int>								inputForList;	// •Ï”ID
-	std::vector<std::pair<int, std::vector<int>>>	roleData;		// [—”’l(¶”š), <eachInputData(•Ï”ID)>]
+	// å¤‰æ•°ã¯å¤‰æ•°IDã§ç®¡ç†ã™ã‚‹
+	int												randMax;		// ç”Ÿæ•°å­—
+	std::vector<int>								inputForList;	// å¤‰æ•°ID
+	std::vector<std::pair<int, std::vector<int>>>	roleData;		// [ä¹±æ•°å€¤(ç”Ÿæ•°å­—), <eachInputData(å¤‰æ•°ID)>]
 };
 
 class CEffectVariableManager {

@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "ISingleton.h"
 class CKeyInput_S : public ISingleton<CKeyInput_S>{
-// [act]ƒL[“ü—ÍŠÄ‹AŒ‹‰Ê‚ğCKeyExport_SƒNƒ‰ƒX‚Ö“`”d
+// [act]ã‚­ãƒ¼å…¥åŠ›ç›£è¦–ã€çµæœã‚’CKeyExport_Sã‚¯ãƒ©ã‚¹ã¸ä¼æ’­
 	friend ISingleton<CKeyInput_S>;
 	CKeyInput_S(){};
 	~CKeyInput_S(){};

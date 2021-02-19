@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 class CEffectVariableManager;
 
-// ƒf[ƒ^ì¬—pƒNƒ‰ƒX
+// ãƒ‡ãƒ¼ã‚¿ä½œæˆç”¨ã‚¯ãƒ©ã‚¹
 class IEffectExecuteMakerBase {
 protected:
 	int GetVariableID(std::string pData, bool pIsOnlyVar, CEffectVariableManager& pManager);

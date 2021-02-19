@@ -1,4 +1,4 @@
-#include "_header/ImageDestinationManager.hpp"
+ï»¿#include "_header/ImageDestinationManager.hpp"
 #include "_header/ErrClass.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
@@ -9,22 +9,22 @@
 #include "_header/CImageColorController.hpp"
 #include "DxLib.h"
 
-// [act]•Ï”‚Ì‰Šú‰»‚ÆŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
-// [prm]pTimerReader	: ƒ^ƒCƒ}[’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
-//		pScreenManager	: •`‰ææ‰æ–ÊŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
+// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
+// [prm]pTimerReader	: ã‚¿ã‚¤ãƒãƒ¼å€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
+//		pScreenManager	: æç”»å…ˆç”»é¢å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 IImageDestinationManager::IImageDestinationManager(CEffectVariableManager& pVarManager)
 	: CEffectImageCommonComponent(pVarManager) {
 	mCommonData.clear();
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool IImageDestinationManager::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		SImageDestCSVCommonData data;
 		data.screenID = mVarManager.GetScreenID(pReadData[1]);
-		if (pReadData[2] == "-") data.startTime = -1;	// ƒ^ƒCƒ}–³Œø‚É‚Ì‚İ“®ì‚·‚é“Áêİ’è
+		if (pReadData[2] == "-") data.startTime = -1;	// ã‚¿ã‚¤ãƒç„¡åŠ¹æ™‚ã«ã®ã¿å‹•ä½œã™ã‚‹ç‰¹æ®Šè¨­å®š
 		else data.startTime = mVarManager.MakeValID(pReadData[2]);
 		data.x = mVarManager.MakeValID(pReadData[3]);
 		data.y = mVarManager.MakeValID(pReadData[4]);
@@ -115,10 +115,10 @@ bool IImageDestinationManager::GetCanDrawDirectly(EBlendModeForDST pData) {
 	return false;
 }
 
-// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
-//		[throwable]ErrInternalVarUndeclared‚É‘Î‚·‚écatch‚ğŒÄ‚Ño‚µ‚É“K—p‚µ‚Ä‚­‚¾‚³‚¢
-// [prm]pNowCount	: Œ»İ‚Ìƒ^ƒCƒ}ƒJƒEƒ“ƒg
-// [ret]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}ƒJƒEƒ“ƒg
+// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
+//		[throwable]ErrInternalVarUndeclaredã«å¯¾ã™ã‚‹catchã‚’å‘¼ã³å‡ºã—æ™‚ã«é©ç”¨ã—ã¦ãã ã•ã„
+// [prm]pNowCount	: ç¾åœ¨ã®ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
+// [ret]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
 long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 	const long long loopTime = mVarManager.GetVal(mLoopTime);
 	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
@@ -131,25 +131,25 @@ long long IImageDestinationManager::GetCheckTime(const long long pNowCount) {
 	return ans - (diffCount * (ans / diffCount)) + loopTime;
 }
 
-// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œ’è‹`‚ğŒˆ’è‚·‚é
-// [ret]-1	:¡‰ñ‚Í•`‰æ‚ğs‚¤ƒ^ƒCƒ~ƒ“ƒO‚Å‚Í‚È‚¢ê‡
-//		else:•`‰æ‚·‚é’è‹`ID @mCommonData
+// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒå®šç¾©ã‚’æ±ºå®šã™ã‚‹
+// [ret]-1	:ä»Šå›ã¯æç”»ã‚’è¡Œã†ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã¯ãªã„å ´åˆ
+//		else:æç”»ã™ã‚‹å®šç¾©ID @mCommonData
 int IImageDestinationManager::GetDefinitionIndex() {
 	if (mCommonData.empty()) return -1;
 	if (!GetIsTimerSet() || !GetIsTimerEnable() ^ (mCommonData[0].startTime == -1)) return -1;
 	const auto definitionNum = mCommonData.size();
 
 	try {
-		if (!GetIsTimerEnable()) return 0;	// ƒ^ƒCƒ}–¢’è‹`•`‰æ‚Ìê‡‚ÍÅ‰‚Ì—v‘f‚ğŒÅ’è‚Å•`‰æ‚·‚é
+		if (!GetIsTimerEnable()) return 0;	// ã‚¿ã‚¤ãƒæœªå®šç¾©æ™‚æç”»ã®å ´åˆã¯æœ€åˆã®è¦ç´ ã‚’å›ºå®šã§æç”»ã™ã‚‹
 		const long long nowTime = GetTimer();
 		const long long checkTime = GetCheckTime(nowTime);
 
-		// Œ©‚Ä‚¢‚é—v‘f‚ÌbeginTime‚É–¢’B‚È‚ç‚»‚Ì‘O‚Ìƒf[ƒ^‚ğg—p‚·‚éB‘æ1—v‘f‚É–¢’B‚È‚ç•`‰æ‚ğs‚í‚È‚¢
+		// è¦‹ã¦ã„ã‚‹è¦ç´ ã®beginTimeã«æœªé”ãªã‚‰ãã®å‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ç”¨ã™ã‚‹ã€‚ç¬¬1è¦ç´ ã«æœªé”ãªã‚‰æç”»ã‚’è¡Œã‚ãªã„
 		int ans = -1;
 		for (auto it = mCommonData.begin(); it != mCommonData.end(); ++it, ++ans)
 			if (checkTime < (long long)mVarManager.GetVal(it->startTime)) return ans;
 
-		// ƒ‹[ƒv“_‚ª‚ ‚ê‚ÎÅŒã‚Ì—v‘f‚ğ•`‰æA‚È‚¯‚ê‚Î•`‰æ‚ğs‚í‚È‚¢
+		// ãƒ«ãƒ¼ãƒ—ç‚¹ãŒã‚ã‚Œã°æœ€å¾Œã®è¦ç´ ã‚’æç”»ã€ãªã‘ã‚Œã°æç”»ã‚’è¡Œã‚ãªã„
 		return mVarManager.GetVal(mLoopTime) >= 0 ? ans : -1;
 	}
 	catch (ErrInternalVarUndeclared e) {
@@ -163,9 +163,9 @@ int IImageDestinationManager::GetDefinitionIndex() {
 }
 
 
-// [act]•Ï”‚Ì‰Šú‰»‚ÆŠÖ”ƒ|ƒCƒ“ƒ^‚Ìİ’è‚ğs‚¤
-// [prm]pTimerReader	: ƒ^ƒCƒ}[’lŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
-//		pScreenManager	: •`‰ææ‰æ–ÊŒÄ‚Ño‚µ—pŠÖ”ƒ|ƒCƒ“ƒ^
+// [act]å¤‰æ•°ã®åˆæœŸåŒ–ã¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®šã‚’è¡Œã†
+// [prm]pTimerReader	: ã‚¿ã‚¤ãƒãƒ¼å€¤å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
+//		pScreenManager	: æç”»å…ˆç”»é¢å‘¼ã³å‡ºã—ç”¨é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarManager)
 	: IImageDestinationManager(pVarManager) {
 	mDrawNum = -1;
@@ -175,9 +175,9 @@ CImageDestinationDefault::CImageDestinationDefault(CEffectVariableManager& pVarM
 	mSpecialBlendSource = -1;
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);
@@ -205,8 +205,8 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 	return IImageDestinationManager::Init(pReadData, pTimerData);
 }
 
-// [act]•`‰æ‚ğs‚¤
-//		ƒAƒjƒ[ƒVƒ‡ƒ“À‘•‚ÍŒã‚Å
+// [act]æç”»ã‚’è¡Œã†
+//		ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè£…ã¯å¾Œã§
 void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
@@ -219,7 +219,7 @@ void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CIma
 		for (int colorC = 0; ; ++colorC) {
 			const auto colorPtr = pColorData.GetColorData(pSourceData->GetEffectDataName(), colorC);
 			if (colorPtr == nullptr) break;
-			if (colorPtr->GetColorData(pDataManager, source, i)) break;	// true‚Å³í‚ÈƒZƒbƒgŠ®—¹
+			if (colorPtr->GetColorData(pDataManager, source, i)) break;	// trueã§æ­£å¸¸ãªã‚»ãƒƒãƒˆå®Œäº†
 		}
 
 		if (source.imageID == -1) continue;
@@ -272,9 +272,9 @@ CImageDestinationReel::CImageDestinationReel(CEffectVariableManager& pVarManager
 	mExtraData.comaIndexMax		= -1;
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çdstƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰dstãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool CImageDestinationReel::Init(StringArr pReadData, CSlotTimerManager& pTimerData) {
 	try {
 		if (pReadData.size() < 10) throw ErrLessCSVDefinition(pReadData, 10);

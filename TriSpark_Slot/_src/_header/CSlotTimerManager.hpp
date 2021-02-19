@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IEffectExecuteMakerBase.hpp"
 #include <vector>
 #include <algorithm>
@@ -13,7 +13,7 @@ enum ESystemTimerID{
 	eTimerLeverAvailable,
 	eTimerWaitStart,
 	eTimerWaitEnd,
-	// ŠeƒŠ[ƒ‹‚Ì‰Ÿ‰º,’â~ƒ^ƒCƒ}‚Í•Ê’è‹` ‰º‹L’è‹`‚Í‚¢‚¸‚ê‚©‚ÌƒŠ[ƒ‹‚ª“®‚¢‚½‚Æ‚«‚É©“®“K—p
+	// å„ãƒªãƒ¼ãƒ«ã®æŠ¼ä¸‹,åœæ­¢ã‚¿ã‚¤ãƒã¯åˆ¥å®šç¾© ä¸‹è¨˜å®šç¾©ã¯ã„ãšã‚Œã‹ã®ãƒªãƒ¼ãƒ«ãŒå‹•ã„ãŸã¨ãã«è‡ªå‹•é©ç”¨
 	eTimerAnyReelStart,
 	eTimerAnyReelStopAvailable,
 	eTimerAnyReelPush,

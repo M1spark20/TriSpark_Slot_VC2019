@@ -1,9 +1,9 @@
-#include "_header\CReadDataListGeterFromCSV.hpp"
+ï»¿#include "_header\CReadDataListGeterFromCSV.hpp"
 #include "_header\SMainReadFileIndex.h"
 
 bool CReadDataListGeterFromCSV::FileInit(std::string pFileName){
-	// [act]ƒŠ[ƒ‹‰‰o’Š‘Iƒf[ƒ^‚ªŠi”[‚³‚ê‚½CSV‚ğŠJ‚­
-	// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+	// [act]ãƒªãƒ¼ãƒ«æ¼”å‡ºæŠ½é¸ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸCSVã‚’é–‹ã
+	// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	return StartReadFile(pFileName.c_str());
 }
 
@@ -14,7 +14,7 @@ bool CReadDataListGeterFromCSV::MakeData(CGameDataManage::ArrayIndex& p_Data){
 		if (NowGetStr.at(0) == "#MainFile"){
 			SMainReadFileIndex Temp;
 			Temp.SoundStreamingFlag = 0;
-			// enum‚É®”’l‚Í‚»‚Ì‚Ü‚Ü‘ã“ü‚Å‚«‚È‚¢‚Ì‚ÅAƒLƒƒƒXƒgB
+			// enumã«æ•´æ•°å€¤ã¯ãã®ã¾ã¾ä»£å…¥ã§ããªã„ã®ã§ã€ã‚­ãƒ£ã‚¹ãƒˆã€‚
 			int FileTypeHandle;
 			StrToNum(FileTypeHandle, NowGetStr.at(1));
 			Temp.FileType = (EMainReadFileType)FileTypeHandle;

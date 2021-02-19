@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 struct SReelFrashConfig{
-// [act]ƒŠ[ƒ‹ƒtƒ‰ƒbƒVƒ…•û–@Ši”[ƒf[ƒ^
+// [act]ãƒªãƒ¼ãƒ«ãƒ•ãƒ©ãƒƒã‚·ãƒ¥æ–¹æ³•æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 	unsigned int	destComa;
 	unsigned int	color;
 };

@@ -1,17 +1,17 @@
-#include "_header\CReelDataReaderFromCSV.hpp"
+ï»¿#include "_header\CReelDataReaderFromCSV.hpp"
 #include "_header\SReelChaData.hpp"
 #include "_header\CGameDataManage.h"
 #include "DxLib.h"
 
 bool CReelDataReaderFromCSV::FileInit(){
-// [act]ƒŠ[ƒ‹”z—ñE‰æ‘œ“Ç‚İ‚İƒf[ƒ^‚ªŠi”[‚³‚ê‚½CSV‚ğŠJ‚­
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]ãƒªãƒ¼ãƒ«é…åˆ—ãƒ»ç”»åƒèª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚ŒãŸCSVã‚’é–‹ã
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	const char* FileName = "data/flug_table.csv";
 	return StartReadFile(FileName);
 }
 bool CReelDataReaderFromCSV::FileInit(int pFileID){
-// [act]DxLib‘¤‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İo‚·
-// [ret]ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]DxLibå´ã§é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å‡ºã™
+// [ret]ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 	while (!DxLib::FileRead_eof(pFileID)){
 		TCHAR str[1024];
 		DxLib::FileRead_gets(str, 1024, pFileID);

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SSlotDataCounterComponent.hpp"
 #include <vector>
 class CSlotInternalDataManager;

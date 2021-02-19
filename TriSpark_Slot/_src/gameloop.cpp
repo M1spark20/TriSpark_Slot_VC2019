@@ -1,11 +1,11 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "_header\gameloop.h"
 #include "_header\keyexport.h"
 #include "_header\selectmode.h"
 
 bool CGameLoop_S::StartGameLoop(){
-// [act]ƒQ[ƒ€‚ÌƒƒCƒ“ƒ‹[ƒv‚ğì‚éBƒL[“ü—ÍŠÄ‹‚ğ‚·‚éB
-// [ret]ƒQ[ƒ€ƒ‹[ƒv‚ª³í‚É“®ì‚µ‚½‚©‚ğ•Ô‚·B
+// [act]ã‚²ãƒ¼ãƒ ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã‚’ä½œã‚‹ã€‚ã‚­ãƒ¼å…¥åŠ›ç›£è¦–ã‚’ã™ã‚‹ã€‚
+// [ret]ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ãŒæ­£å¸¸ã«å‹•ä½œã—ãŸã‹ã‚’è¿”ã™ã€‚
 	CKeyInput_S& KeyIn_Ins = CKeyInput_S::GetInstance();
 	CSelectMode_S& GameIns = CSelectMode_S::GetInstance();
 	CKeyExport_S& KeyOutIns = CKeyExport_S::GetInstance();

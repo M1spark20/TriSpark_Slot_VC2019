@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SCastData.hpp"
 #include <vector>
 class CGameDataManage;

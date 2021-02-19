@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "SMainReadFileIndex.h"
 #include <vector>
 class CGameDataManage{
-// [act]ƒQ[ƒ€–{‘Ì‚Ì‰æ‘œŠÇ—
+// [act]ã‚²ãƒ¼ãƒ æœ¬ä½“ã®ç”»åƒç®¡ç†
 public:
 	typedef std::vector<SMainReadFileIndex> ArrayIndex;
 

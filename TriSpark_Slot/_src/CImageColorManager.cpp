@@ -1,4 +1,4 @@
-#include "_header/CImageColorManager.hpp"
+ï»¿#include "_header/CImageColorManager.hpp"
 #include "_header/ErrClass.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "_header/CSlotTimerManager.hpp"
@@ -10,10 +10,10 @@ CImageColorManager::CImageColorManager(CEffectVariableManager& pVarManager)
 	mCommonData.clear();
 }
 
-// [act]•¶š—ñ”z—ñ"pReadData"‚©‚çsrcƒf[ƒ^‚ğæ“¾‚·‚é
-// [prm]pReadData			: ‰Šú‰»—pcsv•ªŠ„ƒf[ƒ^
-//		pVariableManager	: •Ï”ŠÇ——pŠÖ”‚ğw’è¨’l‚Íƒ|ƒCƒ“ƒ^‚ÅŠÇ—‚·‚é
-// [ret]ƒf[ƒ^æ“¾‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+// [act]æ–‡å­—åˆ—é…åˆ—"pReadData"ã‹ã‚‰srcãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+// [prm]pReadData			: åˆæœŸåŒ–ç”¨csvåˆ†å‰²ãƒ‡ãƒ¼ã‚¿
+//		pVariableManager	: å¤‰æ•°ç®¡ç†ç”¨é–¢æ•°ã‚’æŒ‡å®šâ†’å€¤ã¯ãƒã‚¤ãƒ³ã‚¿ã§ç®¡ç†ã™ã‚‹
+// [ret]ãƒ‡ãƒ¼ã‚¿å–å¾—ã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
 bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerManager) {
 	if (pReadData.size() < 11) throw ErrLessCSVDefinition(pReadData, 13);
 	if (pReadData.size() < 13 && mCommonData.empty()) throw ErrLessCSVDefinition(pReadData, 16);
@@ -48,9 +48,9 @@ bool CImageColorManager::Init(StringArr pReadData, CSlotTimerManager& pTimerMana
 	}
 }
 
-// [act]ƒ‹[ƒv“_‚ğl—¶‚µ‚½‘€ì‚Ég—p‚·‚éŠÔ‚ğŠ„‚èo‚·
-// [prm]pNowCount	: Œ»İ‚Ìƒ^ƒCƒ}ƒJƒEƒ“ƒg
-// [ret]•`‰æ‚Ég—p‚·‚éƒ^ƒCƒ}ƒJƒEƒ“ƒg
+// [act]ãƒ«ãƒ¼ãƒ—ç‚¹ã‚’è€ƒæ…®ã—ãŸæ“ä½œã«ä½¿ç”¨ã™ã‚‹æ™‚é–“ã‚’å‰²ã‚Šå‡ºã™
+// [prm]pNowCount	: ç¾åœ¨ã®ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
+// [ret]æç”»ã«ä½¿ç”¨ã™ã‚‹ã‚¿ã‚¤ãƒã‚«ã‚¦ãƒ³ãƒˆ
 long long CImageColorManager::GetCheckTime(const long long pNowCount) const{
 	const long long loopTime = mVarManager.GetVal(mLoopTime);
 	if (pNowCount < loopTime || loopTime < 0) return pNowCount;
@@ -63,9 +63,9 @@ long long CImageColorManager::GetCheckTime(const long long pNowCount) const{
 	return ans - (diffCount * (ans / diffCount)) + loopTime;
 }
 
-// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œ’è‹`‚ğŒˆ’è‚·‚é
-// [ret]-1	:¡‰ñ‚Í•`‰æ‚ğs‚¤ƒ^ƒCƒ~ƒ“ƒO‚Å‚Í‚È‚¢ê‡
-//		else:•`‰æ‚·‚é’è‹`ID @mCommonData
+// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒå®šç¾©ã‚’æ±ºå®šã™ã‚‹
+// [ret]-1	:ä»Šå›ã¯æç”»ã‚’è¡Œã†ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã¯ãªã„å ´åˆ
+//		else:æç”»ã™ã‚‹å®šç¾©ID @mCommonData
 int CImageColorManager::GetDefinitionIndex() const{
 	if (mCommonData.empty()) return -1;
 	if (!GetIsTimerSet() || !GetIsTimerEnable()) return -1;
@@ -76,12 +76,12 @@ int CImageColorManager::GetDefinitionIndex() const{
 		const long long nowTime = GetTimer();
 		const long long checkTime = GetCheckTime(nowTime);
 
-		// Œ©‚Ä‚¢‚é—v‘f‚ÌbeginTime‚É–¢’B‚È‚ç‚»‚Ì‘O‚Ìƒf[ƒ^‚ğg—p‚·‚éB‘æ1—v‘f‚É–¢’B‚È‚ç•`‰æ‚ğs‚í‚È‚¢
+		// è¦‹ã¦ã„ã‚‹è¦ç´ ã®beginTimeã«æœªé”ãªã‚‰ãã®å‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ç”¨ã™ã‚‹ã€‚ç¬¬1è¦ç´ ã«æœªé”ãªã‚‰æç”»ã‚’è¡Œã‚ãªã„
 		int ans = -1;
 		for (auto it = mCommonData.begin(); it != mCommonData.end(); ++it, ++ans)
 			if (checkTime < (long long)mVarManager.GetVal(it->startTime)) return ans;
 
-		// ƒ‹[ƒv“_‚ª‚ ‚ê‚ÎÅŒã‚Ì—v‘f‚ğ•`‰æA‚È‚¯‚ê‚Î•`‰æ‚ğs‚í‚È‚¢
+		// ãƒ«ãƒ¼ãƒ—ç‚¹ãŒã‚ã‚Œã°æœ€å¾Œã®è¦ç´ ã‚’æç”»ã€ãªã‘ã‚Œã°æç”»ã‚’è¡Œã‚ãªã„
 		return loopTime >= 0 ? ans : -1;
 	}
 	catch (ErrInternalVarUndeclared e) {
@@ -94,10 +94,10 @@ int CImageColorManager::GetDefinitionIndex() const{
 	}
 }
 
-// [act]ƒ^ƒCƒ}[ó‹µ‚©‚ç“Ç‚İo‚µƒ^ƒCƒ~ƒ“ƒO‚Åg—p‚·‚é‰æ‘œƒRƒ}‚ğŒˆ’è‚·‚é
-// [prm]pDefinitionIndex	: •`‰æ‚·‚é’è‹`ID @mCommonData
-// [ret]-1	: ƒGƒ‰[
-//		else: ‰æ‘œƒRƒ}ID
+// [act]ã‚¿ã‚¤ãƒãƒ¼çŠ¶æ³ã‹ã‚‰èª­ã¿å‡ºã—ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä½¿ç”¨ã™ã‚‹ç”»åƒã‚³ãƒã‚’æ±ºå®šã™ã‚‹
+// [prm]pDefinitionIndex	: æç”»ã™ã‚‹å®šç¾©ID @mCommonData
+// [ret]-1	: ã‚¨ãƒ©ãƒ¼
+//		else: ç”»åƒã‚³ãƒID
 double CImageColorManager::GetImageIndex(int pDefinitionIndex) const{
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1.;
 
@@ -107,7 +107,7 @@ double CImageColorManager::GetImageIndex(int pDefinitionIndex) const{
 	const long long offset = mVarManager.GetVal(mCommonData[pDefinitionIndex].startTime);
 	const long long interval = -offset + ((size_t)pDefinitionIndex + 1 == mCommonData.size() ?
 		mVarManager.GetVal(mLoopTime) : mVarManager.GetVal(mCommonData[(size_t)pDefinitionIndex + 1].startTime));
-	if (interval == 0) return 0.;	// src‚ª•Ï‰»‚µ‚È‚¢ê‡
+	if (interval == 0) return 0.;	// srcãŒå¤‰åŒ–ã—ãªã„å ´åˆ
 	const double division = interval / (double)comaNum;
 
 	try {
@@ -120,10 +120,10 @@ double CImageColorManager::GetImageIndex(int pDefinitionIndex) const{
 	}
 }
 
-// [act]ƒAƒjƒ[ƒVƒ‡ƒ“‚Ég—p‚Å‚«‚éƒRƒ}”‚ğæ“¾‚·‚é(•K—v‚É‰‚¶override‚·‚é)
-// [prm]pDefinitionIndex	: •`‰æ‚·‚é’è‹`ID @mCommonData
-// [ret]-1	: ƒGƒ‰[
-//		else: —˜—p‰Â”\ƒRƒ}”
+// [act]ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«ä½¿ç”¨ã§ãã‚‹ã‚³ãƒæ•°ã‚’å–å¾—ã™ã‚‹(å¿…è¦ã«å¿œã˜overrideã™ã‚‹)
+// [prm]pDefinitionIndex	: æç”»ã™ã‚‹å®šç¾©ID @mCommonData
+// [ret]-1	: ã‚¨ãƒ©ãƒ¼
+//		else: åˆ©ç”¨å¯èƒ½ã‚³ãƒæ•°
 int CImageColorManager::GetComaNum(int pDefinitionIndex) const{
 	if (pDefinitionIndex < 0 || (size_t)pDefinitionIndex >= mCommonData.size()) return -1;
 	const int hoge = mVarManager.GetVal(mCommonData[pDefinitionIndex].loopCount);
@@ -131,12 +131,12 @@ int CImageColorManager::GetComaNum(int pDefinitionIndex) const{
 }
 
 
-// [act]definitionIndex‚ÆimageIndex‚©‚çFî•ñ‚ğæ‚èo‚·
+// [act]definitionIndexã¨imageIndexã‹ã‚‰è‰²æƒ…å ±ã‚’å–ã‚Šå‡ºã™
 bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pDefinitionIndex, int pImageIndex, int pColorIndex) const{
-	// index‚É‰‚¶‚Ä‰æ‘œ‚ğØ‚èo‚·
+	// indexã«å¿œã˜ã¦ç”»åƒã‚’åˆ‡ã‚Šå‡ºã™
 	const auto& nowData = mCommonData[pDefinitionIndex];
-	const int width = mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX));	// ƒAƒjƒ[ƒVƒ‡ƒ“1ƒRƒ}‚Ì•
-	const int height = mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY));	// “¯‚‚³
+	const int width = mVarManager.GetVal(nowData.w) / abs(mVarManager.GetVal(nowData.numX));	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³1ã‚³ãƒã®å¹…
+	const int height = mVarManager.GetVal(nowData.h) / abs(mVarManager.GetVal(nowData.numY));	// åŒé«˜ã•
 	if (pColorIndex < 0 || pColorIndex >= abs(width) * abs(height)) {
 		pData.r = 0;
 		pData.g = 0;
@@ -165,11 +165,11 @@ bool CImageColorManager::GetColorDataFromIndex(const CGameDataManage& pGameData,
 	return ans == 0;
 }
 
-// [act]Ÿ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ƒRƒ}‚ğæ“¾‚·‚é
-// [prm]pNowDef		: Œ»İ‚ÌdefinitionID
-//		pNowImg		: Œ»İ‚ÌimageID
-//		pNextDef	: Ÿ‰ñ‚ÌdefinitionIDŠi”[æ(’è‹`‚ª‚È‚¢ê‡-1)
-//		pNextImg	: Ÿ‰ñ‚ÌimageIDŠi”[æ(’è‹`‚ª‚È‚¢ê‡-1)
+// [act]æ¬¡ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚³ãƒã‚’å–å¾—ã™ã‚‹
+// [prm]pNowDef		: ç¾åœ¨ã®definitionID
+//		pNowImg		: ç¾åœ¨ã®imageID
+//		pNextDef	: æ¬¡å›ã®definitionIDæ ¼ç´å…ˆ(å®šç¾©ãŒãªã„å ´åˆ-1)
+//		pNextImg	: æ¬¡å›ã®imageIDæ ¼ç´å…ˆ(å®šç¾©ãŒãªã„å ´åˆ-1)
 void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDef, int& pNextImg) const{
 	pNextDef = pNowDef; pNextImg = pNowImg + 1;
 	if (pNextImg < GetComaNum(pNowDef)) return;
@@ -186,8 +186,8 @@ void CImageColorManager::GetAnimationNext(int pNowDef, int pNowImg, int& pNextDe
 	}
 }
 
-// [act]‰æ‘œ“Ç‚İ‚İQÆæ‚ÉFî•ñ‚ğ•t—^‚·‚é
-// [prm]pWriteIndex	: ‰½–‡–Ú‚Ì•`‰æ‰æ‘œ‚Ìæ‚èo‚µ‚ğs‚¤‚©‚ğw’è
+// [act]ç”»åƒèª­ã¿è¾¼ã¿å‚ç…§å…ˆã«è‰²æƒ…å ±ã‚’ä»˜ä¸ã™ã‚‹
+// [prm]pWriteIndex	: ä½•æšç›®ã®æç”»ç”»åƒã®å–ã‚Šå‡ºã—ã‚’è¡Œã†ã‹ã‚’æŒ‡å®š
 bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawImageSourceData& pData, int pWriteIndex) const{
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return false;
@@ -196,7 +196,7 @@ bool CImageColorManager::GetColorData(const CGameDataManage& pGameData, SDrawIma
 
 	if (!GetColorDataFromIndex(pGameData, pData, dataIndex, static_cast<int>(imageIndex), pWriteIndex)) return false;
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“À‘•
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè£…
 	if (mCommonData[dataIndex].useAnimation) {
 		int nextDef, nextImg;
 		GetAnimationNext(dataIndex, static_cast<int>(imageIndex), nextDef, nextImg);

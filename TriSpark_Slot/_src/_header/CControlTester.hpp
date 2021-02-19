@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IGameModeBase.h"
 class CGameDataManage;
 class IGameStateBase;
