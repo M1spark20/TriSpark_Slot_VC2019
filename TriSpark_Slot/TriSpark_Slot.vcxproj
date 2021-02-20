@@ -122,6 +122,7 @@
     <ClInclude Include="_src\_header\SReelFrashConfig.hpp" />
     <ClInclude Include="_src\_header\SSlotEffectVariableCondition.hpp" />
     <ClInclude Include="_src\_header\SSlotGameDataWrapper.hpp" />
+    <ClInclude Include="_src\_header\STouchInputList.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

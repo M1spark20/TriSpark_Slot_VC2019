@@ -380,5 +380,8 @@
     <ClInclude Include="_src\_header\SSlotDataCounterComponent.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
+    <ClInclude Include="_src\_header\STouchInputList.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
