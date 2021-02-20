@@ -1,4 +1,4 @@
-﻿#include "_header\CSlotTimerManager.hpp"
+﻿#include "_header/CSlotTimerManager.hpp"
 #include "_header/CEffectVariableManager.hpp"
 #include "DxLib.h"
 #include "_header/ErrClass.hpp"

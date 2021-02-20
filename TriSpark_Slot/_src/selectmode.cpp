@@ -1,6 +1,6 @@
-﻿#include "_header\selectmode.h"
-#include "_header\CControlTester.hpp"
-#include "_header\CGameMode_SlotGameMain.hpp"
+﻿#include "_header/selectmode.h"
+#include "_header/CControlTester.hpp"
+#include "_header/CGameMode_SlotGameMain.hpp"
 
 CSelectMode_S::CSelectMode_S(){
 // [act]起動時のモードのインスタンスを生成し、初期化処理を行う

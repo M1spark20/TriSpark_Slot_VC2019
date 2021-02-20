@@ -1,4 +1,4 @@
-﻿#include "_header\CSlotInternalDataManager.hpp"
+﻿#include "_header/CSlotInternalDataManager.hpp"
 
 void CSlotInternalDataManager::Init(){
 	m_data.set					= 0;

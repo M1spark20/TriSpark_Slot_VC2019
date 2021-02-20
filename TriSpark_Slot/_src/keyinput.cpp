@@ -1,6 +1,6 @@
 ﻿#include "DxLib.h"
-#include "_header\keyinput.h"
-#include "_header\keyexport.h"
+#include "_header/keyinput.h"
+#include "_header/keyexport.h"
 #include "_header/STouchInputList.hpp"
 
 bool CKeyInput_S::GetKeyState(){

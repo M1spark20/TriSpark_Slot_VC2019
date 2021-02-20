@@ -1,7 +1,7 @@
-﻿#include "_header\CRandManager.hpp"
-#include "_header\CRandomizerReaderFromCSV.hpp"
-#include "_header\CGameDataManage.h"
-#include "_header\CSlotInternalDataManager.hpp"
+﻿#include "_header/CRandManager.hpp"
+#include "_header/CRandomizerReaderFromCSV.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/CSlotInternalDataManager.hpp"
 
 bool CRandManager::Init(const CGameDataManage& pDataManager, int pFileID, long pRandSeed){
 	CRandomizerReaderFromCSV reader;

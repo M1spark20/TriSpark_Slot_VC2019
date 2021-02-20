@@ -1,5 +1,5 @@
 ﻿#include "DxLib.h"
-#include "_src\_header\setup.h"
+#include "_src/_header/setup.h"
 
 #ifdef __ANDROID__
 int android_main(void) {

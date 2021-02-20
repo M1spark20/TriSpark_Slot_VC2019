@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
-#include "_header\gameloop.h"
-#include "_header\keyexport.h"
-#include "_header\selectmode.h"
+#include "_header/gameloop.h"
+#include "_header/keyexport.h"
+#include "_header/selectmode.h"
 
 bool CGameLoop_S::StartGameLoop(){
 // [act]ゲームのメインループを作る。キー入力監視をする。

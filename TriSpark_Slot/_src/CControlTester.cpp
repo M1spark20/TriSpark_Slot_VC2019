@@ -1,7 +1,7 @@
-﻿#include "_header\CControlTester.hpp"
-#include "_header\CGameState_ControlTestMain.hpp"
-#include "_header\CGameState_ReadingData.hpp"
-#include "_header\keyexport.h"
+﻿#include "_header/CControlTester.hpp"
+#include "_header/CGameState_ControlTestMain.hpp"
+#include "_header/CGameState_ReadingData.hpp"
+#include "_header/keyexport.h"
 #include "DxLib.h"
 
 bool CControlTester::Init(){

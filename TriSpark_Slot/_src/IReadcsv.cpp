@@ -1,6 +1,6 @@
 ﻿#include <fstream>
 #include <iostream>
-#include "_header\IReadcsv.h"
+#include "_header/IReadcsv.h"
 IReadCSVBase::IReadCSVBase(){
 	m_ReadDataNowCurrent = 0;
 }

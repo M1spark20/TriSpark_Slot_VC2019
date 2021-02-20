@@ -1,5 +1,5 @@
-﻿#include "_header\CGameState_ReadingData.hpp"
-#include "_header\CGameDataManage.h"
+﻿#include "_header/CGameState_ReadingData.hpp"
+#include "_header/CGameDataManage.h"
 #include "DxLib.h"
 
 bool CGameState_ReadingData::Init(CGameDataManage& p_pDataManageIns){

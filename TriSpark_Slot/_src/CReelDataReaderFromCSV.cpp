@@ -1,6 +1,6 @@
-﻿#include "_header\CReelDataReaderFromCSV.hpp"
-#include "_header\SReelChaData.hpp"
-#include "_header\CGameDataManage.h"
+﻿#include "_header/CReelDataReaderFromCSV.hpp"
+#include "_header/SReelChaData.hpp"
+#include "_header/CGameDataManage.h"
 #include "DxLib.h"
 
 bool CReelDataReaderFromCSV::FileInit(){

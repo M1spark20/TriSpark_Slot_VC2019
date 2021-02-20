@@ -1,7 +1,7 @@
-﻿#include "_header\CGameMode_SlotGameMain.hpp"
-#include "_header\CGameState_ReadingData.hpp"
-#include "_header\CGameState_SlotGameMain.hpp"
-#include "_header\keyexport.h"
+﻿#include "_header/CGameMode_SlotGameMain.hpp"
+#include "_header/CGameState_ReadingData.hpp"
+#include "_header/CGameState_SlotGameMain.hpp"
+#include "_header/keyexport.h"
 #include "DxLib.h"
 
 bool CGameMode_SlotGameMain::Init(){

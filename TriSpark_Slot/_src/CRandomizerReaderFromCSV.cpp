@@ -1,5 +1,5 @@
-﻿#include "_header\CRandomizerReaderFromCSV.hpp"
-#include "_header\SRandomizerData.hpp"
+﻿#include "_header/CRandomizerReaderFromCSV.hpp"
+#include "_header/SRandomizerData.hpp"
 #include "DxLib.h"
 
 bool CRandomizerReaderFromCSV::FileInit(){

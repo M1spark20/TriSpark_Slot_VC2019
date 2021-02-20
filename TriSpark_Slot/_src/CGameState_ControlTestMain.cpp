@@ -1,11 +1,11 @@
 ﻿#include <numeric>
-#include "_header\CGameState_ControlTestMain.hpp"
-#include "_header\CGameDataManage.h"
-#include "_header\CGetSysDataFromCSV.hpp"
-#include "_header\CReelDataReaderFromCSV.hpp"
-#include "_header\CCastReaderFromCSV.hpp"
-#include "_header\CRandomizerReaderFromCSV.hpp"
-#include "_header\keyexport.h"
+#include "_header/CGameState_ControlTestMain.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/CGetSysDataFromCSV.hpp"
+#include "_header/CReelDataReaderFromCSV.hpp"
+#include "_header/CCastReaderFromCSV.hpp"
+#include "_header/CRandomizerReaderFromCSV.hpp"
+#include "_header/keyexport.h"
 #include "DxLib.h"
 
 bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){

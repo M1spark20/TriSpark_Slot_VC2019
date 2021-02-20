@@ -1,5 +1,5 @@
-﻿#include "_header\CCastReaderFromCSV.hpp"
-#include "_header\SCastData.hpp"
+﻿#include "_header/CCastReaderFromCSV.hpp"
+#include "_header/SCastData.hpp"
 #include "DxLib.h"
 
 bool CCastReaderFromCSV::FileInit(){

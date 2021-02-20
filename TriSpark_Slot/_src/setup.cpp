@@ -1,6 +1,6 @@
 ﻿#include "DxLib.h"
-#include "_header\setup.h"
-#include "_header\gameloop.h"
+#include "_header/setup.h"
+#include "_header/gameloop.h"
 #include <new>
 
 bool CSetup_S::StartSetup(){

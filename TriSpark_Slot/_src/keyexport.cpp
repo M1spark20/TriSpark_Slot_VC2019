@@ -1,4 +1,4 @@
-﻿#include "_header\keyexport.h"
+﻿#include "_header/keyexport.h"
 #include "DxLib.h"
 CKeyExport_S::CKeyExport_S(){
 	for(int i=0;i<256;i++)

@@ -1,8 +1,8 @@
-﻿#include "_header\CGameState_SlotGameMain.hpp"
-#include "_header\CGameDataManage.h"
-#include "_header\CGetSysDataFromCSV.hpp"
-#include "_header\CSlotFlowList.hpp"
-#include "_header\keyexport.h"
+﻿#include "_header/CGameState_SlotGameMain.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/CGetSysDataFromCSV.hpp"
+#include "_header/CSlotFlowList.hpp"
+#include "_header/keyexport.h"
 #include "DxLib.h"
 
 bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){

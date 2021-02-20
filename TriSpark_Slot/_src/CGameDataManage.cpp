@@ -1,5 +1,5 @@
 ﻿#include "DxLib.h"
-#include "_header\CGameDataManage.h"
+#include "_header/CGameDataManage.h"
 #include <cstdlib>
 #include <sstream>
 bool CGameDataManage::StartReadFile(ArrayIndex &InputData){

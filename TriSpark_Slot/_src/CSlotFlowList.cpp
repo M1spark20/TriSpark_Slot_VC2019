@@ -1,6 +1,6 @@
-﻿#include "_header\CSlotFlowList.hpp"
-#include "_header\SSlotGameDataWrapper.hpp"
-#include "_header\keyexport.h"
+﻿#include "_header/CSlotFlowList.hpp"
+#include "_header/SSlotGameDataWrapper.hpp"
+#include "_header/keyexport.h"
 #include "DxLib.h"
 
 CSlotFlowBet::CSlotFlowBet() : BET_INTERVAL(std::pair<int, int>(65, 170)){

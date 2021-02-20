@@ -1,5 +1,5 @@
-﻿#include "_header\CReadDataListGeterFromCSV.hpp"
-#include "_header\SMainReadFileIndex.h"
+﻿#include "_header/CReadDataListGeterFromCSV.hpp"
+#include "_header/SMainReadFileIndex.h"
 
 bool CReadDataListGeterFromCSV::FileInit(std::string pFileName){
 	// [act]リール演出抽選データが格納されたCSVを開く

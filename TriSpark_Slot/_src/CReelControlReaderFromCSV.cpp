@@ -1,6 +1,6 @@
-﻿#include "_header\CReelControlReaderFromCSV.hpp"
-#include "_header\SReelControlData.hpp"
-#include "_header\SMainReadFileIndex.h"
+﻿#include "_header/CReelControlReaderFromCSV.hpp"
+#include "_header/SReelControlData.hpp"
+#include "_header/SMainReadFileIndex.h"
 #include "DxLib.h"
 #include <fstream>
 

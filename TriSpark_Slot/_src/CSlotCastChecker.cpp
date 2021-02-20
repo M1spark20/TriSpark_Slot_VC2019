@@ -1,8 +1,8 @@
-﻿#include "_header\CSlotCastChecker.hpp"
-#include "_header\CGameDataManage.h"
-#include "_header\SSlotGameDataWrapper.hpp"
-#include "_header\CSlotInternalDataManager.hpp"
-#include "_header\CCastReaderFromCSV.hpp"
+﻿#include "_header/CSlotCastChecker.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/SSlotGameDataWrapper.hpp"
+#include "_header/CSlotInternalDataManager.hpp"
+#include "_header/CCastReaderFromCSV.hpp"
 
 bool CSlotCastChecker::Init(CGameDataManage& pData, int pFileID){
 	CCastReaderFromCSV reader;

@@ -1,6 +1,6 @@
-﻿#include "_header\CReelController.hpp"
-#include "_header\CGameDataManage.h"
-#include "_header\CReelControlReaderFromCSV.hpp"
+﻿#include "_header/CReelController.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/CReelControlReaderFromCSV.hpp"
 
 bool CReelController::Init(const CGameDataManage& pDataManager, int pFileID, int reelNum){
 	m_orderID = e___;
