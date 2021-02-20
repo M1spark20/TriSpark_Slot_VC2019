@@ -8,10 +8,14 @@ bool CSetup_S::StartSetup(){
 //		ランタイムエラーor容量確保エラー時のログ書き込み
 // [ret]プログラムの正常/異常終了フラグ
 	DxLib::SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);	// UTF-8にてゲームを処理する
-	DxLib::ChangeWindowMode(1);								// ウィンドウモードに
-	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
 	DxLib::SetAlwaysRunFlag(TRUE);							// アクティブじゃないときも処理を行う
 	DxLib::SetGraphMode(1920, 1080, 32);					// 画面サイズ初期設定
+#ifdef __ANDROID__
+#elif __APPLE__
+#else
+	DxLib::ChangeWindowMode(1);								// ウィンドウモードに
+	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
+#endif
 	if(DxLib::DxLib_Init()) return false;					// DxLib初期化処理
 	DxLib::SetDrawScreen(DX_SCREEN_BACK);					// 裏画面書き込み
 	DxLib::SetUseZBuffer3D(TRUE);							// Ｚバッファを有効にする
