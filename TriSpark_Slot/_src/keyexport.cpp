@@ -16,10 +16,10 @@ void CKeyExport_S::KeyStateUpdate(char* pInput, const STouchInputList& pTouch){
 		if(CheckTouchRange(pTouch[i],  103,  256,  372,  501)) { isPush[KEY_INPUT_3] = true; continue; }
 		if(CheckTouchRange(pTouch[i],  103,  256,  524,  653)) { isPush[KEY_INPUT_2] = true; continue; }
 		if(CheckTouchRange(pTouch[i],  103,  256,  676,  805)) { isPush[KEY_INPUT_1] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  283,  628,    0, 1079)) { isPush[KEY_INPUT_LEFT] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  629,  974,    0, 1079)) { isPush[KEY_INPUT_DOWN] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  975, 1320,    0, 1079)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
-		if(CheckTouchRange(pTouch[i],    0, 1919,    0, 1079)) { isPush[KEY_INPUT_UP] = true; continue; }
+		if(CheckTouchRange(pTouch[i],  283,  628,  318, 1079)) { isPush[KEY_INPUT_LEFT] = true; continue; }
+		if(CheckTouchRange(pTouch[i],  629,  974,  318, 1079)) { isPush[KEY_INPUT_DOWN] = true; continue; }
+		if(CheckTouchRange(pTouch[i],  975, 1320,  318, 1079)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
+		if(CheckTouchRange(pTouch[i],    0, 1602,  318, 1079)) { isPush[KEY_INPUT_UP] = true; continue; }
 	}
 
 	for (int i = 0; i < GetInputArrayMax_C; i++) {
