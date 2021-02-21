@@ -20,7 +20,7 @@ bool CKeyInput_S::GetKeyState(){
 	const int touchNum = DxLib::GetTouchInputNum();
 	touchList.resize(touchNum);
 	for (size_t i = 0; i < touchList.size(); ++i)
-		if (!DxLib::GetTouchInput(i, &touchList[i].x, &touchList[i].y, &touchList[i].ID, &touchList[i].dev)) return false;
+		if (DxLib::GetTouchInput(i, &touchList[i].x, &touchList[i].y, &touchList[i].ID, &touchList[i].dev) == -1) return false;
 
 	// Exportへ出力(friendクラス)
 	CKeyExport_S& ExIns=CKeyExport_S::GetInstance();
