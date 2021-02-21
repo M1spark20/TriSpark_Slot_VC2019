@@ -2,9 +2,9 @@
 #include <vector>
 
 struct SReelControlHeader{
-	char			flagID;
-	char			bonusID;
-	char			ctrlType;
+	signed char		flagID;
+	signed char		bonusID;
+	signed char		ctrlType;
 	unsigned short	dataSize;
 };
 

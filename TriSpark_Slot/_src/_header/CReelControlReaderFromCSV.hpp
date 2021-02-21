@@ -4,7 +4,7 @@ struct SMainReadFileIndex;
 
 class CReelControlReaderFromCSV {
 
-	char* m_binaryData;
+	signed char* m_binaryData;
 	unsigned int m_binarySize;
 	template<class T> void ConvertBinaryNum(T& pResFor, unsigned int start, unsigned int size){
 		pResFor = 0;

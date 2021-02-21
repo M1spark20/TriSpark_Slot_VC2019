@@ -99,7 +99,7 @@ int CReelController::GetStopPosition(int pFlagID, int pBonusID, int pPushReel, i
 	// dataBufからすべりコマ数を読み出す
 	const int slipVal = dataBuf >> (3 * (comaNum - pPushComaID - 1)) & 0x07;
 	const int ans = (comaNum + pPushComaID - slipVal) % comaNum;
-	std::array<char, 2> addData;
+	std::array<signed char, 2> addData;
 	addData[0] = pPushComaID;	addData[1] = ans;
 	m_stopReelNum.push_back(addData);
 	return ans;

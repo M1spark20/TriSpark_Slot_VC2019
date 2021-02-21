@@ -21,7 +21,7 @@ bool CReelControlReaderFromCSV::FileInit(const SMainReadFileIndex* p_pFileData){
 	// [ret]ファイルオープンに成功したかどうか
 	int fileID = p_pFileData->DataHandle;
 	int fileSize = p_pFileData->FileSize & 0xFFFFFFFF;
-	m_binaryData = new char[fileSize];
+	m_binaryData = new signed char[fileSize];
 	m_binarySize = DxLib::FileRead_read(m_binaryData, fileSize, fileID);
 	return m_binarySize == fileSize;
 }

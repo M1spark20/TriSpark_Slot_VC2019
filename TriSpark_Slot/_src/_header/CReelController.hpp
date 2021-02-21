@@ -6,10 +6,10 @@
 class CGameDataManage;
 
 class CReelController{
-	SReelControlData				m_ctrlData;		// 制御データ
-	EOrderID						m_orderID;		// 停止順識別データ
-	int								m_reelNum;		// リール数情報
-	std::vector<std::array<char,2>>	m_stopReelNum;	// 過去停止情報[push,stop]
+	SReelControlData						m_ctrlData;		// 制御データ
+	EOrderID								m_orderID;		// 停止順識別データ
+	int										m_reelNum;		// リール数情報
+	std::vector<std::array<signed char,2>>	m_stopReelNum;	// 過去停止情報[push,stop]
 
 public:
 	bool Init(const CGameDataManage& pDataManager, int pFileID, int reelNum);
