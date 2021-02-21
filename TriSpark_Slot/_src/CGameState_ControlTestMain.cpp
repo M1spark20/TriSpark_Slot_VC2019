@@ -62,9 +62,9 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 	// マトリクスデータ作成
 	for (unsigned int checkC = 0; checkC < checkMax; ++checkC){
 		unsigned int orderID, flagID, currentPos[] = {
-			m_ctrlResult[checkC] >> 10 & 0x1F,
-			m_ctrlResult[checkC] >>  5 & 0x1F,
-			m_ctrlResult[checkC] >>  0 & 0x1F
+			(unsigned int)m_ctrlResult[checkC] >> 10 & 0x1F,
+			(unsigned int)m_ctrlResult[checkC] >>  5 & 0x1F,
+			(unsigned int)m_ctrlResult[checkC] >>  0 & 0x1F
 		};
 		orderID = checkC / PowInteger(comaNum, reelNum) / m_checkedFlagID.size();
 		flagID = (checkC / PowInteger(comaNum, reelNum)) % m_checkedFlagID.size();
@@ -102,7 +102,11 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 	m_stopListPage = 0;
 	m_stopListPushStop = false;
 
+#ifdef __ANDROID__
+#elif __APPLE__
+#else
 	DxLib::SetMainWindowText("Reel control test mode");
+#endif
 	return true;
 }
 
