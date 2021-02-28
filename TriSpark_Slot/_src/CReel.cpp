@@ -45,6 +45,7 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 			pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
 	}
 
+	const float lastReelPos = m_rotatePos;
 	if (m_nowStatus == EReelStatus::eAccerating){
 		long long diff;
 		if (!pTimer.GetTimeDiff(diff, eTimerReelStart, m_reelData.reelID)) return false;
@@ -68,25 +69,35 @@ bool CReel::Process(CSlotTimerManager& pTimer){
 		m_rotatePos -= m_speed * diff;
 	}
 
-	bool reelAdj = false;	// リール補正有無
+	// リール位置判断 & 停止判断
+	const int newComaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
+	if (m_nowStatus == EReelStatus::eSliping){
+		// 値を補正した判定位置
+		const float purposPos = (float)m_destination * m_reelData.reelData[0].h;
+		float purposFixed = purposPos;
+		while ( m_speed > 0 && purposFixed > lastReelPos) {
+			purposFixed -= GetComaNum() * m_reelData.reelData[0].h;
+		}
+		while ( m_speed < 0 && purposFixed < lastReelPos) {
+			purposFixed += GetComaNum() * m_reelData.reelData[0].h;
+		}
+
+		// 判定
+		if ( m_speed > 0 && lastReelPos - m_rotatePos > lastReelPos - purposFixed ||
+			 m_speed < 0 && lastReelPos - m_rotatePos < lastReelPos - purposFixed) {
+			m_rotatePos = purposPos;
+			m_speed = 0.f;	m_nowStatus = EReelStatus::eStoping;
+			pTimer.DisableTimer(eTimerReelStart, m_reelData.reelID);
+			pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
+		}
+	}
 	// 順回転位置補正(補正時はリールを停止させる)
 	while (m_rotatePos < 0.f){
-		reelAdj = true;
 		m_rotatePos += GetComaNum() * m_reelData.reelData[0].h;
 	}
 	// 逆回転位置補正(補正時はリールを停止させる)
 	while (m_rotatePos > GetComaNum() * m_reelData.reelData[0].h){
-		reelAdj = true;
 		m_rotatePos -= GetComaNum() * m_reelData.reelData[0].h;
-	}
-
-	// リール位置判断 & 停止判断
-	const int newComaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
-	if (m_nowStatus == EReelStatus::eSliping && m_comaPos == m_destination && (newComaPos != m_destination || reelAdj)){
-		m_rotatePos = (float)m_destination * m_reelData.reelData[0].h;
-		m_speed = 0.f;	m_nowStatus = EReelStatus::eStoping;
-		pTimer.DisableTimer(eTimerReelStart, m_reelData.reelID);
-		pTimer.SetTimer(eTimerReelStop, m_reelData.reelID);
 	}
 	m_comaPos = (unsigned int)std::floorf(m_rotatePos / m_reelData.reelData[0].h);
 	m_lastStatus = m_nowStatus;
