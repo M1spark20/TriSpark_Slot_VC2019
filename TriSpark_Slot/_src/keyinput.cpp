@@ -11,9 +11,11 @@ bool CKeyInput_S::GetKeyState(){
 	// DxLibのキーボード取得時の配列マジックナンバー
 	const int GetInputArrayMax_C = 256;
 
-	// キー入力
+	// キー入力(iOSでは実施しない)
+#ifndef __APPLE__
 	char KeyState[GetInputArrayMax_C];
 	if(DxLib::GetHitKeyStateAll(KeyState)) return false;
+#endif
 
 	// タッチスクリーン(KeyStateの更新はキーコンフィグの将来対応のためExport側に実装)
 	STouchInputList touchList;
