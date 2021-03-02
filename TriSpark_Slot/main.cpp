@@ -3,7 +3,8 @@
 
 #ifdef __ANDROID__
 int android_main(void) {
-
+#elif __APPLE__
+int ios_main(void){
 #else
 #include "crtdbg.h"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
