@@ -15,6 +15,8 @@ bool CKeyInput_S::GetKeyState(){
 	// キー入力(iOSでは実施しない)
 #ifndef __APPLE__
 	if(DxLib::GetHitKeyStateAll(KeyState)) return false;
+#else
+	for (auto i = 0; i < GetInputArrayMax_C; ++i) KeyState[i] = 0;
 #endif
 
 	// タッチスクリーン(KeyStateの更新はキーコンフィグの将来対応のためExport側に実装)
