@@ -2,6 +2,7 @@
 #include "DxLib.h"
 
 bool CGetSysDataFromCSV::FileInit(int pFileID){
+	DxLib::FileRead_seek(pFileID, 0, SEEK_SET);
 	while (!DxLib::FileRead_eof(pFileID)){
 		TCHAR str[1024];
 		DxLib::FileRead_gets(str, 1024, pFileID);

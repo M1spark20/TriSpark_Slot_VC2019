@@ -4,6 +4,7 @@ class CGameDataManage;
 
 class CGameState_ReadingData : public IGameStateBase{
 // [act]ゲーム画面のグラッフィック読み込み関数
+	int mSystemFont;
 public:
 	bool Init(CGameDataManage& pDataManageIns) override;
 	EChangeStateFlag Process(CGameDataManage& p_pDataManageIns)override;

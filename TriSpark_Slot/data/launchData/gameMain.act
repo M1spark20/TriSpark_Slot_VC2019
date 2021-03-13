@@ -50,5 +50,5 @@
 #MainFile,6,1,data/image/strB7.png,,,//,42,文字ランプ制御,
 #MainFile,0,1,data/menu/menuBase.png,,,//,43,メニュー背景,
 #MainFile,7,1,data/font/GKG_36pt_aa4_eng.dft,,,//,44,メニュータイトル,
-#MainFile,7,1,data/font/GKG_18pt_aa4.dft,,,//,45,メニュー文字,
+#MainFile,7,0,data/font/GKG_18pt_aa4.dft,,,//,45,メニュー文字,
 #MainFile,3,1,data/menu/license.txt,,,//,46,ライセンス,
