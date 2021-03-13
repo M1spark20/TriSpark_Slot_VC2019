@@ -1,4 +1,4 @@
-﻿// FileTypeの番号(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy/6:ColorMap),,,,,,,,,
+﻿// FileTypeの番号(0:Graphic/1:Sound/2:Material/3:Text/4:Binary/5:Copy/6:ColorMap/7:font),,,,,,,,,
 // SyncFlagの番号(0:同期読み込み/1:非同期読み込み),,,,,,,,,
 //Copy選択時はFilePassにコピー元のDataIDを記述すること,,,,,,,,,
 //MStream:FileTypeがSoundの時のみ指定(0:直接再生/1:欠番/2:メモリ上に圧縮/3:ストリーミング再生),,,,,,,,,
@@ -48,3 +48,7 @@
 #MainFile,6,1,data/image/strR7.png,,,//,40,文字ランプ制御,
 #MainFile,6,1,data/image/strW7.png,,,//,41,文字ランプ制御,
 #MainFile,6,1,data/image/strB7.png,,,//,42,文字ランプ制御,
+#MainFile,0,1,data/menu/menuBase.png,,,//,43,メニュー背景,
+#MainFile,7,1,data/font/GKG_36pt_aa4_eng.dft,,,//,44,メニュータイトル,
+#MainFile,7,1,data/font/GKG_18pt_aa4.dft,,,//,45,メニュー文字,
+#MainFile,3,1,data/menu/license.txt,,,//,46,ライセンス,

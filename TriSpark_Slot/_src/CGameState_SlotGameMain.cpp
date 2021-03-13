@@ -19,6 +19,13 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		!m_data.effectManager.Init(pDataManageIns, sysReader.GetSysDataID("effect"),
 			m_data.timeManager, m_data.reelManager)
 	) return false;
+
+	if (!m_menuManager.Init(pDataManageIns,
+		sysReader.GetSysDataID("license"),
+		sysReader.GetSysDataID("menuDataFont"),
+		sysReader.GetSysDataID("menuBase"),
+		sysReader.GetSysDataID("menuTitleFont")
+	)) return false;
 	
 
 	m_pFlowManager = new CSlotFlowBet;
@@ -27,7 +34,8 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 
 EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIns){
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
-	if (key.ExportKeyState(KEY_INPUT_ESCAPE)) return eStateEnd;
+	if (key.GetExportStatus() == EKeyExportStatus::eGameMain && key.ExportKeyState(KEY_INPUT_ESCAPE))
+		return eStateEnd;
 	m_data.timeManager.Process();
 	ESlotFlowFlag flow = m_pFlowManager->Process(m_data);
 	if (flow != eFlowContinue){
@@ -53,12 +61,14 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 
 	m_data.reelManager.Process(m_data.timeManager);
 	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data);
+	m_menuManager.Process();
 	return eStateContinue;
 }
 
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 	m_data.effectManager.Draw(pDataManageIns, m_data.timeManager);
 	m_data.effectManager.RingSound(m_data.timeManager, pDataManageIns);
+	m_menuManager.Draw();
 	return true;
 }
 

@@ -3,6 +3,7 @@
 CKeyExport_S::CKeyExport_S(){
 	for(int i=0;i<256;i++)
 		m_NowKeyState[i]=0;
+	mStatus = EKeyExportStatus::eGameMain;
 }
 void CKeyExport_S::KeyStateUpdate(char* pInput, const STouchInputList& pTouch){
 // [prm]p1;キー入力情報が入った変数のポインタ(m1で指定したサイズの配列であること)
@@ -13,13 +14,23 @@ void CKeyExport_S::KeyStateUpdate(char* pInput, const STouchInputList& pTouch){
 		isPush[i] = (pInput[i] != 0);
 
 	for (size_t i = 0; i < pTouch.size(); ++i) {
-		if(CheckTouchRange(pTouch[i],  103,  256,  372,  501)) { isPush[KEY_INPUT_3] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  103,  256,  524,  653)) { isPush[KEY_INPUT_2] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  103,  256,  676,  805)) { isPush[KEY_INPUT_1] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  283,  628,  318, 1079)) { isPush[KEY_INPUT_LEFT] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  629,  974,  318, 1079)) { isPush[KEY_INPUT_DOWN] = true; continue; }
-		if(CheckTouchRange(pTouch[i],  975, 1320,  318, 1079)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
-		if(CheckTouchRange(pTouch[i],    0, 1602,  318, 1079)) { isPush[KEY_INPUT_UP] = true; continue; }
+		if (mStatus == EKeyExportStatus::eGameMain) {
+			if (CheckTouchRange(pTouch[i], 103, 256, 372, 501)) { isPush[KEY_INPUT_3] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 103, 256, 524, 653)) { isPush[KEY_INPUT_2] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 103, 256, 676, 805)) { isPush[KEY_INPUT_1] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 283, 628, 318, 1079)) { isPush[KEY_INPUT_LEFT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 629, 974, 318, 1079)) { isPush[KEY_INPUT_DOWN] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 975, 1320, 318, 1079)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 0, 1602, 318, 1079)) { isPush[KEY_INPUT_UP] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 1611, 1914, 990, 1063)) { isPush[KEY_INPUT_M] = true; continue; }
+		}
+		if (mStatus == EKeyExportStatus::eMenu) {
+			if (CheckTouchRange(pTouch[i], 171, 250, 190, 269)) { isPush[KEY_INPUT_LEFT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 1051, 1130, 190, 269)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 1251, 1330, 290, 369)) { isPush[KEY_INPUT_UP] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 1251, 1330, 810, 889)) { isPush[KEY_INPUT_DOWN] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 1351, 1430, 190, 269)) { isPush[KEY_INPUT_M] = true; continue; }
+		}
 	}
 
 	for (int i = 0; i < GetInputArrayMax_C; i++) {

@@ -4,3 +4,7 @@
 #sysData,flags,3,フラグ抽選
 #sysData,control,4,リール制御
 #sysData,effect,9,エフェクト関係
+#sysData,menuBase,43,メニュー背景
+#sysData,menuTitleFont,44,タイトル文字
+#sysData,menuDataFont,45,メニュー文字
+#sysData,license,46,ライセンス

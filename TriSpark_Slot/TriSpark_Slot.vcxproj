@@ -32,6 +32,7 @@
     <ClCompile Include="_src\CGetSysDataFromCSV.cpp" />
     <ClCompile Include="_src\CImageColorController.cpp" />
     <ClCompile Include="_src\CImageColorManager.cpp" />
+    <ClCompile Include="_src\CMenuManager.cpp" />
     <ClCompile Include="_src\CRandManager.cpp" />
     <ClCompile Include="_src\CRandomizerReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReadDataListGeterFromCSV.cpp" />
@@ -55,6 +56,7 @@
     <ClCompile Include="_src\IGameModeBase.cpp" />
     <ClCompile Include="_src\ImageDestinationManager.cpp" />
     <ClCompile Include="_src\ImageSourceManager.cpp" />
+    <ClCompile Include="_src\IMenuElements.cpp" />
     <ClCompile Include="_src\IReadcsv.cpp" />
     <ClCompile Include="_src\keyexport.cpp" />
     <ClCompile Include="_src\keyinput.cpp" />
@@ -73,6 +75,7 @@
     <ClInclude Include="_src\_header\CGameState_SlotGameMain.hpp" />
     <ClInclude Include="_src\_header\CGetSysDataFromCSV.hpp" />
     <ClInclude Include="_src\_header\CImageColorController.hpp" />
+    <ClInclude Include="_src\_header\CMenuManager.hpp" />
     <ClInclude Include="_src\_header\CRandManager.hpp" />
     <ClInclude Include="_src\_header\CRandomizerReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReadDataListGeterFromCSV.hpp" />
@@ -102,6 +105,7 @@
     <ClInclude Include="_src\_header\CImageColorManager.hpp" />
     <ClInclude Include="_src\_header\ImageDestinationManager.hpp" />
     <ClInclude Include="_src\_header\ImageSourceManager.hpp" />
+    <ClInclude Include="_src\_header\IMenuElements.hpp" />
     <ClInclude Include="_src\_header\IReadcsv.h" />
     <ClInclude Include="_src\_header\ISingleton.h" />
     <ClInclude Include="_src\_header\ISlotFlowManager.hpp" />

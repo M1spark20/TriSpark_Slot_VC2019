@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\スロット本体内クラス\エフェクト関係\条件関係">
       <UniqueIdentifier>{ac5533c6-42cf-4a94-81dc-181a2acec4fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\スロット本体内クラス\メニュー関連">
+      <UniqueIdentifier>{9f3d5230-29f1-4193-99dd-057527345352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\スロット本体内クラス\メニュー関連">
+      <UniqueIdentifier>{1be525c9-f45d-447f-bb2f-8d78cc21c693}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_src\setup.cpp">
@@ -197,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="_src\CSlotDataCounter.cpp">
       <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\IMenuElements.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\メニュー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CMenuManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス\メニュー関連</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +394,12 @@
     </ClInclude>
     <ClInclude Include="_src\_header\STouchInputList.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\IMenuElements.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\メニュー関連</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CMenuManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス\メニュー関連</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

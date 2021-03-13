@@ -26,7 +26,7 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 	if (timeGetter >= intData.betFreeze || intData.isReplay) {
 		if (isReverAvailable) {
 			// リール始動
-			if (key.ExportKeyState(KEY_INPUT_UP)) {
+			if (key.ExportKeyState(KEY_INPUT_UP) && key.GetExportStatus() == EKeyExportStatus::eGameMain) {
 				pGameData.internalDataManager.LatchBet();
 				pGameData.dataCounter.ReelStart(pGameData.internalDataManager);
 
@@ -38,7 +38,7 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 			}
 		}
 		isBetInput = pGameData.timeManager.GetTime(timeGetter, eTimerBetInput);
-		if ((m_betFor == 0 || !isBetInput) && !intData.isReplay) {
+		if ((m_betFor == 0 || !isBetInput) && !intData.isReplay && key.GetExportStatus() == EKeyExportStatus::eGameMain) {
 			if (key.ExportKeyState(KEY_INPUT_1)) {
 				SetBetFor(pGameData, 1, false);
 				isBetInput = true;
@@ -138,6 +138,7 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_1) == 0);
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_2) == 0);
 	noInput &= (key.ExportKeyStateFrame(KEY_INPUT_3) == 0);
+	noInput &= (key.GetExportStatus() == EKeyExportStatus::eGameMain);
 
 	if (noInput){
 		if (key.ExportKeyState(KEY_INPUT_LEFT)){

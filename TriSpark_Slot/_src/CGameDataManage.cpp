@@ -44,6 +44,9 @@ bool CGameDataManage::StartReadFile(ArrayIndex &InputData){
 			m_MainData[MainC].DataHandle = 
 				DxLib::FileRead_open(nowReadFileName.c_str());
 			break;
+		case Font:
+			m_MainData[MainC].DataHandle =
+				DxLib::LoadFontDataToHandle(nowReadFileName.c_str());
 		case Copy:
 			// 処理は読み込み後に実行することになります
 			break;
@@ -103,6 +106,7 @@ bool CGameDataManage::CheckReadFile(){
 				break;
 			case Text:
 			case Binary: //複製機能がないためハンドルをコピー
+			case Font:
 				m_MainData[MainC].DataHandle = m_MainData[ForkID].DataHandle;
 				DxLib::ErrorLogFmtAdd(u8"IndexNo.%dのCopyが無効です。同じハンドルを渡します。",MainC);
 				break;
@@ -155,6 +159,9 @@ bool CGameDataManage::DeleteData(unsigned int DeletePos,EMainReadFileType DataTy
 	case Text:
 	case Binary:
 		DxLib::FileRead_close(DataHandle);
+		break;
+	case Font:
+		DxLib::DeleteFontToHandle(DataHandle);
 		break;
 	case Copy:
 		const char* Err = u8"CopyフラグはDeleteDataでは解放できません。\n";
