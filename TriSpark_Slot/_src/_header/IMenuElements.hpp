@@ -25,6 +25,8 @@ public:
 	virtual bool		Process() = 0;
 	virtual bool		Draw(const int pOpacity) = 0;
 	virtual EMenuList	PushButton(int pKeyHandleDX) = 0;
+
+	virtual ~IMenuElements(){}
 };
 
 class CMenuLicenses : public IMenuElements {
