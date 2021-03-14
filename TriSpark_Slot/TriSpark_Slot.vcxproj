@@ -33,6 +33,7 @@
     <ClCompile Include="_src\CImageColorController.cpp" />
     <ClCompile Include="_src\CImageColorManager.cpp" />
     <ClCompile Include="_src\CMenuManager.cpp" />
+    <ClCompile Include="_src\CMenuReadHowtoFromCSV.cpp" />
     <ClCompile Include="_src\CRandManager.cpp" />
     <ClCompile Include="_src\CRandomizerReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReadDataListGeterFromCSV.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="_src\_header\CGetSysDataFromCSV.hpp" />
     <ClInclude Include="_src\_header\CImageColorController.hpp" />
     <ClInclude Include="_src\_header\CMenuManager.hpp" />
+    <ClInclude Include="_src\_header\CMenuReadHowtoFromCSV.hpp" />
     <ClInclude Include="_src\_header\CRandManager.hpp" />
     <ClInclude Include="_src\_header\CRandomizerReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReadDataListGeterFromCSV.hpp" />

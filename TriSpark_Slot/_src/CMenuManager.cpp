@@ -22,12 +22,12 @@ bool CMenuManager::Init(CGameDataManage& pDataManageIns, const int pLicenseFileI
 	return true;
 }
 
-bool CMenuManager::Process() {
+bool CMenuManager::Process(CGameDataManage& pDataManageIns) {
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.GetExportStatus() == EKeyExportStatus::eGameMain) {
 		if (key.ExportKeyState(KEY_INPUT_M)) {
 			// initialize
-			mMenuElement = new CMenuLicenses(mLicenseTXT, mDataFontHandle, mBaseImgID, mTitleFontHandle);
+			mMenuElement = new CMenuHowTo(pDataManageIns, mBaseImgID, mTitleFontHandle);
 			mMenuElement->Init();
 			key.SetExportStatus(EKeyExportStatus::eMenu);
 			mMenuStartTime = DxLib::GetNowCount();
@@ -49,6 +49,12 @@ bool CMenuManager::Process() {
 					delete mMenuElement;
 					mMenuElement = nullptr;
 					mMenuElement = new CMenuReelHistory(mDataFontHandle, mBaseImgID, mTitleFontHandle);
+					mMenuElement->Init();
+					break;
+				case EMenuList::eHowTo:
+					delete mMenuElement;
+					mMenuElement = nullptr;
+					mMenuElement = new CMenuHowTo(pDataManageIns, mBaseImgID, mTitleFontHandle);
 					mMenuElement->Init();
 					break;
 				}

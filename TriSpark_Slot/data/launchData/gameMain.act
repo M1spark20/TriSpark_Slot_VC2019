@@ -52,3 +52,7 @@
 #MainFile,7,1,data/font/GKG_36pt_aa4_eng.dft,,,//,44,メニュータイトル,
 #MainFile,7,0,data/font/GKG_18pt_aa4.dft,,,//,45,メニュー文字,
 #MainFile,3,1,data/menu/license.txt,,,//,46,ライセンス,
+#MainFile,3,1,data/menu/howtoList.csv,,,//,47,howto一覧,
+#MainFile,0,1,data/menu/howto1.png,,,//,48,1,
+#MainFile,0,1,data/menu/howto2.png,,,//,49,2,
+#MainFile,0,1,data/menu/howto3.png,,,//,50,3,

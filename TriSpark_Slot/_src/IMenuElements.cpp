@@ -1,4 +1,7 @@
 ﻿#include "_header/IMenuElements.hpp"
+#include "_header/CGameDataManage.h"
+#include "_header/CGetSysDataFromCSV.hpp"
+#include "_header/CMenuReadHowtoFromCSV.hpp"
 #include "DxLib.h"
 #include <cstring>
 
@@ -57,10 +60,10 @@ EMenuList CMenuLicenses::PushButton(int pKeyHandleDX) {
 	switch (pKeyHandleDX)
 	{
 	case KEY_INPUT_LEFT:
-		return EMenuList::eReelHistory;
+		return EMenuList::eHowTo;
 		break;
 	case KEY_INPUT_RIGHT:
-		return EMenuList::eReelHistory;
+		return EMenuList::eHowTo;
 		break;
 	case KEY_INPUT_UP:
 		if (mCurrentStartCol > 0) --mCurrentStartCol;
@@ -111,6 +114,61 @@ EMenuList CMenuReelHistory::PushButton(int pKeyHandleDX) {
 		return EMenuList::eContinue;
 		break;
 	case KEY_INPUT_DOWN:
+		return EMenuList::eContinue;
+		break;
+	default:
+		break;
+	}
+	return EMenuList::eContinue;
+}
+
+CMenuHowTo::CMenuHowTo(CGameDataManage& pGameData, const int pBaseImgID, const int pTitleFontHandle)
+	: IMenuElements(u8"How to play", pBaseImgID, pTitleFontHandle) {
+	CGetSysDataFromCSV reader;
+	reader.FileInit(pGameData.GetDataHandle(0));
+
+	CMenuReadHowtoFromCSV howto;
+	howto.FileInit(pGameData.GetDataHandle(reader.GetSysDataID("howtoList")));
+	for (auto i = 0; ; ++i) {
+		const int fileHandle = howto.GetImageID(i);
+		if (fileHandle == -1) break;
+		mImages.push_back(pGameData.GetDataHandle(fileHandle));
+	}
+
+	mPageNum = 0;
+}
+
+bool CMenuHowTo::Init() {
+	return true;
+}
+
+bool CMenuHowTo::Process() {
+	return true;
+}
+
+bool CMenuHowTo::Draw(const int pOpacity) {
+	DrawBase(pOpacity);
+
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
+	DxLib::DrawGraph(231, 320, mImages[mPageNum], TRUE);
+	return true;
+}
+
+EMenuList CMenuHowTo::PushButton(int pKeyHandleDX) {
+	switch (pKeyHandleDX)
+	{
+	case KEY_INPUT_LEFT:
+		return EMenuList::eLicense;
+		break;
+	case KEY_INPUT_RIGHT:
+		return EMenuList::eLicense;
+		break;
+	case KEY_INPUT_UP:
+		if (mPageNum > 0) --mPageNum;
+		return EMenuList::eContinue;
+		break;
+	case KEY_INPUT_DOWN:
+		if ((unsigned int)mPageNum < mImages.size() - 1) ++mPageNum;
 		return EMenuList::eContinue;
 		break;
 	default:

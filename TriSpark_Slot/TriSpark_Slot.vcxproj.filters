@@ -210,6 +210,9 @@
     <ClCompile Include="_src\CMenuManager.cpp">
       <Filter>ソース ファイル\スロット本体内クラス\メニュー関連</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CMenuReadHowtoFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="_src\_header\CMenuManager.hpp">
       <Filter>ヘッダー ファイル\スロット本体内クラス\メニュー関連</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CMenuReadHowtoFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

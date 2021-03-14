@@ -15,7 +15,7 @@ class CMenuManager {
 public:
 	CMenuManager();
 	bool Init(CGameDataManage& pDataManageIns, const int pLicenseFileID, const int pDataFontHandle, const int pBaseImgID, const int pTitleFontHandle);
-	bool Process();
+	bool Process(CGameDataManage& pDataManageIns);
 	bool Draw();
 	~CMenuManager();
 };
