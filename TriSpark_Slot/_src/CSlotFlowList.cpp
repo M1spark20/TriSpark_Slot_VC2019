@@ -43,6 +43,13 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 				SetBetFor(pGameData, 1, false);
 				isBetInput = true;
 			}
+			if (key.ExportKeyState(KEY_INPUT_2)) {
+				int betNum = 2;
+				if (pGameData.randManager.GetMaxBetNum(intData.gameMode) < betNum)
+					betNum = pGameData.randManager.GetMaxBetNum(intData.gameMode);
+				SetBetFor(pGameData, 2, false);
+				isBetInput = true;
+			}
 			if (key.ExportKeyState(KEY_INPUT_3) || key.ExportKeyState(KEY_INPUT_UP)) {
 				SetBetFor(pGameData, pGameData.randManager.GetMaxBetNum(intData.gameMode), false);
 				isBetInput = true;
