@@ -1,6 +1,6 @@
 #include "_header/CRestoreManager.hpp"
  
-std::string CRestoreManager::GetDefaultFilePath() const {
+std::string IRestoreManager::GetDefaultFilePath() const {
 	char filePath[512] = "\0";
 #ifdef __ANDROID__
 	GetInternalDataPath(filePath, sizeof(filePath));
@@ -12,14 +12,14 @@ std::string CRestoreManager::GetDefaultFilePath() const {
 	return std::string(filePath);
 }
 
-bool CRestoreManager::StartRead() {
+bool CRestoreManagerRead::StartRead() {
 	mIfs.open(GetDefaultFilePath() + cFileName, std::ios::binary);
 	if (!mIfs) return false;
 	// チェックサム確認
 	return true;
 }
 
-bool CRestoreManager::ReadStr(std::string& pInputFor, unsigned int pSize) {
+bool CRestoreManagerRead::ReadStr(std::string& pInputFor, unsigned int pSize) {
 	char data;
 	for (unsigned int i = 0; i < pSize; ++i) {
 		if(!ReadNum(data)) return false;
@@ -29,22 +29,22 @@ bool CRestoreManager::ReadStr(std::string& pInputFor, unsigned int pSize) {
 }
 
 template<class T>
-bool CRestoreManager::ReadNum(T& pInputFor) {
+bool CRestoreManagerRead::ReadNum(T& pInputFor) {
 	mIfs.read((char*)&pInputFor, sizeof(T));
 	return (bool)mIfs;
 }
 
-void CRestoreManager::CloseRead() {
+void CRestoreManagerRead::CloseRead() {
 	mIfs.close();
 	mIfs.clear();
 }
 
-bool CRestoreManager::StartWrite() {
+bool CRestoreManagerWrite::StartWrite() {
 	mOfs.open(GetDefaultFilePath() + cFileName, std::ios::binary|std::ios::trunc);
 	return (bool)mOfs;
 }
 
-bool CRestoreManager::WriteStr(std::string pStr, unsigned int pSize) {
+bool CRestoreManagerWrite::WriteStr(std::string pStr, unsigned int pSize) {
 	char data;
 	for (unsigned int i = 0; i < pSize; ++i) {
 		if (i >= pStr.size()) data = '\0';
@@ -56,12 +56,12 @@ bool CRestoreManager::WriteStr(std::string pStr, unsigned int pSize) {
 }
 
 template<class T>
-bool CRestoreManager::WriteNum(T pValue) {
+bool CRestoreManagerWrite::WriteNum(T pValue) {
 	mOfs.write((char*)&pValue, sizeof(T));
 	return (bool)mOfs;
 }
 
-void CRestoreManager::CloseWrite() {
+void CRestoreManagerWrite::CloseWrite() {
 	mOfs.close();
 	mOfs.clear();
 }

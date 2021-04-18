@@ -3,21 +3,30 @@
 #include <fstream>
 #include <vector>
 
-class CRestoreManager {
+class IRestoreManager {
+protected:
 	const std::string cFileName;
-	std::ifstream mIfs;
-	std::ofstream mOfs;
-
 	std::string GetDefaultFilePath() const;
 
 public:
-	CRestoreManager() : cFileName("/playData.sav") {}
+	IRestoreManager() : cFileName("/playData.sav") {}
+};
 
+class CRestoreManagerRead : public IRestoreManager {
+	std::ifstream mIfs;
+
+public:
 	bool StartRead();
 	bool ReadStr(std::string& pInputFor, unsigned int pSize);
 	template<class T> bool ReadNum(T& pInputFor);
 	void CloseRead();
 
+};
+
+class CRestoreManagerWrite : public IRestoreManager {
+	std::ofstream mOfs;
+
+public:
 	bool StartWrite();
 	bool WriteStr(std::string pStr, unsigned int pSize);
 	template<class T> bool WriteNum(T pValue);
