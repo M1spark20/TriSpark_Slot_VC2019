@@ -213,6 +213,9 @@
     <ClCompile Include="_src\CMenuReadHowtoFromCSV.cpp">
       <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CRestoreManager.cpp">
+      <Filter>ソース ファイル\アプリシステム</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="_src\_header\CMenuReadHowtoFromCSV.hpp">
       <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CRestoreManager.hpp">
+      <Filter>ヘッダー ファイル\アプリシステム</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

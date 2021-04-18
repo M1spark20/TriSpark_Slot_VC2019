@@ -43,6 +43,7 @@
     <ClCompile Include="_src\CReelControlReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReelDataReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReelManager.cpp" />
+    <ClCompile Include="_src\CRestoreManager.cpp" />
     <ClCompile Include="_src\CSlotCastChecker.cpp" />
     <ClCompile Include="_src\CSlotDataCounter.cpp" />
     <ClCompile Include="_src\CSlotEffectManager.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="_src\_header\CReelControlReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReelDataReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReelManager.hpp" />
+    <ClInclude Include="_src\_header\CRestoreManager.hpp" />
     <ClInclude Include="_src\_header\CSlotCastChecker.hpp" />
     <ClInclude Include="_src\_header\CSlotDataCounter.hpp" />
     <ClInclude Include="_src\_header\CSlotEffectManager.hpp" />

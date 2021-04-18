@@ -37,5 +37,8 @@ public:
 	int					GetCharaIDByFixedPos(int pReelID, int pComaID) const;
 	int					GetComaDetailPos(int pReelID) const;
 	std::vector<int>	GetCharaIDList(std::vector<int> pOffsetList) const;
+
+	bool				LoadData();
+	bool				SaveData() const;
 	~CReelManager();
 };
