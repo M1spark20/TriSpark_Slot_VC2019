@@ -42,12 +42,6 @@ bool CRestoreManagerRead::ReadStr(std::string& pInputFor, unsigned int pSize) {
 	return true;
 }
 
-template<class T>
-bool CRestoreManagerRead::ReadNum(T& pInputFor) {
-	mIfs.read((char*)&pInputFor, sizeof(pInputFor));
-	return (bool)mIfs;
-}
-
 void CRestoreManagerRead::CloseRead() {
 	mIfs.close();
 	mIfs.clear();
@@ -68,21 +62,6 @@ bool CRestoreManagerWrite::WriteStr(std::string pStr, unsigned int pSize) {
 		if (i >= pStr.size()) data = '\0';
 		else data = pStr[i];
 		if(!WriteNum(data)) return false;
-	}
-	return true;
-}
-
-template<class T>
-bool CRestoreManagerWrite::WriteNum(T pValue) {
-	mOfs.write((char*)&pValue, sizeof(pValue));
-	if(!mOfs) return false;
-
-	// チェックサム加算
-	const char* dataPtr = (char*)&pValue;
-	for (unsigned int i = 0; i < sizeof(pValue); ++i) {
-		if(i>0) ++dataPtr;
-		char data = *dataPtr & 0xFF;
-		mCheckSum = (mCheckSum + data) & 0xFF;
 	}
 	return true;
 }

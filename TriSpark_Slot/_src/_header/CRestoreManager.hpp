@@ -20,7 +20,10 @@ class CRestoreManagerRead : public IRestoreManager {
 public:
 	bool StartRead();
 	bool ReadStr(std::string& pInputFor, unsigned int pSize);
-	template<class T> bool ReadNum(T& pInputFor);
+	template<class T> bool ReadNum(T& pInputFor) {
+		mIfs.read((char*)&pInputFor, sizeof(pInputFor));
+		return (bool)mIfs;
+	}
 	void CloseRead();
 	bool IsSameDataVersion() { return mDataVersion == VERSION; }
 };
@@ -32,6 +35,18 @@ class CRestoreManagerWrite : public IRestoreManager {
 public:
 	bool StartWrite();
 	bool WriteStr(std::string pStr, unsigned int pSize);
-	template<class T> bool WriteNum(T pValue);
+	template<class T> bool WriteNum(T pValue) {
+		mOfs.write((char*)&pValue, sizeof(pValue));
+		if (!mOfs) return false;
+
+		// チェックサム加算
+		const char* dataPtr = (char*)&pValue;
+		for (unsigned int i = 0; i < sizeof(pValue); ++i) {
+			if (i > 0) ++dataPtr;
+			char data = *dataPtr & 0xFF;
+			mCheckSum = (mCheckSum + data) & 0xFF;
+		}
+		return true;
+	}
 	bool Flush();
 };
