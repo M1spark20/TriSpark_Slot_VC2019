@@ -1,4 +1,5 @@
 ﻿#include "_header/CSlotInternalDataManager.hpp"
+#include "_header/CRestoreManager.hpp"
 
 void CSlotInternalDataManager::Init(){
 	m_data.set					= 0;
@@ -31,14 +32,14 @@ void CSlotInternalDataManager::ResetBonusFlag(){
 }
 
 void CSlotInternalDataManager::SetRTMode(int pRTID, bool pCanOverride, bool pIsForceOverride){
-	if (!m_data.isRtOverrideEnable & !pIsForceOverride) return;
+	if (!m_data.isRtOverrideEnable && !pIsForceOverride) return;
 	m_data.rtMode.first  = pRTID;
 	m_data.rtMode.second = -1;
 	m_data.isRtOverrideEnable = pCanOverride;
 }
 
 void CSlotInternalDataManager::SetRTMode(int pRTID, int pRTGame, bool pCanOverride, bool pIsForceOverride){
-	if (!m_data.isRtOverrideEnable & !pIsForceOverride) return;
+	if (!m_data.isRtOverrideEnable && !pIsForceOverride) return;
 	m_data.rtMode.first  = pRTID;
 	m_data.rtMode.second = pRTGame;
 	m_data.isRtOverrideEnable = pCanOverride;
@@ -158,4 +159,9 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 		m_data.isGetCountOnlyJac = false;
 	}
 	if(pGameCount) m_isGameNoCount = std::pair<bool, bool>(false, false);
+}
+
+bool CSlotInternalDataManager::ReadRestore(CRestoreManagerRead& pReader) {
+
+	return true;
 }

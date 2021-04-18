@@ -1,15 +1,10 @@
 ﻿#pragma once
 #include <algorithm>
 class CSlotTimerManager;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 class CSlotInternalDataManager {
-	struct SCreditData {
-		int			originVal;
-		int			offset;
-		int			nowShownOffset;
-		bool		isValChanged;
-		long long	lastValChangeTime;
-	};
 public:
 	struct SSlotInternalData {
 		unsigned int			set;
@@ -57,6 +52,8 @@ public:
 	void	CheckGameModeEnd(bool pGameCount, bool pGetCount);
 	void	SetPayoutFreezeTime(unsigned int delayTime) { m_data.payoutFreeze = delayTime; }
 	void	SetBetFreezeTime(unsigned int delayTime) { m_data.betFreeze = delayTime; }
+
+	bool	ReadRestore(CRestoreManagerRead& pReader);
 
 	SSlotInternalData	GetData() const { return m_data; }
 };
