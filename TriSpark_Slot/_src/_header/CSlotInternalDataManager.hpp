@@ -54,6 +54,7 @@ public:
 	void	SetBetFreezeTime(unsigned int delayTime) { m_data.betFreeze = delayTime; }
 
 	bool	ReadRestore(CRestoreManagerRead& pReader);
+	bool	WriteRestore(CRestoreManagerWrite& pWriter);
 
 	SSlotInternalData	GetData() const { return m_data; }
 };

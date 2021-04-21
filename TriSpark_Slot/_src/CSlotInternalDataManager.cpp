@@ -162,6 +162,49 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 }
 
 bool CSlotInternalDataManager::ReadRestore(CRestoreManagerRead& pReader) {
+	if (!pReader.ReadNum(m_data.set)) return false;
+	if (!pReader.ReadNum(m_data.gameMode)) return false;
+	if (!pReader.ReadNum(m_data.gameModeLimit)) return false;
+	if (!pReader.ReadNum(m_data.isGameLimit)) return false;
+	if (!pReader.ReadNum(m_data.isGetCountOnlyJac)) return false;
+	if (!pReader.ReadNum(m_data.gameModeAtEnd)) return false;
+	if (!pReader.ReadNum(m_data.rtMode)) return false;
+	if (!pReader.ReadNum(m_data.rtModeAtModeEnd)) return false;
+	if (!pReader.ReadNum(m_data.isRtOverrideEnable)) return false;
+	if (!pReader.ReadNum(m_data.betNum)) return false;
+	if (!pReader.ReadNum(m_data.inCount)) return false;
+	if (!pReader.ReadNum(m_data.outCount)) return false;
+	if (!pReader.ReadNum(m_data.isReplay)) return false;
+	if (!pReader.ReadNum(m_data.credit)) return false;
+	if (!pReader.ReadNum(m_data.payout)) return false;
+	if (!pReader.ReadNum(m_data.payoutFreeze)) return false;
+	if (!pReader.ReadNum(m_data.betFreeze)) return false;
 
+	if (!pReader.ReadNum(m_IsCreditResetAdd)) return false;
+	if (!pReader.ReadNum(m_isGameNoCount)) return false;
+	return true;
+}
+
+bool CSlotInternalDataManager::WriteRestore(CRestoreManagerWrite& pWriter) {
+	if (!pWriter.WriteNum(m_data.set)) return false;
+	if (!pWriter.WriteNum(m_data.gameMode)) return false;
+	if (!pWriter.WriteNum(m_data.gameModeLimit)) return false;
+	if (!pWriter.WriteNum(m_data.isGameLimit)) return false;
+	if (!pWriter.WriteNum(m_data.isGetCountOnlyJac)) return false;
+	if (!pWriter.WriteNum(m_data.gameModeAtEnd)) return false;
+	if (!pWriter.WriteNum(m_data.rtMode)) return false;
+	if (!pWriter.WriteNum(m_data.rtModeAtModeEnd)) return false;
+	if (!pWriter.WriteNum(m_data.isRtOverrideEnable)) return false;
+	if (!pWriter.WriteNum(m_data.betNum)) return false;
+	if (!pWriter.WriteNum(m_data.inCount)) return false;
+	if (!pWriter.WriteNum(m_data.outCount)) return false;
+	if (!pWriter.WriteNum(m_data.isReplay)) return false;
+	if (!pWriter.WriteNum(m_data.credit)) return false;
+	if (!pWriter.WriteNum(m_data.payout)) return false;
+	if (!pWriter.WriteNum(m_data.payoutFreeze)) return false;
+	if (!pWriter.WriteNum(m_data.betFreeze)) return false;
+
+	if (!pWriter.WriteNum(m_IsCreditResetAdd)) return false;
+	if (!pWriter.WriteNum(m_isGameNoCount)) return false;
 	return true;
 }
