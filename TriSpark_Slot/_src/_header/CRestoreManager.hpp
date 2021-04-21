@@ -24,6 +24,13 @@ public:
 		mIfs.read((char*)&pInputFor, sizeof(pInputFor));
 		return (bool)mIfs;
 	}
+	template<> bool ReadNum(bool& pInputFor) {
+		char data = 0x0;
+		mIfs.read(&data, sizeof(pInputFor));
+		if(!mIfs) return false;
+		pInputFor = (data != 0);
+		return true;
+	}
 	void CloseRead();
 	bool IsSameDataVersion() { return mDataVersion == VERSION; }
 };
@@ -47,6 +54,10 @@ public:
 			mCheckSum = (mCheckSum + data) & 0xFF;
 		}
 		return true;
+	}
+	template<> bool WriteNum(bool pValue) {
+		const char pushVal = pValue ? 0x1 : 0x0;
+		return WriteNum(pushVal);
 	}
 	bool Flush();
 };
