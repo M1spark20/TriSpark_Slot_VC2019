@@ -31,6 +31,11 @@ public:
 		pInputFor = (data != 0);
 		return true;
 	}
+	template<class T, class U> bool ReadNum(std::pair<T, U>& pInputFor) {
+		if (!ReadNum(pInputFor.first)) return false;
+		if (!ReadNum(pInputFor.second)) return false;
+		return true;
+	}
 	void CloseRead();
 	bool IsSameDataVersion() { return mDataVersion == VERSION; }
 };
@@ -58,6 +63,11 @@ public:
 	template<> bool WriteNum(bool pValue) {
 		const char pushVal = pValue ? 0x1 : 0x0;
 		return WriteNum(pushVal);
+	}
+	template<class T, class U> bool WriteNum(std::pair<T, U> pValue) {
+		if (!WriteNum(pValue.first)) return false;
+		if (!WriteNum(pValue.second)) return false;
+		return true;
 	}
 	bool Flush();
 };
