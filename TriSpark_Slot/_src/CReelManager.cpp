@@ -5,6 +5,7 @@
 #include "_header/CSlotTimerManager.hpp"
 #include "_header/ImageSourceManager.hpp"
 #include "_header/CImageColorManager.hpp"
+#include "_header/CRestoreManager.hpp"
 #include "DxLib.h"
 
 bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV& pSysData){
@@ -175,6 +176,23 @@ int CReelManager::GetComaDetailPos(int pReelID) const {
 	return dataPtr->GetReelDetailPos();
 }
 
+
+bool CReelManager::ReadRestore(CRestoreManagerRead& pReader) {
+	int reelCount = 0;
+	if (!pReader.ReadNum(reelCount)) return false;
+	for (int i = 0; i < reelCount; ++i) {
+		int setPos = 0;
+		if (!pReader.ReadNum(setPos)) return false;
+		m_reelChaData[i].ReelStop(setPos, true);
+	}
+}
+
+bool CReelManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	if (!pWriter.WriteNum((int)GetReelNum())) return false;
+	for (int i = 0; i < GetReelNum(); ++i) {
+		if (!pWriter.WriteNum((int)GetReelPos(i))) return false;
+	}
+}
 
 CReelManager::~CReelManager(){
 	DxLib::DeleteGraph(m_drawingCanvas);

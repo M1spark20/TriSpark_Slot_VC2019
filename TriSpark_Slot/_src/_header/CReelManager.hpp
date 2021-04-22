@@ -7,6 +7,8 @@ class CGetSysDataFromCSV;
 class CSlotTimerManager;
 class IImageSourceManager;
 class CImageColorManager;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 class CReelManager {
 	std::vector<CReel>	m_reelChaData;	// 各リールデータ
@@ -38,7 +40,7 @@ public:
 	int					GetComaDetailPos(int pReelID) const;
 	std::vector<int>	GetCharaIDList(std::vector<int> pOffsetList) const;
 
-	bool				LoadData();
-	bool				SaveData() const;
+	bool				ReadRestore(CRestoreManagerRead& pReader);
+	bool				WriteRestore(CRestoreManagerWrite& pWriter) const;
 	~CReelManager();
 };
