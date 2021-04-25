@@ -37,7 +37,7 @@ bool CRestoreManagerRead::ReadStr(std::string& pInputFor, unsigned int pSize) {
 	char data;
 	for (unsigned int i = 0; i < pSize; ++i) {
 		if(!ReadNum(data)) return false;
-		pInputFor += data;
+		if(data != '\0') pInputFor += data;
 	}
 	return true;
 }
@@ -45,6 +45,21 @@ bool CRestoreManagerRead::ReadStr(std::string& pInputFor, unsigned int pSize) {
 void CRestoreManagerRead::CloseRead() {
 	mIfs.close();
 	mIfs.clear();
+}
+
+
+bool CRestoreManagerWrite::IsActivate() {
+	if (mActivateFlag && !mResetFlag) return false;
+	mResetFlag = true;
+	mActivateFlag = false;
+}
+
+void CRestoreManagerWrite::ActivateFlagReset() {
+	mResetFlag = false;
+}
+
+void CRestoreManagerWrite::SetActivate() {
+	mActivateFlag = true;
 }
 
 bool CRestoreManagerWrite::StartWrite() {

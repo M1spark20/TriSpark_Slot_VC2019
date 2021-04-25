@@ -43,8 +43,15 @@ public:
 class CRestoreManagerWrite : public IRestoreManager {
 	std::ofstream mOfs;
 	unsigned char mCheckSum;
+	bool mActivateFlag;
+	bool mResetFlag;
 
 public:
+	bool IsActivate();
+	void ActivateFlagReset();
+	void SetActivate();
+	bool Process();
+
 	bool StartWrite();
 	bool WriteStr(std::string pStr, unsigned int pSize);
 	template<class T> bool WriteNum(T pValue) {
