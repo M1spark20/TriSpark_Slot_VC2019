@@ -3,6 +3,7 @@
 #include "_header/CGetSysDataFromCSV.hpp"
 #include "_header/CSlotFlowList.hpp"
 #include "_header/keyexport.h"
+#include "_header/CRestoreManager.hpp"
 #include "DxLib.h"
 
 bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
@@ -27,6 +28,11 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		sysReader.GetSysDataID("menuTitleFont")
 	)) return false;
 	
+	CRestoreManagerRead reader;
+	if (reader.StartRead()) {
+		if (!m_data.internalDataManager.ReadRestore(reader)) return false;
+		if (!m_data.reelManager.ReadRestore(reader)) return false;
+	}
 
 	m_pFlowManager = new CSlotFlowBet;
 	return m_pFlowManager->Init(m_data);
@@ -62,6 +68,15 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 	m_data.reelManager.Process(m_data.timeManager);
 	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data);
 	m_menuManager.Process(pDataManageIns);
+	
+	// データ保存
+	if (m_data.restoreManager.IsActivate()) {
+		if(!m_data.restoreManager.StartWrite()) return eStateErrEnd;
+		if(!m_data.internalDataManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
+		if(!m_data.reelManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
+		if(!m_data.restoreManager.Flush()) return eStateErrEnd;
+	}
+	
 	return eStateContinue;
 }
 

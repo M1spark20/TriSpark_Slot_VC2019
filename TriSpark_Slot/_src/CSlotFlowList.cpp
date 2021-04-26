@@ -11,8 +11,11 @@ bool CSlotFlowBet::Init(SSlotGameDataWrapper& pGameData){
 	pGameData.timeManager.SetTimer(eTimerBetWaitStart);
 	const unsigned int lastBetCount = pGameData.internalDataManager.GetData().betNum;
 	pGameData.internalDataManager.ResetBetCount(false);
-	if (pGameData.internalDataManager.GetData().isReplay)
+	if (pGameData.internalDataManager.GetData().isReplay) {
 		SetBetFor(pGameData, lastBetCount, true);
+	} else {
+		pGameData.restoreManager.SetActivate();
+	}
 	return true;
 }
 
@@ -68,8 +71,10 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 			if (nowBetCount >= (unsigned int)m_betFor){
 				pGameData.timeManager.DisableTimer(eTimerBetInput);
 				// レバーを有効にできるか
-				if (pGameData.randManager.GetBetAvailable(intData.gameMode, nowBetCount))
+				if (pGameData.randManager.GetBetAvailable(intData.gameMode, nowBetCount)) {
 					pGameData.timeManager.SetTimer(eTimerLeverAvailable);
+					if (intData.isReplay) pGameData.restoreManager.SetActivate();
+				}
 				break;
 			} else {
 				pGameData.internalDataManager.AddBetCount(intData.isReplay);
@@ -97,6 +102,8 @@ bool CSlotFlowWaiting::Init(SSlotGameDataWrapper& pGameData){
 	pGameData.randManager.Role(pGameData.internalDataManager);
 	// タイマーセット
 	pGameData.timeManager.SetTimer(eTimerWaitStart);
+	// データ保存フラグリセット
+	pGameData.restoreManager.ActivateFlagReset();
 	return true;
 }
 
