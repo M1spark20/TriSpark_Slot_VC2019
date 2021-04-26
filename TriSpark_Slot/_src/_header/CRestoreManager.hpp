@@ -47,6 +47,12 @@ class CRestoreManagerWrite : public IRestoreManager {
 	bool mResetFlag;
 
 public:
+	CRestoreManagerWrite() {
+		mCheckSum = 0x00;
+		mActivateFlag = false;
+		mResetFlag = true;
+	}
+
 	bool IsActivate();
 	void ActivateFlagReset();
 	void SetActivate();
@@ -59,10 +65,10 @@ public:
 		if (!mOfs) return false;
 
 		// チェックサム加算
-		const char* dataPtr = (char*)&pValue;
+		const unsigned char* dataPtr = (unsigned char*)&pValue;
 		for (unsigned int i = 0; i < sizeof(pValue); ++i) {
 			if (i > 0) ++dataPtr;
-			char data = *dataPtr & 0xFF;
+			unsigned char data = *dataPtr & 0xFF;
 			mCheckSum = (mCheckSum + data) & 0xFF;
 		}
 		return true;

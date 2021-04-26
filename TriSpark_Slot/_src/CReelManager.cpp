@@ -185,6 +185,7 @@ bool CReelManager::ReadRestore(CRestoreManagerRead& pReader) {
 		if (!pReader.ReadNum(setPos)) return false;
 		m_reelChaData[i].ReelStop(setPos, true);
 	}
+	return true;
 }
 
 bool CReelManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
@@ -192,6 +193,7 @@ bool CReelManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 	for (int i = 0; i < GetReelNum(); ++i) {
 		if (!pWriter.WriteNum((int)GetReelPos(i))) return false;
 	}
+	return true;
 }
 
 CReelManager::~CReelManager(){

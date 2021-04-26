@@ -49,9 +49,10 @@ void CRestoreManagerRead::CloseRead() {
 
 
 bool CRestoreManagerWrite::IsActivate() {
-	if (mActivateFlag && !mResetFlag) return false;
-	mResetFlag = true;
+	const bool ans = (mActivateFlag && !mResetFlag);
+	if(ans) mResetFlag = true;
 	mActivateFlag = false;
+	return ans;
 }
 
 void CRestoreManagerWrite::ActivateFlagReset() {
@@ -82,7 +83,8 @@ bool CRestoreManagerWrite::WriteStr(std::string pStr, unsigned int pSize) {
 }
 
 bool CRestoreManagerWrite::Flush() {
-	if (!WriteNum(~mCheckSum + 0x01)) return false;
+	const unsigned char checkSum = ~mCheckSum + (unsigned char)1;
+	if (!WriteNum(checkSum)) return false;
 	if (mCheckSum != 0x00) return false;
 	mOfs.close();
 	mOfs.clear();
