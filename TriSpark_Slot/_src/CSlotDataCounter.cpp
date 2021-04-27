@@ -1,6 +1,7 @@
 ﻿#include "_header/CSlotDataCounter.hpp"
 #include "_header/CSlotInternalDataManager.hpp"
 #include "_header/CReelManager.hpp"
+#include "_header/CRestoreManager.hpp"
 
 CSlotDataCounter::CSlotDataCounter() {
 	mLastGameMode = 0;
@@ -120,4 +121,99 @@ int CSlotDataCounter::GetBonusRateX10(int pGameModeType) const {
 	const int bonusNum = GetBonusCount(pGameModeType);
 	if (bonusNum == 0) return 0;
 	return mCountData.totalGame * 10 / bonusNum;
+}
+
+
+bool CSlotDataCounter::ReadRestore(CRestoreManagerRead& pReader) {
+	if (!pReader.ReadNum(mCountData.totalGame)) return false;
+	if (!pReader.ReadNum(mCountData.startGame)) return false;
+	if (!pReader.ReadNum(mCountData.inCount)) return false;
+	if (!pReader.ReadNum(mCountData.outCount)) return false;
+	if (!pReader.ReadNum(mCountData.payoutRate)) return false;
+	if (!pReader.ReadNum(mCountData.payoutRateX10)) return false;
+
+	if (!pReader.ReadNum(mLastGameMode)) return false;
+	if (!pReader.ReadNum(mLastBonusFlag)) return false;
+	if (!pReader.ReadNum(mNextStoreGraphGame)) return false;
+
+	size_t loopCount = 0;
+	if (!pReader.ReadNum(loopCount)) return false;
+	for (size_t i = 0; i < loopCount; ++i) {
+		int coin = 0;
+		if (!pReader.ReadNum(coin)) return false;
+		mCoinStatusForGraph.push_back(coin);
+	}
+
+	if (!pReader.ReadNum(loopCount)) return false;
+	for (size_t i = 0; i < loopCount; ++i) {
+		SSlotDataCounterBonusHistoryData data;
+		if (!pReader.ReadNum(data.startGame)) return false;
+		if (!pReader.ReadNum(data.medalBefore)) return false;
+		if (!pReader.ReadNum(data.medalAfter)) return false;
+		if (!pReader.ReadNum(data.getPayoutEffect)) return false;
+		if (!pReader.ReadNum(data.flagLossGame)) return false;
+
+		size_t reelNum = 0;
+		if (!pReader.ReadNum(reelNum)) return false;
+		for (int j = 0; j < reelNum; ++j) {
+			int reelPos = 0;
+			if (!pReader.ReadNum(reelPos)) return false;
+			data.flagMageGameReelPos.push_back(reelPos);
+		}
+
+		if (!pReader.ReadNum(data.isActivate)) return false;
+		if (!pReader.ReadNum(data.isSetGet)) return false;
+		mBonusHistory.push_back(data);
+	}
+
+	if (!pReader.ReadNum(loopCount)) return false;
+	for (size_t i = 0; i < loopCount; ++i) {
+		std::pair<int, int> bCount;
+		if (!pReader.ReadNum(bCount)) return false;
+		mBonusCount.push_back(bCount);
+	}
+
+	return true;
+}
+
+bool CSlotDataCounter::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	if (!pWriter.WriteNum(mCountData.totalGame)) return false;
+	if (!pWriter.WriteNum(mCountData.startGame)) return false;
+	if (!pWriter.WriteNum(mCountData.inCount)) return false;
+	if (!pWriter.WriteNum(mCountData.outCount)) return false;
+	if (!pWriter.WriteNum(mCountData.payoutRate)) return false;
+	if (!pWriter.WriteNum(mCountData.payoutRateX10)) return false;
+
+	if (!pWriter.WriteNum(mLastGameMode)) return false;
+	if (!pWriter.WriteNum(mLastBonusFlag)) return false;
+	if (!pWriter.WriteNum(mNextStoreGraphGame)) return false;
+
+	if (!pWriter.WriteNum((size_t)mCoinStatusForGraph.size())) return false;
+	for (size_t i = 0; i < mCoinStatusForGraph.size(); ++i) {
+		if (!pWriter.WriteNum(mCoinStatusForGraph[i])) return false;
+	}
+
+	if (!pWriter.WriteNum((size_t)mBonusHistory.size())) return false;
+	for (size_t i = 0; i < mBonusHistory.size(); ++i) {
+		if (!pWriter.WriteNum(mBonusHistory[i].startGame)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].medalBefore)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].medalAfter)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].getPayoutEffect)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].flagLossGame)) return false;
+
+		if (!pWriter.WriteNum((size_t)mBonusHistory[i].flagMageGameReelPos.size())) return false;
+		for (int j = 0; j < mBonusHistory[i].flagMageGameReelPos.size(); ++j) {
+			if (!pWriter.WriteNum(mBonusHistory[i].flagMageGameReelPos[j])) return false;
+		}
+
+		if (!pWriter.WriteNum(mBonusHistory[i].isActivate)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].isSetGet)) return false;
+	}
+
+	if (!pWriter.WriteNum((size_t)mBonusCount.size())) return false;
+	for (size_t i = 0; i < mBonusCount.size(); ++i) {
+		if (!pWriter.WriteNum(mBonusCount[i])) return false;
+	}
+
+	return true;
 }

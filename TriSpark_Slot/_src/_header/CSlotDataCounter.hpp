@@ -4,6 +4,8 @@
 #include <deque>
 class CSlotInternalDataManager;
 class CReelManager;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 class CSlotDataCounter {
 	SSlotDataCounterComponent	mCountData;
@@ -30,4 +32,6 @@ public:
 
 	// bool DrawCoinGraphData();
 
+	bool ReadRestore(CRestoreManagerRead& pReader);
+	bool WriteRestore(CRestoreManagerWrite& pWriter) const;
 };
