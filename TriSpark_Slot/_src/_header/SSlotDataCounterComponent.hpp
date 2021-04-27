@@ -1,10 +1,14 @@
 ﻿#pragma once
+#include <vector>
 
 struct SSlotDataCounterBonusHistoryData {
 	int startGame;
 	int medalBefore;
 	int medalAfter;
-	int getPayoutEffect;
+	int getPayoutEffect;	// 図柄特定用
+	int flagLossGame;
+	std::vector<int> flagMageGameReelPos;
+	bool isActivate;
 	bool isSetGet;
 
 	SSlotDataCounterBonusHistoryData() {
@@ -12,6 +16,8 @@ struct SSlotDataCounterBonusHistoryData {
 		medalBefore = -1;
 		medalAfter = -1;
 		getPayoutEffect = -1;
+		flagLossGame = 0;
+		isActivate = false;
 		isSetGet = false;
 	}
 };

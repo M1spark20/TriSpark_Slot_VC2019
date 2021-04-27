@@ -1,8 +1,11 @@
 ﻿#include "_header/CSlotDataCounter.hpp"
 #include "_header/CSlotInternalDataManager.hpp"
+#include "_header/CReelManager.hpp"
 
 CSlotDataCounter::CSlotDataCounter() {
 	mLastGameMode = 0;
+	mLastBonusFlag = 0;
+	mNextStoreGraphGame = GRAPH_INTERVAL;
 }
 
 void CSlotDataCounter::PayoutCalculate() {
@@ -21,33 +24,51 @@ void CSlotDataCounter::ReelStart(const CSlotInternalDataManager& pInternal) {
 	// inCountのみ同期
 	mCountData.inCount = internalData.inCount;
 	PayoutCalculate();
+
+	// グラフ描画ゲーム減算(0で描画点追加)
+	--mNextStoreGraphGame;
+
+	// ボーナス成立後はlossGame加算
+	if (!mBonusHistory.empty()){
+		if (!mBonusHistory.rbegin()->isActivate) ++mBonusHistory.rbegin()->flagLossGame;
+	}
 }
 
 // 呼び出しタイミング:払い出し終了後
-void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, const int pPayoutEffect) {
+void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal,const CReelManager& pReel, const int pPayoutEffect) {
 	const auto internalData = pInternal.GetData();
 
 	mCountData.inCount = internalData.inCount;
 	mCountData.outCount = internalData.outCount;
 	PayoutCalculate();
 
+	// ボーナス成立察知
+	if (mLastBonusFlag != internalData.flag.second && mLastBonusFlag == 0) {
+		SSlotDataCounterBonusHistoryData bonusHistory;
+		bonusHistory.flagMageGameReelPos = pReel.GetReelPos();
+		mBonusHistory.push_back(bonusHistory);
+	}
+	mLastBonusFlag = internalData.flag.second;
+
 	if (mLastGameMode != internalData.gameMode) {
 		if (mLastGameMode == 0) {
 			// ボーナススタート
-			SSlotDataCounterBonusHistoryData bonusHistory;
-			bonusHistory.startGame = mCountData.startGame;
-			bonusHistory.medalBefore = mCountData.outCount - mCountData.inCount;
-			bonusHistory.getPayoutEffect = pPayoutEffect;
-			mBonusHistory.push_back(bonusHistory);
+			if (!mBonusHistory.empty()) {
+				SSlotDataCounterBonusHistoryData& bonusHistory = *mBonusHistory.rbegin();
+				bonusHistory.startGame = mCountData.startGame;
+				bonusHistory.medalBefore = mCountData.outCount - mCountData.inCount;
+				bonusHistory.getPayoutEffect = pPayoutEffect;
+				bonusHistory.isActivate = true;
 
-			bool addFlag = false;
-			for (auto& bCount : mBonusCount) {
-				if (bCount.first != internalData.gameMode) continue;
-				++bCount.second;
-				addFlag = true;	break;
-			}
-			if (!addFlag) {
-				mBonusCount.push_back(std::pair<int, int>(internalData.gameMode, 1));
+				bool addFlag = false;
+				for (auto& bCount : mBonusCount) {
+					if (bCount.first != internalData.gameMode) continue;
+					++bCount.second;
+					addFlag = true;	break;
+				}
+				if (!addFlag) {
+					mBonusCount.push_back(std::pair<int, int>(internalData.gameMode, 1));
+				}
 			}
 		} else {
 			// ボーナス終了
@@ -61,16 +82,33 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal, cons
 	}
 	mLastGameMode = internalData.gameMode;
 
-	// グラフ実装は後で
+	// グラフ用描画点定義
+	if (mNextStoreGraphGame <= 0) {
+		mNextStoreGraphGame = GRAPH_INTERVAL;
+		if (mCoinStatusForGraph.size() >= (size_t)GRAPH_MAXSIZE) mCoinStatusForGraph.pop_front();
+		mCoinStatusForGraph.push_back(mCountData.outCount - mCountData.inCount);
+	}
 }
 
 SSlotDataCounterBonusHistoryData CSlotDataCounter::GetBonusHistory(int pHistCount) const {
+	// ボーナス入賞前の場合、データを1つスキップする
+	if (mBonusHistory.empty()) return SSlotDataCounterBonusHistoryData();
+	if (!mBonusHistory.rbegin()->isActivate) ++pHistCount;
+
 	if (pHistCount < 0 || (size_t)pHistCount >= mBonusHistory.size())
 		return SSlotDataCounterBonusHistoryData();
 	return mBonusHistory[mBonusHistory.size() - 1 - (size_t)pHistCount];
 }
 
 int CSlotDataCounter::GetBonusCount(int pGameModeType) const {
+	// 全ボーナス合算
+	if (pGameModeType <= 0) {
+		int ans = 0;
+		for (auto& bCount : mBonusCount) { ans += bCount.second; }
+		return ans;
+	}
+
+	// 各種ボーナスのみ
 	for (auto& bCount : mBonusCount) {
 		if (bCount.first != pGameModeType) continue;
 		return bCount.second;
