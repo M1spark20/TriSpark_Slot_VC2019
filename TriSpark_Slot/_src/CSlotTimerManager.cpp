@@ -1,5 +1,6 @@
 ﻿#include "_header/CSlotTimerManager.hpp"
 #include "_header/CEffectVariableManager.hpp"
+#include "_header/CRestoreManager.hpp"
 #include "DxLib.h"
 #include "_header/ErrClass.hpp"
 #include <stdexcept>
@@ -74,6 +75,17 @@ bool CSlotTimerManager::SetTimer(EReelTimerID pID, int pReelID, int offset){
 		m_timerData[index].lastGetVal = m_lastCount - offset;
 	}
 	return true;
+}
+
+bool CSlotTimerManager::SetTimer(std::string pID, int offset) {
+	for (const auto& data : mTimerNameList) {
+		if (pID != data.first) continue;
+		m_timerData[data.second].enable		= true;
+		m_timerData[data.second].originVal	= m_lastCount - offset;
+		m_timerData[data.second].lastGetVal = m_lastCount - offset;
+		return true;
+	}
+	return false;
 }
 
 bool CSlotTimerManager::DisableTimer(ESystemTimerID pID){
@@ -197,6 +209,40 @@ bool CSlotTimerManager::ResetTimerFromTimerHandle(const SSlotTimerStopData& pAct
 		e.WriteErrLog();
 		return false;
 	}
+}
+
+bool CSlotTimerManager::ReadRestore(CRestoreManagerRead& pReader) {
+	// システムタイマ / リールタイマ / ユーザタイマ共通で保存(すべてmTimerNameListに登録されているため)
+	// 有効になっているものだけ記載される
+	int timerNum = 0;
+	if (!pReader.ReadNum(timerNum)) return false;
+	for (int i = 0; i < timerNum; ++i) {
+		std::string name;
+		if (!pReader.ReadStr(name)) return false;
+		if (!SetTimer(name)) return false;
+	}
+	return true;
+}
+
+bool CSlotTimerManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	// システムタイマ / リールタイマ / ユーザタイマ共通で保存(すべてmTimerNameListに登録されているため)
+	// 有効になっているものだけ記載する
+
+	// 有効性・有効タイマ数チェック
+	int timerNum = 0;
+	for (auto& data : mTimerNameList) {
+		long long temp;
+		if (GetTimeFromTimerHandle(temp, data.second)) ++timerNum;
+	}
+
+	// 書き出し
+	if (!pWriter.WriteNum(timerNum)) return false;
+	for (auto& data : mTimerNameList) {
+		long long temp;
+		if (!GetTimeFromTimerHandle(temp, data.second)) continue;
+		if (!pWriter.WriteStr(data.first)) return false;
+	}
+	return true;
 }
 
 

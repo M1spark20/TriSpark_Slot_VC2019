@@ -5,6 +5,8 @@
 #include <string>
 #include <set>
 class CEffectVariableManager;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 enum ESystemTimerID{
 	eTimerGameStart,
@@ -60,6 +62,7 @@ public:
 	bool	Process();
 	bool	SetTimer(ESystemTimerID pID, int offset = 0);
 	bool	SetTimer(EReelTimerID pID, int pReelID, int offset = 0);
+	bool	SetTimer(std::string pID, int offset = 0);
 	bool	DisableTimer(ESystemTimerID pID);
 	bool	DisableTimer(EReelTimerID pID, int pReelID);
 	bool	GetTime(long long& pInputFor, ESystemTimerID pID) const;
@@ -72,6 +75,9 @@ public:
 	bool	GetTimeFromTimerHandle(long long& pInputFor, int pHandle) const;
 	bool	SetTimerFromTimerHandle(const SSlotTimerActionData& pActionData, const CEffectVariableManager& pVar);
 	bool	ResetTimerFromTimerHandle(const SSlotTimerStopData& pActionData, const CEffectVariableManager& pVar);
+
+	bool	ReadRestore(CRestoreManagerRead& pReader);
+	bool	WriteRestore(CRestoreManagerWrite& pWriter) const;
 };
 
 
