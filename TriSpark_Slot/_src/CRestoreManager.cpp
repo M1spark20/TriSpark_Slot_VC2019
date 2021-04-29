@@ -33,11 +33,13 @@ bool CRestoreManagerRead::StartRead() {
 	return true;
 }
 
-bool CRestoreManagerRead::ReadStr(std::string& pInputFor, unsigned int pSize) {
-	char data;
-	for (unsigned int i = 0; i < pSize; ++i) {
+bool CRestoreManagerRead::ReadStr(std::string& pInputFor) {
+	char data = '\0';
+	size_t dataSize = 0;
+	if (!ReadNum(dataSize)) return false;
+	for (size_t i = 0; i < dataSize; ++i) {
 		if(!ReadNum(data)) return false;
-		if(data != '\0') pInputFor += data;
+		pInputFor += data;
 	}
 	return true;
 }
@@ -72,11 +74,11 @@ bool CRestoreManagerWrite::StartWrite() {
 	return true;
 }
 
-bool CRestoreManagerWrite::WriteStr(std::string pStr, unsigned int pSize) {
+bool CRestoreManagerWrite::WriteStr(std::string pStr) {
 	char data;
-	for (unsigned int i = 0; i < pSize; ++i) {
-		if (i >= pStr.size()) data = '\0';
-		else data = pStr[i];
+	if (!WriteNum((size_t)pStr.size())) return false;
+	for (size_t i = 0; i < pStr.size(); ++i) {
+		data = pStr[i];
 		if(!WriteNum(data)) return false;
 	}
 	return true;

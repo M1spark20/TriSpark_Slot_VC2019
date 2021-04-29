@@ -19,7 +19,7 @@ class CRestoreManagerRead : public IRestoreManager {
 
 public:
 	bool StartRead();
-	bool ReadStr(std::string& pInputFor, unsigned int pSize);
+	bool ReadStr(std::string& pInputFor);
 	template<class T> bool ReadNum(T& pInputFor) {
 		mIfs.read((char*)&pInputFor, sizeof(pInputFor));
 		return (bool)mIfs;
@@ -59,7 +59,7 @@ public:
 	bool Process();
 
 	bool StartWrite();
-	bool WriteStr(std::string pStr, unsigned int pSize);
+	bool WriteStr(std::string pStr);
 	template<class T> bool WriteNum(T pValue) {
 		mOfs.write((char*)&pValue, sizeof(pValue));
 		if (!mOfs) return false;
