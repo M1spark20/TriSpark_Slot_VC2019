@@ -31,6 +31,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	CRestoreManagerRead reader;
 	if (reader.StartRead()) {
 		if (!m_data.internalDataManager.ReadRestore(reader)) return false;
+		if (!m_data.dataCounter.ReadRestore(reader)) return false;
 		if (!m_data.reelManager.ReadRestore(reader)) return false;
 	}
 
@@ -73,6 +74,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 	if (m_data.restoreManager.IsActivate()) {
 		if(!m_data.restoreManager.StartWrite()) return eStateErrEnd;
 		if(!m_data.internalDataManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
+		if(!m_data.dataCounter.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.reelManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.restoreManager.Flush()) return eStateErrEnd;
 	}
