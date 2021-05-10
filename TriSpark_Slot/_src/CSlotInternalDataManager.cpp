@@ -163,6 +163,7 @@ void CSlotInternalDataManager::CheckGameModeEnd(bool pGameCount, bool pGetCount)
 
 bool CSlotInternalDataManager::ReadRestore(CRestoreManagerRead& pReader) {
 	if (!pReader.ReadNum(m_data.set)) return false;
+	if (!pReader.ReadNum(m_data.flag)) return false;
 	if (!pReader.ReadNum(m_data.gameMode)) return false;
 	if (!pReader.ReadNum(m_data.gameModeLimit)) return false;
 	if (!pReader.ReadNum(m_data.isGameLimit)) return false;
@@ -187,6 +188,7 @@ bool CSlotInternalDataManager::ReadRestore(CRestoreManagerRead& pReader) {
 
 bool CSlotInternalDataManager::WriteRestore(CRestoreManagerWrite& pWriter) {
 	if (!pWriter.WriteNum(m_data.set)) return false;
+	if (!pWriter.WriteNum(m_data.flag)) return false;
 	if (!pWriter.WriteNum(m_data.gameMode)) return false;
 	if (!pWriter.WriteNum(m_data.gameModeLimit)) return false;
 	if (!pWriter.WriteNum(m_data.isGameLimit)) return false;
