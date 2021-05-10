@@ -219,6 +219,7 @@ bool CSlotTimerManager::ReadRestore(CRestoreManagerRead& pReader) {
 	for (int i = 0; i < timerNum; ++i) {
 		std::string name;
 		if (!pReader.ReadStr(name)) return false;
+		if (i < eTimerSystemTimerMax + m_reelNumMax*eTimerReelTimerMax) continue;
 		if (!SetTimer(name)) return false;
 	}
 	return true;
