@@ -219,7 +219,6 @@ bool CSlotTimerManager::ReadRestore(CRestoreManagerRead& pReader) {
 	for (int i = 0; i < timerNum; ++i) {
 		std::string name;
 		if (!pReader.ReadStr(name)) return false;
-		if (i < eTimerSystemTimerMax + m_reelNumMax*eTimerReelTimerMax) continue;
 		if (!SetTimer(name)) return false;
 	}
 	return true;
@@ -231,14 +230,18 @@ bool CSlotTimerManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 
 	// 有効性・有効タイマ数チェック
 	int timerNum = 0;
-	for (auto& data : mTimerNameList) {
+	const int startNum = eTimerSystemTimerMax + m_reelNumMax * eTimerReelTimerMax;
+
+	for (int i = startNum; i < mTimerNameList.size(); ++i) {
+		auto& data = mTimerNameList[i];
 		long long temp;
 		if (GetTimeFromTimerHandle(temp, data.second)) ++timerNum;
 	}
 
 	// 書き出し
 	if (!pWriter.WriteNum(timerNum)) return false;
-	for (auto& data : mTimerNameList) {
+	for (int i = startNum; i < mTimerNameList.size(); ++i) {
+		auto& data = mTimerNameList[i];
 		long long temp;
 		if (!GetTimeFromTimerHandle(temp, data.second)) continue;
 		if (!pWriter.WriteStr(data.first)) return false;
