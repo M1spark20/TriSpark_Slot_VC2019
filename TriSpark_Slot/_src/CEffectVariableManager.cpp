@@ -329,6 +329,33 @@ bool CEffectVariableManager::RoleVar(const SEffectVariableRoleData& pData) {
 	}
 }
 
+bool CEffectVariableManager::ReadRestore(CRestoreManagerRead& pReader) {
+	size_t registNum = 0;
+	if (!pReader.ReadNum(registNum)) return false;
+	for (size_t i = 0; i < registNum; ++i) {
+		std::string name;
+		int value = 0;
+		if (!pReader.ReadStr(name)) return false;
+		if (!pReader.ReadNum(value)) return false;
+		try {
+			SetVarVal(name, value);
+		}
+		catch (ErrUndeclaredVar e) { return false; }
+	}
+	return true;
+}
+
+bool CEffectVariableManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	if (!pWriter.WriteNum(mVariableName.size()));
+	for (const auto& data : mVariableName) {
+		if (!pWriter.WriteStr(data.first)) return false;
+		try {
+			if (!pWriter.WriteNum(GetVal(data.second))) return false;
+		} catch (ErrUndeclaredVar e) { return false; }
+	}
+	return true;
+}
+
 
 CEffectVariableManager::~CEffectVariableManager() {
 	for (auto it = mScreenData.begin(); it != mScreenData.end(); ++it) {

@@ -6,6 +6,8 @@
 
 class CGameDataManage;
 struct SSlotGameDataWrapper;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 class CSlotEffectManager {
 	SSlotEffectData			mEffectData;
@@ -17,4 +19,7 @@ public:
 	bool Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, const SSlotGameDataWrapper& pWrapper);
 	bool Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer);
 	bool RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData);
+
+	bool ReadRestore(CRestoreManagerRead& pReader);
+	bool WriteRestore(CRestoreManagerWrite& pWriter) const;
 };

@@ -34,6 +34,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		if (!m_data.dataCounter.ReadRestore(reader)) return false;
 		if (!m_data.reelManager.ReadRestore(reader)) return false;
 		if (!m_data.timeManager.ReadRestore(reader)) return false;
+		if (!m_data.effectManager.ReadRestore(reader)) return false;
 	}
 
 	m_pFlowManager = new CSlotFlowBet;
@@ -78,6 +79,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 		if(!m_data.dataCounter.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.reelManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.timeManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
+		if(!m_data.effectManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.restoreManager.Flush()) return eStateErrEnd;
 	}
 	

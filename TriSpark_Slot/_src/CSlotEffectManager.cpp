@@ -2,6 +2,7 @@
 #include "_header/CReadEffectDataFromCSV.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/SSlotGameDataWrapper.hpp"
+#include "_header/CRestoreManager.hpp"
 #include "_header/ErrClass.hpp"
 
 bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTimerManager& pTimer, CReelManager& pReel) {
@@ -102,4 +103,12 @@ bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTi
 
 bool CSlotEffectManager::RingSound(CSlotTimerManager& pTimer, CGameDataManage& pGameData) {
 	return mSoundManager.RingAction(pTimer, pGameData);
+}
+
+bool CSlotEffectManager::ReadRestore(CRestoreManagerRead& pReader) {
+	return mVariableManager.ReadRestore(pReader);
+}
+
+bool CSlotEffectManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	return mVariableManager.WriteRestore(pWriter);
 }

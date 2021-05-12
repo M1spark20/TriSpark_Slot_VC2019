@@ -9,6 +9,8 @@ class CSlotInternalDataManager;
 class CSlotCastChecker;
 class CReelManager;
 struct SSlotGameDataWrapper;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 struct SEffectVariableInsertData {
 	enum class EOperand { eAdd, eSub, eMul, eDiv, eMod };
@@ -51,6 +53,9 @@ public:
 
 	bool InsertVar(const SEffectVariableInsertData& pData);
 	bool RoleVar(const SEffectVariableRoleData& pData);
+
+	bool ReadRestore(CRestoreManagerRead& pReader);
+	bool WriteRestore(CRestoreManagerWrite& pWriter) const;
 
 	~CEffectVariableManager();
 };
