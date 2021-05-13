@@ -180,19 +180,15 @@ int CReelManager::GetComaDetailPos(int pReelID) const {
 bool CReelManager::ReadRestore(CRestoreManagerRead& pReader) {
 	int reelCount = 0;
 	if (!pReader.ReadNum(reelCount)) return false;
-	for (int i = 0; i < reelCount; ++i) {
-		int setPos = 0;
-		if (!pReader.ReadNum(setPos)) return false;
-		m_reelChaData[i].ReelStop(setPos, true);
-	}
+	for (int i = 0; i < reelCount; ++i)
+		if (!m_reelChaData[i].ReadRestore(pReader)) return false;
 	return true;
 }
 
 bool CReelManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 	if (!pWriter.WriteNum((int)GetReelNum())) return false;
-	for (int i = 0; i < GetReelNum(); ++i) {
-		if (!pWriter.WriteNum((int)GetReelPos(i))) return false;
-	}
+	for (int i = 0; i < GetReelNum(); ++i)
+		if (!m_reelChaData[i].WriteRestore(pWriter)) return false;
 	return true;
 }
 

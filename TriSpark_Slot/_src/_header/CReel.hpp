@@ -9,6 +9,8 @@ class CSlotTimerManager;
 class IImageSourceManager;
 class CImageColorManager;
 class CImageColorController;
+class CRestoreManagerRead;
+class CRestoreManagerWrite;
 
 enum class EReelStatus{
 	eInitial,
@@ -47,6 +49,9 @@ public:
 	int				GetReelComaByReelPos(int pOffset) const;
 	int				GetReelComaByFixedPos(int pComaID) const;
 	int				GetReelDetailPos() const;
+
+	bool			ReadRestore(CRestoreManagerRead& pReader);
+	bool			WriteRestore(CRestoreManagerWrite& pWriter) const;
 
 	bool			Process(CSlotTimerManager& pTimer);
 	bool			DrawReel(const CGameDataManage& pDataManager, SReelDrawData pData, int pCanvas) const;

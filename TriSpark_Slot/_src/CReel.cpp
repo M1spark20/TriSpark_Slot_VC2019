@@ -6,6 +6,7 @@
 #include "_header/ImageSourceManager.hpp"
 #include "_header/CImageColorManager.hpp"
 #include "_header/CImageColorController.hpp"
+#include "_header/CRestoreManager.hpp"
 #include <cmath>
 
 bool CReel::Init(const SReelChaData& pReelData){
@@ -246,4 +247,18 @@ int CReel::GetReelDetailPos() const {
 	if (m_nowStatus == EReelStatus::eAccerating || m_nowStatus == EReelStatus::eRotating) return -1;
 	const int pos = (int)(m_pushPos * 16.f / m_reelData.reelData[0].h);
 	return pos;
+}
+
+bool CReel::ReadRestore(CRestoreManagerRead& pReader) {
+	int setPos = 0;
+	if (!pReader.ReadNum(setPos)) return false;
+	ReelStop(setPos, true);
+	if (!pReader.ReadNum(m_pushPos)) return false;
+	return true;
+}
+
+bool CReel::WriteRestore(CRestoreManagerWrite& pWriter) const {
+	if (!pWriter.WriteNum(GetReelPos())) return false;
+	if (!pWriter.WriteNum(m_pushPos)) return false;
+	return true;
 }
