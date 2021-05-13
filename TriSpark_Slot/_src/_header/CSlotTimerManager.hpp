@@ -56,6 +56,7 @@ class CSlotTimerManager{
 
 	std::vector<std::pair<std::string, int>> mTimerNameList;
 	std::set<std::string> mDuplicateFinder;
+	std::vector<std::string> mResumeTimerID;
 
 public:
 	bool	Init(int pReelNum);

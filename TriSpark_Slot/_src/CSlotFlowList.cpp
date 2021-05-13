@@ -13,8 +13,6 @@ bool CSlotFlowBet::Init(SSlotGameDataWrapper& pGameData){
 	pGameData.internalDataManager.ResetBetCount(false);
 	if (pGameData.internalDataManager.GetData().isReplay) {
 		SetBetFor(pGameData, lastBetCount, true);
-	} else {
-		pGameData.restoreManager.SetActivate();
 	}
 	return true;
 }
@@ -81,6 +79,8 @@ ESlotFlowFlag CSlotFlowBet::Process(SSlotGameDataWrapper& pGameData){
 			}
 		}
 	}
+
+	if (!intData.isReplay) pGameData.restoreManager.SetActivate();
 	return eFlowContinue;
 }
 

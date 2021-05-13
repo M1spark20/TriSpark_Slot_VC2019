@@ -48,6 +48,12 @@ bool CSlotTimerManager::Process(){
 	int nowCount = DxLib::GetNowCount();
 	if (m_lastCount % ((long long)INT_MAX+1) > nowCount) ++m_resetCount;
 	m_lastCount = nowCount + m_resetCount * ((long long)INT_MAX+1);
+
+	if (!mResumeTimerID.empty()) {
+		for (const auto& data : mResumeTimerID) if (!SetTimer(data)) return false;
+		mResumeTimerID.clear();
+	}
+
 	return true;
 }
 
@@ -219,7 +225,7 @@ bool CSlotTimerManager::ReadRestore(CRestoreManagerRead& pReader) {
 	for (int i = 0; i < timerNum; ++i) {
 		std::string name;
 		if (!pReader.ReadStr(name)) return false;
-		if (!SetTimer(name)) return false;
+		mResumeTimerID.push_back(name);
 	}
 	return true;
 }

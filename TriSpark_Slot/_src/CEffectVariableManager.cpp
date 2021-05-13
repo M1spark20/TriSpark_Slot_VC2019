@@ -346,7 +346,7 @@ bool CEffectVariableManager::ReadRestore(CRestoreManagerRead& pReader) {
 }
 
 bool CEffectVariableManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
-	if (!pWriter.WriteNum(mVariableName.size()));
+	if (!pWriter.WriteNum(mVariableName.size())) return false;
 	for (const auto& data : mVariableName) {
 		if (!pWriter.WriteStr(data.first)) return false;
 		try {
