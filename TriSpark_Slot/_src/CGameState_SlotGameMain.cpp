@@ -37,6 +37,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		if (!m_data.effectManager.ReadRestore(reader)) return false;
 	}
 
+	m_data.timeManager.Process();
 	m_pFlowManager = new CSlotFlowBet;
 	return m_pFlowManager->Init(m_data);
 }
