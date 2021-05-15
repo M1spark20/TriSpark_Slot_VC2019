@@ -238,7 +238,8 @@ bool CSlotTimerManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 	int timerNum = 0;
 	const int startNum = eTimerSystemTimerMax + m_reelNumMax * eTimerReelTimerMax;
 
-	for (int i = startNum; i < mTimerNameList.size(); ++i) {
+	for (int i = 0; i < mTimerNameList.size(); ++i) {
+		if (i < startNum && i != eTimerPayout) continue;
 		auto& data = mTimerNameList[i];
 		long long temp;
 		if (GetTimeFromTimerHandle(temp, data.second)) ++timerNum;
@@ -246,7 +247,8 @@ bool CSlotTimerManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 
 	// 書き出し
 	if (!pWriter.WriteNum(timerNum)) return false;
-	for (int i = startNum; i < mTimerNameList.size(); ++i) {
+	for (int i = 0; i < mTimerNameList.size(); ++i) {
+		if (i < startNum && i != eTimerPayout) continue;
 		auto& data = mTimerNameList[i];
 		long long temp;
 		if (!GetTimeFromTimerHandle(temp, data.second)) continue;
