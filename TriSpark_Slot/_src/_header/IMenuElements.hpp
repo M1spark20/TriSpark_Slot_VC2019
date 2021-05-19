@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#include "SReelHistoryData.hpp"
 class CGameDataManage;
 class CMenuReadHowtoFromCSV;
+class CReelManager;
 
 enum class EMenuList {
 	eContinue,
@@ -47,9 +49,15 @@ public:
 };
 
 class CMenuReelHistory : public IMenuElements {
-	const int				mFontHandle;
+	const int						mFontHandle;
+	const int						mFontHandleMid;
+	int								mHistBaseImgID;
+	int								mReelImgID;
+	std::vector<SReelHistoryData>	mHistoryData;
+	size_t							mNowPage;
+
 public:
-	CMenuReelHistory(const int pDataFontHandle, const int pBaseImgID, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
+	CMenuReelHistory(CGameDataManage& pGameData, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const CReelManager& pReelData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
 	bool Init() override;						// ライセンスファイル読み込み
 	bool Process() override;					// none
 	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)

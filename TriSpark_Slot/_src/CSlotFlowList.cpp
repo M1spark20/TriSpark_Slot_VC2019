@@ -127,7 +127,7 @@ bool CSlotFlowReelAcc::Init(SSlotGameDataWrapper& pGameData){
 	// リール始動(各リールのタイマー制御はCReel側で行う)
 	const auto data = pGameData.internalDataManager.GetData();
 	for (int i = 0; i < pGameData.reelManager.GetReelNum(); ++i){
-		pGameData.reelManager.StartReel(data.flag.first, data.flag.second);
+		pGameData.reelManager.StartReel(data.flag.first, data.flag.second, data.betNum);
 	}
 
 	pGameData.timeManager.DisableTimer(eTimerAllReelStop);
@@ -183,6 +183,7 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 
 bool CSlotFlowPayout::Init(SSlotGameDataWrapper& pGameData){
 	pGameData.timeManager.SetTimer(eTimerPayout);
+	if (pGameData.internalDataManager.GetData().gameMode == 0) pGameData.reelManager.SetHistoryData();
 	if (!pGameData.castChecker.SetCastData(pGameData)) return false;
 	m_payoutFor = pGameData.castChecker.GetPayout();
 	pGameData.internalDataManager.SetReplayStatus(pGameData.castChecker.IsReplay());

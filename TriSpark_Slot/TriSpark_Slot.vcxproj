@@ -42,6 +42,7 @@
     <ClCompile Include="_src\CReelController.cpp" />
     <ClCompile Include="_src\CReelControlReaderFromCSV.cpp" />
     <ClCompile Include="_src\CReelDataReaderFromCSV.cpp" />
+    <ClCompile Include="_src\CReelHistoryManager.cpp" />
     <ClCompile Include="_src\CReelManager.cpp" />
     <ClCompile Include="_src\CRestoreManager.cpp" />
     <ClCompile Include="_src\CSlotCastChecker.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="_src\_header\CReelController.hpp" />
     <ClInclude Include="_src\_header\CReelControlReaderFromCSV.hpp" />
     <ClInclude Include="_src\_header\CReelDataReaderFromCSV.hpp" />
+    <ClInclude Include="_src\_header\CReelHistoryManager.hpp" />
     <ClInclude Include="_src\_header\CReelManager.hpp" />
     <ClInclude Include="_src\_header\CRestoreManager.hpp" />
     <ClInclude Include="_src\_header\CSlotCastChecker.hpp" />
@@ -120,6 +122,7 @@
     <ClInclude Include="_src\_header\selectmode.h" />
     <ClInclude Include="_src\_header\setup.h" />
     <ClInclude Include="_src\_header\SImageDrawCSVData.hpp" />
+    <ClInclude Include="_src\_header\SReelHistoryData.hpp" />
     <ClInclude Include="_src\_header\SSlotDataCounterComponent.hpp" />
     <ClInclude Include="_src\_header\SSlotEffectData.hpp" />
     <ClInclude Include="_src\_header\SMainReadFileIndex.h" />

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include "SReelHistoryData.hpp"
 
 struct SSlotDataCounterBonusHistoryData {
 	int startGame;
@@ -7,7 +8,7 @@ struct SSlotDataCounterBonusHistoryData {
 	int medalAfter;
 	int getPayoutEffect;	// 図柄特定用
 	int flagLossGame;
-	std::vector<int> flagMageGameReelPos;
+	SReelHistoryData flagMadeGameReel;
 	bool isActivate;
 	bool isSetGet;
 

@@ -118,3 +118,24 @@ int CReelController::GetStopPos(int pPushReel, int pPushPos, int pCharaMax){
 bool CReelController::SetTableNo(int pFlagID, int pBonusID, std::vector<int>& pOrder, std::vector<int>& pStoppedPos, int pPushReel){
 	return true;
 }
+
+int CReelController::GetFirstStopReel() const {
+	switch (m_orderID)
+	{
+	case e123:
+	case e132:
+	case e1__:
+		return 0; break;
+	case e213:
+	case e312:
+	case e_1_:
+		return 1; break;
+	case e321:
+	case e231:
+	case e__1:
+		return 2; break;
+	default:
+		break;
+	}
+	return -1;
+}

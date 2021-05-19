@@ -11,18 +11,20 @@ CMenuManager::CMenuManager() {
 	mBaseImgID = -1;
 	mTitleFontHandle = -1;
 	mDataFontHandle = -1;
+	mDataFontHandleMid = -1;
 	mLicenseTXT = -1;
 }
 
-bool CMenuManager::Init(CGameDataManage& pDataManageIns, const int pLicenseFileID, const int pDataFontHandle, const int pBaseImgID, const int pTitleFontHandle) {
+bool CMenuManager::Init(CGameDataManage& pDataManageIns, const int pLicenseFileID, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const int pTitleFontHandle) {
 	mBaseImgID = pDataManageIns.GetDataHandle(pBaseImgID);
 	mTitleFontHandle = pDataManageIns.GetDataHandle(pTitleFontHandle);
 	mDataFontHandle = pDataManageIns.GetDataHandle(pDataFontHandle);
+	mDataFontHandleMid = pDataManageIns.GetDataHandle(pDataFontHandleMid);
 	mLicenseTXT = pDataManageIns.GetDataHandle(pLicenseFileID);
 	return true;
 }
 
-bool CMenuManager::Process(CGameDataManage& pDataManageIns) {
+bool CMenuManager::Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper& pSlotData) {
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.GetExportStatus() == EKeyExportStatus::eGameMain) {
 		if (key.ExportKeyState(KEY_INPUT_M)) {
@@ -48,7 +50,7 @@ bool CMenuManager::Process(CGameDataManage& pDataManageIns) {
 				case EMenuList::eReelHistory:
 					delete mMenuElement;
 					mMenuElement = nullptr;
-					mMenuElement = new CMenuReelHistory(mDataFontHandle, mBaseImgID, mTitleFontHandle);
+					mMenuElement = new CMenuReelHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.reelManager, mTitleFontHandle);
 					mMenuElement->Init();
 					break;
 				case EMenuList::eHowTo:

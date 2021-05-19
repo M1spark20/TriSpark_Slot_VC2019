@@ -216,6 +216,9 @@
     <ClCompile Include="_src\CRestoreManager.cpp">
       <Filter>ソース ファイル\アプリシステム</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CReelHistoryManager.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -412,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="_src\_header\CRestoreManager.hpp">
       <Filter>ヘッダー ファイル\アプリシステム</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReelHistoryManager.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReelHistoryData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

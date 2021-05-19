@@ -38,7 +38,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 		flagID = (checkC / PowInteger(comaNum, reelNum)) % m_checkedFlagID.size();
 		m_reelManager.StartReel(
 			m_randManager.GetFlagData(m_checkedFlagID[flagID], eFlagID),
-			m_randManager.GetFlagData(m_checkedFlagID[flagID], eBonusID));
+			m_randManager.GetFlagData(m_checkedFlagID[flagID], eBonusID), 0);
 
 		for (unsigned int orderC = 0; orderC < reelNum; ++orderC){
 			if (!m_reelManager.StopReel(m_pushOrder[orderC], currentPos[m_pushOrder[orderC]]))

@@ -46,7 +46,7 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal,const
 	// ボーナス成立察知
 	if (mLastBonusFlag != internalData.flag.second && mLastBonusFlag == 0) {
 		SSlotDataCounterBonusHistoryData bonusHistory;
-		bonusHistory.flagMageGameReelPos = pReel.GetReelPos();
+		bonusHistory.flagMadeGameReel = pReel.GetHistoryData();
 		mBonusHistory.push_back(bonusHistory);
 	}
 	mLastBonusFlag = internalData.flag.second;
@@ -158,8 +158,10 @@ bool CSlotDataCounter::ReadRestore(CRestoreManagerRead& pReader) {
 		for (int j = 0; j < reelNum; ++j) {
 			int reelPos = 0;
 			if (!pReader.ReadNum(reelPos)) return false;
-			data.flagMageGameReelPos.push_back(reelPos);
+			data.flagMadeGameReel.reelPos.push_back(reelPos);
 		}
+		if (!pReader.ReadNum(data.flagMadeGameReel.betNum)) return false;
+		if (!pReader.ReadNum(data.flagMadeGameReel.firstStop)) return false;
 
 		if (!pReader.ReadNum(data.isActivate)) return false;
 		if (!pReader.ReadNum(data.isSetGet)) return false;
@@ -201,10 +203,12 @@ bool CSlotDataCounter::WriteRestore(CRestoreManagerWrite& pWriter) const {
 		if (!pWriter.WriteNum(mBonusHistory[i].getPayoutEffect)) return false;
 		if (!pWriter.WriteNum(mBonusHistory[i].flagLossGame)) return false;
 
-		if (!pWriter.WriteNum((size_t)mBonusHistory[i].flagMageGameReelPos.size())) return false;
-		for (int j = 0; j < mBonusHistory[i].flagMageGameReelPos.size(); ++j) {
-			if (!pWriter.WriteNum(mBonusHistory[i].flagMageGameReelPos[j])) return false;
+		if (!pWriter.WriteNum((size_t)mBonusHistory[i].flagMadeGameReel.reelPos.size())) return false;
+		for (int j = 0; j < mBonusHistory[i].flagMadeGameReel.reelPos.size(); ++j) {
+			if (!pWriter.WriteNum(mBonusHistory[i].flagMadeGameReel.reelPos[j])) return false;
 		}
+		if (!pWriter.WriteNum(mBonusHistory[i].flagMadeGameReel.betNum)) return false;
+		if (!pWriter.WriteNum(mBonusHistory[i].flagMadeGameReel.firstStop)) return false;
 
 		if (!pWriter.WriteNum(mBonusHistory[i].isActivate)) return false;
 		if (!pWriter.WriteNum(mBonusHistory[i].isSetGet)) return false;

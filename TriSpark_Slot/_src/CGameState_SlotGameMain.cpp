@@ -24,6 +24,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	if (!m_menuManager.Init(pDataManageIns,
 		sysReader.GetSysDataID("license"),
 		sysReader.GetSysDataID("menuDataFont"),
+		sysReader.GetSysDataID("menuDataFontMid"),
 		sysReader.GetSysDataID("menuBase"),
 		sysReader.GetSysDataID("menuTitleFont")
 	)) return false;
@@ -71,7 +72,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 
 	m_data.reelManager.Process(m_data.timeManager);
 	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data);
-	m_menuManager.Process(pDataManageIns);
+	m_menuManager.Process(pDataManageIns, m_data);
 	
 	// データ保存
 	if (m_data.restoreManager.IsActivate()) {

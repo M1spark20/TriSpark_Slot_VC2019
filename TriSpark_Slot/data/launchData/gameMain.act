@@ -56,3 +56,6 @@
 #MainFile,0,1,data/menu/howto1.png,,,//,48,1,
 #MainFile,0,1,data/menu/howto2.png,,,//,49,2,
 #MainFile,0,1,data/menu/howto3.png,,,//,50,3,
+#MainFile,0,1,data/menu/Menu_ReelHistory.png,,,//,51,出目履歴ベース,
+#MainFile,0,1,data/menu/ReelForMenu.png,,,//,52,menu用リール配列,
+#MainFile,7,0,data/font/GKG_36pt_aa4_eng.dft,,,//,53,メニュー文字(28pt英語のみ),

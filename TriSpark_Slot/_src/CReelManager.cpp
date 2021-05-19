@@ -23,6 +23,9 @@ bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV&
 		if (!(m_reelChaData.end()-1)->Init(*it)) return false;
 	}
 
+	// history初期化
+	if (!m_historyManager.Init()) return false;
+
 	return m_controller.Init(pDataManager, pSysData.GetSysDataID("control"), GetReelNum());
 }
 
@@ -81,10 +84,14 @@ std::vector<CReel>::const_iterator CReelManager::FindReelData(int pIndex) const 
 	return m_reelChaData.cbegin() + pIndex;
 }
 
-bool CReelManager::StartReel(int pFlagID, int pBonusID){
+bool CReelManager::StartReel(int pFlagID, int pBonusID, int pBetNum){
 	m_flagID = pFlagID;
 	m_bonusID = pBonusID;
 	m_controller.ResetReelData();
+	m_nowHistoryData = SReelHistoryData();
+	m_nowHistoryData.reelPos.resize(GetReelNum(), -1);
+	m_nowHistoryData.betNum = pBetNum;
+
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
 		if (!it->ReelStart()) return false;
 	}
@@ -98,6 +105,11 @@ bool CReelManager::StopReel(int pStopReelID){
 		if (it->GetReelID() != pStopReelID) continue;
 		if (it->GetReelStatus() != EReelStatus::eRotating) return true;
 		const int dest = m_controller.GetStopPosition(m_flagID, m_bonusID, pStopReelID, it->GetReelPos());
+
+		// historyData更新
+		m_nowHistoryData.reelPos[it->GetReelID()] = dest;
+		m_nowHistoryData.firstStop = m_controller.GetFirstStopReel();
+
 		return it->ReelStop(dest, false);
 	}
 	return false;
@@ -110,6 +122,11 @@ bool CReelManager::StopReel(int pStopReelID, int pForceStopComa){
 		if (it->GetReelID() != pStopReelID) continue;
 		//if (it->GetReelStatus() != eRotating) return true;
 		const int dest = m_controller.GetStopPosition(m_flagID, m_bonusID, pStopReelID, pForceStopComa);
+
+		// historyData更新
+		m_nowHistoryData.reelPos[it->GetReelID()] = dest;
+		m_nowHistoryData.firstStop = m_controller.GetFirstStopReel();
+
 		return it->ReelStop(dest, true);
 	}
 	return false;
@@ -176,12 +193,17 @@ int CReelManager::GetComaDetailPos(int pReelID) const {
 	return dataPtr->GetReelDetailPos();
 }
 
+void CReelManager::SetHistoryData() {
+	m_historyManager.AddData(m_nowHistoryData);
+}
+
 
 bool CReelManager::ReadRestore(CRestoreManagerRead& pReader) {
 	int reelCount = 0;
 	if (!pReader.ReadNum(reelCount)) return false;
 	for (int i = 0; i < reelCount; ++i)
 		if (!m_reelChaData[i].ReadRestore(pReader)) return false;
+	if (!m_historyManager.ReadRestore(pReader)) return false;
 	return true;
 }
 
@@ -189,6 +211,7 @@ bool CReelManager::WriteRestore(CRestoreManagerWrite& pWriter) const {
 	if (!pWriter.WriteNum((int)GetReelNum())) return false;
 	for (int i = 0; i < GetReelNum(); ++i)
 		if (!m_reelChaData[i].WriteRestore(pWriter)) return false;
+	if (!m_historyManager.WriteRestore(pWriter)) return false;
 	return true;
 }
 

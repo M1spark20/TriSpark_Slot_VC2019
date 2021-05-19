@@ -17,4 +17,6 @@ public:
 	void ResetReelData();
 	int GetStopPos(int pPushReel, int pPushPos, int pCharaMax);
 	bool SetTableNo(int pFlagID, int pBonusID, std::vector<int>& pOrder, std::vector<int>& pStoppedPos, int pPushReel);
+
+	int GetFirstStopReel() const;
 };

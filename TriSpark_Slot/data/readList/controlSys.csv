@@ -10,3 +10,6 @@
 #sysData,license,46,ライセンス
 #sysData,systemFont,45,システムfont
 #sysData,howtoList,47,遊び方
+#sysData,ReelHistoryBase,51,出目履歴ベース
+#sysData,ReelForMenu,52,menu用リール配列
+#sysData,menuDataFontMid,53,システムfont(大)
