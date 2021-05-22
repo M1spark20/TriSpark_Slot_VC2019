@@ -302,6 +302,10 @@ bool CMenuBonusHistory::Draw(const int pOpacity) {
 
 	// ボーナス履歴描画
 	if (mHistoryData.empty()) {
+		std::string writeData = u8"NO DATA";
+		int numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+		DxLib::DrawStringToHandle(relX + 217 - numWidth / 2, relY +  50, writeData.c_str(), 0xFF0000, mFontHandleMid);
+		DxLib::DrawStringToHandle(relX + 695 - numWidth / 2, relY + 137, writeData.c_str(), 0xFF0000, mFontHandleMid);
 		return true;
 	}
 
