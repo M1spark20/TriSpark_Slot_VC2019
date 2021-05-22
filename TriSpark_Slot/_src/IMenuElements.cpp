@@ -253,14 +253,19 @@ CMenuBonusHistory::CMenuBonusHistory(CGameDataManage& pGameData, const int pData
 
 	mSelecting = mHistoryData.size() - 1;
 	mGraphRange = 500;
+	if (mHistoryData.empty()) return;
 	if (!mHistoryData.rbegin()->isActivate) --mSelecting;
 }
 
 bool CMenuBonusHistory::Init() {
 	mGraphDrawRate = (float)mGraphData.size() / GRAPH_WIDTH;
 	if (mGraphDrawRate < 1.f) mGraphDrawRate = 1.f;
-	const int graphMax = abs(*std::max_element(mGraphData.begin(), mGraphData.end())) / 500 + 1;
-	const int graphMin = abs(*std::min_element(mGraphData.begin(), mGraphData.end())) / 500 + 1;
+
+	if (mGraphData.empty()) return true;
+	int graphMax = *std::max_element(mGraphData.begin(), mGraphData.end());
+	graphMax = abs(graphMax < 0 ? 0 : graphMax) / 500 + 2;
+	int graphMin = *std::min_element(mGraphData.begin(), mGraphData.end());
+	graphMin = abs(graphMin > 0 ? 0 : graphMin) / 500 + 1;
 	mGraphRange = (graphMax / 2 > graphMin ? graphMax / 2 : graphMin) * 500;
 	return true;
 }
@@ -277,16 +282,17 @@ bool CMenuBonusHistory::Draw(const int pOpacity) {
 	const int relX = 231, relY = 320;
 
 	/* グラフ描画 */ {
-		int y1 = 0, y2 = 0;
 		const int graphBegX = relX + 541, graphBegY = relY + 458, rangeHeight = 80;
-		for (int xPos = 0; xPos < GRAPH_WIDTH; ++xPos) {
-			const int index = std::floorf(mGraphDrawRate * xPos);
-			if (index >= (int)mGraphData.size()) break;
-			y2 = (float)mGraphData[index] / mGraphRange * rangeHeight * -1;	// yは下向き正のため-1倍
-			DxLib::DrawLine(graphBegX + xPos, graphBegY + y1, graphBegX + xPos + 1, graphBegY + y2, 0xFFFFFF, 2);
-			y1 = y2;
+		if (!mGraphData.empty()) {
+			int y1 = 0, y2 = 0;
+			for (int xPos = 0; xPos < GRAPH_WIDTH; ++xPos) {
+				const int index = std::floorf(mGraphDrawRate * xPos);
+				if (index >= (int)mGraphData.size()) break;
+				y2 = (float)mGraphData[index] / mGraphRange * rangeHeight * -1;	// yは下向き正のため-1倍
+				DxLib::DrawLine(graphBegX + xPos, graphBegY + y1, graphBegX + xPos + 1, graphBegY + y2, 0xFFFFFF, 2);
+				y1 = y2;
+			}
 		}
-
 		for (int i = 2; i >= -1; --i) {
 			std::string num = std::to_string(mGraphRange * i);
 			int len = DxLib::GetDrawStringWidthToHandle(num.c_str(), num.length(), mFontHandle);
@@ -362,6 +368,14 @@ EMenuList CMenuBonusHistory::PushButton(int pKeyHandleDX) {
 	case KEY_INPUT_RIGHT:
 		return EMenuList::eLicense;
 		break;
+	default:
+		break;
+	}
+
+	if (mSelecting < 0) return EMenuList::eContinue;
+
+	switch (pKeyHandleDX)
+	{
 	case KEY_INPUT_DOWN:
 		mSelecting = mSelecting == 0 ? mHistoryData.size() - 1 : --mSelecting;
 		return EMenuList::eContinue;
