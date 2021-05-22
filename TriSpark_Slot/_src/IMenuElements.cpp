@@ -120,7 +120,7 @@ bool CMenuReelHistory::Draw(const int pOpacity) {
 	DxLib::DrawStringToHandle(relX + 24, relY - 1, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
 	DxLib::DrawStringToHandle(relX + 24 + numWidth, relY + 6, u8"G前", 0xFFFFFF, mFontHandle);
 	if (mHistoryData.size() <= mNowPage * 2) {
-		DxLib::DrawStringToHandle(relX + 220, relY + 125, u8"NO DATA", 0xFF0000, mFontHandleMid);
+		DxLib::DrawStringToHandle(relX + 198, relY + 119, u8"NO DATA", 0xFF0000, mFontHandleMid);
 	} else {
 		const auto& histData = mHistoryData[mNowPage * 2];
 		writeData = std::to_string(histData.betNum);
@@ -138,7 +138,7 @@ bool CMenuReelHistory::Draw(const int pOpacity) {
 	DxLib::DrawStringToHandle(relX + 279, relY + 274, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
 	DxLib::DrawStringToHandle(relX + 279 + numWidth, relY + 281, u8"G前", 0xFFFFFF, mFontHandle);
 	if (mHistoryData.size() <= mNowPage * 2 + 1) {
-		DxLib::DrawStringToHandle(relX + 476, relY + 399, u8"NO DATA", 0xFF0000, mFontHandleMid);
+		DxLib::DrawStringToHandle(relX + 454, relY + 393, u8"NO DATA", 0xFF0000, mFontHandleMid);
 	} else {
 		const auto& histData = mHistoryData[mNowPage * 2 + 1];
 		writeData = std::to_string(histData.betNum);
