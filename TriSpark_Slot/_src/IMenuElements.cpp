@@ -258,8 +258,12 @@ CMenuBonusHistory::CMenuBonusHistory(CGameDataManage& pGameData, const int pData
 }
 
 bool CMenuBonusHistory::Init() {
-	mGraphDrawRate = (float)mGraphData.size() / GRAPH_WIDTH;
-	if (mGraphDrawRate < 1.f) mGraphDrawRate = 1.f;
+	if (!mGraphData.empty()) {
+		mGraphDrawRate = ((float)mGraphData.size() - 1.f) / (GRAPH_WIDTH - 1);
+		if (mGraphDrawRate < 1.f) mGraphDrawRate = 1.f;
+	} else {
+		mGraphDrawRate = 1.f;
+	}
 
 	if (mGraphData.empty()) return true;
 	int graphMax = *std::max_element(mGraphData.begin(), mGraphData.end());
