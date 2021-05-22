@@ -382,6 +382,7 @@ EMenuList CMenuBonusHistory::PushButton(int pKeyHandleDX) {
 	{
 	case KEY_INPUT_DOWN:
 		mSelecting = mSelecting == 0 ? mHistoryData.size() - 1 : --mSelecting;
+		mSelecting = mHistoryData[mSelecting].isActivate ? mSelecting : mSelecting - 1;
 		return EMenuList::eContinue;
 		break;
 	case KEY_INPUT_UP:
