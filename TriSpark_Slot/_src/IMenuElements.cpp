@@ -288,8 +288,8 @@ bool CMenuBonusHistory::Draw(const int pOpacity) {
 	/* グラフ描画 */ {
 		const int graphBegX = relX + 541, graphBegY = relY + 458, rangeHeight = 80;
 		if (!mGraphData.empty()) {
-			int y1 = 0, y2 = 0;
-			for (int xPos = 0; xPos < GRAPH_WIDTH; ++xPos) {
+			int y1 = mGraphData[0], y2 = 0;
+			for (int xPos = 1; xPos < GRAPH_WIDTH; ++xPos) {
 				const int index = std::floorf(mGraphDrawRate * xPos);
 				if (index >= (int)mGraphData.size()) break;
 				y2 = (float)mGraphData[index] / mGraphRange * rangeHeight * -1;	// yは下向き正のため-1倍

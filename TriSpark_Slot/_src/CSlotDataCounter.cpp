@@ -7,6 +7,7 @@ CSlotDataCounter::CSlotDataCounter() {
 	mLastGameMode = 0;
 	mLastBonusFlag = 0;
 	mNextStoreGraphGame = GRAPH_INTERVAL;
+	mCoinStatusForGraph.push_back(0);
 }
 
 void CSlotDataCounter::PayoutCalculate() {
@@ -137,6 +138,7 @@ bool CSlotDataCounter::ReadRestore(CRestoreManagerRead& pReader) {
 	if (!pReader.ReadNum(mNextStoreGraphGame)) return false;
 
 	size_t loopCount = 0;
+	mCoinStatusForGraph.clear();
 	if (!pReader.ReadNum(loopCount)) return false;
 	for (size_t i = 0; i < loopCount; ++i) {
 		int coin = 0;
