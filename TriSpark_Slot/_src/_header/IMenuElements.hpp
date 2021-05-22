@@ -1,16 +1,21 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#include <deque>
 #include "SReelHistoryData.hpp"
+#include "CMenuReadBonusTypeFromCSV.hpp"
+#include "SSlotDataCounterComponent.hpp"
 class CGameDataManage;
 class CMenuReadHowtoFromCSV;
 class CReelManager;
+class CSlotDataCounter;
 
 enum class EMenuList {
 	eContinue,
 	eLicense,
 	eReelHistory,
 	eHowTo,
+	eBonusHistory,
 	eMenuMax
 };
 
@@ -74,3 +79,27 @@ public:
 	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
 	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
 };
+
+class CMenuBonusHistory : public IMenuElements {
+	static const int								GRAPH_WIDTH = 420;
+	const int										mFontHandle;
+	const int										mFontHandleMid;
+	int												mHistBaseImgID;
+	int												mReelImgID;
+	std::vector<SSlotDataCounterBonusHistoryData>	mHistoryData;
+	std::vector<SMenuReadBonusTypePos>				mTypeData;
+	std::deque<int>									mGraphData;
+	int												mSelecting;
+	float											mGraphDrawRate;
+	int												mGraphRange;
+
+	SMenuReadBonusTypePos GetBonusType(int bonusType);
+
+public:
+	CMenuBonusHistory(CGameDataManage& pGameData, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const CSlotDataCounter& pSlotData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
+	bool Init() override;						// ライセンスファイル読み込み
+	bool Process() override;					// none
+	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+};
+

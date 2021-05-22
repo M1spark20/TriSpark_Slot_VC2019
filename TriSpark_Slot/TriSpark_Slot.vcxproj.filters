@@ -219,6 +219,9 @@
     <ClCompile Include="_src\CReelHistoryManager.cpp">
       <Filter>ソース ファイル\スロット本体内クラス</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CMenuReadBonusTypeFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="_src\_header\SReelHistoryData.hpp">
       <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CMenuReadBonusTypeFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,3 +13,5 @@
 #sysData,ReelHistoryBase,51,出目履歴ベース
 #sysData,ReelForMenu,52,menu用リール配列
 #sysData,menuDataFontMid,53,システムfont(大)
+#sysData,MenuBonusType,54,システム用ボーナス絵柄
+#sysData,BonusHistoryBase,55,ボーナス履歴ベース

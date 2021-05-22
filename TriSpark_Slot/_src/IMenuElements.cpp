@@ -3,9 +3,11 @@
 #include "_header/CGetSysDataFromCSV.hpp"
 #include "_header/CMenuReadHowtoFromCSV.hpp"
 #include "_header/CReelManager.hpp"
+#include "_header/CSlotDataCounter.hpp"
 #include "DxLib.h"
 #include <string>
 #include <cstring>
+#include <algorithm>
 
 IMenuElements::IMenuElements(const std::string pName, const int pBaseImgID, const int pTitleFontHandle)
 	 :	cElementName(pName), mBaseImgID(pBaseImgID), mTitleFontHandle(pTitleFontHandle) {
@@ -62,7 +64,7 @@ EMenuList CMenuLicenses::PushButton(int pKeyHandleDX) {
 	switch (pKeyHandleDX)
 	{
 	case KEY_INPUT_LEFT:
-		return EMenuList::eReelHistory;
+		return EMenuList::eBonusHistory;
 		break;
 	case KEY_INPUT_RIGHT:
 		return EMenuList::eHowTo;
@@ -158,7 +160,7 @@ EMenuList CMenuReelHistory::PushButton(int pKeyHandleDX) {
 		return EMenuList::eHowTo;
 		break;
 	case KEY_INPUT_RIGHT:
-		return EMenuList::eLicense;
+		return EMenuList::eBonusHistory;
 		break;
 	case KEY_INPUT_UP:
 		mNowPage = mNowPage == 0 ? (mHistoryData.size()-1) / 2 : --mNowPage;
@@ -229,4 +231,155 @@ EMenuList CMenuHowTo::PushButton(int pKeyHandleDX) {
 		break;
 	}
 	return EMenuList::eContinue;
+}
+
+
+CMenuBonusHistory::CMenuBonusHistory(CGameDataManage& pGameData, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const CSlotDataCounter& pSlotData, const int pTitleFontHandle)
+		: IMenuElements(u8"Bonus History", pBaseImgID, pTitleFontHandle), mFontHandle(pDataFontHandle), mFontHandleMid(pDataFontHandleMid), mHistBaseImgID(pBaseImgID) {
+	CGetSysDataFromCSV reader;
+	reader.FileInit(pGameData.GetDataHandle(0));
+
+	mHistBaseImgID = pGameData.GetDataHandle(reader.GetSysDataID("BonusHistoryBase"));
+	mReelImgID = pGameData.GetDataHandle(reader.GetSysDataID("ReelForMenu"));
+
+	CMenuReadBonusTypeFromCSV csv;
+	csv.FileInit(pGameData.GetDataHandle(reader.GetSysDataID("MenuBonusType")));
+	csv.GetImagePos(mTypeData);
+	// resID付け替え
+	for (auto& data : mTypeData) data.resID = pGameData.GetDataHandle(data.resID);
+
+	mHistoryData = pSlotData.GetBonusHistory();
+	mGraphData = pSlotData.GetCoinGraphData();
+
+	mSelecting = mHistoryData.size() - 1;
+	mGraphRange = 500;
+	if (!mHistoryData.rbegin()->isActivate) --mSelecting;
+}
+
+bool CMenuBonusHistory::Init() {
+	mGraphDrawRate = (float)mGraphData.size() / GRAPH_WIDTH;
+	if (mGraphDrawRate < 1.f) mGraphDrawRate = 1.f;
+	const int graphMax = abs(*std::max_element(mGraphData.begin(), mGraphData.end())) / 500 + 1;
+	const int graphMin = abs(*std::min_element(mGraphData.begin(), mGraphData.end())) / 500 + 1;
+	mGraphRange = (graphMax / 2 > graphMin ? graphMax / 2 : graphMin) * 500;
+	return true;
+}
+
+bool CMenuBonusHistory::Process() {
+	return true;
+}
+
+bool CMenuBonusHistory::Draw(const int pOpacity) {
+	DrawBase(pOpacity);
+
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
+	DxLib::DrawGraph(231, 320, mHistBaseImgID, TRUE);
+	const int relX = 231, relY = 320;
+
+	/* グラフ描画 */ {
+		int y1 = 0, y2 = 0;
+		const int graphBegX = relX + 541, graphBegY = relY + 458, rangeHeight = 80;
+		for (int xPos = 0; xPos < GRAPH_WIDTH; ++xPos) {
+			const int index = std::floorf(mGraphDrawRate * xPos);
+			if (index >= (int)mGraphData.size()) break;
+			y2 = (float)mGraphData[index] / mGraphRange * rangeHeight * -1;	// yは下向き正のため-1倍
+			DxLib::DrawLine(graphBegX + xPos, graphBegY + y1, graphBegX + xPos + 1, graphBegY + y2, 0xFFFFFF, 2);
+			y1 = y2;
+		}
+
+		for (int i = 2; i >= -1; --i) {
+			std::string num = std::to_string(mGraphRange * i);
+			int len = DxLib::GetDrawStringWidthToHandle(num.c_str(), num.length(), mFontHandle);
+			DxLib::DrawStringToHandle(graphBegX - 5 - len, graphBegY - 11 - i * rangeHeight, num.c_str(), 0xB0B0B0, mFontHandle);
+		}
+	}
+
+	// ボーナス履歴描画
+	if (mHistoryData.empty()) {
+		return true;
+	}
+
+	const int maxSize = mHistoryData.rbegin()->isActivate ? mHistoryData.size() : mHistoryData.size() - 1;
+	int beginPos = mSelecting + 4;
+	if (beginPos >= maxSize) beginPos = maxSize - 1;
+	int endPos = beginPos - 9;
+	if (endPos < 0) {
+		endPos = 0;	beginPos = endPos + 9;
+		if (beginPos >= maxSize) beginPos = maxSize - 1;
+	}
+
+	const int begX = relX, begY = relY + 50;
+	for (int i = beginPos, y = 0; i >= endPos; --i, ++y) {
+		std::string writeData = std::to_string(i + 1);
+		const int yPos = begY + 50 * y;
+		int numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+		DxLib::DrawStringToHandle(begX + 57 - numWidth / 2, yPos, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
+
+		const auto& data = mHistoryData[i];
+		writeData = std::to_string(data.startGame);
+		numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+		DxLib::DrawStringToHandle(begX + 177 - numWidth / 2, yPos, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
+
+		const auto& nowType = GetBonusType(data.getPayoutEffect);
+		if (nowType.resID == -1) return false;
+		DxLib::DrawRectGraph(begX + 284 - nowType.w / 2, yPos + 16 - nowType.h / 2,
+			nowType.x, nowType.y, nowType.w, nowType.h, nowType.resID, TRUE);
+
+		if (data.isSetGet) {
+			writeData = std::to_string(data.medalAfter - data.medalBefore);
+			numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+			DxLib::DrawStringToHandle(begX + 374 - numWidth / 2, yPos, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
+		}
+
+		if (i == mSelecting) DxLib::DrawLine(begX, yPos + 34, begX + 408, yPos + 34, 0xFFFF00, 4);
+	}
+
+	// 成立時出目描画
+	const int index = mSelecting;
+	const auto& pattern = mHistoryData[index].flagMadeGameReel;
+	std::string writeData = std::to_string(mHistoryData[index].flagLossGame);
+	int numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+	DxLib::DrawStringToHandle(relX + 460, relY + 25, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
+	DxLib::DrawStringToHandle(relX + 460 + numWidth, relY + 32, u8"G前", 0xFFFFFF, mFontHandle);
+
+	writeData = std::to_string(pattern.betNum);
+	numWidth = DxLib::GetDrawStringWidthToHandle(writeData.c_str(), writeData.length(), mFontHandleMid);
+	DxLib::DrawStringToHandle(relX + 898 - numWidth, relY + 25, writeData.c_str(), 0xFFFFFF, mFontHandleMid);
+	DxLib::DrawStringToHandle(relX + 898, relY + 32, u8"BET", 0xFFFFFF, mFontHandle);
+	for (size_t i = 0; i < pattern.reelPos.size(); ++i)
+		DxLib::DrawRectGraph(relX + 463 + i * 156, relY + 55, i * 154, pattern.reelPos[i] * 70, 154, 210, mReelImgID, TRUE);
+	DxLib::DrawStringToHandle(relX + 514 + pattern.firstStop * 156, relY + 267, u8"<1st>", 0xFFFFFF, mFontHandle);
+
+	return true;
+}
+
+EMenuList CMenuBonusHistory::PushButton(int pKeyHandleDX) {
+	switch (pKeyHandleDX)
+	{
+	case KEY_INPUT_LEFT:
+		return EMenuList::eReelHistory;
+		break;
+	case KEY_INPUT_RIGHT:
+		return EMenuList::eLicense;
+		break;
+	case KEY_INPUT_DOWN:
+		mSelecting = mSelecting == 0 ? mHistoryData.size() - 1 : --mSelecting;
+		return EMenuList::eContinue;
+		break;
+	case KEY_INPUT_UP:
+		mSelecting = mSelecting + 1 >= mHistoryData.size() ? 0 : ++mSelecting;
+		mSelecting = mHistoryData[mSelecting].isActivate ? mSelecting : 0;
+		return EMenuList::eContinue;
+		break;
+	default:
+		break;
+	}
+	return EMenuList::eContinue;
+}
+
+SMenuReadBonusTypePos CMenuBonusHistory::GetBonusType(int bonusType) {
+	for (const auto& data : mTypeData) {
+		if (data.payoutID == bonusType) return data;
+	}
+	return SMenuReadBonusTypePos();
 }

@@ -53,6 +53,12 @@ bool CMenuManager::Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper
 					mMenuElement = new CMenuReelHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.reelManager, mTitleFontHandle);
 					mMenuElement->Init();
 					break;
+				case EMenuList::eBonusHistory:
+					delete mMenuElement;
+					mMenuElement = nullptr;
+					mMenuElement = new CMenuBonusHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.dataCounter, mTitleFontHandle);
+					mMenuElement->Init();
+					break;
 				case EMenuList::eHowTo:
 					delete mMenuElement;
 					mMenuElement = nullptr;

@@ -59,3 +59,5 @@
 #MainFile,0,1,data/menu/Menu_ReelHistory.png,,,//,51,出目履歴ベース,
 #MainFile,0,1,data/menu/ReelForMenu.png,,,//,52,menu用リール配列,
 #MainFile,7,0,data/font/GKG_28pt_aa4_eng.dft,,,//,53,メニュー文字(28pt英語のみ),
+#MainFile,3,1,data/menu/bonusTypeList.csv,,,//,54,ボーナス履歴ベース,
+#MainFile,0,1,data/menu/Menu_BonusHistory.png,,,//,55,ボーナス履歴ベース,

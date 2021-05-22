@@ -27,10 +27,12 @@ public:
 
 	SSlotDataCounterComponent GetBasicData() const { return mCountData; }
 	SSlotDataCounterBonusHistoryData GetBonusHistory(int pHistCount) const;
+	std::vector<SSlotDataCounterBonusHistoryData> GetBonusHistory() const { return mBonusHistory; }
+
 	int GetBonusCount(int pGameModeType) const;
 	int GetBonusRateX10(int pGameModeType) const;
 
-	// bool DrawCoinGraphData();
+	std::deque<int> GetCoinGraphData() const { return mCoinStatusForGraph; }
 
 	bool ReadRestore(CRestoreManagerRead& pReader);
 	bool WriteRestore(CRestoreManagerWrite& pWriter) const;
