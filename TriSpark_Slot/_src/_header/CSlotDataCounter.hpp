@@ -14,6 +14,7 @@ class CSlotDataCounter {
 	static const int			GRAPH_INTERVAL = 10;
 	static const int			GRAPH_MAXSIZE  = 100000;
 	int							mNextStoreGraphGame;
+	bool						mIsMadeHistoryData;
 
 	std::deque<int>									mCoinStatusForGraph;	// History: medalCount
 	std::vector<SSlotDataCounterBonusHistoryData>	mBonusHistory;

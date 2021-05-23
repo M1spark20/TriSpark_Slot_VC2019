@@ -13,6 +13,7 @@ CMenuManager::CMenuManager() {
 	mDataFontHandle = -1;
 	mDataFontHandleMid = -1;
 	mLicenseTXT = -1;
+	mResumeMenu = EMenuList::eHowTo;
 }
 
 bool CMenuManager::Init(CGameDataManage& pDataManageIns, const int pLicenseFileID, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const int pTitleFontHandle) {
@@ -29,8 +30,7 @@ bool CMenuManager::Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper
 	if (key.GetExportStatus() == EKeyExportStatus::eGameMain) {
 		if (key.ExportKeyState(KEY_INPUT_M)) {
 			// initialize
-			mMenuElement = new CMenuHowTo(pDataManageIns, mBaseImgID, mTitleFontHandle);
-			mMenuElement->Init();
+			ResetMenuContents(mResumeMenu, pDataManageIns, pSlotData);
 			key.SetExportStatus(EKeyExportStatus::eMenu);
 			mMenuStartTime = DxLib::GetNowCount();
 		}
@@ -40,32 +40,7 @@ bool CMenuManager::Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper
 		for (int a = 0; a < 256; ++a) {
 			if (key.ExportKeyState(a)) {
 				const auto nextMode = mMenuElement->PushButton(a);
-				switch (nextMode) {
-				case EMenuList::eLicense:
-					delete mMenuElement;
-					mMenuElement = nullptr;
-					mMenuElement = new CMenuLicenses(mLicenseTXT, mDataFontHandle, mBaseImgID, mTitleFontHandle);
-					mMenuElement->Init();
-					break;
-				case EMenuList::eReelHistory:
-					delete mMenuElement;
-					mMenuElement = nullptr;
-					mMenuElement = new CMenuReelHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.reelManager, mTitleFontHandle);
-					mMenuElement->Init();
-					break;
-				case EMenuList::eBonusHistory:
-					delete mMenuElement;
-					mMenuElement = nullptr;
-					mMenuElement = new CMenuBonusHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.dataCounter, mTitleFontHandle);
-					mMenuElement->Init();
-					break;
-				case EMenuList::eHowTo:
-					delete mMenuElement;
-					mMenuElement = nullptr;
-					mMenuElement = new CMenuHowTo(pDataManageIns, mBaseImgID, mTitleFontHandle);
-					mMenuElement->Init();
-					break;
-				}
+				ResetMenuContents(nextMode, pDataManageIns, pSlotData);
 			}
 		}
 		if (mMenuFinishTime < 0)
@@ -100,4 +75,38 @@ bool CMenuManager::Draw() {
 
 CMenuManager::~CMenuManager() {
 	delete mMenuElement;
+}
+
+bool CMenuManager::ResetMenuContents(EMenuList pNext, CGameDataManage& pDataManageIns, SSlotGameDataWrapper& pSlotData) {
+	switch (pNext) {
+	case EMenuList::eLicense:
+		delete mMenuElement;
+		mMenuElement = nullptr;
+		mMenuElement = new CMenuLicenses(mLicenseTXT, mDataFontHandle, mBaseImgID, mTitleFontHandle);
+		mMenuElement->Init();
+		mResumeMenu = pNext;
+		break;
+	case EMenuList::eReelHistory:
+		delete mMenuElement;
+		mMenuElement = nullptr;
+		mMenuElement = new CMenuReelHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.reelManager, mTitleFontHandle);
+		mMenuElement->Init();
+		mResumeMenu = pNext;
+		break;
+	case EMenuList::eBonusHistory:
+		delete mMenuElement;
+		mMenuElement = nullptr;
+		mMenuElement = new CMenuBonusHistory(pDataManageIns, mDataFontHandle, mDataFontHandleMid, mBaseImgID, pSlotData.dataCounter, mTitleFontHandle);
+		mMenuElement->Init();
+		mResumeMenu = pNext;
+		break;
+	case EMenuList::eHowTo:
+		delete mMenuElement;
+		mMenuElement = nullptr;
+		mMenuElement = new CMenuHowTo(pDataManageIns, mBaseImgID, mTitleFontHandle);
+		mMenuElement->Init();
+		mResumeMenu = pNext;
+		break;
+	}
+	return true;
 }

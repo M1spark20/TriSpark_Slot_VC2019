@@ -7,6 +7,7 @@ CSlotDataCounter::CSlotDataCounter() {
 	mLastGameMode = 0;
 	mLastBonusFlag = 0;
 	mNextStoreGraphGame = GRAPH_INTERVAL;
+	mIsMadeHistoryData = false;
 	mCoinStatusForGraph.push_back(0);
 }
 
@@ -49,12 +50,19 @@ void CSlotDataCounter::SetResult(const CSlotInternalDataManager& pInternal,const
 		SSlotDataCounterBonusHistoryData bonusHistory;
 		bonusHistory.flagMadeGameReel = pReel.GetHistoryData();
 		mBonusHistory.push_back(bonusHistory);
+		mIsMadeHistoryData = true;
 	}
 	mLastBonusFlag = internalData.flag.second;
 
 	if (mLastGameMode != internalData.gameMode) {
 		if (mLastGameMode == 0) {
 			// ボーナススタート
+			if (!mIsMadeHistoryData) {
+				SSlotDataCounterBonusHistoryData bonusHistory;
+				bonusHistory.flagMadeGameReel = pReel.GetHistoryData();
+				mBonusHistory.push_back(bonusHistory);
+			}
+			mIsMadeHistoryData = false;
 			if (!mBonusHistory.empty()) {
 				SSlotDataCounterBonusHistoryData& bonusHistory = *mBonusHistory.rbegin();
 				bonusHistory.startGame = mCountData.startGame;

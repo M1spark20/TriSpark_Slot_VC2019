@@ -7,12 +7,15 @@ class CMenuManager {
 	IMenuElements*	mMenuElement;
 	int				mMenuStartTime;
 	int				mMenuFinishTime;
+	EMenuList		mResumeMenu;
 
 	int				mBaseImgID;
 	int				mTitleFontHandle;
 	int				mDataFontHandle;
 	int				mDataFontHandleMid;
 	int				mLicenseTXT;
+
+	bool ResetMenuContents(EMenuList pNext, CGameDataManage& pDataManageIns, SSlotGameDataWrapper& pSlotData);
 
 public:
 	CMenuManager();
