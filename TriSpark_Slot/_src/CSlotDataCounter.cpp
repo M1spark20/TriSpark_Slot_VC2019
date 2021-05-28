@@ -144,6 +144,7 @@ bool CSlotDataCounter::ReadRestore(CRestoreManagerRead& pReader) {
 	if (!pReader.ReadNum(mLastGameMode)) return false;
 	if (!pReader.ReadNum(mLastBonusFlag)) return false;
 	if (!pReader.ReadNum(mNextStoreGraphGame)) return false;
+	if (!pReader.ReadNum(mIsMadeHistoryData)) return false;
 
 	size_t loopCount = 0;
 	mCoinStatusForGraph.clear();
@@ -199,6 +200,7 @@ bool CSlotDataCounter::WriteRestore(CRestoreManagerWrite& pWriter) const {
 	if (!pWriter.WriteNum(mLastGameMode)) return false;
 	if (!pWriter.WriteNum(mLastBonusFlag)) return false;
 	if (!pWriter.WriteNum(mNextStoreGraphGame)) return false;
+	if (!pWriter.WriteNum(mIsMadeHistoryData)) return false;
 
 	if (!pWriter.WriteNum((size_t)mCoinStatusForGraph.size())) return false;
 	for (size_t i = 0; i < mCoinStatusForGraph.size(); ++i) {
