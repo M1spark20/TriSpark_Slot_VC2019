@@ -14,7 +14,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	if(!m_data.castChecker.Init(pDataManageIns, sysReader.GetSysDataID("cast")))	return false;
 	if(!m_data.timeManager.Init(m_data.reelManager.GetReelNum()))					return false;
 	m_data.internalDataManager.Init();
-	m_data.internalDataManager.SetSlotSetting(5);
+	m_data.internalDataManager.SetSlotSetting(3);
 
 	if (
 		!m_data.effectManager.Init(pDataManageIns, sysReader.GetSysDataID("effect"),
