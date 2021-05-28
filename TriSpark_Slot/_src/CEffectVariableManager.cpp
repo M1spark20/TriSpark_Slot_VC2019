@@ -39,6 +39,7 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("dcTotalG", 0);
 	CreateNewVar("dcStartG", 0);
 	CreateNewVar("dcPayoutX10", 0);
+	CreateNewVar("collectionFlag", 1);
 
 	for (int i = 0; i < 2; ++i) {
 		CreateNewVar("modeLim[" + std::to_string(i) + "]", 0);
@@ -62,7 +63,7 @@ bool CEffectVariableManager::Init() {
 // [act]システム変数の更新を行う
 // [prm]pIntData	: 更新に使用する内部情報管理クラス
 // [ret]更新が正常に行われたかどうか
-bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const SSlotGameDataWrapper& pDataWrapper) {
+bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper) {
 	const auto& pCastChecker = pDataWrapper.castChecker;
 	const auto& pReelManager = pDataWrapper.reelManager;
 	const auto& pDataCounter = pDataWrapper.dataCounter;
@@ -122,6 +123,9 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, const S
 	// pIntDataへの登録
 	pIntData.SetPayoutFreezeTime(GetVal(GetValIDFromName("$payoutFreeze")));
 	pIntData.SetBetFreezeTime(GetVal(GetValIDFromName("$betFreeze")));
+
+	// pColleへの登録
+	pColle.SetLatchFlag(GetVal(GetValIDFromName("$collectionFlag")) != 0);
 	return true;
 }
 

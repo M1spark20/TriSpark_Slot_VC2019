@@ -17,6 +17,7 @@ bool CSlotReachCollectionData::Init(const CGameDataManage& pDataManager, int pLi
 	mListImageID = pDataManager.GetDataHandle(mCollectionData.listImgID);
 	mSecretImageID = pDataManager.GetDataHandle(mCollectionData.secretImgID);
 	if (mListImageID == -1 || mSecretImageID == -1) return false;
+	mLatchFlag = true;
 	return true;
 }
 
@@ -56,7 +57,7 @@ bool CSlotReachCollectionData::JudgeCollection(const CReelManager& pReelData, co
 }
 
 bool CSlotReachCollectionData::Latch(bool isRefresh) {
-	if (isRefresh) {
+	if (isRefresh && mLatchFlag) {
 		for (auto& data : mLatch) {
 			// 達成時記録更新
 			std::string compDate;

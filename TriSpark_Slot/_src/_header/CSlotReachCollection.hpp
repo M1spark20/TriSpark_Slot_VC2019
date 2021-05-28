@@ -11,11 +11,13 @@ class CSlotReachCollectionData {
 	int mListImageID;
 	int mSecretImageID;
 	std::vector<SReachCollectionElement*> mLatch;
+	bool mLatchFlag;
 
 public:
 	bool Init(const CGameDataManage& pDataManager, int pListFileID, int reelNum);
 	bool JudgeCollection(const CReelManager& pReelData, const CSlotInternalDataManager& pInternal);
 	bool Latch(bool isRefresh);
+	void SetLatchFlag(bool flag) { mLatchFlag = flag; }
 
 	int GetCollectionNum() const { return mCollectionData.elem.size(); }
 	int GetCompCount(int pIndex) const;

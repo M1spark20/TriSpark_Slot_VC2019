@@ -9,6 +9,7 @@ class CSlotInternalDataManager;
 class CSlotCastChecker;
 class CReelManager;
 struct SSlotGameDataWrapper;
+class CSlotReachCollectionData;
 class CRestoreManagerRead;
 class CRestoreManagerWrite;
 
@@ -40,7 +41,7 @@ class CEffectVariableManager {
 public:
 	CEffectVariableManager();
 	bool Init();
-	bool Process(CSlotInternalDataManager& pIntData, const SSlotGameDataWrapper& pDataWrapper);
+	bool Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;
