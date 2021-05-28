@@ -15,3 +15,4 @@
 #sysData,menuDataFontMid,53,システムfont(大)
 #sysData,MenuBonusType,54,システム用ボーナス絵柄
 #sysData,BonusHistoryBase,55,ボーナス履歴ベース
+#sysData,collection,56,リーチ目コレクションベース

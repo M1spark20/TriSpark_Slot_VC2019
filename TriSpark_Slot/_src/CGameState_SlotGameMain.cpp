@@ -14,12 +14,15 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	if(!m_data.castChecker.Init(pDataManageIns, sysReader.GetSysDataID("cast")))	return false;
 	if(!m_data.timeManager.Init(m_data.reelManager.GetReelNum()))					return false;
 	m_data.internalDataManager.Init();
-	m_data.internalDataManager.SetSlotSetting(3);
+	m_data.internalDataManager.SetSlotSetting(5);
 
 	if (
 		!m_data.effectManager.Init(pDataManageIns, sysReader.GetSysDataID("effect"),
 			m_data.timeManager, m_data.reelManager)
 	) return false;
+	if (!m_data.reachCollection.Init(
+		pDataManageIns, sysReader.GetSysDataID("collection"), m_data.reelManager.GetReelNum()
+	)) return false;
 
 	if (!m_menuManager.Init(pDataManageIns,
 		sysReader.GetSysDataID("license"),
@@ -36,6 +39,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		if (!m_data.reelManager.ReadRestore(reader)) return false;
 		if (!m_data.timeManager.ReadRestore(reader)) return false;
 		if (!m_data.effectManager.ReadRestore(reader)) return false;
+		if (!m_data.reachCollection.ReadRestore(reader)) return false;
 	}
 
 	m_data.timeManager.Process();
@@ -82,6 +86,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 		if(!m_data.reelManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.timeManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.effectManager.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
+		if(!m_data.reachCollection.WriteRestore(m_data.restoreManager)) return eStateErrEnd;
 		if(!m_data.restoreManager.Flush()) return eStateErrEnd;
 	}
 	

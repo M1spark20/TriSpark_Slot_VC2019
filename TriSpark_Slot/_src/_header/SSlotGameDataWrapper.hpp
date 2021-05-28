@@ -7,6 +7,7 @@
 #include "CSlotCastChecker.hpp"
 #include "CSlotDataCounter.hpp"
 #include "CRestoreManager.hpp"
+#include "CSlotReachCollection.hpp"
 
 struct SSlotGameDataWrapper{
 	CReelManager				reelManager;
@@ -17,6 +18,5 @@ struct SSlotGameDataWrapper{
 	CSlotInternalDataManager	internalDataManager;
 	CSlotDataCounter			dataCounter;
 	CRestoreManagerWrite		restoreManager;
-	//CSlotExternalDataManager	m_externalDataManager;
-	//CSlotStopHistoryManager		m_reelHistory;
+	CSlotReachCollectionData	reachCollection;
 };

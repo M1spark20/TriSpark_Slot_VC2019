@@ -222,6 +222,12 @@
     <ClCompile Include="_src\CMenuReadBonusTypeFromCSV.cpp">
       <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
     </ClCompile>
+    <ClCompile Include="_src\CReadReachCollectionFromCSV.cpp">
+      <Filter>ソース ファイル\ゲームデータ読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="_src\CSlotReachCollection.cpp">
+      <Filter>ソース ファイル\スロット本体内クラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_src\_header\gameloop.h">
@@ -427,6 +433,15 @@
     </ClInclude>
     <ClInclude Include="_src\_header\CMenuReadBonusTypeFromCSV.hpp">
       <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\SReachCollectionData.hpp">
+      <Filter>ヘッダー ファイル\データ型</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CReadReachCollectionFromCSV.hpp">
+      <Filter>ヘッダー ファイル\ゲームデータ読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="_src\_header\CSlotReachCollection.hpp">
+      <Filter>ヘッダー ファイル\スロット本体内クラス</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

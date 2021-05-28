@@ -4,6 +4,7 @@
 #include "_header/CMenuReadHowtoFromCSV.hpp"
 #include "_header/CReelManager.hpp"
 #include "_header/CSlotDataCounter.hpp"
+#include "_header/CSlotReachCollection.hpp"
 #include "DxLib.h"
 #include <string>
 #include <cstring>
@@ -64,7 +65,7 @@ EMenuList CMenuLicenses::PushButton(int pKeyHandleDX) {
 	switch (pKeyHandleDX)
 	{
 	case KEY_INPUT_LEFT:
-		return EMenuList::eBonusHistory;
+		return EMenuList::eReachPatternCollection;
 		break;
 	case KEY_INPUT_RIGHT:
 		return EMenuList::eHowTo;
@@ -374,7 +375,7 @@ EMenuList CMenuBonusHistory::PushButton(int pKeyHandleDX) {
 		return EMenuList::eReelHistory;
 		break;
 	case KEY_INPUT_RIGHT:
-		return EMenuList::eLicense;
+		return EMenuList::eReachPatternCollection;
 		break;
 	default:
 		break;
@@ -405,4 +406,50 @@ SMenuReadBonusTypePos CMenuBonusHistory::GetBonusType(int bonusType) {
 		if (data.payoutID == bonusType) return data;
 	}
 	return SMenuReadBonusTypePos();
+}
+
+
+CMenuReachCollection::CMenuReachCollection(CGameDataManage& pGameData, const int pDataFontHandle, const int pBaseImgID, const CSlotReachCollectionData& pColleData, const int pTitleFontHandle)
+	: IMenuElements(u8"Reach-pattern Collection", pBaseImgID, pTitleFontHandle), mFontHandle(pDataFontHandle), mCollectionData(pColleData) {
+	mNowPage = 0;
+}
+
+bool CMenuReachCollection::Init() {
+	return true;
+}
+
+bool CMenuReachCollection::Process() {
+	return true;
+}
+
+bool CMenuReachCollection::Draw(const int pOpacity) {
+	DrawBase(pOpacity);
+
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
+	const int relX = 231, relY = 320;
+	return mCollectionData.Draw(mNowPage * PAGE_MOVE, relX, relY, mFontHandle);
+}
+
+EMenuList CMenuReachCollection::PushButton(int pKeyHandleDX) {
+	const int maxPage = (mCollectionData.GetCollectionNum() - 1) / PAGE_MOVE;
+	switch (pKeyHandleDX)
+	{
+	case KEY_INPUT_LEFT:
+		return EMenuList::eBonusHistory;
+		break;
+	case KEY_INPUT_RIGHT:
+		return EMenuList::eLicense;
+		break;
+	case KEY_INPUT_UP:
+		mNowPage = mNowPage == 0 ? maxPage : mNowPage - 1;
+		return EMenuList::eContinue;
+		break;
+	case KEY_INPUT_DOWN:
+		mNowPage = mNowPage >= maxPage ? 0 : mNowPage + 1;
+		return EMenuList::eContinue;
+		break;
+	default:
+		break;
+	}
+	return EMenuList::eContinue;
 }

@@ -9,6 +9,7 @@ class CGameDataManage;
 class CMenuReadHowtoFromCSV;
 class CReelManager;
 class CSlotDataCounter;
+class CSlotReachCollectionData;
 
 enum class EMenuList {
 	eContinue,
@@ -16,6 +17,7 @@ enum class EMenuList {
 	eReelHistory,
 	eHowTo,
 	eBonusHistory,
+	eReachPatternCollection,
 	eMenuMax
 };
 
@@ -103,3 +105,16 @@ public:
 	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
 };
 
+class CMenuReachCollection : public IMenuElements {
+	static const int				PAGE_MOVE = 12;
+	const int						mFontHandle;
+	size_t							mNowPage;
+	const CSlotReachCollectionData& mCollectionData;
+
+public:
+	CMenuReachCollection(CGameDataManage& pGameData, const int pDataFontHandle, const int pBaseImgID, const CSlotReachCollectionData& pColleData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
+	bool Init() override;						// ライセンスファイル読み込み
+	bool Process() override;					// none
+	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+};

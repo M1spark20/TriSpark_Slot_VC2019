@@ -138,7 +138,7 @@ int CReel::GetReelComaByReelPos(int pOffset) const{
 }
 
 int CReel::GetReelComaByFixedPos(int pComa) const{
-	if (m_nowStatus != EReelStatus::eStoping) return -1;
+	//if (m_nowStatus != EReelStatus::eStoping) return -1;
 	if (pComa < 0 || pComa >= m_reelData.arrayData.size()) return -1;
 	return m_reelData.arrayData[pComa];
 }

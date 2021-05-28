@@ -157,12 +157,15 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 	if (noInput){
 		if (key.ExportKeyState(KEY_INPUT_LEFT)){
 			pGameData.reelManager.StopReel(0);
+			pGameData.reachCollection.JudgeCollection(pGameData.reelManager, pGameData.internalDataManager);
 		}
 		else if (key.ExportKeyState(KEY_INPUT_DOWN)) {
 			pGameData.reelManager.StopReel(1);
+			pGameData.reachCollection.JudgeCollection(pGameData.reelManager, pGameData.internalDataManager);
 		}
 		else if (key.ExportKeyState(KEY_INPUT_RIGHT)){
 			pGameData.reelManager.StopReel(2);
+			pGameData.reachCollection.JudgeCollection(pGameData.reelManager, pGameData.internalDataManager);
 		}
 	}
 
@@ -182,12 +185,16 @@ ESlotFlowFlag CSlotFlowReelMove::Process(SSlotGameDataWrapper& pGameData){
 }
 
 bool CSlotFlowPayout::Init(SSlotGameDataWrapper& pGameData){
+	const int beforeMode = pGameData.internalDataManager.GetData().gameMode;
 	pGameData.timeManager.SetTimer(eTimerPayout);
-	if (pGameData.internalDataManager.GetData().gameMode == 0) pGameData.reelManager.SetHistoryData();
+	if (beforeMode == 0) pGameData.reelManager.SetHistoryData();
 	if (!pGameData.castChecker.SetCastData(pGameData)) return false;
 	m_payoutFor = pGameData.castChecker.GetPayout();
 	pGameData.internalDataManager.SetReplayStatus(pGameData.castChecker.IsReplay());
 	pGameData.castChecker.SetGameMode(pGameData.internalDataManager);
+
+	const int afterMode = pGameData.internalDataManager.GetData().gameMode;
+	pGameData.reachCollection.Latch(beforeMode == afterMode);
 
 	m_isDummyPay = m_payoutFor < 0;
 	if (m_isDummyPay) m_payoutFor *= -1;

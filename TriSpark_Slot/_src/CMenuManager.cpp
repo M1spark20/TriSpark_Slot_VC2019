@@ -107,6 +107,13 @@ bool CMenuManager::ResetMenuContents(EMenuList pNext, CGameDataManage& pDataMana
 		mMenuElement->Init();
 		mResumeMenu = pNext;
 		break;
+	case EMenuList::eReachPatternCollection:
+		delete mMenuElement;
+		mMenuElement = nullptr;
+		mMenuElement = new CMenuReachCollection(pDataManageIns, mDataFontHandle, mBaseImgID, pSlotData.reachCollection, mTitleFontHandle);
+		mMenuElement->Init();
+		mResumeMenu = pNext;
+		break;
 	}
 	return true;
 }
