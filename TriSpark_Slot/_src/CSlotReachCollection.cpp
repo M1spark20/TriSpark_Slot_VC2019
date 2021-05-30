@@ -157,6 +157,7 @@ bool CSlotReachCollectionData::Draw(int pBeginPos, int pOffsetX, int pOffsetY, i
 
 			bool isDark = (index-1 < 0 || index-1 >= GetCollectionNum());
 			if (!isDark) isDark = mCollectionData.elem[index - 1].compCount > 0;
+			isDark |= data.isDefaultShown;
 			if (isDark) {
 				DxLib::SetDrawBright(128, 128, 128);
 				DxLib::DrawRectGraph(pOffsetX + (w - data.imgW) / 2 + w * (pos % 4), pOffsetY  + h * (pos / 4),

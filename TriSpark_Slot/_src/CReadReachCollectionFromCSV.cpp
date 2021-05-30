@@ -54,20 +54,22 @@ bool CReadReachCollectionFromCSV::MakeData(SReachCollectionData& pData) {
 			element.isOnlyHazure = (NowGetStr[6] != "T");
 			StrToNum(element.betNum, NowGetStr[7]);
 			StrToNum(element.gameMode, NowGetStr[8]);
+			element.isDefaultShown = (NowGetStr[9] == "T");
 			
 			const int reelElemNum = COMA_MAX + 1;
+			const int begin = 10;
 			for (int i = 0; i < pData.reelNum; ++i) {
 				int dataVal = 0;
-				if (NowGetStr[9 + i * reelElemNum] == "H" || NowGetStr[7 + i * reelElemNum] == "?") {
+				if (NowGetStr[begin + i * reelElemNum] == "H" || NowGetStr[begin + i * reelElemNum] == "?") {
 					dataVal = 0x3FFFFFFF;	// Hazure, ?
-				} else if (NowGetStr[9 + i * reelElemNum] == "R") {
+				} else if (NowGetStr[begin + i * reelElemNum] == "R") {
 					dataVal = 0x40000000;	// Rotating
-				} else if (NowGetStr[9 + i * reelElemNum] == "A") {
+				} else if (NowGetStr[begin + i * reelElemNum] == "A") {
 					dataVal = 0x3FFFFFFF;	// Any
-				} else if (NowGetStr[9 + i * reelElemNum] == "*"){
+				} else if (NowGetStr[begin + i * reelElemNum] == "*"){
 					// comaMask
 					for (int coma = 0; coma < COMA_MAX; ++coma) {
-						const int index = 9 + i * reelElemNum + 1 + coma;
+						const int index = begin + i * reelElemNum + 1 + coma;
 						int comaData = 0;
 						if (NowGetStr[index] == "*") { comaData = 0x3FF; }
 						else {
@@ -78,7 +80,7 @@ bool CReadReachCollectionFromCSV::MakeData(SReachCollectionData& pData) {
 						dataVal |= (comaData << ((COMA_MAX - 1 - coma) * 10));
 					}
 				} else {
-					StrToNum(dataVal, NowGetStr[9 + i * reelElemNum]);	// reelPos
+					StrToNum(dataVal, NowGetStr[begin + i * reelElemNum]);	// reelPos
 					dataVal = -1 * abs(dataVal);
 				}
 				element.reelElement.push_back(dataVal);
