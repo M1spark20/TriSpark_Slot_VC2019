@@ -122,52 +122,69 @@ bool CSlotReachCollectionData::WriteRestore(CRestoreManagerWrite& pWriter) const
 }
 
 bool CSlotReachCollectionData::Draw(int pBeginPos, int pOffsetX, int pOffsetY, int pFontHandle) const {
+	if (pBeginPos < 0) {
+		// 最近新規に達成したコレクション描画
+
+	}
+	else {
+		// コレクション描画
+		for (int pos = 0; pos < 12; ++pos) {
+			const int index = pos + pBeginPos;
+			if (index >= GetCollectionNum()) break;
+			bool isBeforeComp = false;
+			if (index - 1 >= 0 && index - 1 < GetCollectionNum())
+				isBeforeComp = mCollectionData.elem[index - 1].compCount > 0;
+			if(!DrawColleElement(mCollectionData.elem[index], pos, isBeforeComp, pOffsetX, pOffsetY, pFontHandle)) return false;
+		}
+	}
+	return true;
+}
+
+bool CSlotReachCollectionData::DrawColleElement(const SReachCollectionElement& pData, int pPos, bool pIsLastComp, int pOffsetX, int pOffsetY, int pFontHandle) const {
 	const int w = 240, h = 180;
-	for (int pos = 0; pos < 12; ++pos) {
-		const int index = pos + pBeginPos;
-		if (index < 0 || index >= GetCollectionNum()) break;
-		std::string str = u8"No." + std::to_string(index+1);
-		DxLib::DrawStringToHandle(pOffsetX + 12 + w * (pos % 4), pOffsetY + 109 + h * (pos / 4),
+	std::string str;
+
+	str = u8"No." + std::to_string(pData.dataID);
+	DxLib::DrawStringToHandle(pOffsetX + 12 + w * (pPos % 4), pOffsetY + 109 + h * (pPos / 4),
+		str.c_str(), 0xFFFFFF, pFontHandle);
+
+	if (pData.compCount > 0) {
+		str = u8"達成: " + std::to_string(pData.compCount) + u8"回";
+		int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
+		DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pPos % 4), pOffsetY + 109 + h * (pPos / 4),
 			str.c_str(), 0xFFFFFF, pFontHandle);
 
-		const auto& data = mCollectionData.elem[index];
-		if (data.compCount > 0) {
-			str = u8"達成: " + std::to_string(data.compCount) + u8"回";
-			int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
-			DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pos % 4), pOffsetY + 109 + h * (pos / 4),
-				str.c_str(), 0xFFFFFF, pFontHandle);
+		str = u8"初回: " + pData.firstComp;
+		width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
+		DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pPos % 4) - width / 2, pOffsetY + 131 + h * (pPos / 4),
+			str.c_str(), 0xFFFFFF, pFontHandle);
 
-			str = u8"初回: " + data.firstComp;
-			width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
-			DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pos % 4) - width / 2, pOffsetY + 131 + h * (pos / 4),
-				str.c_str(), 0xFFFFFF, pFontHandle);
+		str = u8"最近: " + pData.lastComp;
+		width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
+		DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pPos % 4) - width / 2, pOffsetY + 153 + h * (pPos / 4),
+			str.c_str(), 0xFFFFFF, pFontHandle);
 
-			str = u8"最近: " + data.lastComp;
-			width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
-			DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pos % 4) - width / 2, pOffsetY + 153 + h * (pos / 4),
-				str.c_str(), 0xFFFFFF, pFontHandle);
+		DxLib::DrawRectGraph(pOffsetX + (w - pData.imgW) / 2 + w * (pPos % 4), pOffsetY + h * (pPos / 4),
+			pData.imgX, pData.imgY, pData.imgW, pData.imgH, mListImageID, TRUE);
+	}
+	else {
+		str = u8"未達成";
+		int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
+		DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pPos % 4), pOffsetY + 109 + h * (pPos / 4),
+			str.c_str(), 0xFF0000, pFontHandle);
 
-			DxLib::DrawRectGraph(pOffsetX + (w - data.imgW) / 2 + w * (pos % 4), pOffsetY + h * (pos / 4),
-				data.imgX, data.imgY, data.imgW, data.imgH, mListImageID, TRUE);
-		} else {
-			str = u8"未達成";
-			int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
-			DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pos % 4), pOffsetY + 109 + h * (pos / 4),
-				str.c_str(), 0xFF0000, pFontHandle);
-
-			bool isDark = (index-1 < 0 || index-1 >= GetCollectionNum());
-			if (!isDark) isDark = mCollectionData.elem[index - 1].compCount > 0;
-			isDark |= data.isDefaultShown;
-			if (isDark) {
-				DxLib::SetDrawBright(128, 128, 128);
-				DxLib::DrawRectGraph(pOffsetX + (w - data.imgW) / 2 + w * (pos % 4), pOffsetY  + h * (pos / 4),
-					data.imgX, data.imgY, data.imgW, data.imgH, mListImageID, TRUE);
-				DxLib::SetDrawBright(255, 255, 255);
-			} else {
-				const auto& sec = mCollectionData.secretImgPos;
-				DxLib::DrawRectGraph(pOffsetX + (w - sec.imgW) / 2 + w * (pos % 4), pOffsetY  + h * (pos / 4),
-					sec.imgX, sec.imgY, sec.imgW, sec.imgH, mSecretImageID, TRUE);
-			}
+		bool isDark = pIsLastComp;
+		isDark |= pData.isDefaultShown;
+		if (isDark) {
+			DxLib::SetDrawBright(128, 128, 128);
+			DxLib::DrawRectGraph(pOffsetX + (w - pData.imgW) / 2 + w * (pPos % 4), pOffsetY + h * (pPos / 4),
+				pData.imgX, pData.imgY, pData.imgW, pData.imgH, mListImageID, TRUE);
+			DxLib::SetDrawBright(255, 255, 255);
+		}
+		else {
+			const auto& sec = mCollectionData.secretImgPos;
+			DxLib::DrawRectGraph(pOffsetX + (w - sec.imgW) / 2 + w * (pPos % 4), pOffsetY + h * (pPos / 4),
+				sec.imgX, sec.imgY, sec.imgW, sec.imgH, mSecretImageID, TRUE);
 		}
 	}
 	return true;

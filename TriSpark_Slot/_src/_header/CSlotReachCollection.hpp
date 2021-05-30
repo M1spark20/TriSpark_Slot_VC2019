@@ -13,6 +13,8 @@ class CSlotReachCollectionData {
 	std::vector<SReachCollectionElement*> mLatch;
 	bool mLatchFlag;
 
+	bool DrawColleElement(const SReachCollectionElement& pData, int pPos, bool pIsLastComp, int pOffsetX, int pOffsetY, int pFontHandle) const;
+
 public:
 	bool Init(const CGameDataManage& pDataManager, int pListFileID, int reelNum);
 	bool JudgeCollection(const CReelManager& pReelData, const CSlotInternalDataManager& pInternal);

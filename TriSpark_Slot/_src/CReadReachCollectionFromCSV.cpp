@@ -85,6 +85,7 @@ bool CReadReachCollectionFromCSV::MakeData(SReachCollectionData& pData) {
 				}
 				element.reelElement.push_back(dataVal);
 			}
+			element.dataID = (int)pData.elem.size() + 1;
 			pData.elem.push_back(element);
 		}
 	}

@@ -9,6 +9,7 @@ struct SReachCollectionElement {
 	int betNum;
 	int gameMode;
 	bool isDefaultShown;
+	int dataID;
 
 	// 0x3FFFFFFF: Any/Hazure/?, 0x40000000: Rotating
 	// +:30[isRotating], 20-29[U-ComaMask], 10-19[C-ComaMask], 0-9[D-ComaMask] 
@@ -27,6 +28,7 @@ struct SReachCollectionElement {
 		betNum = 0;
 		gameMode = 0;
 		isDefaultShown = false;
+		dataID = 0;
 	}
 };
 
