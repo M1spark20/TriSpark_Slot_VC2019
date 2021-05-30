@@ -1,5 +1,6 @@
 #pragma once
 #include "SReachCollectionData.hpp"
+#include <deque>
 class CGameDataManage;
 class CRestoreManagerRead;
 class CRestoreManagerWrite;
@@ -11,6 +12,7 @@ class CSlotReachCollectionData {
 	int mListImageID;
 	int mSecretImageID;
 	std::vector<SReachCollectionElement*> mLatch;
+	std::deque<SReachCollectionElement*> mRecentComp;
 	bool mLatchFlag;
 
 	bool DrawColleElement(const SReachCollectionElement& pData, int pPos, bool pIsLastComp, int pOffsetX, int pOffsetY, int pFontHandle) const;

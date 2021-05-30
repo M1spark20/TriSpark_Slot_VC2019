@@ -441,11 +441,11 @@ EMenuList CMenuReachCollection::PushButton(int pKeyHandleDX) {
 		return EMenuList::eLicense;
 		break;
 	case KEY_INPUT_UP:
-		mNowPage = mNowPage == 0 ? maxPage : mNowPage - 1;
+		mNowPage = mNowPage < 0 ? maxPage : mNowPage - 1;
 		return EMenuList::eContinue;
 		break;
 	case KEY_INPUT_DOWN:
-		mNowPage = mNowPage >= maxPage ? 0 : mNowPage + 1;
+		mNowPage = mNowPage >= maxPage ? -1 : mNowPage + 1;
 		return EMenuList::eContinue;
 		break;
 	default:

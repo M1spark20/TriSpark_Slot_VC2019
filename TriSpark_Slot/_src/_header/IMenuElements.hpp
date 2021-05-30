@@ -108,7 +108,7 @@ public:
 class CMenuReachCollection : public IMenuElements {
 	static const int				PAGE_MOVE = 12;
 	const int						mFontHandle;
-	size_t							mNowPage;
+	int								mNowPage;
 	const CSlotReachCollectionData& mCollectionData;
 
 public:

@@ -73,7 +73,11 @@ bool CSlotReachCollectionData::Latch(bool isRefresh) {
 				compDate = s.str();
 			}
 			data->compCount = data->compCount + 1;
-			if (data->compCount == 1) data->firstComp = compDate;
+			if (data->compCount == 1) {
+				data->firstComp = compDate;
+				mRecentComp.push_front(data);
+				if (mRecentComp.size() > 12) mRecentComp.pop_back();
+			}
 			data->lastComp = compDate;
 		}
 	}
@@ -107,6 +111,18 @@ bool CSlotReachCollectionData::ReadRestore(CRestoreManagerRead& pReader) {
 		if (!pReader.ReadStr(data.firstComp)) return false;
 		if (!pReader.ReadStr(data.lastComp))  return false;
 	}
+
+	if (!pReader.ReadNum(dataCount)) return false;
+	for (size_t i = 0; i < dataCount; ++i) {
+		int dataID;	if (!pReader.ReadNum(dataID))  return false;
+		bool isComp = false;
+		for (size_t pos = 0; pos < mCollectionData.elem.size(); ++pos) {
+			if (mCollectionData.elem[pos].dataID != dataID) continue;
+			mRecentComp.push_back(&mCollectionData.elem[pos]);
+			isComp = true; break;
+		}
+		if (!isComp) return false;
+	}
 	return true;
 }
 
@@ -118,13 +134,24 @@ bool CSlotReachCollectionData::WriteRestore(CRestoreManagerWrite& pWriter) const
 		if (!pWriter.WriteStr(data.firstComp)) return false;
 		if (!pWriter.WriteStr(data.lastComp))  return false;
 	}
+
+	if(!pWriter.WriteNum((size_t)mRecentComp.size())) return false;
+	for (size_t i = 0; i < mRecentComp.size(); ++i) {
+		if (!pWriter.WriteNum(mRecentComp[i]->dataID)) return false;
+	}
 	return true;
 }
 
 bool CSlotReachCollectionData::Draw(int pBeginPos, int pOffsetX, int pOffsetY, int pFontHandle) const {
 	if (pBeginPos < 0) {
 		// 最近新規に達成したコレクション描画
+		std::string str = u8"<最近の新規達成コレクション>";
+		DxLib::DrawStringToHandle(pOffsetX, pOffsetY - 25, str.c_str(), 0xFFFF00, pFontHandle);
 
+		for (int pos = 0; pos < 12; ++pos) {
+			if (pos >= (int)mRecentComp.size()) break;
+			if(!DrawColleElement(*mRecentComp[pos], pos, false, pOffsetX, pOffsetY, pFontHandle)) return false;
+		}
 	}
 	else {
 		// コレクション描画
