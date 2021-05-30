@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IReadcsv.h"
 #include "CGameDataManage.h"
 struct SReachCollectionData;

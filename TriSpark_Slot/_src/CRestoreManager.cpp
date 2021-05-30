@@ -1,4 +1,4 @@
-#include "_header/CRestoreManager.hpp"
+ï»¿#include "_header/CRestoreManager.hpp"
  
 std::string IRestoreManager::GetDefaultFilePath() const {
 	char filePath[512] = "\0";
@@ -16,7 +16,7 @@ bool CRestoreManagerRead::StartRead() {
 	mIfs.open(GetDefaultFilePath() + cFileName, std::ios::binary);
 	if (!mIfs) return false;
 
-	// ƒ`ƒFƒbƒNƒTƒ€Šm”F
+	// ãƒã‚§ãƒƒã‚¯ã‚µãƒ ç¢ºèª
 	unsigned char checkSum = 0x00;
 	while (mIfs.eof()) {
 		unsigned char data;
@@ -25,7 +25,7 @@ bool CRestoreManagerRead::StartRead() {
 	}
 	if (checkSum != 0x00) return false;
 
-	// mDataVersion“Ç‚İ‚İ, ‰ŠúˆÊ’uİ’è
+	// mDataVersionèª­ã¿è¾¼ã¿, åˆæœŸä½ç½®è¨­å®š
 	mIfs.clear();
 	mIfs.seekg(0);
 	ReadNum(mDataVersion);

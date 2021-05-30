@@ -1,4 +1,4 @@
-#include "_header/CSlotReachCollection.hpp"
+ï»¿#include "_header/CSlotReachCollection.hpp"
 #include "_header/CReadReachCollectionFromCSV.hpp"
 #include "_header/CGameDataManage.h"
 #include "_header/CRestoreManager.hpp"
@@ -37,9 +37,9 @@ bool CSlotReachCollectionData::JudgeCollection(const CReelManager& pReelData, co
 			if (data.isLeft1st && histData.firstStop != 0) { isComplete = false; break; }
 			if (comaData == 0x40000000) {	// rotating
 				if (histData.reelPos[i] != -1) { isComplete = false; break; }
-			} else if (comaData & 0x80000000 || comaData == 0x0) {	// ˆÊ’uw’è
+			} else if (comaData & 0x80000000 || comaData == 0x0) {	// ä½ç½®æŒ‡å®š
 				if (histData.reelPos[i] != abs(comaData)) { isComplete = false; break; }
-			} else {	// ŠeˆÊ’uƒRƒ}”»’è
+			} else {	// å„ä½ç½®ã‚³ãƒåˆ¤å®š
 				int checkVal = 0;
 				for (int comaPos = 0; comaPos < 3; ++comaPos) {
 					if (histData.reelPos[i] == -1) { isComplete = false; break; }
@@ -59,9 +59,9 @@ bool CSlotReachCollectionData::JudgeCollection(const CReelManager& pReelData, co
 bool CSlotReachCollectionData::Latch(bool isRefresh) {
 	if (isRefresh && mLatchFlag) {
 		for (auto& data : mLatch) {
-			// ’B¬‹L˜^XV
+			// é”æˆæ™‚è¨˜éŒ²æ›´æ–°
 			std::string compDate;
-			/* ŠÔ•¶š—ñæ“¾ */ {
+			/* æ™‚é–“æ–‡å­—åˆ—å–å¾— */ {
 				time_t t = time(nullptr);
 				tm lt; localtime_s(&lt, &t);
 				std::stringstream s;
@@ -144,8 +144,8 @@ bool CSlotReachCollectionData::WriteRestore(CRestoreManagerWrite& pWriter) const
 
 bool CSlotReachCollectionData::Draw(int pBeginPos, int pOffsetX, int pOffsetY, int pFontHandle) const {
 	if (pBeginPos < 0) {
-		// Å‹ßV‹K‚É’B¬‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“•`‰æ
-		std::string str = u8"<Å‹ß‚ÌV‹K’B¬ƒRƒŒƒNƒVƒ‡ƒ“>";
+		// æœ€è¿‘æ–°è¦ã«é”æˆã—ãŸã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³æç”»
+		std::string str = u8"<æœ€è¿‘ã®æ–°è¦é”æˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³>";
 		DxLib::DrawStringToHandle(pOffsetX, pOffsetY - 25, str.c_str(), 0xFFFF00, pFontHandle);
 
 		for (int pos = 0; pos < 12; ++pos) {
@@ -154,7 +154,7 @@ bool CSlotReachCollectionData::Draw(int pBeginPos, int pOffsetX, int pOffsetY, i
 		}
 	}
 	else {
-		// ƒRƒŒƒNƒVƒ‡ƒ“•`‰æ
+		// ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³æç”»
 		for (int pos = 0; pos < 12; ++pos) {
 			const int index = pos + pBeginPos;
 			if (index >= GetCollectionNum()) break;
@@ -176,17 +176,17 @@ bool CSlotReachCollectionData::DrawColleElement(const SReachCollectionElement& p
 		str.c_str(), 0xFFFFFF, pFontHandle);
 
 	if (pData.compCount > 0) {
-		str = u8"’B¬: " + std::to_string(pData.compCount) + u8"‰ñ";
+		str = u8"é”æˆ: " + std::to_string(pData.compCount) + u8"å›";
 		int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
 		DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pPos % 4), pOffsetY + 109 + h * (pPos / 4),
 			str.c_str(), 0xFFFFFF, pFontHandle);
 
-		str = u8"‰‰ñ: " + pData.firstComp;
+		str = u8"åˆå›: " + pData.firstComp;
 		width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
 		DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pPos % 4) - width / 2, pOffsetY + 131 + h * (pPos / 4),
 			str.c_str(), 0xFFFFFF, pFontHandle);
 
-		str = u8"Å‹ß: " + pData.lastComp;
+		str = u8"æœ€è¿‘: " + pData.lastComp;
 		width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
 		DxLib::DrawStringToHandle(pOffsetX + 120 + w * (pPos % 4) - width / 2, pOffsetY + 153 + h * (pPos / 4),
 			str.c_str(), 0xFFFFFF, pFontHandle);
@@ -195,7 +195,7 @@ bool CSlotReachCollectionData::DrawColleElement(const SReachCollectionElement& p
 			pData.imgX, pData.imgY, pData.imgW, pData.imgH, mListImageID, TRUE);
 	}
 	else {
-		str = u8"–¢’B¬";
+		str = u8"æœªé”æˆ";
 		int width = DxLib::GetDrawStringWidthToHandle(str.c_str(), str.length(), pFontHandle);
 		DxLib::DrawStringToHandle(pOffsetX + 227 - width + w * (pPos % 4), pOffsetY + 109 + h * (pPos / 4),
 			str.c_str(), 0xFF0000, pFontHandle);

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SReachCollectionData.hpp"
 #include <deque>
 class CGameDataManage;

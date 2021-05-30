@@ -1,4 +1,4 @@
-#include "_header/CMenuReadBonusTypeFromCSV.hpp"
+﻿#include "_header/CMenuReadBonusTypeFromCSV.hpp"
 #include "DxLib.h"
 
 bool CMenuReadBonusTypeFromCSV::FileInit(int pFileID) {

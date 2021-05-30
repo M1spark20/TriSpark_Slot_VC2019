@@ -1,4 +1,4 @@
-#include "_header/CReelHistoryManager.hpp"
+﻿#include "_header/CReelHistoryManager.hpp"
 #include "_header/CRestoreManager.hpp"
 
 bool CReelHistoryManager::Init() {

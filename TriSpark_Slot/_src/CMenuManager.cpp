@@ -1,4 +1,4 @@
-#include "_header/CMenuManager.hpp"
+﻿#include "_header/CMenuManager.hpp"
 #include "_header/keyexport.h"
 #include "_header/CGameDataManage.h"
 #include "DxLib.h"

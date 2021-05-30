@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IMenuElements.hpp"
 #include "SSlotGameDataWrapper.hpp"
 class CGameDataManage;

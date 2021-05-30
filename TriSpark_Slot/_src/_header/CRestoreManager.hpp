@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <fstream>
 #include <vector>
@@ -64,7 +64,7 @@ public:
 		mOfs.write((char*)&pValue, sizeof(pValue));
 		if (!mOfs) return false;
 
-		// ƒ`ƒFƒbƒNƒTƒ€‰ÁZ
+		// ãƒã‚§ãƒƒã‚¯ã‚µãƒ åŠ ç®—
 		const unsigned char* dataPtr = (unsigned char*)&pValue;
 		for (unsigned int i = 0; i < sizeof(pValue); ++i) {
 			if (i > 0) ++dataPtr;

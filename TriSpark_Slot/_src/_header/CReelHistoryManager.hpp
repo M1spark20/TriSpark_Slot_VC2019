@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SReelHistoryData.hpp"
 #include <deque>
 class CRestoreManagerRead;
