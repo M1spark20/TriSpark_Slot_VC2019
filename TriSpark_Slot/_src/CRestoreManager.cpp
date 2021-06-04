@@ -1,4 +1,5 @@
 ﻿#include "_header/CRestoreManager.hpp"
+#include "DxLib.h"
  
 std::string IRestoreManager::GetDefaultFilePath() const {
 	char filePath[512] = "\0";

@@ -63,7 +63,14 @@ bool CSlotReachCollectionData::Latch(bool isRefresh) {
 			std::string compDate;
 			/* 時間文字列取得 */ {
 				time_t t = time(nullptr);
-				tm lt; localtime_s(&lt, &t);
+				tm lt;
+#if __ANDROID__
+				localtime_r(&t, &lt);
+#elif __APPLE__
+				localtime_r(&t, &lt);
+#else
+				localtime_s(&lt, &t);
+#endif
 				std::stringstream s;
 				s << std::setw(2) << std::setfill('0') << (lt.tm_year - 100) % 100; s << u8"-";
 				s << std::setw(2) << std::setfill('0') << lt.tm_mon + 1; s << u8"-";
