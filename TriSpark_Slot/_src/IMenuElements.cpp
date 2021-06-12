@@ -291,7 +291,7 @@ bool CMenuBonusHistory::Draw(const int pOpacity) {
 		if (!mGraphData.empty()) {
 			int y1 = mGraphData[0], y2 = 0;
 			for (int xPos = 1; xPos < GRAPH_WIDTH; ++xPos) {
-				const int index = std::floorf(mGraphDrawRate * xPos);
+				const int index = floorf(mGraphDrawRate * xPos);
 				if (index >= (int)mGraphData.size()) break;
 				y2 = (float)mGraphData[index] / mGraphRange * rangeHeight * -1;	// yは下向き正のため-1倍
 				DxLib::DrawLine(graphBegX + xPos, graphBegY + y1, graphBegX + xPos + 1, graphBegY + y2, 0xFFFFFF, 2);
