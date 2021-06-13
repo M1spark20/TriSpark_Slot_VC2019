@@ -14,8 +14,8 @@ bool CSlotEffectManager::Init(CGameDataManage& pGameData, int pFileID, CSlotTime
 	return true;
 }
 
-bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pWrapper) {
-	mVariableManager.Process(pInternal, pColle, pWrapper);
+bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataManager& pInternal, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pWrapper, bool pExtendResolution) {
+	mVariableManager.Process(pInternal, pColle, pWrapper, pExtendResolution);
 
 	for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 		if (!it->second.pSource->SetTimer(pTimer)) return false;

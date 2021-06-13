@@ -249,6 +249,13 @@ int CReel::GetReelDetailPos() const {
 	return pos;
 }
 
+int CReel::GetSlipCount() const {
+	const int pos = (int)(m_pushPos / m_reelData.reelData[0].h);
+	int ans = pos - m_destination;
+	if (ans < 0) ans += GetComaNum();
+	return ans;
+}
+
 bool CReel::ReadRestore(CRestoreManagerRead& pReader) {
 	int setPos = 0;
 	if (!pReader.ReadNum(setPos)) return false;

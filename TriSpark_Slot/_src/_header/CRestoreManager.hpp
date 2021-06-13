@@ -5,7 +5,7 @@
 
 class IRestoreManager {
 protected:
-	static const int VERSION = 1;
+	static const int VERSION = 2;
 	const std::string cFileName;
 	std::string GetDefaultFilePath() const;
 
@@ -38,6 +38,7 @@ public:
 	}
 	void CloseRead();
 	bool IsSameDataVersion() { return mDataVersion == VERSION; }
+	int GetReadVer() const { return mDataVersion; }
 };
 
 class CRestoreManagerWrite : public IRestoreManager {

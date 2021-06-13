@@ -63,7 +63,7 @@ bool CEffectVariableManager::Init() {
 // [act]システム変数の更新を行う
 // [prm]pIntData	: 更新に使用する内部情報管理クラス
 // [ret]更新が正常に行われたかどうか
-bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper) {
+bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper, bool pExtendResolution) {
 	const auto& pCastChecker = pDataWrapper.castChecker;
 	const auto& pReelManager = pDataWrapper.reelManager;
 	const auto& pDataCounter = pDataWrapper.dataCounter;

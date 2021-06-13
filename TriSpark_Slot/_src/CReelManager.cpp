@@ -90,6 +90,7 @@ bool CReelManager::StartReel(int pFlagID, int pBonusID, int pBetNum){
 	m_controller.ResetReelData();
 	m_nowHistoryData = SReelHistoryData();
 	m_nowHistoryData.reelPos.resize(GetReelNum(), -1);
+	m_nowHistoryData.slipCount.resize(GetReelNum(), 0);
 	m_nowHistoryData.betNum = pBetNum;
 
 	for (auto it = m_reelChaData.begin(); it != m_reelChaData.end(); ++it){
@@ -106,11 +107,13 @@ bool CReelManager::StopReel(int pStopReelID){
 		if (it->GetReelStatus() != EReelStatus::eRotating) return true;
 		const int dest = m_controller.GetStopPosition(m_flagID, m_bonusID, pStopReelID, it->GetReelPos());
 
+		if (!it->ReelStop(dest, false)) return false;
+
 		// historyData更新
 		m_nowHistoryData.reelPos[it->GetReelID()] = dest;
 		m_nowHistoryData.firstStop = m_controller.GetFirstStopReel();
-
-		return it->ReelStop(dest, false);
+		m_nowHistoryData.slipCount[it->GetReelID()] = it->GetSlipCount();
+		return true;
 	}
 	return false;
 }

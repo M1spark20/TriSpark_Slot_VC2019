@@ -3,6 +3,7 @@
 
 struct SReelHistoryData {
 	std::vector<int>	reelPos;
+	std::vector<int>	slipCount;
 	int					betNum;
 	int					firstStop;
 

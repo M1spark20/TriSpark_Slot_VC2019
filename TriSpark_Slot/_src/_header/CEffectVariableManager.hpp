@@ -41,7 +41,7 @@ class CEffectVariableManager {
 public:
 	CEffectVariableManager();
 	bool Init();
-	bool Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper);
+	bool Process(CSlotInternalDataManager& pIntData, CSlotReachCollectionData& pColle, const SSlotGameDataWrapper& pDataWrapper, bool pExtendResolution);
 	int MakeValID(std::string pValName);
 	void SetVarVal(std::string pValName, int pSetVal);
 	int GetVal(int pValID) const;

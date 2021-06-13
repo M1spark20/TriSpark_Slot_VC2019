@@ -49,6 +49,7 @@ public:
 	int				GetReelComaByReelPos(int pOffset) const;
 	int				GetReelComaByFixedPos(int pComaID) const;
 	int				GetReelDetailPos() const;
+	int				GetSlipCount() const;
 
 	bool			ReadRestore(CRestoreManagerRead& pReader);
 	bool			WriteRestore(CRestoreManagerWrite& pWriter) const;

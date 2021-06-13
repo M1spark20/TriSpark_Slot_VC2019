@@ -75,7 +75,7 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 	}
 
 	m_data.reelManager.Process(m_data.timeManager);
-	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data.reachCollection, m_data);
+	m_data.effectManager.Process(m_data.timeManager, m_data.internalDataManager, m_data.reachCollection, m_data, pExtendResolution);
 	m_menuManager.Process(pDataManageIns, m_data);
 	
 	// データ保存
