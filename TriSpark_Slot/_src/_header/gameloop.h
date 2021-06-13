@@ -7,5 +7,5 @@ class CGameLoop_S : public ISingleton<CGameLoop_S>{
 	CGameLoop_S(){};
 	~CGameLoop_S(){};
 public:
-	bool StartGameLoop();
+	bool StartGameLoop(bool pExtendResolution);
 };

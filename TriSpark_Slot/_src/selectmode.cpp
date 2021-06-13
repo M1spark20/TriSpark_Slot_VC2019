@@ -7,12 +7,12 @@ CSelectMode_S::CSelectMode_S(){
 	m_pNowMode = new CGameMode_SlotGameMain;	// 現在の初期モードはControlTester
 	m_pNowMode->Init();
 }
-bool CSelectMode_S::MainLoopProcess(bool& Ans){
+bool CSelectMode_S::MainLoopProcess(bool& Ans, bool pExtendResolution){
 // [prm]p1;呼び出し元で終了時に返す値の参照
 // [act]モードごとの処理を行い、必要ならモード変更、再度初期化処理を行う。
 //		終了の場合はAns変数に正常か異常かをセット
 // [ret]ゲームループが継続するか
-	EChangeModeFlag Next=m_pNowMode->Process();
+	EChangeModeFlag Next=m_pNowMode->Process(pExtendResolution);
 	if(Next!=eModeContinue){
 		delete m_pNowMode;	m_pNowMode=nullptr;
 		switch(Next){

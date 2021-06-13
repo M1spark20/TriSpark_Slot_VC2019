@@ -13,5 +13,5 @@ class CSelectMode_S : public ISingleton<CSelectMode_S>{
 // 現在のモードのインスタンスのポインタ(m1)
 	IGameModeBase* m_pNowMode; 
 public:
-	bool MainLoopProcess(bool& Ans);
+	bool MainLoopProcess(bool& Ans, bool pExtendResolution);
 };

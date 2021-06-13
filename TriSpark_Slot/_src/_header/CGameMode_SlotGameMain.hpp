@@ -6,6 +6,6 @@ class IGameStateBase;
 class CGameMode_SlotGameMain : public IGameModeBase {
 public:
 	bool Init() override;
-	EChangeModeFlag Process() override;
+	EChangeModeFlag Process(bool pExtendResolution) override;
 	~CGameMode_SlotGameMain();
 };

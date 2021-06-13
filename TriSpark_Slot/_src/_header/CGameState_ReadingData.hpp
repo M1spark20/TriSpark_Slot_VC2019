@@ -7,6 +7,6 @@ class CGameState_ReadingData : public IGameStateBase{
 	int mSystemFont;
 public:
 	bool Init(CGameDataManage& pDataManageIns) override;
-	EChangeStateFlag Process(CGameDataManage& p_pDataManageIns)override;
+	EChangeStateFlag Process(CGameDataManage& p_pDataManageIns, bool pExtendResolution)override;
 	bool Draw(CGameDataManage& p_DataManageIns) override;
 };

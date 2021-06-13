@@ -3,7 +3,7 @@
 #include "_header/keyexport.h"
 #include "_header/selectmode.h"
 
-bool CGameLoop_S::StartGameLoop(){
+bool CGameLoop_S::StartGameLoop(bool pExtendResolution){
 // [act]ゲームのメインループを作る。キー入力監視をする。
 // [ret]ゲームループが正常に動作したかを返す。
 	CKeyInput_S& KeyIn_Ins = CKeyInput_S::GetInstance();
@@ -13,7 +13,7 @@ bool CGameLoop_S::StartGameLoop(){
 	while( Check && !DxLib::ProcessMessage() && !DxLib::ClearDrawScreen() ){
 		clsDx();
 		Check =  KeyIn_Ins.GetKeyState();
-		Check &= GameIns.MainLoopProcess(Ans);
+		Check &= GameIns.MainLoopProcess(Ans, pExtendResolution);
 		ScreenFlip();
 	}
 	return Ans;

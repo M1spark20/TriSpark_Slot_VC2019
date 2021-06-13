@@ -9,6 +9,7 @@ bool CSetup_S::StartSetup(){
 // [ret]プログラムの正常/異常終了フラグ
 	DxLib::SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);	// UTF-8にてゲームを処理する
 	DxLib::SetAlwaysRunFlag(TRUE);							// アクティブじゃないときも処理を行う
+
 	DxLib::SetGraphMode(1920, 1080, 32);					// 画面サイズ初期設定
 #ifdef __ANDROID__
 #elif __APPLE__
@@ -17,6 +18,19 @@ bool CSetup_S::StartSetup(){
 	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
 #endif
 	if(DxLib::DxLib_Init()) return false;					// DxLib初期化処理
+
+	bool isExtend = false;
+#if __ANDROID__
+	int wx, wy;
+	DxLib::GetAndroidDisplayResolution(wx, wy);
+	isExtend = wx >= wy * 2;
+#elif __APPLE__
+	int wx, wy;
+	DxLib::GetDisplayResolution_iOS(wx, wy);
+	isExtend = wx >= wy * 2;
+#endif
+
+	if(isExtend) DxLib::SetGraphMode(2160, 1080, 32);		// Extentionありのとき、画面サイズ変更
 	DxLib::SetDrawScreen(DX_SCREEN_BACK);					// 裏画面書き込み
 	DxLib::SetUseZBuffer3D(TRUE);							// Ｚバッファを有効にする
 	DxLib::SetWriteZBuffer3D(TRUE);							// Ｚバッファへの書き込みを有効にする
@@ -25,7 +39,7 @@ bool CSetup_S::StartSetup(){
 	bool Result = true;
 	try {
 		CGameLoop_S& LoopIns=CGameLoop_S::GetInstance();
-		Result = LoopIns.StartGameLoop();
+		Result = LoopIns.StartGameLoop(isExtend);
 	} catch(std::bad_alloc){
 		DxLib::ErrorLogAdd(u8"メモリ確保時に問題が発生しました。\n");
 		Result = false;

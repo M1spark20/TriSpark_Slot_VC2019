@@ -9,8 +9,8 @@ bool CControlTester::Init(){
 	m_pGameStateManage	= new CGameState_ReadingData;
 	return m_pGameStateManage->Init(*m_pGameDataManage);
 }
-EChangeModeFlag CControlTester::Process(){
-	EChangeStateFlag state = m_pGameStateManage->Process(*m_pGameDataManage);
+EChangeModeFlag CControlTester::Process(bool pExtendResolution){
+	EChangeStateFlag state = m_pGameStateManage->Process(*m_pGameDataManage, pExtendResolution);
 	switch (state){
 	case eStateContinue:
 	case eStateEnd:

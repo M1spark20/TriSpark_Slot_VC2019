@@ -10,8 +10,8 @@ bool CGameMode_SlotGameMain::Init(){
 	return m_pGameStateManage->Init(*m_pGameDataManage);
 }
 
-EChangeModeFlag CGameMode_SlotGameMain::Process(){
-	EChangeStateFlag state = m_pGameStateManage->Process(*m_pGameDataManage);
+EChangeModeFlag CGameMode_SlotGameMain::Process(bool pExtendResolution){
+	EChangeStateFlag state = m_pGameStateManage->Process(*m_pGameDataManage, pExtendResolution);
 	switch (state){
 	case eStateContinue:
 	case eStateEnd:

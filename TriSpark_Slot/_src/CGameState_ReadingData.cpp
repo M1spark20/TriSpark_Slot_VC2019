@@ -11,7 +11,7 @@ bool CGameState_ReadingData::Init(CGameDataManage& p_pDataManageIns){
 	mSystemFont = p_pDataManageIns.GetDataHandle(sysReader.GetSysDataID("systemFont"));
 	return true;
 }
-EChangeStateFlag CGameState_ReadingData::Process(CGameDataManage& p_pDataManageIns){
+EChangeStateFlag CGameState_ReadingData::Process(CGameDataManage& p_pDataManageIns, bool pExtendResolution){
 // [act]ファイルの読み込みが終わったか確認し、
 //		終わっていればシーンをプレイ画面に移す。
 // [ret]次回のゲームモード(終了時にプレイ画面へ。)

@@ -110,7 +110,7 @@ bool CGameState_ControlTestMain::Init(CGameDataManage& pDataManageIns){
 	return true;
 }
 
-EChangeStateFlag CGameState_ControlTestMain::Process(CGameDataManage& pDataManageIns){
+EChangeStateFlag CGameState_ControlTestMain::Process(CGameDataManage& pDataManageIns, bool pExtendResolution){
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	bool isMoveReel = false;
 	if (m_selectingReel == -1){

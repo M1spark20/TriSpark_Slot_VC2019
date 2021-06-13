@@ -14,7 +14,7 @@ class CGameState_SlotGameMain : public IGameStateBase{
 
 public:
 	bool Init(CGameDataManage& pDataManageIns) override;
-	EChangeStateFlag Process(CGameDataManage& pDataManageIns) override;
+	EChangeStateFlag Process(CGameDataManage& pDataManageIns, bool pExtendResolution) override;
 	 bool Draw(CGameDataManage& pDataManageIns) override;
 	 ~CGameState_SlotGameMain();
 };

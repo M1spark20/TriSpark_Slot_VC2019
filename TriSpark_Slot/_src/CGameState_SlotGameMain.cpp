@@ -47,7 +47,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	return m_pFlowManager->Init(m_data);
 }
 
-EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIns){
+EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIns, bool pExtendResolution){
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.GetExportStatus() == EKeyExportStatus::eGameMain && key.ExportKeyState(KEY_INPUT_ESCAPE))
 		return eStateEnd;

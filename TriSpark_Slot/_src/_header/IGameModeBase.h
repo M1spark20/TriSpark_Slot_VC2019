@@ -16,7 +16,7 @@ public:
 		: m_pGameDataManage(nullptr),
 		  m_pGameStateManage(nullptr){};
 	virtual bool Init()=0;
-	virtual EChangeModeFlag Process()=0;
+	virtual EChangeModeFlag Process(bool pExtendResolution)=0;
 	virtual ~IGameModeBase(){
 		delete m_pGameDataManage;
 		delete m_pGameStateManage;
