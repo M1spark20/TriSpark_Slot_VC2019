@@ -40,6 +40,7 @@ bool CEffectVariableManager::Init() {
 	CreateNewVar("dcStartG", 0);
 	CreateNewVar("dcPayoutX10", 0);
 	CreateNewVar("collectionFlag", 1);
+	CreateNewVar("isScreenExtend", 0);
 
 	for (int i = 0; i < 2; ++i) {
 		CreateNewVar("modeLim[" + std::to_string(i) + "]", 0);
@@ -48,8 +49,11 @@ bool CEffectVariableManager::Init() {
 		CreateNewVar("dcBonusCount[" + std::to_string(i) + "]", 0);
 		CreateNewVar("dcBonusRateX10[" + std::to_string(i) + "]", 1000);
 	}
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 3; ++i) {
 		CreateNewVar("reelDetailPos[" + std::to_string(i) + "]", 0);
+		CreateNewVar("lastStopPos[" + std::to_string(i) + "]", 0);
+		CreateNewVar("lastSlipComa[" + std::to_string(i) + "]", 0);
+	}
 
 	for(int i=0; i<8; ++i){
 		CreateNewVar("dcHistGame[" + std::to_string(i) + "]", -1);
@@ -95,9 +99,13 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, CSlotRe
 	SetVarVal("payoutEffect", pCastChecker.GetPayoutEffect());
 	SetVarVal("payoutLine", pCastChecker.GetPayoutLineID());
 	SetVarVal("reachSound", pCastChecker.GetReachSoundID());
+	SetVarVal("isScreenExtend", pExtendResolution ? 1 : 0);
 
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 3; ++i) {
 		SetVarVal("reelDetailPos[" + std::to_string(i) + "]", pReelManager.GetComaDetailPos(i));
+		SetVarVal("lastStopPos[" + std::to_string(i) + "]", pReelManager.GetHistoryData().reelPos[i]);
+		SetVarVal("lastSlipComa[" + std::to_string(i) + "]", pReelManager.GetHistoryData().slipCount[i]);
+	}
 
 	/* dataCounter */ {
 		const auto basicData = pDataCounter.GetBasicData();

@@ -25,6 +25,8 @@ bool CReelManager::Init(const CGameDataManage& pDataManager, CGetSysDataFromCSV&
 
 	// history初期化
 	if (!m_historyManager.Init()) return false;
+	m_nowHistoryData.reelPos.resize(GetReelNum(), -1);
+	m_nowHistoryData.slipCount.resize(GetReelNum(), 0);
 
 	return m_controller.Init(pDataManager, pSysData.GetSysDataID("control"), GetReelNum());
 }
