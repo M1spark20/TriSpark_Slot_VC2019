@@ -103,8 +103,9 @@ bool CEffectVariableManager::Process(CSlotInternalDataManager& pIntData, CSlotRe
 
 	for (int i = 0; i < 3; ++i) {
 		SetVarVal("reelDetailPos[" + std::to_string(i) + "]", pReelManager.GetComaDetailPos(i));
-		SetVarVal("lastStopPos[" + std::to_string(i) + "]", pReelManager.GetHistoryData().reelPos[i]);
-		SetVarVal("lastSlipComa[" + std::to_string(i) + "]", pReelManager.GetHistoryData().slipCount[i]);
+		if (pReelManager.GetHistoryNum() == 0) break;
+		SetVarVal("lastStopPos[" + std::to_string(i) + "]", pReelManager.GetHistoryData(0).reelPos[i]);
+		SetVarVal("lastSlipComa[" + std::to_string(i) + "]", pReelManager.GetHistoryData(0).slipCount[i]);
 	}
 
 	/* dataCounter */ {
