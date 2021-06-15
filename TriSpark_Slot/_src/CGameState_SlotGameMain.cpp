@@ -42,12 +42,23 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 		if (!m_data.reachCollection.ReadRestore(reader)) return false;
 	}
 
+	// 縮小用画面生成
+	DxLib::GetWindowSize(&mDisplayW, &mDisplayH);
+	// mBGWindow(縮小用)はProcess初回呼び出し時に定義
+	mBGWindow = INT_MIN;
+
 	m_data.timeManager.Process();
 	m_pFlowManager = new CSlotFlowBet;
 	return m_pFlowManager->Init(m_data);
 }
 
 EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIns, bool pExtendResolution){
+	// mBGWindow生成
+	if (mBGWindow == INT_MIN) {
+		if (pExtendResolution) mBGWindow = DxLib::MakeScreen(2160, 1080);
+		else mBGWindow = DxLib::MakeScreen(1920, 1080);
+	}
+
 	CKeyExport_S& key = CKeyExport_S::GetInstance();
 	if (key.GetExportStatus() == EKeyExportStatus::eGameMain && key.ExportKeyState(KEY_INPUT_ESCAPE))
 		return eStateEnd;
@@ -94,9 +105,17 @@ EChangeStateFlag CGameState_SlotGameMain::Process(CGameDataManage& pDataManageIn
 }
 
 bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
-	m_data.effectManager.Draw(pDataManageIns, m_data.timeManager);
+	DxLib::SetDrawScreen(mBGWindow);
+	DxLib::ClearDrawScreen();
+
+	m_data.effectManager.Draw(pDataManageIns, m_data.timeManager, mBGWindow);
 	m_data.effectManager.RingSound(m_data.timeManager, pDataManageIns);
-	m_menuManager.Draw();
+	m_menuManager.Draw(mBGWindow);
+
+	DxLib::SetDrawScreen(DX_SCREEN_BACK);
+	DxLib::SetDrawMode(DX_DRAWMODE_BILINEAR);
+	DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	DxLib::DrawExtendGraph(0, 0, mDisplayW, mDisplayH, mBGWindow, FALSE);
 	return true;
 }
 

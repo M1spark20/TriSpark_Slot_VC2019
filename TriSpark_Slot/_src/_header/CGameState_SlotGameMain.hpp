@@ -12,6 +12,9 @@ class CGameState_SlotGameMain : public IGameStateBase{
 	SSlotGameDataWrapper	m_data;
 	CMenuManager			m_menuManager;
 
+	int						mDisplayW, mDisplayH;
+	int						mBGWindow;
+
 public:
 	bool Init(CGameDataManage& pDataManageIns) override;
 	EChangeStateFlag Process(CGameDataManage& pDataManageIns, bool pExtendResolution) override;

@@ -207,12 +207,12 @@ bool CImageDestinationDefault::Init(StringArr pReadData, CSlotTimerManager& pTim
 
 // [act]描画を行う
 //		アニメーション実装は後で
-void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) {
+void CImageDestinationDefault::Draw(IImageSourceManager *const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager, int pBasicScr) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 
 	const auto& destData = mCommonData[dataIndex];
-	const int screenID = destData.screenID;
+	const int screenID = destData.screenID == DX_SCREEN_BACK ? pBasicScr : destData.screenID;
 
 	for (int i = 0; i < mVarManager.GetVal(mDrawNum); ++i) {
 		auto source = pSourceData->GetImageSource(i, mVarManager.GetVal(mDrawNum));
@@ -308,7 +308,7 @@ bool CImageDestinationReel::Init(StringArr pReadData, CSlotTimerManager& pTimerD
 	return IImageDestinationManager::Init(pReadData, pTimerData);
 }
 
-void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager) {
+void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageColorController& pColorData, CGameDataManage& pDataManager, int pBasicScr) {
 	const auto dataIndex = GetDefinitionIndex();
 	if (dataIndex < 0) return;
 	const auto& destData = mCommonData[dataIndex];
@@ -325,7 +325,7 @@ void CImageDestinationReel::Draw(IImageSourceManager* const pSourceData, CImageC
 	drawData.a				 = mVarManager.GetVal(destData.a);
 	drawData.extendModeID	 = GetDxDrawModeByEnum(destData.extend);
 	drawData.blendModeID	 = GetDxBlendModeByEnum(destData.blend);
-	drawData.destScr		 = destData.screenID;
+	drawData.destScr		 = destData.screenID == DX_SCREEN_BACK ? pBasicScr : destData.screenID;
 	drawData.preDrawScr		 = mExtraData.preDrawScreenID;
 	drawData.blew			 = mVarManager.GetVal(mExtraData.blewNum);
 	drawData.blewTime		 = mVarManager.GetVal(mExtraData.blewTime);

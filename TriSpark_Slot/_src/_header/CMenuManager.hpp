@@ -21,6 +21,6 @@ public:
 	CMenuManager();
 	bool Init(CGameDataManage& pDataManageIns, const int pLicenseFileID, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const int pTitleFontHandle);
 	bool Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper& pSlotData);
-	bool Draw();
+	bool Draw(int pBasicScr);
 	~CMenuManager();
 };

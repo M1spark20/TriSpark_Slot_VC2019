@@ -24,16 +24,16 @@ bool CSlotEffectManager::Process(CSlotTimerManager& pTimer, CSlotInternalDataMan
 	return mEffectData.colorController.SetTimerAll(pTimer);
 }
 
-bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer) {
+bool CSlotEffectManager::Draw(CGameDataManage& pGameData, CSlotTimerManager& pTimer, int pBasicScr) {
 	for (int orderC = 0; ; ++orderC) {
-		if (orderC < 0 || orderC >= mEffectData.conditionData.size()) return false;
+		if (orderC < 0 || orderC >= mEffectData.conditionData.size()) break;
 		if(!mEffectData.conditionData[orderC].SetCondition(mVariableManager, pTimer)) return false;
 
 		if (!mEffectData.conditionData[orderC].GetCondition()) continue;
 		bool isProceed = false;
 		for (auto it = mEffectData.imgData.begin(); it != mEffectData.imgData.end(); ++it) {
 			if (it->first != orderC) continue;
-			it->second.pDest->Draw(&(*it->second.pSource), mEffectData.colorController, pGameData);
+			it->second.pDest->Draw(&(*it->second.pSource), mEffectData.colorController, pGameData, pBasicScr);
 			it->second.pSource->ResetTimer();
 			it->second.pDest->ResetTimer();
 			isProceed = true;	 break;

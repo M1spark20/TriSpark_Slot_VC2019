@@ -14,7 +14,8 @@ IMenuElements::IMenuElements(const std::string pName, const int pBaseImgID, cons
 	 :	cElementName(pName), mBaseImgID(pBaseImgID), mTitleFontHandle(pTitleFontHandle) {
 }
 
-bool IMenuElements::DrawBase(const int pOpacity) {
+bool IMenuElements::DrawBase(const int pOpacity, int pBasicScr) {
+	DxLib::SetDrawScreen(pBasicScr);
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
 	DxLib::DrawGraph(161, 180, mBaseImgID, TRUE);
 
@@ -48,8 +49,8 @@ bool CMenuLicenses::Process() {
 	return true;
 }
 
-bool CMenuLicenses::Draw(const int pOpacity) {
-	DrawBase(pOpacity);
+bool CMenuLicenses::Draw(const int pOpacity, int pBasicScr) {
+	DrawBase(pOpacity, pBasicScr);
 
 	DxLib::FileRead_seek(mLicenseFileID, mSeekPosList[mCurrentStartCol], SEEK_SET);
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
@@ -108,8 +109,8 @@ bool CMenuReelHistory::Process() {
 	return true;
 }
 
-bool CMenuReelHistory::Draw(const int pOpacity) {
-	DrawBase(pOpacity);
+bool CMenuReelHistory::Draw(const int pOpacity, int pBasicScr) {
+	DrawBase(pOpacity, pBasicScr);
 
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
 	DxLib::DrawGraph(231, 320, mHistBaseImgID, TRUE);
@@ -203,8 +204,8 @@ bool CMenuHowTo::Process() {
 	return true;
 }
 
-bool CMenuHowTo::Draw(const int pOpacity) {
-	DrawBase(pOpacity);
+bool CMenuHowTo::Draw(const int pOpacity, int pBasicScr) {
+	DrawBase(pOpacity, pBasicScr);
 
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
 	DxLib::DrawGraph(231, 320, mImages[mPageNum], TRUE);
@@ -279,8 +280,8 @@ bool CMenuBonusHistory::Process() {
 	return true;
 }
 
-bool CMenuBonusHistory::Draw(const int pOpacity) {
-	DrawBase(pOpacity);
+bool CMenuBonusHistory::Draw(const int pOpacity, int pBasicScr) {
+	DrawBase(pOpacity, pBasicScr);
 
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
 	DxLib::DrawGraph(231, 320, mHistBaseImgID, TRUE);
@@ -422,8 +423,8 @@ bool CMenuReachCollection::Process() {
 	return true;
 }
 
-bool CMenuReachCollection::Draw(const int pOpacity) {
-	DrawBase(pOpacity);
+bool CMenuReachCollection::Draw(const int pOpacity, int pBasicScr) {
+	DrawBase(pOpacity, pBasicScr);
 
 	DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, pOpacity);
 	const int relX = 231, relY = 320;

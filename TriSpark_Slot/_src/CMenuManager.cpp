@@ -61,7 +61,7 @@ bool CMenuManager::Process(CGameDataManage& pDataManageIns, SSlotGameDataWrapper
 	return true;
 }
 
-bool CMenuManager::Draw() {
+bool CMenuManager::Draw(int pBasicScr) {
 	if (mMenuElement == nullptr) return true;
 
 	int opacity = 255;
@@ -69,7 +69,7 @@ bool CMenuManager::Draw() {
 	if (mMenuStartTime >= 0) opacity = floorf(255.f * ((nowCount - mMenuStartTime) / 250.f));
 	if (mMenuFinishTime >= 0) opacity = 255 - floorf(255.f * ((nowCount - mMenuFinishTime) / 250.f));
 
-	mMenuElement->Draw(opacity);
+	mMenuElement->Draw(opacity, pBasicScr);
 	return true;
 }
 

@@ -27,12 +27,12 @@ class IMenuElements {
 	const int			mTitleFontHandle;
 
 protected:
-	bool DrawBase(const int pOpacity);
+	bool DrawBase(const int pOpacity, int pBasicScr);
 public:
 	IMenuElements(const std::string pName, const int pBaseImgID, const int pTitleFontHandle);
 	virtual bool		Init() = 0;
 	virtual bool		Process() = 0;
-	virtual bool		Draw(const int pOpacity) = 0;
+	virtual bool		Draw(const int pOpacity, int pBasicScr) = 0;
 	virtual EMenuList	PushButton(int pKeyHandleDX) = 0;
 
 	virtual ~IMenuElements(){}
@@ -51,7 +51,7 @@ public:
 	CMenuLicenses(const int pLicenseFileID, const int pDataFontHandle, const int pBaseImgID, const int pTitleFontHandle);
 	bool Init() override;											// ライセンスファイル読み込み
 	bool Process() override;										// none
-	bool Draw(const int pOpacity) override;							// ライセンスファイル内容表示(DrawText)
+	bool Draw(const int pOpacity, int pBasicScr) override;			// ライセンスファイル内容表示(DrawText)
 	EMenuList PushButton(int pKeyHandleDX) override;				// モード遷移/スクロール
 };
 
@@ -65,10 +65,10 @@ class CMenuReelHistory : public IMenuElements {
 
 public:
 	CMenuReelHistory(CGameDataManage& pGameData, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const CReelManager& pReelData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
-	bool Init() override;						// ライセンスファイル読み込み
-	bool Process() override;					// none
-	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
-	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+	bool Init() override;									// ライセンスファイル読み込み
+	bool Process() override;								// none
+	bool Draw(const int pOpacity, int pBasicScr) override;	// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;		// モード遷移/スクロール
 };
 
 class CMenuHowTo : public IMenuElements {
@@ -76,10 +76,10 @@ class CMenuHowTo : public IMenuElements {
 	int					mPageNum;
 public:
 	CMenuHowTo(CGameDataManage& pGameData, const int pBaseImgID, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
-	bool Init() override;						// ライセンスファイル読み込み
-	bool Process() override;					// none
-	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
-	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+	bool Init() override;									// ライセンスファイル読み込み
+	bool Process() override;								// none
+	bool Draw(const int pOpacity, int pBasicScr) override;	// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;		// モード遷移/スクロール
 };
 
 class CMenuBonusHistory : public IMenuElements {
@@ -99,10 +99,10 @@ class CMenuBonusHistory : public IMenuElements {
 
 public:
 	CMenuBonusHistory(CGameDataManage& pGameData, const int pDataFontHandle, const int pDataFontHandleMid, const int pBaseImgID, const CSlotDataCounter& pSlotData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
-	bool Init() override;						// ライセンスファイル読み込み
-	bool Process() override;					// none
-	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
-	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+	bool Init() override;									// ライセンスファイル読み込み
+	bool Process() override;								// none
+	bool Draw(const int pOpacity, int pBasicScr) override;	// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;		// モード遷移/スクロール
 };
 
 class CMenuReachCollection : public IMenuElements {
@@ -113,8 +113,8 @@ class CMenuReachCollection : public IMenuElements {
 
 public:
 	CMenuReachCollection(CGameDataManage& pGameData, const int pDataFontHandle, const int pBaseImgID, const CSlotReachCollectionData& pColleData, const int pTitleFontHandle);	// : IMenuElements("Stop History") {}
-	bool Init() override;						// ライセンスファイル読み込み
-	bool Process() override;					// none
-	bool Draw(const int pOpacity) override;		// ライセンスファイル内容表示(DrawText)
-	EMenuList PushButton(int pKeyHandleDX) override;	// モード遷移/スクロール
+	bool Init() override;									// ライセンスファイル読み込み
+	bool Process() override;								// none
+	bool Draw(const int pOpacity, int pBasicScr) override;	// ライセンスファイル内容表示(DrawText)
+	EMenuList PushButton(int pKeyHandleDX) override;		// モード遷移/スクロール
 };
