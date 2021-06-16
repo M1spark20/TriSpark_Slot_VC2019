@@ -14,11 +14,6 @@ bool CSetup_S::StartSetup(){
 #ifdef __ANDROID__
 #elif __APPLE__
 #else
-	// 解像度不足であれば画面を半分に縮小する
-	int w, h;
-	DxLib::GetDisplayMaxResolution(&w, &h);
-	if(w < 1920 || h < 1080) DxLib::SetGraphMode(960, 540, 32);
-
 	DxLib::ChangeWindowMode(1);								// ウィンドウモードに
 	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
 #endif
