@@ -16,6 +16,7 @@ bool CSetup_S::StartSetup(){
 #else
 	DxLib::ChangeWindowMode(1);								// ウィンドウモードに
 	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
+	//DxLib::SetWindowSizeExtendRate(0.5);
 #endif
 	if(DxLib::DxLib_Init()) return false;					// DxLib初期化処理
 

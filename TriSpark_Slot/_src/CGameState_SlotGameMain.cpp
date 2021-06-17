@@ -113,9 +113,7 @@ bool CGameState_SlotGameMain::Draw(CGameDataManage& pDataManageIns){
 	m_menuManager.Draw(mBGWindow);
 
 	DxLib::SetDrawScreen(DX_SCREEN_BACK);
-	DxLib::SetDrawMode(DX_DRAWMODE_BILINEAR);
-	DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-	DxLib::DrawExtendGraph(0, 0, mDisplayW, mDisplayH, mBGWindow, FALSE);
+	DxLib::DrawGraph(0, 0, mBGWindow, FALSE);
 	return true;
 }
 
