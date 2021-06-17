@@ -22,11 +22,11 @@ bool CSetup_S::StartSetup(){
 	bool isExtend = false;
 #if __ANDROID__
 	int wx, wy;
-	DxLib::GetAndroidDisplayResolution(wx, wy);
+	DxLib::GetAndroidDisplayResolution(&wx, &wy);
 	isExtend = wx >= wy * 2;
 #elif __APPLE__
 	int wx, wy;
-	DxLib::GetDisplayResolution_iOS(wx, wy);
+	DxLib::GetDisplayResolution_iOS(&wx, &wy);
 	isExtend = wx >= wy * 2;
 #endif
 

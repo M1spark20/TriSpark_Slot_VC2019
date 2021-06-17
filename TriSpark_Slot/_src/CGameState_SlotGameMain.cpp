@@ -43,7 +43,7 @@ bool CGameState_SlotGameMain::Init(CGameDataManage& pDataManageIns){
 	}
 
 	// 縮小用画面生成
-	DxLib::GetWindowSize(&mDisplayW, &mDisplayH);
+	DxLib::GetScreenState(&mDisplayW, &mDisplayH, NULL);
 	// mBGWindow(縮小用)はProcess初回呼び出し時に定義
 	mBGWindow = INT_MIN;
 
