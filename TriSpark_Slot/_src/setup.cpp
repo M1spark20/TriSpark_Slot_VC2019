@@ -24,11 +24,11 @@ bool CSetup_S::StartSetup(){
 #if __ANDROID__
 	int wx, wy;
 	DxLib::GetAndroidDisplayResolution(&wx, &wy);
-	isExtend = wx >= wy * 2;
+	isExtend = wx >= (int)floorf(wy * 1.95f);
 #elif __APPLE__
 	int wx, wy;
 	DxLib::GetDisplayResolution_iOS(&wx, &wy);
-	isExtend = wx >= wy * 2;
+	isExtend = wx >= (int)floorf(wy * 1.95f);
 #endif
 
 	if(isExtend) DxLib::SetGraphMode(2160, 1080, 32);		// Extentionありのとき、画面サイズ変更
