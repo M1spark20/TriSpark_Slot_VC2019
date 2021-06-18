@@ -3,7 +3,7 @@
 #include "_header/gameloop.h"
 #include <new>
 
-bool CSetup_S::StartSetup(){
+bool CSetup_S::StartSetup(bool pIsMiniSize){
 // [act]ライブラリ初期化(ウィンドウモード)
 //		ランタイムエラーor容量確保エラー時のログ書き込み
 // [ret]プログラムの正常/異常終了フラグ
@@ -16,7 +16,7 @@ bool CSetup_S::StartSetup(){
 #else
 	DxLib::ChangeWindowMode(1);								// ウィンドウモードに
 	DxLib::SetFullSceneAntiAliasingMode(3,2);				// 3D描画のクオリティを指定
-	//DxLib::SetWindowSizeExtendRate(0.5);
+	if(pIsMiniSize) DxLib::SetWindowSizeExtendRate(0.5);	// ミニサイズフラグ指定
 #endif
 	if(DxLib::DxLib_Init()) return false;					// DxLib初期化処理
 

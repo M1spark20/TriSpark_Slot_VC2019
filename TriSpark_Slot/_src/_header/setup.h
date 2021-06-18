@@ -7,5 +7,5 @@ class CSetup_S : public ISingleton<CSetup_S>{
 	CSetup_S(){};
 	~CSetup_S(){};
 public:
-	bool StartSetup();
+	bool StartSetup(bool pIsMiniSize);
 };
