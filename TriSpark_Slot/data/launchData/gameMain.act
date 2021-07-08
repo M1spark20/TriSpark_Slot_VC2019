@@ -64,3 +64,4 @@
 #MainFile,3,1,data/csv/reachCollection.csv,,,//,56,ボーナス履歴csv,
 #MainFile,0,1,data/image/reachList.png,,,//,57,リーチ目画像,
 #MainFile,0,1,data/image/secret.png,,,//,58,secret画像,
+#MainFile,6,1,data/image/sideTest.png,,,//,59,ボーナス中SideLED,
