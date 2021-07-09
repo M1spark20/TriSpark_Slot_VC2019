@@ -2469,7 +2469,7 @@
 #setColorMap,,,,,,,,,,,,,,,,,,,,,,,
 ;RB,,,,,,,,,,,,,,,,,,,,,,,
 ;[colormap],time,graph,x,y,w,h,numX,numY,direction,colorMapY,useAnimation,loopCount,timerID,loopTime,defName,,,,,,,,
-#imgColorMap,0,59,192,256,64,8,64,1,X,Y,T,32,@HitMusic,0,sideLED_BRB,,,,,,,,
+#imgColorMap,0,59,192,256,64,8,64,1,X,Y,F,32,@HitMusic,0,sideLED_BRB,,,,,,,,
 #imgColorMap,72451,59,0,0,0,0,0,0,X,Y,F,0,,,,,,,,,,,
 #setColorMap,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,
