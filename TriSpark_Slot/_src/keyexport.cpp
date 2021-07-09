@@ -18,10 +18,10 @@ void CKeyExport_S::KeyStateUpdate(char* pInput, const STouchInputList& pTouch){
 			if (CheckTouchRange(pTouch[i], 103, 256, 372, 501)) { isPush[KEY_INPUT_3] = true; continue; }
 			if (CheckTouchRange(pTouch[i], 103, 256, 524, 653)) { isPush[KEY_INPUT_2] = true; continue; }
 			if (CheckTouchRange(pTouch[i], 103, 256, 676, 805)) { isPush[KEY_INPUT_1] = true; continue; }
-			if (CheckTouchRange(pTouch[i], 283, 628, 318, 1079)) { isPush[KEY_INPUT_LEFT] = true; continue; }
-			if (CheckTouchRange(pTouch[i], 629, 974, 318, 1079)) { isPush[KEY_INPUT_DOWN] = true; continue; }
-			if (CheckTouchRange(pTouch[i], 975, 1320, 318, 1079)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
-			if (CheckTouchRange(pTouch[i], 0, 1602, 318, 1079)) { isPush[KEY_INPUT_UP] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 283, 628, 318, 9999)) { isPush[KEY_INPUT_LEFT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 629, 974, 318, 9999)) { isPush[KEY_INPUT_DOWN] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 975, 1320, 318, 9999)) { isPush[KEY_INPUT_RIGHT] = true; continue; }
+			if (CheckTouchRange(pTouch[i], 0, 1602, 318, 9999)) { isPush[KEY_INPUT_UP] = true; continue; }
 			if (CheckTouchRange(pTouch[i], 1611, 1914, 990, 1063)) { isPush[KEY_INPUT_M] = true; continue; }
 		}
 		if (mStatus == EKeyExportStatus::eMenu) {
